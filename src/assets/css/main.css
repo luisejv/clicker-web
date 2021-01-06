@@ -881,10 +881,10 @@ blockquote cite {
   cursor: pointer;
 }
 
-.group-sections {
+/* .group-sections {
   background: #fefefe url(../media/content/bg/1.png) 50% 100%;
   background-size: cover;
-}
+} */
 
 .section-policy {
   padding-top: 110px;
@@ -1072,7 +1072,7 @@ html, body {
 }
 
 .b-bnr-2_first .b-bnr-2__inner {
-  background-image: url("../media/content/b-bnr/bg-1.png");
+  background-image: url("/assets/media/content/b-bnr/bg-1.png");
   -webkit-clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 65%, 26% 0);
           clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 65%, 26% 0);
 }
@@ -1088,7 +1088,7 @@ html, body {
 }
 
 .b-bnr-2_last .b-bnr-2__inner {
-  background-image: url("../media/content/b-bnr/bg-1_mirror.png");
+  background-image: url("/assets/media/content/b-bnr/bg-1_mirror.png");
   -webkit-clip-path: polygon(74% 0, 100% 65%, 76% 100%, 0 100%, 0 0);
           clip-path: polygon(74% 0, 100% 65%, 76% 100%, 0 100%, 0 0);
 }
@@ -2267,7 +2267,7 @@ html, body {
   padding-right: 4vw;
   padding-left: 9.5vw;
   color: #fff;
-  background: url("../media/content/b-goods-other/bg-1.jpg");
+  background: url("../media/content/b-goods-other/1.jpg");
   background-size: cover;
 }
 
