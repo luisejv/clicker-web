@@ -29,7 +29,7 @@ body {
 .l-theme {
   position: relative;
   overflow-x: hidden;
-  max-width: 1920px;
+  /* max-width: 1920px; */
   margin: auto;
   background-color: #fff;
 }

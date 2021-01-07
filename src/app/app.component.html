@@ -1,7 +1,11 @@
-<!-- Loader-->
-<div #spinner [style.display]="visible ? 'block' : 'none'" id="page-preloader">
-    <span class="spinner border-t_second_b border-t_prim_a">
-    </span>
+<div class="l-theme animated-css" data-header="sticky" data-header-top="200" data-canvas="container">
+    <!-- Loader-->
+    <div #spinner [style.display]="visible ? 'block' : 'none'" id="page-preloader">
+        <span class="spinner border-t_second_b border-t_prim_a">
+        </span>
+    </div>
+    <!-- Loader end-->
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
 </div>
-<!-- Loader end-->
-<router-outlet></router-outlet>

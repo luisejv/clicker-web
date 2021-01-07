@@ -1,9 +1,31 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AboutComponent } from './components/about/about.component';
+import { BlogGridComponent } from './components/blog-grid/blog-grid.component';
+import { BlogMainComponent } from './components/blog-main/blog-main.component';
+import { BlogPostComponent } from './components/blog-post/blog-post.component';
+import { BookingSystemComponent } from './components/booking-system/booking-system.component';
+import { ContactComponent } from './components/contact/contact.component';
 import { HomeComponent } from './components/home/home.component';
+import { Home2Component } from './components/home2/home2.component';
+import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
+import { InventoryListingsComponent } from './components/inventory-listings/inventory-listings.component';
+import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
+import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'inventory-grid', component: InventoryGridComponent },
+  { path: 'inventory-listings', component: InventoryListingsComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'blog-grid', component: BlogGridComponent },
+  { path: 'blog-main', component: BlogMainComponent },
+  { path: 'blog-post', component: BlogPostComponent },
+  { path: 'home2', component: Home2Component },
+  { path: 'reservation-grid', component: ReservationGridComponent },
+  { path: 'booking-system', component: BookingSystemComponent },
+  { path: 'vehicle-details', component: VehicleDetailsComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];
