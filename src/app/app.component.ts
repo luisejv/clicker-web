@@ -1,11 +1,10 @@
 import { OnInit, Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import * as ScrollReveal from 'scrollreveal';
-/* import objectFitImages = require('object-fit-images');
-import objectFitImages from 'object-fit-images';
-import * as $ from jQuery; */
 declare var $: any;
 declare const window: any;
 declare const sr: any;
+declare var waypoints:any;
+declare var easyPieChart:any;
 
 @Component({
   selector: 'app-root',
@@ -13,19 +12,18 @@ declare const sr: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-/* @ViewChild('spinner') spinner! : ElementRef; */
   
   constructor(private renderer: Renderer2, private el: ElementRef) { };
 
   title = 'client';
   visible = true;
   ngOnInit(){
-    /* "use strict";
-    setTimeout(() => { this.visible = false; }, 2500); */
     var $preloader = $('#page-preloader'),
     $spinner = $preloader.find('.spinner-loader');
     $spinner.fadeOut();
     $preloader.delay(1000).fadeOut('slow');
+    /* "use strict";
+    setTimeout(() => { this.visible = false; }, 2500);
 
     if ($('.scrollreveal').length) {
       window.sr = ScrollReveal({
@@ -36,20 +34,34 @@ export class AppComponent implements OnInit {
       sr.reveal('.scrollreveal');
     }
 
-    /* if ($('.img-scale').length) {
+    if ($('.img-scale').length) {
       $(() => { objectFitImages('.img-scale') });
-    } */
+    }
 
     if ($('body').length) {
       $(window).on('scroll', () => {
-          var winH = $(window).scrollTop();
-          $('.b-progress-list').waypoint(() => {
-              $('.js-chart').each(() => {
-                  this.CharsStart();
-              });
-          }, {
-              offset: '80%'
+        var winH = $(window).scrollTop();
+        $('.b-progress-list').waypoint(() => {
+          $('.js-chart').each(() => {
+            this.CharsStart();
+            $('.js-chart').easyPieChart({
+              barColor: false,
+              trackColor: false,
+              scaleColor: false,
+              scaleLength: false,
+              lineCap: false,
+              lineWidth: false,
+              size: false,
+              animate: 5000,
+              onStep: (from: any, to: any, percent: any) => {
+                let elements = this.el.nativeElement.querySelectorAll('.js-percent');
+                elements.text(Math.round(percent));
+              }
+            });
           });
+        }, {
+          offset: '80%'
+        });
       });
     }
 
@@ -161,7 +173,7 @@ export class AppComponent implements OnInit {
       });
     }
 
-    /* if ($('#filterPrice').length) {
+    if ($('#filterPrice').length) {
 
       var keypressSlider = document.getElementById('filterPrice');
       var input0 = document.getElementById('input-with-keypress-0');
@@ -213,7 +225,7 @@ export class AppComponent implements OnInit {
       keypressSliderRange.noUiSlider.on('update', function (values, handle) {
           inputsRange[handle].value = values[handle];
       });
-    } */
+    }
 
     if ($('.player').length) {
       $(".player").flowplayer();
@@ -250,23 +262,6 @@ export class AppComponent implements OnInit {
     if ($(window).width() < 768) {
       $('.b-goods-group > .col-12').removeClass('col-12').addClass('col-lg-4 col-md-6');
       $('.b-goods').removeClass('b-goods_list');
-    }
-  }
-
-  CharsStart() {
-    $('.js-chart').easyPieChart({
-        barColor: false,
-        trackColor: false,
-        scaleColor: false,
-        scaleLength: false,
-        lineCap: false,
-        lineWidth: false,
-        size: false,
-        animate: 5000,
-        onStep: (from: any, to: any, percent: any) => {
-          let elements = this.el.nativeElement.querySelectorAll('.js-percent');
-          elements.text(Math.round(percent));
-        }
-    });
+    } */
   }
 }
