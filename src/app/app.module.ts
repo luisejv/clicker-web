@@ -19,6 +19,10 @@ import { BookingSystemComponent } from './components/booking-system/booking-syst
 import { InventoryListingsComponent } from './components/inventory-listings/inventory-listings.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptorService } from './services/loader-interceptor.service';
+import { SpinnerModule } from './components/shared/spinner/spinner.module';
 
 @NgModule({
   declarations: [
@@ -42,9 +46,17 @@ import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-de
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    SpinnerModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
