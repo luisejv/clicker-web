@@ -5,12 +5,7 @@
 
 
 (function () {
-
     "use strict";
-
-
-
-
     var Core = {
         initialized: false,
         initialize: function () {
@@ -19,99 +14,109 @@
             this.initialized = true;
             this.build();
         },
-        build: function () {
 
+        build: function () {
             this.fixedHeader();
            // Init toggle menu
             this.initToggleMenu();
-      // Search
-      this.initSearchModal();
-      // Dropdown menu
-      this.dropdownhover();
-
+            // Search
+            this.initSearchModal();
+            // Dropdown menu
+            this.dropdownhover();
         },
 
+        initSearchModal: function(options) {
 
 
+        $(document).on("click", ".btn_header_search", function (event) {
+            event.preventDefault();
 
-   initSearchModal: function(options) {
+            $(".header-search").addClass("open");
+        });
+        $(document).on("click", ".search-form_close , .search-close", function (event) {
+            event.preventDefault();
+            $(".header-search").removeClass("open");
+        });
 
-
-      $(document).on("click", ".btn_header_search", function (event) {
-        event.preventDefault();
-
-        $(".header-search").addClass("open");
-      });
-      $(document).on("click", ".search-form_close , .search-close", function (event) {
-        event.preventDefault();
-        $(".header-search").removeClass("open");
-      });
-
-    },
-
-
-
+        },
 
         initToggleMenu: function () {
 
 
-      $('.toggle-menu-button').each(function (i) {
+        $('.toggle-menu-button').each(function (i) {
 
 
-            var trigger = $(this);
-            var isClosed = true;
+                var trigger = $(this);
+                var isClosed = true;
 
-            function showMenu() {
-
-
-
-                $('#nav').addClass('navbar-scrolling-fixing');
+                function showMenu() {
 
 
 
-        if ( trigger.hasClass( "js-toggle-screen" )) {
+                    $('#nav').addClass('navbar-scrolling-fixing');
 
-             $('#fixedMenu').delay(0).fadeIn(300);
 
-            }
 
-                trigger.addClass('is-open');
-                isClosed = false;
-            }
+            if ( trigger.hasClass( "js-toggle-screen" )) {
 
-            function hideMenu() {
-                $('#fixedMenu').fadeOut(100);
-                $('#nav').removeClass('navbar-scrolling-fixing');
-                trigger.removeClass('is-open');
-                isClosed = true;
-            }
+                $('#fixedMenu').delay(0).fadeIn(300);
 
-            trigger.on('click', function (e) {
-                e.preventDefault();
-                if (isClosed === true) {
-                    showMenu();
-                } else {
-                    hideMenu();
                 }
-            });
+
+                    trigger.addClass('is-open');
+                    isClosed = false;
+                }
+
+                function hideMenu() {
+                    $('#fixedMenu').fadeOut(100);
+                    $('#nav').removeClass('navbar-scrolling-fixing');
+                    trigger.removeClass('is-open');
+                    isClosed = true;
+                }
+
+                trigger.on('click', function (e) {
+                    e.preventDefault();
+                    if (isClosed === true) {
+                        showMenu();
+                    } else {
+                        hideMenu();
+                    }
+                });
 
 
-     });   },
+        });},
 
-
-
-    dropdownhover: function(options) {
-      /** Extra script for smoother navigation effect **/
-      if ($(window).width() > 798) {
-        $('.yamm').on('mouseenter', '.navbar-nav > .dropdown', function() {
-          "use strict";
-          $(this).addClass('open');
-        }).on('mouseleave', '.navbar-nav > .dropdown', function() {
-          "use strict";
-          $(this).removeClass('open');
-        });
-      }
-    },
+        dropdownhover: function(options) {
+        /** Extra script for smoother navigation effect **/
+            if ( $( window ).width() > 798 ) {
+                /* console.log( $( '.yamm .navbar-nav > .dropdown' ) );
+                var dropdown = document.querySelectorAll( '.dropdown' );
+                console.log( dropdown );
+                for ( let i = 0; i < dropdown.length; i++ ){
+                    dropdown[ i ].addEventListener( "mouseenter", function () {
+                        dropdown[ i ].addClass( 'open' );
+                    } );
+                    dropdown[ i ].addEventListener( "mouseleave", function () {
+                        dropdown[ i ].removeClass( 'open' );
+                    } );
+                } */
+                /* $( '.dropdown' ).mouseenter( () => {
+                    "use strict";
+                    $( this ).addClass( 'open' );
+                } ).mouseleave( () => {
+                    "use strict";
+                    $( this ).removeClass( 'open' );
+                }) */
+                $('.yamm').on('mouseenter', '.navbar-nav > .dropdown', function() {
+                "use strict";
+                    $( this ).addClass( 'open' );
+                    console.log("prueba4");
+                }).on('mouseleave', '.navbar-nav > .dropdown', function() {
+                "use strict";
+                $(this).removeClass('open');
+                });
+            }
+        },
 
         fixedHeader: function (options) {
             if ($(window).width() > 767) {
@@ -127,17 +132,12 @@
                         $('.header').addClass('navbar-scrolling');
                     } else {
                         $('body').removeClass('fixed-header');
-                       $('.header').removeClass('navbar-scrolling');
+                        $('.header').removeClass('navbar-scrolling');
                     }
 
                 });
             }
         },
-
-
-
-
-
     };
     Core.initialize();
 
