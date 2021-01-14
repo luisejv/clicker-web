@@ -171,7 +171,33 @@
                 <a class="nav-link" [routerLink]="['/about']">About</a>
               </li>
 
-              <li class="nav-item dropdown">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/inventory-grid']"
+                  >Inventory</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/reservation-grid']"
+                  >Reservation</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/booking-system']"
+                  >Booking</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/contact">Contact</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/booking-system']">Login</a>
+              </li>
+
+              <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle">Inventory</a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" routerLink="/inventory-grid"
@@ -206,10 +232,7 @@
                     >Blog post</a
                   >
                 </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/contact">Contact</a>
-              </li>
+              </li> -->
             </ul>
             <a class="header-main__link"><i class="ic icon-user"></i></a
             ><span class="header-main__link btn_header_search"
