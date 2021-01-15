@@ -10,6 +10,7 @@ import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';
 import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
 import { InventoryListingsComponent } from './components/inventory-listings/inventory-listings.component';
+import { LoginComponent } from './components/login/login.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'reservation-grid', component: ReservationGridComponent },
   { path: 'booking-system', component: BookingSystemComponent },
   { path: 'vehicle-details', component: VehicleDetailsComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];

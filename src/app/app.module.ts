@@ -23,6 +23,7 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { SpinnerModule } from './components/shared/spinner/spinner.module';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SpinnerModule } from './components/shared/spinner/spinner.module';
     InventoryListingsComponent,
     ReservationGridComponent,
     VehicleDetailsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
