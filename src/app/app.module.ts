@@ -24,6 +24,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { SpinnerModule } from './components/shared/spinner/spinner.module';
 import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { LoginComponent } from './components/login/login.component';
     ReservationGridComponent,
     VehicleDetailsComponent,
     LoginComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { LoginComponent } from './components/login/login.component';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    SpinnerModule
+    SpinnerModule,
+    FormsModule
   ],
   providers: [
     {

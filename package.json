@@ -32,6 +32,7 @@
     "popper": "^1.0.1",
     "rxjs": "~6.6.0",
     "scrollreveal": "^4.0.7",
+    "sweetalert2": "^10.13.0",
     "tslib": "^2.1.0",
     "waypoints": "^4.0.1",
     "zone.js": "~0.10.2"

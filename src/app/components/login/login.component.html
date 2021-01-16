@@ -4,88 +4,24 @@
       <div class="section-special__inner bg-primary">
         <div class="text-center">
           <div class="ui-title-logo">AUTLINES</div>
-          <h2 class="ui-title ui-title_light text-uppercase mb-1">
-            Special Services
-          </h2>
-          <p class="section-special__info">
-            Dolore magna aliqua enim minim veniam quis nostrud exercitation
-          </p>
+          <h2 class="ui-title ui-title_light text-uppercase mb-1">Login</h2>
+          <p class="section-special__info">¡Ingresa a la plataforma!</p>
         </div>
-        <div
-          class="b-special-slider js-slider"
-          data-slick='{"slidesToShow": 3, "slidesToScroll": 2, "dots": true, "arrows": false, "autoplay": false,   "responsive": [{"breakpoint": 992, "settings": {"slidesToShow": 1, "slidesToScroll": 1}}]}'
-        >
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/1.jpg"
-                alt="photo"
+        <div class="b-special-slider js-slider text-center">
+          <form class="example-form">
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Email</mat-label>
+              <input
+                [(ngModel)]="email"
+                matInput
+                placeholder="example@clicker.com"
               />
-            </div>
-            <div class="b-special__title">Vehicle Color Change</div>
-          </div>
-          <!-- end .b-special-->
-
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/2.jpg"
-                alt="photo"
-              />
-            </div>
-            <div class="b-special__title">Window Tinting</div>
-          </div>
-          <!-- end .b-special-->
-
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/3.jpg"
-                alt="photo"
-              />
-            </div>
-            <div class="b-special__title">Car Body Polishing</div>
-          </div>
-          <!-- end .b-special-->
-
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/1.jpg"
-                alt="photo"
-              />
-            </div>
-            <div class="b-special__title">Vehicle Color Change</div>
-          </div>
-          <!-- end .b-special-->
-
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/2.jpg"
-                alt="photo"
-              />
-            </div>
-            <div class="b-special__title">Window Tinting</div>
-          </div>
-          <!-- end .b-special-->
-
-          <div class="b-special">
-            <div class="b-special__img">
-              <img
-                class="img-scale"
-                src="assets/media/content/b-special/263x200/3.jpg"
-                alt="photo"
-              />
-            </div>
-            <div class="b-special__title">Car Body Polishing</div>
-          </div>
-          <!-- end .b-special-->
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Password</mat-label>
+              <input matInput [(ngModel)]="password" type="password" />
+            </mat-form-field>
+          </form>
         </div>
       </div>
     </div>
