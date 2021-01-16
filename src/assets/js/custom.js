@@ -26,12 +26,10 @@ var custom = ( function () {
     // Preloader
     /////////////////////////////////////////////////////////////////
 
-    console.log("prueba2");
     var $preloader = $( '#page-preloader' ),
     $spinner = $preloader.find( '.spinner' );
     $spinner.fadeOut();
     $preloader.delay( 25 ).fadeOut( 'slow' );
-    console.log("prueba3");
 
 
     /////////////////////////////////////

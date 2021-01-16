@@ -5,6 +5,7 @@ import { RolesEnum } from 'src/app/core/interfaces/roles.enum';
 import { User } from 'src/app/core/model/user';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,22 +14,27 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  email: string = '';
-  password: string = '';
+  formGroup!: FormGroup;
 
   constructor(
     private userService: UserService,
     private storageService: StorageService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.formGroup = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern('\\w{2,}')]]
+    })
+   }
 
   ngOnInit(): void {
   }
 
   logIn(): void{
     const body = {
-      correo: this.email,
-      password: this.password,
+      correo: this.formGroup.value.email,
+      password: this.formGroup.value.password,
     }
     this.userService.login(body).subscribe(
       (response: User) => {

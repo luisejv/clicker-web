@@ -12,15 +12,18 @@
             <mat-form-field appearance="fill" class="example-full-width">
               <mat-label>Email</mat-label>
               <input
-                [(ngModel)]="email"
+                formControl="email"
                 matInput
                 placeholder="example@clicker.com"
               />
             </mat-form-field>
             <mat-form-field appearance="fill" class="example-full-width">
               <mat-label>Password</mat-label>
-              <input matInput [(ngModel)]="password" type="password" />
+              <input matInput formControl="password" type="password" />
             </mat-form-field>
+            <button mat-raised-button type="submit" (click)="logIn()">
+              Ingresar
+            </button>
           </form>
         </div>
       </div>
