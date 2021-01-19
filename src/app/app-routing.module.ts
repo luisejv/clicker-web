@@ -6,7 +6,9 @@ import { BlogMainComponent } from './components/blog-main/blog-main.component';
 import { BlogPostComponent } from './components/blog-post/blog-post.component';
 import { BookingSystemComponent } from './components/booking-system/booking-system.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
 import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';
 import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
@@ -28,7 +30,16 @@ export const routes: Routes = [
   { path: 'reservation-grid', component: ReservationGridComponent },
   { path: 'booking-system', component: BookingSystemComponent },
   { path: 'vehicle-details', component: VehicleDetailsComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { 
+    path: 'dashboard', 
+    component: DashboardComponent, 
+    children: [
+      {
+        path: 'registrar-carro',
+        component: CarRegistrationComponent,
+      },
+    ]
+  },
   { path: 'login', component: LoginComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' },

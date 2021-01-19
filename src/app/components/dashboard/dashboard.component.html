@@ -1,1 +1,36 @@
-<p>dashboard works!</p>
+<div>
+    <div>
+      <app-sidebar
+        [ngClass]="{
+          sidebar: true,
+          sidebar_phone: commonService.screenWidth < 426,
+          sidebar_desk: commonService.screenWidth > 426
+        }"
+        [ngStyle]="{
+            'display': commonService.screenWidth < 426 ? 'none' : 'block'
+        }"
+      ></app-sidebar>
+    </div>
+    <div
+      [ngClass]="{
+        'wrapper-xs': commonService.screenWidth < 426
+      }"
+    >
+      <div
+        [ngStyle]="{
+          'min-height':
+            commonService.screenWidth < 426
+              ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
+              : 'calc(' + commonService.screenHeight + 'px - 2vw)'
+        }"
+        [ngClass]="{
+          rightWrapper: true,
+          'bg-form': true,
+          'wrapper-lg': commonService.screenWidth > 426
+        }"
+      >
+      <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

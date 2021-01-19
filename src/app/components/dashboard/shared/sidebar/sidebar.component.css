@@ -1,0 +1,30 @@
+.sidebar-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(82, 169, 192);
+}
+
+.sidebar-item {
+    cursor: pointer;
+    margin: 15px 0;
+    outline: none;
+    color: white;
+}
+
+.sidebar-item:hover {
+    background-color: black;
+    border-radius: 5px;
+}
+
+.sideops-container {
+    padding: 1rem 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.sideops-container li a {
+    text-align: center;
+}

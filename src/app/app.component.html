@@ -4,13 +4,17 @@
   data-header="sticky"
   data-header-top="200"
   data-canvas="container"
+  [style.min-height.px]="commonService.screenHeight"
+  (window:resize)="onResize($event)"
 >
   <!-- Loader-->
   <div id="page-preloader">
     <span class="spinner border-t_second_b border-t_prim_a"> </span>
   </div>
   <!-- Loader end-->
-  <app-navbar></app-navbar>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
+  <app-navbar *ngIf="!inDashboard()"></app-navbar>
+  <div class="router-outlet">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer *ngIf="!inDashboard()"></app-footer>
 </div>

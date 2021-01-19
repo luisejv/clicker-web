@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonService } from 'src/app/core/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public commonService: CommonService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  inDashboard(): boolean {
+    return this.router.url.includes('dashboard');
   }
 
 }

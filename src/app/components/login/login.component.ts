@@ -36,38 +36,41 @@ export class LoginComponent implements OnInit {
       correo: this.formGroup.value.email,
       password: this.formGroup.value.password,
     }
+    console.log(`BODY: ${body}`);
     this.userService.login(body).subscribe(
       (response: User) => {
-        if (response) {
-          if (response.role == 'admin') {
-            this.storageService.setRoleSessionStorage(RolesEnum.ADMIN);
-          } else if (response.role == 'superadmin') {
-            this.storageService.setRoleSessionStorage(RolesEnum.SUPERADMIN);
-          } else {
-            this.storageService.setRoleSessionStorage(RolesEnum.USER);
-          }
-          Swal.fire({
-            titleText: 'Logged In!',
-            html: 'Logged in succesfully!',
-            allowOutsideClick: true,
-            icon: 'success',
-            showConfirmButton: true,
-          }).then(() => {
-            if (response.role != 'particular' ) {
-              this.router.navigateByUrl('/dashboard');
-            } else {
-              this.router.navigateByUrl('/home');
-            }
-          })
+        if (response.rol == 'ADMIN') {
+          this.storageService.setRoleSessionStorage(RolesEnum.ADMIN);
+        } else if (response.rol == 'SUPERADMIN') {
+          this.storageService.setRoleSessionStorage(RolesEnum.SUPERADMIN);
+        } else if (response.rol == 'PARTICULAR') {
+          this.storageService.setRoleSessionStorage(RolesEnum.PARTICULAR);
         } else {
-          Swal.fire({
-            titleText: 'Incorrect Username or Password!',
-            html: 'Try again please.',
-            allowOutsideClick: true,
-            icon: 'error',
-            showConfirmButton: true
-          })
+          this.storageService.setRoleSessionStorage(RolesEnum.REMAX);
         }
+        Swal.fire({
+          titleText: 'Logged In!',
+          html: 'Logged in succesfully!',
+          allowOutsideClick: true,
+          icon: 'success',
+          showConfirmButton: true,
+        }).then(() => {
+          if (response.rol != 'PARTICULAR') {
+            this.router.navigateByUrl('/dashboard');
+          } else {
+            this.router.navigateByUrl('/home');
+          }
+        })
+      },
+      (error: any) => {
+        console.log(`[ERROR]: Login, ${error}`);
+        Swal.fire({
+          titleText: 'Incorrect Username or Password!',
+          html: 'Try again please.',
+          allowOutsideClick: true,
+          icon: 'error',
+          showConfirmButton: true
+        })
       }
     )
   }

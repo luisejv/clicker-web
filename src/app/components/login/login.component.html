@@ -8,20 +8,20 @@
           <p class="section-special__info">¡Ingresa a la plataforma!</p>
         </div>
         <div class="b-special-slider js-slider text-center">
-          <form class="example-form">
+          <form [formGroup]="formGroup" class="example-form">
             <mat-form-field appearance="fill" class="example-full-width">
               <mat-label>Email</mat-label>
               <input
-                formControl="email"
+                formControlName="email"
                 matInput
                 placeholder="example@clicker.com"
               />
             </mat-form-field>
             <mat-form-field appearance="fill" class="example-full-width">
               <mat-label>Password</mat-label>
-              <input matInput formControl="password" type="password" />
+              <input matInput formControlName="password" type="password" />
             </mat-form-field>
-            <button mat-raised-button type="submit" (click)="logIn()">
+            <button class="mt-3" mat-raised-button type="submit" (click)="logIn()">
               Ingresar
             </button>
           </form>

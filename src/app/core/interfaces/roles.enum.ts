@@ -1,5 +1,6 @@
 export enum RolesEnum {
     ADMIN = '1',
-    USER = '2',
+    PARTICULAR = '2',
     SUPERADMIN = '0',
+    REMAX = '3',
 }

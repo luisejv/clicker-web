@@ -1,6 +1,7 @@
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { CommonService } from './core/common.service';
 declare var $: any;
 /* import * as $ from 'jquery'; */
 
@@ -13,7 +14,11 @@ export class AppComponent implements OnInit {
 
   show: boolean = false;
   
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) { };
+  constructor(
+    private activatedRoute: ActivatedRoute, 
+    private router: Router,
+    public commonService: CommonService,
+  ) { };
 
   ngOnInit() {
     /* .pipe(filter(event => event instanceof NavigationStart)) */
@@ -28,4 +33,14 @@ export class AppComponent implements OnInit {
         $.getScript('assets/js/custom.js');
       });
   }
+
+  inDashboard(): boolean {
+    console.log(`[INFO]: ${this.router.url}`);
+    return this.router.url.includes('dashboard');
+  }
+
+  onResize(event: any): void {
+    this.commonService.getScreenSize(event);
+  }
+
 }

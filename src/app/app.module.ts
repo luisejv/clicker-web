@@ -25,7 +25,13 @@ import { LoaderInterceptorService } from './services/loader-interceptor.service'
 import { SpinnerModule } from './components/shared/spinner/spinner.module';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StorageService } from './core/storage.service';
+import { User } from './core/model/user';
+import { SidebarComponent } from './components/dashboard/shared/sidebar/sidebar.component';
+import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
+import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
+
 
 @NgModule({
   declarations: [
@@ -46,6 +52,9 @@ import { FormsModule } from '@angular/forms';
     VehicleDetailsComponent,
     LoginComponent,
     DashboardComponent,
+    SidebarComponent,
+    UnoComponent,
+    CarRegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,14 +63,18 @@ import { FormsModule } from '@angular/forms';
     MaterialModule,
     HttpClientModule,
     SpinnerModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
       multi: true
-    }
+    },
+    HttpClientModule,
+    StorageService,
+    User,
   ],
   bootstrap: [AppComponent]
 })
