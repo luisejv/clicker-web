@@ -22,187 +22,144 @@
         <div class="b-booking-group">
           <div class="container">
             <div class="row">
-              <div class="col-lg-4">
-                <div class="b-booking-nav"><a class="b-booking-nav__item" href="#">
-                    <div class="b-booking-nav__header">Paso 1</div>
-                    <div class="b-booking-nav__main"><i class="ic fas fa-car-side"></i><span class="b-booking-nav__title">Tipo de Carro</span><span class="b-booking-nav__info">Selecciona el tipo de carro</span></div></a><a class="b-booking-nav__item active" href="#">
-                    <div class="b-booking-nav__header">Paso 2</div>
-                    <div class="b-booking-nav__main"><i class="ic fas fa-cubes"></i><span class="b-booking-nav__title">Styling Packages</span><span class="b-booking-nav__info">Choose a styling package</span></div></a><a class="b-booking-nav__item" href="#">
-                    <div class="b-booking-nav__header">Paso 3</div>
-                    <div class="b-booking-nav__main"><i class="ic fas fa-cog"></i><span class="b-booking-nav__title">Services Menu</span><span class="b-booking-nav__info">A la carte Services for you</span></div></a><a class="b-booking-nav__item" href="#">
-                    <div class="b-booking-nav__header">Paso 4</div>
-                    <div class="b-booking-nav__main"><i class="ic far fa-calendar"></i><span class="b-booking-nav__title">Date And Time</span><span class="b-booking-nav__info">Click on time for booking</span></div></a><a class="b-booking-nav__item" href="#">
-                    <div class="b-booking-nav__header">Paso 5</div>
-                    <div class="b-booking-nav__main"><i class="ic fas fa-edit"></i><span class="b-booking-nav__title">Booking Summary</span><span class="b-booking-nav__info">Provide your contact infos</span></div></a></div>
-              </div>
-              <div class="col-lg-8">
-                <form class="b-booking-main">
-                  <div class="b-booking-main__section">
-                    <h2 class="b-booking-main__title">Select Car Type</h2>
-                    <div class="b-booking-main__cat btn-group-toggle row flex-wrap justify-content-between" data-toggle="buttons">
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item">
-                          <input type="radio" name="options" id="option4" checked="checked"/><span class="ic flaticon-cabrio-car"></span> CONVERTIBLE<i class="ic-check fas fa-check"></i>
-                        </label>
+              <!-- <div
+                class="form-wrapper"
+                [ngStyle]="{
+                  overflow: 'auto',
+                  'max-height':
+                    commonService.screenWidth < 426
+                      ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
+                      : 'calc(' + commonService.screenHeight + 'px - 2vw)'
+                }"
+                cdkScrollable
+              >
+              </div> -->
+              <form [formGroup]="formGroup">
+                <div class="row mt-2 py-3">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                    <label class="h1-form mb-3 sub_section">Registra tu Carro</label>
+                    <div class="group_input w-m">
+                      <div class="d-flex flex-column w-100">
+                        <mat-form-field appearance="fill" class="w-100">
+                          <mat-label>Auto</mat-label>
+                          <input 
+                            matInput
+                            type="text"
+                            placeholder="Busca el auto..."
+                            formControlName="auto"
+                          />
+                          <!-- TODO: agregar el autocomplete -->
+                        </mat-form-field>
                       </div>
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item active">
-                          <input type="radio" name="options" id="option2"/><span class="ic flaticon-car-suv"></span> SUV<i class="ic-check fas fa-check"></i>
-                        </label>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Precio</mat-label>
+                        <input 
+                          matInput
+                          type="text"
+                          placeholder="El precio del auto..."
+                          formControlName="precioVenta"
+                        />
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Moneda</mat-label>
+                        <mat-select formControlName="moneda">
+                          <mat-option
+                            *ngFor="let mon of monedas"
+                            [value]="mon"
+                          >
+                            {{ mon }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Código Versión</mat-label>
+                        <input 
+                          matInput
+                          type="text"
+                          formControlName="codversion"
+                        />
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Versión</mat-label>
+                        <!-- TODO: convertir a un <mat-option> -->
+                        <input 
+                          matInput
+                          type="text"
+                          formControlName="codversion"
+                        />
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Disponibilidad</mat-label>
+                        <mat-chip-list #chipList aria-label="Fruit selection">
+                          <mat-chip
+                            *ngFor="let ciudad of ciudadesDisponibles"
+                            [selectable]="true"
+                            [removable]="true"
+                            (removed)="remove(ciudad)">
+                            {{ ciudad }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Nueva ciudad..."
+                            #ciudadInput
+                            [formControl]="ciudadesFormControl"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                          <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad">
+                            {{ ciudad }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Kilometraje</mat-label>
+                        <input 
+                          matInput
+                          type="number"
+                          formControlName="kilometraje"
+                        />
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Tipo del Auto</mat-label>
+                        <mat-select formControlName="moneda">
+                          <mat-option
+                            *ngFor="let tipo of tipos"
+                            [value]="tipo"
+                          >
+                            {{ tipo }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="d-flex flex-column align-items-start">
+                        <mat-label>¿Presentar?</mat-label>
+                        <mat-radio-group formControlName="presentar">
+                          <mat-radio-button [value]="true">Sí</mat-radio-button>
+                          <mat-radio-button [value]="false">No</mat-radio-button>
+                        </mat-radio-group>
                       </div>
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item">
-                          <input type="radio" name="options" id="option3"/><span class="ic flaticon-coupe-car"></span> COUPE<i class="ic-check fas fa-check"></i>
-                        </label>
+                      <div class="d-flex flex-column align-items-start">
+                        <mat-label>¿Es dueño del carro?</mat-label>
+                        <mat-radio-group formControlName="duenoCarro">
+                          <mat-radio-button [value]="true">Sí</mat-radio-button>
+                          <mat-radio-button [value]="false">No</mat-radio-button>
+                        </mat-radio-group>
                       </div>
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item">
-                          <input type="radio" name="options" id="option5"/><span class="ic flaticon-sedan-car-model"></span> SEDAN<i class="ic-check fas fa-check"></i>
-                        </label>
-                      </div>
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item">
-                          <input type="radio" name="options" id="option6"/><span class="ic flaticon-car-black-side-view-pointing-left"></span> SUPER CAR<i class="ic-check fas fa-check"></i>
-                        </label>
-                      </div>
-                      <div class="col-sm-4">
-                        <label class="btn b-booking-main__cat-item">
-                          <input type="radio" name="options" id="option7"/><span class="ic flaticon-car"></span> MINICAR<i class="ic-check fas fa-check"></i>
-                        </label>
-                      </div>
-                    </div>
+                    </div>        
                   </div>
-                  <div class="b-booking-main__section pb-1">
-                    <h2 class="b-booking-main__title">Choose Your Package</h2>
-                    <div class="b-booking-price">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck1" type="checkbox" checked="checked"/>
-                        <label class="custom-control-label row" for="customCheck1"><span class="b-booking-price__inner col-sm"><span class="b-booking-price__title">Basic Styling Pack<span class="b-booking-price__day">(1 Day)</span></span><span class="b-booking-price__info">Minor Dent Removing, Window Tinting, Full Color Change</span></span><span class="col-sm-auto"><span class="b-booking-price__price text-primary"><span class="b-booking-price__price-up">$</span>35<span class="b-booking-price__price-up">95</span></span></span></label>
-                      </div>
-                    </div>
-                    <div class="b-booking-price">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck2" type="checkbox"/>
-                        <label class="custom-control-label row" for="customCheck2"><span class="b-booking-price__inner col-sm"><span class="b-booking-price__title">Gold Styling Pack<span class="b-booking-price__day">(2 Day)</span></span><span class="b-booking-price__info">Minor Dent Removing, Window Tinting, Full Color Change Car Polishing, New Wheels</span></span><span class="col-sm-auto"><span class="b-booking-price__price text-primary"><span class="b-booking-price__price-up">$</span>45<span class="b-booking-price__price-up">95</span></span></span></label>
-                      </div>
-                    </div>
-                    <div class="b-booking-price">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck3" type="checkbox"/>
-                        <label class="custom-control-label row" for="customCheck3"><span class="b-booking-price__inner col-sm"><span class="b-booking-price__title">Deluxe Styling Pack<span class="b-booking-price__day">(3 Day)</span></span><span class="b-booking-price__info">Minor Dent Removing, Window Tinting, Full Color Change Car Polishing, New Wheels</span></span><span class="col-sm-auto"><span class="b-booking-price__price text-primary"><span class="b-booking-price__price-up">$</span>55<span class="b-booking-price__price-up">95</span></span></span></label>
-                      </div>
-                    </div>
+                </div>
+                <div class="container mt-2 py-3">
+                  <div class="row justify-content-around">
+                    <button mat-raised-button color="primary" (click)="registerCar()">
+                      Registrar
+                    </button>
                   </div>
-                  <div class="b-booking-main__section pb-1">
-                    <h2 class="b-booking-main__title">Services Menu</h2>
-                    <div class="b-booking-price b-booking-price_sm">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck4" type="checkbox" checked="checked"/>
-                        <label class="custom-control-label row" for="customCheck4"><span class="col"><span class="b-booking-price__title">Full Body Wash</span><span class="b-booking-price__info">Magna aliqua enim aduas dui veniam nostrud</span></span><span class="col-auto"><span class="b-booking-price__label"><i class="ic far fa-clock"></i> 2 Hours</span><span class="b-booking-price__label"><i class="ic far fa-money-bill-alt"></i> $12.90</span></span></label>
-                      </div>
-                    </div>
-                    <div class="b-booking-price b-booking-price_sm">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck5" type="checkbox"/>
-                        <label class="custom-control-label row" for="customCheck5"><span class="col"><span class="b-booking-price__title">Custom Wrap Styles</span><span class="b-booking-price__info">Magna aliqua enim aduas dui veniam nostrud</span></span><span class="col-auto"><span class="b-booking-price__label"><i class="ic far fa-clock"></i> 2 Hours</span><span class="b-booking-price__label"><i class="ic far fa-money-bill-alt"></i> $12.90</span></span></label>
-                      </div>
-                    </div>
-                    <div class="b-booking-price b-booking-price_sm">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck6" type="checkbox"/>
-                        <label class="custom-control-label row" for="customCheck6"><span class="col"><span class="b-booking-price__title">Gold Color Wheels</span><span class="b-booking-price__info">Magna aliqua enim aduas dui veniam nostrud</span></span><span class="col-auto"><span class="b-booking-price__label"><i class="ic far fa-clock"></i> 2 Hours</span><span class="b-booking-price__label"><i class="ic far fa-money-bill-alt"></i> $12.90</span></span></label>
-                      </div>
-                    </div>
-                    <div class="b-booking-price b-booking-price_sm">
-                      <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" id="customCheck7" type="checkbox"/>
-                        <label class="custom-control-label row" for="customCheck7"><span class="col"><span class="b-booking-price__title">Minor Dents Remove</span><span class="b-booking-price__info">Magna aliqua enim aduas dui veniam nostrud</span></span><span class="col-auto"><span class="b-booking-price__label"><i class="ic far fa-clock"></i> 2 Hours</span><span class="b-booking-price__label"><i class="ic far fa-money-bill-alt"></i> $12.90</span></span></label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-booking-main__section">
-                    <h2 class="b-booking-main__title">Select Date & Time</h2>
-                  </div>
-                  <div class="b-booking-main__section">
-                    <h2 class="b-booking-main__title">Booking Summary</h2>
-                    <div class="row mb-4">
-                      <div class="col-md-6">
-                        <div class="b-booking-total">
-                          <div class="b-booking-total__main">
-                            <div class="b-booking-total__title">Fri, 12.04.2019</div>
-                            <div class="b-booking-total__info">Appointment Date</div>
-                          </div>
-                          <div class="ic pe-7s-date"></div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="b-booking-total">
-                          <div class="b-booking-total__main">
-                            <div class="b-booking-total__title">12:00 PM</div>
-                            <div class="b-booking-total__info">Appointment Time</div>
-                          </div>
-                          <div class="ic pe-7s-clock"></div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="b-booking-total">
-                          <div class="b-booking-total__main">
-                            <div class="b-booking-total__title">10 h 50 min</div>
-                            <div class="b-booking-total__info">Duration</div>
-                          </div>
-                          <div class="ic pe-7s-wristwatch"></div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="b-booking-total">
-                          <div class="b-booking-total__main">
-                            <div class="b-booking-total__title">$ 145.00</div>
-                            <div class="b-booking-total__info">Total Price</div>
-                          </div>
-                          <div class="ic pe-7s-cart"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">First Name *</label>
-                          <input class="form-control" type="text"/>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">Last Name *</label>
-                          <input class="form-control" type="text"/>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">Email Address*</label>
-                          <input class="form-control" type="email"/>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">Phone *</label>
-                          <input class="form-control" type="text"/>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Car make / Model *</label>
-                      <input class="form-control" type="text"/>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Message</label>
-                      <textarea class="form-control" rows="5"></textarea>
-                    </div>
-                    <div class="text-center">Within 24 hours, Our representative we will confirm your appointment by call / email
-                      <button class="btn btn-secondary mt-5">Confirm Booking</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                </div>
+              </form>
+
+
             </div>
           </div>
         </div>

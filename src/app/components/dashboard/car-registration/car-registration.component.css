@@ -1,0 +1,9 @@
+.h1-form {
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.7rem;
+}
+
+mat-radio-button {
+    margin: 0 1em;
+}

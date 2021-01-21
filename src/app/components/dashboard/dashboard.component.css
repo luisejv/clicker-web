@@ -20,11 +20,14 @@
 	top: 0;
 	left: 0;
 	right: 0;
+	bottom: 0;
 	width: 100vw;
 	height: 50px;
+	display: flex;
 	border-radius: 0;
 	flex-direction: row;
-    padding: 0 0 0 .5rem;
+	padding: 0 0 0 .5rem;
+	background-color: blue;
 }
 
 .wrapper-lg {

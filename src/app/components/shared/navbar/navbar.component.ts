@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/core/services/storage.service';
 declare var $: any;
 declare var slidebars: any;
 
@@ -9,7 +10,9 @@ declare var slidebars: any;
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private storageService: StorageService,
+  ) { }
 
   ngOnInit(): void {
     /* controller.init();
@@ -17,7 +20,17 @@ export class NavbarComponent implements OnInit {
     $( '.js-toggle-mobile-slidebar' ).on( 'click',  ( event:any ) => {
       event.stopPropagation();
       controller.toggle( 'mobile-slidebar' );
-  } ); */
+    } ); */
+  }
+
+  isLoggedIn(): boolean {
+    return this.storageService.isLoggedIn();
+  }
+
+  logout(): void {
+    console.log("Logging Out!");
+    this.storageService.removeEmailSessionStorage();
+    this.storageService.removeRoleFromSessionStorage();
   }
 
 }

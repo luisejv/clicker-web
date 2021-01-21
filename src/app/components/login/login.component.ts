@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageService } from 'src/app/core/storage.service';
-import { UserService } from 'src/app/core/user.service';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { RolesEnum } from 'src/app/core/interfaces/roles.enum';
 import { User } from 'src/app/core/model/user';
 import Swal from 'sweetalert2';
@@ -48,6 +48,9 @@ export class LoginComponent implements OnInit {
         } else {
           this.storageService.setRoleSessionStorage(RolesEnum.REMAX);
         }
+
+        this.storageService.setEmailSessionStorage(this.formGroup.value.email);
+
         Swal.fire({
           titleText: 'Logged In!',
           html: 'Logged in succesfully!',
@@ -70,7 +73,7 @@ export class LoginComponent implements OnInit {
           allowOutsideClick: true,
           icon: 'error',
           showConfirmButton: true
-        })
+        });
       }
     )
   }

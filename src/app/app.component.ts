@@ -1,7 +1,9 @@
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { CommonService } from './core/common.service';
+import { CommonService } from './core/services/common.service';
+import { CommonModule } from '@angular/common';
+
 declare var $: any;
 /* import * as $ from 'jquery'; */
 
@@ -25,7 +27,7 @@ export class AppComponent implements OnInit {
     /* .pipe(map(() => this.activatedRoute)) */
     this.router.events
       .subscribe((event: any) => {
-        console.log("prueba");
+        // console.log("prueba");
         var $preloader = $( '#page-preloader' ),
         $spinner = $preloader.find( '.spinner' );
         $spinner.fadeIn();
@@ -35,7 +37,6 @@ export class AppComponent implements OnInit {
   }
 
   inDashboard(): boolean {
-    console.log(`[INFO]: ${this.router.url}`);
     return this.router.url.includes('dashboard');
   }
 
