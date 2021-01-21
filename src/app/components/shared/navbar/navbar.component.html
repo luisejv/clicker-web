@@ -193,6 +193,10 @@
                 <a class="nav-link" routerLink="/contact">Contact</a>
               </li>
 
+              <li *ngIf="isLoggedIn()" class="nav-item">
+                <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+              </li>
+
               <li *ngIf="!isLoggedIn()" class="nav-item">
                 <a class="nav-link" [routerLink]="['/login']">Login</a>
               </li>
