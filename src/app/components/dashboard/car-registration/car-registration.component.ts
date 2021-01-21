@@ -23,12 +23,12 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class CarRegistrationComponent implements OnInit {
   @ViewChild('ciudadInput') ciudadInput!: ElementRef<HTMLInputElement>;
+
   formGroup: FormGroup;
   monedas: string[];
   tipos: string[];
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [];
   ciudadesDisponibles: string[] = [];
-  ciudadesFormControl: FormControl = new FormControl();
   filteredCiudades: Observable<string[]>;
   allCiudades: string[];
 
@@ -39,13 +39,10 @@ export class CarRegistrationComponent implements OnInit {
     private dataService: DataService,
   ) { 
 
-    this.filteredCiudades = this.ciudadesFormControl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allCiudades.slice()));
-
-    this.monedas = this.dataService.monedas;
-    this.tipos = this.dataService.tiposDeCarro;
-    this.allCiudades = this.dataService.ciudades;
+    // * importante
+    // ? pregunta
+    // ! ciudado, muy importante
+    // TODO: pendiente
 
     this.formGroup = this.fb.group({
       auto: null,
@@ -53,35 +50,49 @@ export class CarRegistrationComponent implements OnInit {
       moneda: null,
       codversion: null,
       version: null,
-      ciudadesDisponibles: new FormControl(),
+      ciudadesDisponibles: null,
       kilometraje: null,
       tipoAuto: null,
       presentar: null,
       duenoCarro: null,
       usuario: { correo: this.storageService.getEmailSessionStorage() },
     });
+
+    this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
+      startWith(null),
+      map(
+        (fruit: string | null) => fruit ? this._filter(fruit) : this.allCiudades.slice()
+      )
+    );
+
+    this.monedas = this.dataService.monedas;
+    this.tipos = this.dataService.tiposDeCarro;
+    this.allCiudades = this.dataService.ciudades;
+
+    console.group('Form Group')
+    console.log(this.formGroup);
+    console.groupEnd();
+
   }
 
   ngOnInit(): void {
-    console.log(this.formGroup);
+  }
+
+  get ciudadesDisponiblesFormControl() {
+    return this.formGroup.controls.ciudadesDisponibles;
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.ciudadesDisponibles.push(value.trim());
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
-
-    // this.ciudadesDisponibles.setValue(null);
-    // TODO: formChanged flag
   }
 
   remove(fruit: string): void {
@@ -90,24 +101,23 @@ export class CarRegistrationComponent implements OnInit {
     if (index >= 0) {
       this.ciudadesDisponibles.splice(index, 1);
     }
-    // TODO: formChanged flag
-  }
-
-  //FIXME typed requests
-  toJSON(): any {
-    //TODO
+    // TODO: formChanged flag porq cuando borras un matChip, formGroup.dirty no se setea a true
   }
 
   selected(event: any): void {
     this.ciudadesDisponibles.push(event.option.viewValue);
     this.ciudadInput.nativeElement.value = '';
-    this.ciudadesFormControl.setValue(null);
+    this.ciudadesDisponiblesFormControl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allCiudades.filter(ciudad => ciudad.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  //FIXME typed requests (change ': any' to a interface)
+  toJSON(): any {
+    //TODO
   }
 
   registerCar(): void {

@@ -36,13 +36,13 @@
 <div data-off-canvas="mobile-slidebar left overlay">
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="home.html">Home</a>
+      <a class="nav-link" href="home.html">Inicio</a>
     </li>
 
-    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html">Sobre Nosotros</a></li>
 
     <li class="nav-item">
-      <a class="nav-link">Inventory</a>
+      <a class="nav-link">Autos Nuevos</a>
       <ul class="mobile-sub-menu">
         <li><a href="inventory-grid.html">Inventory grid</a></li>
         <li><a href="inventory-listings.html">Inventory listings</a></li>
@@ -51,7 +51,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link">Reservation</a>
+      <a class="nav-link">Sobre Nosotros</a>
       <ul class="mobile-sub-menu">
         <li><a href="reservation-grid.html">Reservation car</a></li>
         <li><a href="booking-system.html">Reservation service</a></li>
@@ -59,7 +59,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link">News</a>
+      <a class="nav-link">Novedades</a>
       <ul class="mobile-sub-menu">
         <li><a href="blog-main.html">Blog main</a></li>
         <li><a href="blog-grid.html">Blog grid</a></li>
@@ -67,7 +67,7 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="contacts.html">Contact</a>
+      <a class="nav-link" href="contacts.html">Contacto</a>
     </li>
   </ul>
 </div>
@@ -78,37 +78,29 @@
       <div class="row justify-content-between align-items-center">
         <div class="col-auto">
           <div class="top-bar__item">
-            <i class="ic fas fa-map-marker-alt text-primary"></i> Call Us
+            <i class="ic fas fa-map-marker-alt text-primary"></i> Llámanos:
             24/7!<a class="top-bar__link" href="tel:+17553028549">
               +1 755 302 8549</a
             >
+            <!-- TODO: net2phone -->
           </div>
           <div class="top-bar__item">
-            <i class="ic fas fa-envelope text-primary"></i> Email<a
+            <i class="ic fas fa-envelope text-primary"></i> Email:<a
               class="top-bar__link"
-              href="mailto:support@autlines.com"
+              href="mailto:hola@clicker.pe"
             >
-              support@autlines.com</a
+              hola@clicker.pe</a
             >
           </div>
           <div class="top-bar__item">
-            <i class="ic fas fa-clock text-primary"></i> Opening Hours
+            <i class="ic fas fa-clock text-primary"></i> Horario de atención:
 
-            <span class="top-bar__link">Mon to Fri : 9:00am to 6:00pm</span>
+            <span class="top-bar__link">Lun - Vie : 9am a 6:30pm y Sab: 9am a 1:30pm</span>
           </div>
         </div>
         <div class="col-auto">
+          <!-- TODO: linkear las redes -->
           <ul class="header-soc list-unstyled">
-            <li class="header-soc__item">
-              <a class="header-soc__link" href="#" target="_blank"
-                ><i class="ic fab fa-twitter"></i
-              ></a>
-            </li>
-            <li class="header-soc__item">
-              <a class="header-soc__link" href="#" target="_blank"
-                ><i class="ic fab fa-behance"></i
-              ></a>
-            </li>
             <li class="header-soc__item">
               <a class="header-soc__link" href="#" target="_blank"
                 ><i class="ic fab fa-facebook-f"></i
@@ -117,11 +109,6 @@
             <li class="header-soc__item">
               <a class="header-soc__link" href="#" target="_blank"
                 ><i class="ic fab fa-instagram"></i
-              ></a>
-            </li>
-            <li class="header-soc__item">
-              <a class="header-soc__link" href="#" target="_blank"
-                ><i class="ic fab fa-youtube"></i
               ></a>
             </li>
           </ul>
@@ -164,33 +151,33 @@
           <nav class="navbar navbar-expand-lg justify-content-end" id="nav">
             <ul class="yamm main-menu navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/home']">Home</a>
+                <a class="nav-link" [routerLink]="['/home']">Inicio</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/about']">About</a>
+                <a class="nav-link" [routerLink]="['/about']">Sobre Nosotros</a>
               </li>
 
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/inventory-grid']"
-                  >Inventory</a
+                  >Autos Nuevos</a
                 >
               </li>
 
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/reservation-grid']"
-                  >Reservation</a
+                  >Sobre Nosotros</a
                 >
               </li>
 
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/booking-system']"
-                  >Booking</a
+                  >Booking?</a
                 >
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" routerLink="/contact">Contact</a>
+                <a class="nav-link" routerLink="/contact">Contacto</a>
               </li>
 
               <li *ngIf="isLoggedIn()" class="nav-item">

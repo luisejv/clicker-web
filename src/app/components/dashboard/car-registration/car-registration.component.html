@@ -35,6 +35,9 @@
               >
               </div> -->
               <form [formGroup]="formGroup">
+                {{ formGroup.value | json }}
+                <br>
+                <b>FormGroup is dirty:</b> {{ formGroup.dirty }}
                 <div class="row mt-2 py-3">
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="h1-form mb-3 sub_section">Registra tu Carro</label>
@@ -102,7 +105,7 @@
                           <input
                             placeholder="Nueva ciudad..."
                             #ciudadInput
-                            [formControl]="ciudadesFormControl"
+                            formControlName="ciudadesDisponibles"
                             [matAutocomplete]="auto"
                             [matChipInputFor]="chipList"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -152,7 +155,7 @@
                 </div>
                 <div class="container mt-2 py-3">
                   <div class="row justify-content-around">
-                    <button mat-raised-button color="primary" (click)="registerCar()">
+                    <button mat-raised-button color="primary" type="button" (click)="registerCar()">
                       Registrar
                     </button>
                   </div>
