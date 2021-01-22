@@ -86,6 +86,8 @@ export class CarRegistrationComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
+    //TODO: no dejar que elija la misma ciudad 2 veces
+
     if ((value || '').trim()) {
       this.ciudadesDisponibles.push(value.trim());
     }

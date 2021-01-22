@@ -31,6 +31,7 @@ import { SidebarComponent } from './components/dashboard/shared/sidebar/sidebar.
 import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DataService } from './core/services/data.service';
+import { CommonModule } from '@angular/common'; 
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { DataService } from './core/services/data.service';
     HttpClientModule,
     SpinnerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [
     {

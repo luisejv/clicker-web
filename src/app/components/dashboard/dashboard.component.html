@@ -2,14 +2,62 @@
     <div>
       <app-sidebar
         [ngClass]="{
-          sidebar: true,
+          sidebar: commonService.screenWidth > 426,
           sidebar_phone: commonService.screenWidth < 426,
           sidebar_desk: commonService.screenWidth > 426
         }"
+        [ngStyle]="{
+          'display': commonService.screenWidth < 426 ? 'none' : 'block'
+        }"
       ></app-sidebar>
-      <!-- [ngStyle]="{
-        'display': commonService.screenWidth < 426 ? 'none' : 'block'
-      }" -->
+      <div *ngIf="commonService.screenWidth < 426">
+        <mat-icon 
+          class="position-fixed fixed-top mt-3 ml-3"
+          style="color: rgb(82, 169, 192)"
+          aria-hidden="false"
+          data-toggle="collapse"
+          href="#menu"
+          role="button"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          menu
+        </mat-icon>
+        <div class="collapse" id="menu">
+          <!-- <app-sidebar
+            [ngClass]="{
+              sidebar: false,
+              sidebar_phone: true,
+              sidebar_desk: false,
+            }"
+            [mobile]="true"
+          >
+          </app-sidebar> -->
+          <ul class="list-group mt-5">
+            <li class="list-group-item">
+              <mat-icon aria-hidden="false">account_circle</mat-icon>
+              <a>Cuenta</a>
+            </li>
+            <li class="list-group-item">
+              <mat-icon aria-hidden="false">account_balance</mat-icon>
+              <a>Balance</a>
+            </li>
+            <li class="list-group-item">
+              <mat-icon aria-hidden="false">compare_arrows</mat-icon>
+              <a>Transacciones</a>
+            </li>
+            <li class="list-group-item" routerLink="registrar-carro">
+              <mat-icon aria-hidden="false">directions_car</mat-icon>
+              <a>Registrar Carro</a>
+            </li>
+            <li class="list-group-item" routerLink="home">
+              <mat-icon aria-hidden="false">exit_to_app</mat-icon>
+              <a>Regresar</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <h1 class="mt-5 text-center">Dashboard</h1> -->
+      </div>
     </div>
     <div
       [ngClass]="{
