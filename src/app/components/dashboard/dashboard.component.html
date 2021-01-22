@@ -12,7 +12,7 @@
       ></app-sidebar>
       <div *ngIf="commonService.screenWidth < 426">
         <mat-icon 
-          class="position-fixed fixed-top mt-3 ml-3"
+          class="position-relative fixed-top my-3 ml-3"
           style="color: rgb(82, 169, 192)"
           aria-hidden="false"
           data-toggle="collapse"
@@ -33,6 +33,7 @@
             [mobile]="true"
           >
           </app-sidebar> -->
+          <!-- TODO: estilos para q se vea bonito -->
           <ul class="list-group mt-5">
             <li class="list-group-item">
               <mat-icon aria-hidden="false">account_circle</mat-icon>
@@ -49,6 +50,10 @@
             <li class="list-group-item" routerLink="registrar-carro">
               <mat-icon aria-hidden="false">directions_car</mat-icon>
               <a>Registrar Carro</a>
+            </li>
+            <li class="list-group-item" routerLink="carros-publicados">
+              <mat-icon aria-hidden="false">work</mat-icon>
+              <a>Carros Publicados</a>
             </li>
             <li class="list-group-item" routerLink="home">
               <mat-icon aria-hidden="false">exit_to_app</mat-icon>

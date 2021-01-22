@@ -10,7 +10,12 @@ export class CommonService {
   screenWidth: number = 0;
 
 /* User URL Services */
+  // * Auth
   loginUrl: string = this.baseUrl + '/auth/login';
+  registerUrl: string = this.baseUrl + '/auth/register';
+
+  // * Car Registrarion
+  autoSemiNuevoUrl: string = this.baseUrl + '/post';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

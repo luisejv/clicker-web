@@ -177,11 +177,15 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" routerLink="/contact">Contacto</a>
+                <a class="nav-link" [routerLink]="['/contact']">Contacto</a>
               </li>
 
               <li *ngIf="isLoggedIn()" class="nav-item">
                 <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+              </li>
+
+              <li *ngIf="!isLoggedIn()" class="nav-item">
+                <a class="nav-link" [routerLink]="['/registro']">Registrarme</a>
               </li>
 
               <li *ngIf="!isLoggedIn()" class="nav-item">

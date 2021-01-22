@@ -24,6 +24,7 @@ export class DataService {
     'Churín',
     'Tarma',
     'La Oroya',
+    'Arequipa',
   ];
 
   constructor() { 

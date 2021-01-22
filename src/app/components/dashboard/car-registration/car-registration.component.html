@@ -12,7 +12,7 @@
         
       </div>
     </div>
-  </div>
+</div>
   <!-- end .b-title-page-->
   
   <div class="l-main-content">
@@ -35,9 +35,9 @@
               >
               </div> -->
               <form [formGroup]="formGroup">
-                {{ formGroup.value | json }}
+                <!-- {{ formGroup.value | json }}
                 <br>
-                <b>FormGroup is dirty:</b> {{ formGroup.dirty }}
+                <b>FormGroup is dirty:</b> {{ formGroup.dirty }} -->
                 <div class="row mt-2 py-3">
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="h1-form mb-3 sub_section">Registra tu Carro</label>
@@ -58,7 +58,7 @@
                         <mat-label>Precio</mat-label>
                         <input 
                           matInput
-                          type="text"
+                          type="number"
                           placeholder="El precio del auto..."
                           formControlName="precioVenta"
                         />
@@ -78,7 +78,7 @@
                         <mat-label>Código Versión</mat-label>
                         <input 
                           matInput
-                          type="text"
+                          type="number"
                           formControlName="codversion"
                         />
                       </mat-form-field>
@@ -88,7 +88,7 @@
                         <input 
                           matInput
                           type="text"
-                          formControlName="codversion"
+                          formControlName="version"
                         />
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="w-100">
@@ -109,7 +109,7 @@
                             [matAutocomplete]="auto"
                             [matChipInputFor]="chipList"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (matChipInputTokenEnd)="add($event)">
+                          >
                         </mat-chip-list>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                           <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad">
@@ -127,7 +127,7 @@
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Tipo del Auto</mat-label>
-                        <mat-select formControlName="moneda">
+                        <mat-select formControlName="tipoAuto">
                           <mat-option
                             *ngFor="let tipo of tipos"
                             [value]="tipo"

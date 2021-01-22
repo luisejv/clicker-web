@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
+import { User } from '../interfaces/user';
 import { CommonService } from './common.service';
 import { StorageService } from './storage.service';
 
@@ -17,7 +19,19 @@ export class UserService {
     private router: Router,
   ) { }
 
-  public login(body: any): Observable<any>{
+  // * Auth
+
+  public login(body: User): Observable<any> {
     return this.http.post(this.commonService.loginUrl, body);
+  }
+
+  public register(body: User): Observable<any> {
+    return this.http.post(this.commonService.registerUrl, body);
+  }
+
+  // * Registro de Carros
+
+  public postAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
+    return this.http.post(this.commonService.autoSemiNuevoUrl, body);
   }
 }

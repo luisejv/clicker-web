@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { RolesEnum } from 'src/app/core/interfaces/roles.enum';
-import { User } from 'src/app/core/model/user';
+import { User } from 'src/app/core/interfaces/user';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(): void{
-    const body = {
+    const body: User = {
       correo: this.formGroup.value.email,
       password: this.formGroup.value.password,
     }

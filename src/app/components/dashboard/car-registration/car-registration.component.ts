@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {
   FormArray,
   FormBuilder,
@@ -9,12 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { MatChipInputEvent } from '@angular/material/chips';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/interfaces/user';
 
 @Component({
   selector: 'app-car-registration',
@@ -37,6 +38,7 @@ export class CarRegistrationComponent implements OnInit {
     private storageService: StorageService,
     private router: Router,
     private dataService: DataService,
+    private userService: UserService,
   ) { 
 
     // * importante
@@ -55,7 +57,6 @@ export class CarRegistrationComponent implements OnInit {
       tipoAuto: null,
       presentar: null,
       duenoCarro: null,
-      usuario: { correo: this.storageService.getEmailSessionStorage() },
     });
 
     this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
@@ -82,34 +83,26 @@ export class CarRegistrationComponent implements OnInit {
     return this.formGroup.controls.ciudadesDisponibles;
   }
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    //TODO: no dejar que elija la misma ciudad 2 veces
-
-    if ((value || '').trim()) {
-      this.ciudadesDisponibles.push(value.trim());
-    }
-
-    if (input) {
-      input.value = '';
-    }
-  }
-
   remove(fruit: string): void {
     const index = this.ciudadesDisponibles.indexOf(fruit);
 
     if (index >= 0) {
       this.ciudadesDisponibles.splice(index, 1);
     }
-    // TODO: formChanged flag porq cuando borras un matChip, formGroup.dirty no se setea a true
+    // TODO: setear formChanged flag porq cuando borras un matChip, formGroup.dirty no se setea a true
   }
 
   selected(event: any): void {
-    this.ciudadesDisponibles.push(event.option.viewValue);
     this.ciudadInput.nativeElement.value = '';
     this.ciudadesDisponiblesFormControl.setValue(null);
+    if (this.ciudadesDisponibles.includes(event.option.viewValue.trim())) {
+      return;
+    } else {
+      this.ciudadesDisponibles.push(event.option.viewValue);
+    }
+    console.group('Ciudades Disponibles');
+    console.log(this.ciudadesDisponibles);
+    console.groupEnd();
   }
 
   private _filter(value: string): string[] {
@@ -117,22 +110,53 @@ export class CarRegistrationComponent implements OnInit {
     return this.allCiudades.filter(ciudad => ciudad.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  //FIXME typed requests (change ': any' to a interface)
-  toJSON(): any {
-    //TODO
+  toJSON(): AutoSemiNuevo {
+    return {
+      auto: { id: 1 }, // TODO: cambiar
+      precioVenta: this.formGroup.value.precioVenta,
+      moneda: this.formGroup.value.moneda,
+      codversion: this.formGroup.value.codversion,
+      version: this.formGroup.value.version, //TODO: revisar
+      ciudadesDisponibles: this.ciudadesDisponibles,
+      kilometraje: this.formGroup.value.kilometraje,
+      tipoAuto: this.formGroup.value.tipoAuto, //TODO: definir los tipos de los autos
+      presentar: this.formGroup.value.presentar,
+      duenoCarro: this.formGroup.value.duenoCarro,
+      usuario: { correo: this.storageService.getEmailSessionStorage() },
+    };
   }
 
   registerCar(): void {
+    const body: AutoSemiNuevo = this.toJSON();
+
+    console.group('JSON')
+    console.log(this.toJSON());
+    console.groupEnd();
+
     //TODO: chequear que el formulario sea válido
-    Swal.fire({
-      titleText: '¡Éxito!',
-      html: 'El carro ha sido registrado.',
-      allowOutsideClick: true,
-      icon: 'success',
-      showConfirmButton: true
-    }).then(() => {
-      this.router.navigateByUrl('/dashboard');
-    });
+
+    this.userService.postAutoSemiNuevo(body).subscribe(
+      (response: User) => {
+        console.group('Response');
+        console.log(response);
+        console.groupEnd();
+        Swal.fire({
+          titleText: '¡Éxito!',
+          html: 'El carro ha sido registrado.',
+          allowOutsideClick: true,
+          icon: 'success',
+          showConfirmButton: true
+        }).then(() => {
+          this.router.navigateByUrl('/dashboard');
+        });
+      },
+      (error: any) => {
+        console.group('Car Registrarion Error');
+        console.log(error);
+        console.groupEnd();
+      }
+    );
+    
   }
 
 }

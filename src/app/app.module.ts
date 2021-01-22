@@ -26,12 +26,15 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from './core/services/storage.service';
-import { User } from './core/model/user';
 import { SidebarComponent } from './components/dashboard/shared/sidebar/sidebar.component';
 import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DataService } from './core/services/data.service';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ParticularComponent } from './components/register/particular/particular.component';
+import { RemaxComponent } from './components/register/remax/remax.component'; 
 
 @NgModule({
   declarations: [
@@ -55,6 +58,10 @@ import { CommonModule } from '@angular/common';
     SidebarComponent,
     UnoComponent,
     CarRegistrationComponent,
+    PublishedCarsComponent,
+    RegisterComponent,
+    ParticularComponent,
+    RemaxComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +82,6 @@ import { CommonModule } from '@angular/common';
     },
     HttpClientModule,
     StorageService,
-    User,
     DataService,
   ],
   bootstrap: [AppComponent]
