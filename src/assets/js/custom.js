@@ -282,6 +282,10 @@ var custom = ( function () {
       } );
 
       keypressSlider.noUiSlider.on( 'update', function ( values, handle ) {
+        console.group('Slider');
+        console.log(values);
+        console.log(handle);
+        console.groupEnd();
         inputs[ handle ].value = values[ handle ];
       } );
     }

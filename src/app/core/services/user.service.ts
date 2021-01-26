@@ -25,6 +25,7 @@ export class UserService {
     return this.http.post(this.commonService.loginUrl, body);
   }
 
+  //TODO: cambiar a registerRemax y registerParticular
   public register(body: User): Observable<any> {
     return this.http.post(this.commonService.registerUrl, body);
   }

@@ -34,7 +34,9 @@ import { CommonModule } from '@angular/common';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ParticularComponent } from './components/register/particular/particular.component';
-import { RemaxComponent } from './components/register/remax/remax.component'; 
+import { RemaxComponent } from './components/register/remax/remax.component';
+import { PublishedCarComponent } from './components/shared/published-car/published-car.component'; 
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
     RegisterComponent,
     ParticularComponent,
     RemaxComponent,
+    PublishedCarComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    NgxSliderModule,
   ],
   providers: [
     {

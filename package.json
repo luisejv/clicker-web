@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "^11.1.0",
     "@angular/cdk": "^11.1.0",
     "@angular/common": "^11.1.0",
@@ -22,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^11.1.0",
     "@angular/router": "^11.1.0",
     "@types/jquery": "^3.5.5",
+    "@types/nouislider": "^9.0.8",
     "@types/object-fit-images": "^3.2.0",
     "@types/scrollreveal": "0.0.6",
     "@types/waypoints": "^4.0.3",
@@ -32,14 +34,14 @@
     "popper": "^1.0.1",
     "rxjs": "~6.6.0",
     "scrollreveal": "^4.0.7",
-    "sweetalert2": "^10.13.0",
+    "sweetalert2": "^10.13.3",
     "tslib": "^2.1.0",
     "waypoints": "^4.0.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.7",
-    "@angular/cli": "^11.1.0",
+    "@angular/cli": "^11.1.1",
     "@angular/compiler-cli": "^11.1.0",
     "@types/jasmine": "^3.6.3",
     "@types/node": "^12.19.15",

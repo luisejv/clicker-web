@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
     this.router.events
       .subscribe((event: any) => {
         // console.log("prueba");
+        //TODO: hacer spinner de angular
         var $preloader = $( '#page-preloader' ),
         $spinner = $preloader.find( '.spinner' );
         $spinner.fadeIn();
