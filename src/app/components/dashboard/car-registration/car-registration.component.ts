@@ -127,6 +127,7 @@ export class CarRegistrationComponent implements OnInit {
   }
 
   registerCar(): void {
+    // TODO: usuario.correo no puede ser null, mostrar SWAL sino
     const body: AutoSemiNuevo = this.toJSON();
 
     console.group('JSON')

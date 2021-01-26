@@ -1,5 +1,8 @@
+import { Auto } from "./auto";
+import { Usuario } from "./usuario";
+
 export interface AutoSemiNuevo {
-    auto: Object,
+    auto: Auto,
     precioVenta: number,
     moneda: string,
     codversion: number,
@@ -9,5 +12,5 @@ export interface AutoSemiNuevo {
     tipoAuto: string,
     presentar: boolean,
     duenoCarro: boolean,
-    usuario: Object
+    usuario: Usuario,
 }

@@ -35,4 +35,16 @@ export class UserService {
   public postAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
     return this.http.post(this.commonService.autoSemiNuevoUrl, body);
   }
+
+  // * Car Getters
+
+  public getAutosSemiNuevosValidados(pageId: number): Observable<any> {
+    return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl + pageId);
+  }
+
+  // * Page Count
+  public getAutoSemiNuevoPageCount(): Observable<any> {
+    return this.http.get(this.commonService.pageCountUrl);
+  }
+
 }

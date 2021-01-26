@@ -1,17 +1,8 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
+import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { DataService } from 'src/app/core/services/data.service';
-
-// declare var noUiSlider: any;
-
-// declare module noUiSlider {
-//   interface noUiSlider {
-//   }
-
-//   interface Instance extends HTMLElement {
-//       noUiSlider: noUiSlider
-//   }
-// }
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-published-cars',
@@ -20,16 +11,25 @@ import { DataService } from 'src/app/core/services/data.service';
 })
 export class PublishedCarsComponent implements OnInit {
 
-  carros: any[];
-  filteredCarros: any[];
-  minPrice: number = 5000;
-  maxPrice: number = 35000;
+  // * cars
+  carros: AutoSemiNuevo[] = [];
+  filteredCarros: AutoSemiNuevo[] = [];
+
+  // * pages
+  pages: number[] = [0];
+  currPage: number = 0;
+  carsPerPage: number = 10;
+
+  // * ngs slider
+  minPrice: number = 1000;
+  maxPrice: number = 50000;
   options: Options = {
     floor: this.minPrice,
     ceil: this.maxPrice,
+    step: 1000,
     translate: (value: number, label: LabelType): string => {
-      this.filteredCarros = this.carros.filter((carro: any) => {
-        return carro.price >= this.minPrice && carro.price <= this.maxPrice;
+      this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+        return carro.precioVenta >= this.minPrice && carro.precioVenta <= this.maxPrice;
       });
       return "";
     }
@@ -37,39 +37,40 @@ export class PublishedCarsComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private userService: UserService,
   ) {
-    //TODO: mandar request de carros publicados y asignarselo a 'this.carros'
-    this.carros = this.dataService.carros;
-    this.filteredCarros = this.carros;
+    this.userService.getAutoSemiNuevoPageCount().subscribe(
+      (response: number) => {
+        console.group('page cnt res:');
+        console.log(response);
+        console.groupEnd();
+        let pgCnt: number = Math.ceil(response/this.carsPerPage);
+        this.pages = Array(pgCnt).fill(pgCnt).map((x: any, i: any) => i);
+      },
+      (error: any) => {
+        console.group('error getting auto seminuevo page cnt');
+        console.log(error);
+        console.groupEnd();
+      }
+    );
+
+    this.userService.getAutosSemiNuevosValidados(0).subscribe(
+      (response: AutoSemiNuevo[]) => {
+        console.group(`initial autoseminovos response`);
+        console.log(response);
+        console.groupEnd();
+
+        this.carros = response;
+        this.filteredCarros = this.carros;
+      },
+      (error: any) => {
+        console.group(`[ERROR]: published cars, initial: ${error}`);
+      }
+    );
+
   }
 
   ngOnInit(): void {
-    // var keypressSlider = document.getElementById('filterPrice') as noUiSlider.Instance;
-    // var input0 = document.getElementById( 'input-with-keypress-0' );
-    // var input1 = document.getElementById( 'input-with-keypress-1' );
-
-    // noUiSlider.create( keypressSlider, {
-    //   start: [ 5000, 35000 ],
-    //   connect: true,
-    //   step: 100,
-    //   format: wNumb( {
-    //     decimals: 0,
-    //     prefix: '$',
-    //     thousand: ','
-    //   } ),
-    //   range: {
-    //     'min': 1000,
-    //     'max': 50000
-    //   }
-    // });
-
-    // keypressSlider?.noUiSlider.on( 'update', ( values: any, handle: any ) => {
-    //   this.minPrice = values[0];
-    //   this.maxPrice = values[1];
-    //   console.group('Price Range');
-    //   console.log(`${this.minPrice} - ${this.maxPrice}`);
-    //   console.groupEnd();
-    // });
   }
 
   private _normalizeValue(value: string): string {
@@ -80,8 +81,25 @@ export class PublishedCarsComponent implements OnInit {
     const normalizedQuery: string = this._normalizeValue(event.target.value);
     this.filteredCarros = this.carros.filter((carro: any) => {
       return this._normalizeValue(carro.name).includes(normalizedQuery);
-      // * || this._normalizeValue(carro.otherProperty).includes(normalizedQuery);
     });
+  }
+
+  goToPage(pageId: number): void {
+    this.userService.getAutosSemiNuevosValidados(pageId).subscribe(
+      (response: AutoSemiNuevo[]) => {
+        console.group(`goToPage(${pageId}) response`);
+        console.log(response);
+        console.groupEnd();
+
+        this.currPage = pageId;
+        this.carros = response;
+        this.filteredCarros = this.carros;
+
+      },
+      (error: any) => {
+        console.group(`[ERROR]: published cars, goToPage(${pageId}): ${error}`);
+      }
+    );
   }
 
 }

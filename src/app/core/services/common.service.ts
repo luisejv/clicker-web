@@ -17,6 +17,12 @@ export class CommonService {
   // * Car Registrarion
   autoSemiNuevoUrl: string = this.baseUrl + '/post';
 
+  // * Car Getter
+  getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled/';
+
+  // * Car Pages Count
+  pageCountUrl: string = this.autoSemiNuevoUrl + '/enabled/count';
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;

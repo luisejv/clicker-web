@@ -291,32 +291,32 @@ var custom = ( function () {
     }
 
 
-    if ( $( '#sliderRange' ).length ) {
-      var keypressSliderRange = document.getElementById( 'sliderRange' );
-      var inputRange = document.getElementById( 'input-range' );
-      var inputsRange = [ inputRange ];
+    // if ( $( '#sliderRange' ).length ) {
+    //   var keypressSliderRange = document.getElementById( 'sliderRange' );
+    //   var inputRange = document.getElementById( 'input-range' );
+    //   var inputsRange = [ inputRange ];
 
-      noUiSlider.create( keypressSliderRange, {
-        start: 100,
-        connect: true,
-        step: 10,
-        format: wNumb( {
-          decimals: 0,
-          prefix: 'within ',
-          suffix: 'km',
-          thousand: ','
-        } ),
-        range: {
-          'min': 0,
-          'max': 200
-        }
-      } );
+    //   noUiSlider.create( keypressSliderRange, {
+    //     start: 100,
+    //     connect: true,
+    //     step: 10,
+    //     format: wNumb( {
+    //       decimals: 0,
+    //       prefix: 'within ',
+    //       suffix: 'km',
+    //       thousand: ','
+    //     } ),
+    //     range: {
+    //       'min': 0,
+    //       'max': 200
+    //     }
+    //   } );
 
 
-      keypressSliderRange.noUiSlider.on( 'update', function ( values, handle ) {
-        inputsRange[ handle ].value = values[ handle ];
-      } );
-    }
+    //   keypressSliderRange.noUiSlider.on( 'update', function ( values, handle ) {
+    //     inputsRange[ handle ].value = values[ handle ];
+    //   } );
+    // }
 
 
     /////////////////////////////////////
