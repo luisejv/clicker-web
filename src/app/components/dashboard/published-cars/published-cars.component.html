@@ -210,6 +210,7 @@
                         <button
                           class="b-filter__reset btn btn-secondary w-100"
                           type="reset"
+                          (click)="resetFilters()"
                         >
                           Limpiar Filtros
                         </button>
@@ -225,8 +226,8 @@
                 <div class="row align-items-center justify-content-between">
                   <div class="col-md-auto">
                     <div class="b-filter-goods__info">
-                      Showing results<strong> 1 to 10</strong>
-                      of total 56
+                      Showing results<strong> {{ filteredCarros.length === 0 ? 0 : currPage*10 + 1 }} to {{ currPage*10 + 10 > filteredCarros.length ? filteredCarros.length : currPage*10 + 10 }}</strong>
+                      of total {{ filteredCarros.length }}
                     </div>
                   </div>
                   <div class="col-md-auto">
@@ -239,6 +240,7 @@
                           multiple="multiple"
                           data-max-options="1"
                           data-style="ui-select"
+                          (change)="sortBy($event)"
                         >
                           <option>A-Z</option>
                           <option>Z-A</option>
@@ -260,12 +262,16 @@
 
               <div class="b-goods-group row">
                 <div
-                  *ngFor="let carro of filteredCarros"
+                  *ngFor="
+                    let carro of filteredCarros
+                      | slice: currPage * 10:currPage * 10 + 10
+                  "
                   class="col-lg-4 col-md-6"
                 >
+                <!-- TODO: modelo y foto pueden ser 'undefined' -->
                   <app-published-car
                     [name]="carro.auto.modelo"
-                    [photo]="carro.photo"
+                    [photo]="carro.auto.foto"
                     [price]="carro.precioVenta"
                   >
                   </app-published-car>
@@ -273,13 +279,14 @@
               </div>
               <nav class="mt-3" aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                  <li *ngFor="let pageId of pages" class="page-item">
-                    <a
-                      class="page-link"
-                      [ngClass]="{ active: currPage == pageId }"
-                      (click)="goToPage(pageId)"
-                      >{{ pageId + 1 }}</a
-                    >
+                  <li
+                    *ngFor="let pageId of pages"
+                    class="page-item"
+                    [ngClass]="{ active: currPage == pageId }"
+                  >
+                    <a class="page-link" (click)="goToPage(pageId)">{{
+                      pageId + 1
+                    }}</a>
                   </li>
                 </ul>
               </nav>

@@ -1,5 +1,5 @@
 import { Auto } from "./auto";
-import { Usuario } from "./usuario";
+import { User } from "./user";
 
 export interface AutoSemiNuevo {
     auto: Auto,
@@ -12,5 +12,5 @@ export interface AutoSemiNuevo {
     tipoAuto: string,
     presentar: boolean,
     duenoCarro: boolean,
-    usuario: Usuario,
+    usuario: User,
 }

@@ -1,6 +1,6 @@
 export interface Auto {
     id: number,
-    modelo?: string,
+    modelo: string,
     anoFabricacion?: number,
     precioSugerido?: number,
     foto?: string,

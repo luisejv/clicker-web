@@ -112,7 +112,7 @@ export class CarRegistrationComponent implements OnInit {
 
   toJSON(): AutoSemiNuevo {
     return {
-      auto: { id: 1 }, // TODO: cambiar
+      auto: { id: 1, modelo: 'Jaguar' }, // TODO: cambiar
       precioVenta: this.formGroup.value.precioVenta,
       moneda: this.formGroup.value.moneda,
       codversion: this.formGroup.value.codversion,
@@ -122,7 +122,8 @@ export class CarRegistrationComponent implements OnInit {
       tipoAuto: this.formGroup.value.tipoAuto, //TODO: definir los tipos de los autos
       presentar: this.formGroup.value.presentar,
       duenoCarro: this.formGroup.value.duenoCarro,
-      usuario: { correo: this.storageService.getEmailSessionStorage() },
+      //FIXME: si es null, que se logee de nuevo
+      usuario: { correo: this.storageService.getEmailSessionStorage()! },
     };
   }
 

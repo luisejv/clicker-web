@@ -14,11 +14,17 @@ export class CommonService {
   loginUrl: string = this.baseUrl + '/auth/login';
   registerUrl: string = this.baseUrl + '/auth/register';
 
+  // * User
+  userUrl: string = this.baseUrl + '/user';
+
   // * Car Registrarion
   autoSemiNuevoUrl: string = this.baseUrl + '/post';
 
   // * Car Getter
-  getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled/';
+  getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled';
+
+  // * Posted Cars By User
+  getAutosSemiNuevosValidadosUserUrl: string = this.userUrl + '/id';
 
   // * Car Pages Count
   pageCountUrl: string = this.autoSemiNuevoUrl + '/enabled/count';

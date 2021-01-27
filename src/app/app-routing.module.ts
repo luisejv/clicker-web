@@ -24,7 +24,14 @@ import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-de
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'inventory-grid', component: InventoryGridComponent },
-  { path: 'inventory-listings', component: InventoryListingsComponent },
+  {
+    path: 'inventory-listings',
+    component: InventoryListingsComponent
+  },
+  {
+    path: 'inventory-listings/:carType/:carSubset/:carBrand/:carModel/:carMaxPrice',
+    component: InventoryListingsComponent
+  },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'blog-grid', component: BlogGridComponent },

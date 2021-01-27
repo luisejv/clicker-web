@@ -1,21 +1,33 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import { Component, OnInit } from '@angular/core';
+import { Route } from '@angular/compiler/src/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
+import { ModesEnum } from 'src/app/core/interfaces/modes.enum';
+import { User } from 'src/app/core/interfaces/user';
 import { DataService } from 'src/app/core/services/data.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-published-cars',
   templateUrl: './published-cars.component.html',
-  styleUrls: ['./published-cars.component.css']
+  styleUrls: ['./published-cars.component.css'],
 })
 export class PublishedCarsComponent implements OnInit {
+  @Input() mode!: ModesEnum;
+  @Input() filters!: CarSearchFilter;
+
+  // * user
+  correo: string = '';
 
   // * cars
   carros: AutoSemiNuevo[] = [];
   filteredCarros: AutoSemiNuevo[] = [];
 
   // * pages
+  pgCnt: number = 0;
   pages: number[] = [0];
   currPage: number = 0;
   carsPerPage: number = 10;
@@ -29,49 +41,95 @@ export class PublishedCarsComponent implements OnInit {
     step: 1000,
     translate: (value: number, label: LabelType): string => {
       this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
-        return carro.precioVenta >= this.minPrice && carro.precioVenta <= this.maxPrice;
+        return (
+          carro.precioVenta >= this.minPrice &&
+          carro.precioVenta <= this.maxPrice
+        );
       });
-      return "";
-    }
+      this.currPage = 0;
+      this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+      this.pages = Array(this.pgCnt)
+        .fill(this.pgCnt)
+        .map((x: any, i: any) => i);
+      return '';
+    },
   };
 
   constructor(
     private dataService: DataService,
     private userService: UserService,
+    private storageService: StorageService,
+    private route: ActivatedRoute
   ) {
-    this.userService.getAutoSemiNuevoPageCount().subscribe(
-      (response: number) => {
-        console.group('page cnt res:');
-        console.log(response);
-        console.groupEnd();
-        let pgCnt: number = Math.ceil(response/this.carsPerPage);
-        this.pages = Array(pgCnt).fill(pgCnt).map((x: any, i: any) => i);
-      },
-      (error: any) => {
-        console.group('error getting auto seminuevo page cnt');
-        console.log(error);
-        console.groupEnd();
-      }
-    );
+    if (this.mode === ModesEnum.DASHBOARD) {
+      // ! cuidado con esto
+      this.correo = this.storageService.getEmailSessionStorage()!; // 😬
+      this.userService
+        .getAutosSemiNuevosValidadosUserUrl(this.correo)
+        .subscribe(
+          (res: User) => {
+            // ! cuidado con el '!'
+            const response: AutoSemiNuevo[] = res.carrosPosteados!;
 
-    this.userService.getAutosSemiNuevosValidados(0).subscribe(
-      (response: AutoSemiNuevo[]) => {
-        console.group(`initial autoseminovos response`);
-        console.log(response);
-        console.groupEnd();
+            this.pgCnt = Math.ceil(response.length / 10);
+            this.pages = Array(this.pgCnt)
+              .fill(this.pgCnt)
+              .map((x: any, i: any) => i);
 
-        this.carros = response;
-        this.filteredCarros = this.carros;
-      },
-      (error: any) => {
-        console.group(`[ERROR]: published cars, initial: ${error}`);
-      }
-    );
+            this.carros = response;
+            this.filteredCarros = response;
 
+            console.group('Autos Semi Nuevos response');
+            console.log(response);
+            console.groupEnd();
+          },
+          (error: any) => {
+            console.group('Error');
+            console.error('In pubished-cars.component:');
+            console.error(error);
+            console.groupEnd();
+          }
+        );
+    } else if (this.mode === ModesEnum.USER_SEARCH) {
+      //TODO: usar el this.filters!.carSubset ('all', 'new', 'used')
+
+      this.userService.getAutosSemiNuevosValidados().subscribe(
+        (response: AutoSemiNuevo[]) => {
+            this.carros = response;
+
+            console.log('buenos dias carajo');
+
+            this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
+              return (
+                carro.auto.marca! === this.filters!.carBrand &&
+                carro.auto.modelo! === this.filters!.carModel &&
+                carro.precioVenta <= this.filters!.carMaxPrice 
+                // && carro.auto.tipocarroceria === this.filters!.carType
+              );
+          });
+
+          this.pgCnt = Math.ceil(response.length / 10);
+            this.pages = Array(this.pgCnt)
+              .fill(this.pgCnt)
+              .map((x: any, i: any) => i);
+
+          this.maxPrice = this.filters!.carMaxPrice;
+          // ? actualizar más filtros?
+        },
+        (error: any) => {
+          console.error(
+            'when fetching all semi nuevos validados in published-car.component.ts: ',
+            error
+          );
+        }
+      );
+      
+    } else {
+      console.error('Unknown mode passed to published-cars.component.ts');
+    }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
@@ -82,24 +140,24 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.carros.filter((carro: any) => {
       return this._normalizeValue(carro.name).includes(normalizedQuery);
     });
+    this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+    this.pages = Array(this.pgCnt)
+      .fill(this.pgCnt)
+      .map((x: any, i: any) => i);
+    this.currPage = 0;
   }
 
   goToPage(pageId: number): void {
-    this.userService.getAutosSemiNuevosValidados(pageId).subscribe(
-      (response: AutoSemiNuevo[]) => {
-        console.group(`goToPage(${pageId}) response`);
-        console.log(response);
-        console.groupEnd();
-
-        this.currPage = pageId;
-        this.carros = response;
-        this.filteredCarros = this.carros;
-
-      },
-      (error: any) => {
-        console.group(`[ERROR]: published cars, goToPage(${pageId}): ${error}`);
-      }
-    );
+    this.currPage = pageId;
   }
 
+  sortBy(order: any): void {
+    console.group(order.target.value);
+    console.groupEnd();
+    //TODO: sort por algun criterio
+  }
+
+  resetFilters(): void {
+    this.filteredCarros = this.carros;
+  }
 }

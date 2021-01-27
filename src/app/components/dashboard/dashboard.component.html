@@ -47,7 +47,12 @@
               <mat-icon aria-hidden="false">compare_arrows</mat-icon>
               <a>Transacciones</a>
             </li>
-            <li class="list-group-item" routerLink="registrar-carro">
+            <li *ngIf="rol !== 'REMAX'" class="list-group-item" routerLink="registrar-carro">
+              <mat-icon aria-hidden="false">directions_car</mat-icon>
+              <a>Registrar Carro</a>
+            </li>
+            <!-- TODO: poner el routerLink al form 'RegistrarCarro' de un usuario Remax -->
+            <li *ngIf="rol === 'REMAX'" class="list-group-item" routerLink="">
               <mat-icon aria-hidden="false">directions_car</mat-icon>
               <a>Registrar Carro</a>
             </li>

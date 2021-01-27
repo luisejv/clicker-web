@@ -38,8 +38,16 @@ export class UserService {
 
   // * Car Getters
 
-  public getAutosSemiNuevosValidados(pageId: number): Observable<any> {
-    return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl + pageId);
+  // public getAutosSemiNuevosValidados(pageId: number): Observable<any> {
+  //   return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl + pageId);
+  // }
+
+  public getAutosSemiNuevosValidados(): Observable<any> {
+    return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl);
+  }
+
+  public getAutosSemiNuevosValidadosUserUrl(correo: string): Observable<any> {
+    return this.http.get(this.commonService.getAutosSemiNuevosValidadosUserUrl + `?id=${correo}`);
   }
 
   // * Page Count

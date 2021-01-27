@@ -1,6 +1,8 @@
+import { AutoSemiNuevo } from "./auto-semi-nuevo";
+
 export interface User {
     correo: string,
-    password: string, //TODO: quitarlo cuando cesar lo quite
+    password?: string, //TODO: quitarlo cuando cesar lo quite
     rol?: string,
     fbId?: string,
     nombre?: string,
@@ -15,7 +17,10 @@ export interface User {
     enabled?: boolean,
     balance?: number,
     cantidadCarrosAno?: number,
-    carrosPosteados?: Object[], //TODO: interface AutoSemiNuevo creo, pero con más propiedades
-    denuncias?: Object[], //TODO: interface denuncia
-    interesado?: Object[], //TODO: interface interesado
+    carrosPosteados?: AutoSemiNuevo[],
+    denuncias?: any[], //TODO: interface denuncia
+    interesadosReventas?: any[], //TODO: interface interesado
+    solicitudesRetiros?: any[],
+    solicitudesRetiro?: any[],
+    formRemax?: any,
 }
