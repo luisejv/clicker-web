@@ -11,17 +11,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-remax',
   templateUrl: './remax.component.html',
-  styleUrls: ['./remax.component.css']
+  styleUrls: ['./remax.component.css'],
 })
 export class RemaxComponent implements OnInit {
-
   formGroup: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {
     this.formGroup = this.fb.group({
       correo: null,
@@ -30,8 +29,7 @@ export class RemaxComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toJSON(): User {
     return {
@@ -43,12 +41,14 @@ export class RemaxComponent implements OnInit {
   }
 
   registerRemax(): void {
+    //TODO: añadir el spinner
     const body: User = this.toJSON();
     this.userService.register(body).subscribe(
       (response: User) => {
         Swal.fire({
           titleText: '¡Registrado!',
-          html: 'Tu solicitud está siendo procesada. Te llegará un correo con los siguientes pasos.',
+          html:
+            'Tu solicitud está siendo procesada. Te llegará un correo con los siguientes pasos.',
           allowOutsideClick: true,
           icon: 'success',
           showConfirmButton: true,
@@ -63,10 +63,9 @@ export class RemaxComponent implements OnInit {
           html: 'Try again please.',
           allowOutsideClick: true,
           icon: 'error',
-          showConfirmButton: true
+          showConfirmButton: true,
         });
       }
     );
   }
-
 }

@@ -24,16 +24,23 @@ export class SpinnerComponent implements OnInit, OnDestroy {
   }
 } */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-spinner',
   templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.css']
+  styleUrls: ['./spinner.component.css'],
 })
 export class SpinnerComponent implements OnInit {
+  loading: boolean = false;
 
-  constructor() { };
-  ngOnInit() { };
+  constructor(private loaderService: LoaderService) {
+    // * quizás esto rompió otros usos del spinner, revisar
+    this.loaderService.isLoading.subscribe((isLoading: boolean) => {
+      this.loading = isLoading;
+    });
+  }
 
+  ngOnInit() {}
 }

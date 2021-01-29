@@ -10,10 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
   formGroup!: FormGroup;
 
   constructor(
@@ -24,18 +23,18 @@ export class LoginComponent implements OnInit {
   ) {
     this.formGroup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern('\\w{2,}')]]
-    })
-   }
-
-  ngOnInit(): void {
+      password: ['', [Validators.required, Validators.pattern('\\w{2,}')]],
+    });
   }
 
-  logIn(): void{
+  ngOnInit(): void {}
+
+  logIn(): void {
+    //TODO: añadir spinner
     const body: User = {
       correo: this.formGroup.value.email,
       password: this.formGroup.value.password,
-    }
+    };
     console.log(`BODY: ${body}`);
     this.userService.login(body).subscribe(
       (response: User) => {
@@ -63,7 +62,7 @@ export class LoginComponent implements OnInit {
           } else {
             this.router.navigateByUrl('/home');
           }
-        })
+        });
       },
       (error: any) => {
         console.log(`[ERROR]: Login, ${error}`);
@@ -72,10 +71,9 @@ export class LoginComponent implements OnInit {
           html: 'Try again please.',
           allowOutsideClick: true,
           icon: 'error',
-          showConfirmButton: true
+          showConfirmButton: true,
         });
       }
-    )
+    );
   }
-
 }

@@ -1,27 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 declare var $: any;
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
-  carType: string = 'PICKUP';
+  carType: string = 'SUV';
   carSubset: string = 'ALL';
 
-  carBrand: string = 'AUDI';
-  carModel: string = 'MODEL1';
+  carBrand: string = 'TESLA';
+  carModel: string = 'MODEL X';
   carMaxPrice: number = 5000;
 
-  constructor(
-    private router: Router,
-  ) {}
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   changeCarType(type: string): void {
     this.carType = type;
@@ -30,7 +27,7 @@ export class HomeComponent implements OnInit {
 
   changeCarSubset(subset: string): void {
     this.carSubset = subset;
-    console.log('Car Subset: ', this.carSubset);;
+    console.log('Car Subset: ', this.carSubset);
   }
 
   changeCarBrand(brand: any): void {
@@ -50,17 +47,15 @@ export class HomeComponent implements OnInit {
   }
 
   searchCar(): void {
+    const body: CarSearchFilter = {
+      carType: this.carType,
+      carSubset: this.carSubset,
+      carBrand: this.carBrand,
+      carModel: this.carModel,
+      carMaxPrice: this.carMaxPrice,
+    };
     this.router.navigate(['/inventory-listings'], {
-      queryParams:
-        {
-          carType: this.carType,
-          carSubset: this.carSubset,
-          carBrand: this.carBrand,
-          carModel: this.carModel,
-          carMaxPrice: this.carMaxPrice,
-        }
-      }
-    );
+      queryParams: body,
+    });
   }
-
 }

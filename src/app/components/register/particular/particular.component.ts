@@ -10,17 +10,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-particular',
   templateUrl: './particular.component.html',
-  styleUrls: ['./particular.component.css']
+  styleUrls: ['./particular.component.css'],
 })
 export class ParticularComponent implements OnInit {
-
   formGroup: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {
     this.formGroup = this.fb.group({
       correo: null,
@@ -29,8 +28,7 @@ export class ParticularComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toJSON(): User {
     return {
@@ -42,6 +40,7 @@ export class ParticularComponent implements OnInit {
   }
 
   registerParticular(): void {
+    //TODO: añadir spinner
     const body: User = this.toJSON();
     this.userService.register(body).subscribe(
       (response: User) => {
@@ -65,10 +64,9 @@ export class ParticularComponent implements OnInit {
           html: 'Try again please.',
           allowOutsideClick: true,
           icon: 'error',
-          showConfirmButton: true
+          showConfirmButton: true,
         });
       }
     );
   }
-
 }

@@ -1,14 +1,13 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import { Route } from '@angular/compiler/src/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/interfaces/modes.enum';
 import { User } from 'src/app/core/interfaces/user';
-import { DataService } from 'src/app/core/services/data.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-published-cars',
@@ -16,7 +15,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./published-cars.component.css'],
 })
 export class PublishedCarsComponent implements OnInit {
-  @Input() mode!: ModesEnum;
+  @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
   @Input() filters!: CarSearchFilter;
 
   // * user
@@ -56,12 +55,70 @@ export class PublishedCarsComponent implements OnInit {
   };
 
   constructor(
-    private dataService: DataService,
     private userService: UserService,
     private storageService: StorageService,
-    private route: ActivatedRoute
-  ) {
-    if (this.mode === ModesEnum.DASHBOARD) {
+    private loaderService: LoaderService
+  ) {}
+
+  ngOnInit(): void {
+    this.loaderService.setIsLoading(true);
+    if (this.mode === ModesEnum.USER_SEARCH) {
+      //TODO: usar el this.filters!.carSubset ('all', 'new', 'used')
+
+      console.group('USER_SEARCH');
+
+      console.groupEnd();
+
+      this.userService.getAutosSemiNuevosValidados().subscribe(
+        (response: AutoSemiNuevo[]) => {
+          this.carros = response;
+
+          console.group('FILTERS');
+          console.log(this.filters);
+          console.groupEnd();
+
+          console.group('buenos dias carajo');
+          console.dir(this.carros);
+          console.groupEnd();
+
+          let normalizedCarBrand = this._normalizeValue(this.filters.carBrand);
+          let normalizedCarModel = this._normalizeValue(this.filters.carModel);
+
+          this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+            console.log(carro);
+            return (
+              this._normalizeValue(carro.auto.marca!) == normalizedCarBrand &&
+              this._normalizeValue(carro.auto.modelo) == normalizedCarModel &&
+              carro.precioVenta <= this.filters.carMaxPrice
+              // && carro.auto.tipocarroceria === this.filters!.carType
+            );
+          });
+
+          console.group('Filtered Carros');
+          console.dir(this.filteredCarros);
+          console.groupEnd();
+
+          this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+          this.pages = Array(this.pgCnt)
+            .fill(this.pgCnt)
+            .map((x: any, i: any) => i);
+
+          this.loaderService.setIsLoading(false);
+          // ? actualizar filtros
+        },
+        (error: any) => {
+          this.loaderService.setIsLoading(false);
+          console.error(
+            'when fetching all semi nuevos validados in published-car.component.ts: ',
+            error
+          );
+        }
+      );
+    } else {
+      console.group('DASHBOARD');
+
+      console.groupEnd();
+
       // ! cuidado con esto
       this.correo = this.storageService.getEmailSessionStorage()!; // 😬
       this.userService
@@ -82,63 +139,33 @@ export class PublishedCarsComponent implements OnInit {
             console.group('Autos Semi Nuevos response');
             console.log(response);
             console.groupEnd();
+            this.loaderService.setIsLoading(false);
           },
           (error: any) => {
+            this.loaderService.setIsLoading(false);
             console.group('Error');
             console.error('In pubished-cars.component:');
             console.error(error);
             console.groupEnd();
           }
         );
-    } else if (this.mode === ModesEnum.USER_SEARCH) {
-      //TODO: usar el this.filters!.carSubset ('all', 'new', 'used')
-
-      this.userService.getAutosSemiNuevosValidados().subscribe(
-        (response: AutoSemiNuevo[]) => {
-            this.carros = response;
-
-            console.log('buenos dias carajo');
-
-            this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
-              return (
-                carro.auto.marca! === this.filters!.carBrand &&
-                carro.auto.modelo! === this.filters!.carModel &&
-                carro.precioVenta <= this.filters!.carMaxPrice 
-                // && carro.auto.tipocarroceria === this.filters!.carType
-              );
-          });
-
-          this.pgCnt = Math.ceil(response.length / 10);
-            this.pages = Array(this.pgCnt)
-              .fill(this.pgCnt)
-              .map((x: any, i: any) => i);
-
-          this.maxPrice = this.filters!.carMaxPrice;
-          // ? actualizar más filtros?
-        },
-        (error: any) => {
-          console.error(
-            'when fetching all semi nuevos validados in published-car.component.ts: ',
-            error
-          );
-        }
-      );
-      
-    } else {
-      console.error('Unknown mode passed to published-cars.component.ts');
     }
   }
-
-  ngOnInit(): void {}
 
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
   filterByName(event: any): void {
+    console.group('Event');
+    console.log(event.target.value);
+    console.groupEnd();
     const normalizedQuery: string = this._normalizeValue(event.target.value);
     this.filteredCarros = this.carros.filter((carro: any) => {
-      return this._normalizeValue(carro.name).includes(normalizedQuery);
+      return (
+        this._normalizeValue(carro.auto.marca).includes(normalizedQuery) ||
+        this._normalizeValue(carro.auto.modelo).includes(normalizedQuery)
+      );
     });
     this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
     this.pages = Array(this.pgCnt)

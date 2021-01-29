@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from "./material/material.module";
+import { MaterialModule } from './material/material.module';
 import { HomeComponent } from './components/home/home.component';
 import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -20,7 +20,7 @@ import { ReservationGridComponent } from './components/reservation-grid/reservat
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoaderInterceptorService } from './services/loader-interceptor.service';
+import { LoaderInterceptorService } from './core/services/loader-interceptor.service';
 import { SpinnerModule } from './components/shared/spinner/spinner.module';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -35,7 +35,7 @@ import { PublishedCarsComponent } from './components/dashboard/published-cars/pu
 import { RegisterComponent } from './components/register/register.component';
 import { ParticularComponent } from './components/register/particular/particular.component';
 import { RemaxComponent } from './components/register/remax/remax.component';
-import { PublishedCarComponent } from './components/shared/published-car/published-car.component'; 
+import { PublishedCarComponent } from './components/shared/published-car/published-car.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
@@ -82,12 +82,12 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
-      multi: true
+      multi: true,
     },
     HttpClientModule,
     StorageService,
     DataService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -20,7 +20,7 @@ import { User } from 'src/app/core/interfaces/user';
 @Component({
   selector: 'app-car-registration',
   templateUrl: './car-registration.component.html',
-  styleUrls: ['./car-registration.component.css']
+  styleUrls: ['./car-registration.component.css'],
 })
 export class CarRegistrationComponent implements OnInit {
   @ViewChild('ciudadInput') ciudadInput!: ElementRef<HTMLInputElement>;
@@ -38,9 +38,8 @@ export class CarRegistrationComponent implements OnInit {
     private storageService: StorageService,
     private router: Router,
     private dataService: DataService,
-    private userService: UserService,
-  ) { 
-
+    private userService: UserService
+  ) {
     // * importante
     // ? pregunta
     // ! ciudado, muy importante
@@ -61,8 +60,8 @@ export class CarRegistrationComponent implements OnInit {
 
     this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
       startWith(null),
-      map(
-        (fruit: string | null) => fruit ? this._filter(fruit) : this.allCiudades.slice()
+      map((fruit: string | null) =>
+        fruit ? this._filter(fruit) : this.allCiudades.slice()
       )
     );
 
@@ -70,14 +69,12 @@ export class CarRegistrationComponent implements OnInit {
     this.tipos = this.dataService.tiposDeCarro;
     this.allCiudades = this.dataService.ciudades;
 
-    console.group('Form Group')
+    console.group('Form Group');
     console.log(this.formGroup);
     console.groupEnd();
-
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get ciudadesDisponiblesFormControl() {
     return this.formGroup.controls.ciudadesDisponibles;
@@ -107,7 +104,9 @@ export class CarRegistrationComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allCiudades.filter(ciudad => ciudad.toLowerCase().indexOf(filterValue) === 0);
+    return this.allCiudades.filter(
+      (ciudad) => ciudad.toLowerCase().indexOf(filterValue) === 0
+    );
   }
 
   toJSON(): AutoSemiNuevo {
@@ -131,7 +130,7 @@ export class CarRegistrationComponent implements OnInit {
     // TODO: usuario.correo no puede ser null, mostrar SWAL sino
     const body: AutoSemiNuevo = this.toJSON();
 
-    console.group('JSON')
+    console.group('JSON');
     console.log(this.toJSON());
     console.groupEnd();
 
@@ -147,18 +146,25 @@ export class CarRegistrationComponent implements OnInit {
           html: 'El carro ha sido registrado.',
           allowOutsideClick: true,
           icon: 'success',
-          showConfirmButton: true
+          showConfirmButton: true,
         }).then(() => {
           this.router.navigateByUrl('/dashboard');
         });
       },
       (error: any) => {
+        if (error.status === 423) {
+          Swal.fire({
+            titleText: 'Oops!',
+            html: 'Se agotaron sus subidas anuales.',
+            allowOutsideClick: true,
+            icon: 'warning',
+            showConfirmButton: true,
+          });
+        }
         console.group('Car Registrarion Error');
         console.log(error);
         console.groupEnd();
       }
     );
-    
   }
-
 }

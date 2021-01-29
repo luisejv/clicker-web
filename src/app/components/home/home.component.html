@@ -62,10 +62,10 @@
     <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
     <form class="b-main-filter__form">
         <div class="b-main-filter__cat btn-group-toggle" data-toggle="buttons">
-        <label class="btn b-main-filter__cat-item active">
+        <label class="btn b-main-filter__cat-item">
     <input type="radio" name="options" id="option1" checked="checked"/><span (click)="changeCarType('PICKUP')" class="ic flaticon-pick-up"></span> PICKUP
         </label>
-        <label class="btn b-main-filter__cat-item">
+        <label class="btn b-main-filter__cat-item active">
     <input type="radio" name="options" id="option2"/><span (click)="changeCarType('SUV')" class="ic flaticon-car-suv"></span> SUV
         </label>
         <label class="btn b-main-filter__cat-item">
@@ -98,7 +98,7 @@
                     <div class="b-main-filter__label">Seleccionar Marca</div>
                     <div class="b-main-filter__selector">
                     <select (change)="changeCarBrand($event)" class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Audi</option>
+                        <option>Tesla</option>
                         <option>BMV</option>
                         <option>Opel</option>
                         <option>Kia</option>
@@ -109,9 +109,9 @@
                     <div class="b-main-filter__label">Seleccionar Modelo</div>
                     <div class="b-main-filter__selector">
                     <select (change)="changeCarModel($event)" class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Rio</option>
-                        <option>Model 2</option>
-                        <option>Model 3</option>
+                        <option>Model X</option>
+                        <option>Model Y</option>
+                        <option>Model S</option>
                     </select>
                     </div>
                 </div>
