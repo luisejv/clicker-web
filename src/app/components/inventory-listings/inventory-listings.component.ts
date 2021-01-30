@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
-import { ModesEnum } from 'src/app/core/interfaces/modes.enum';
+import { ModesEnum } from 'src/app/core/enums/modes.enum';
 
 @Component({
   selector: 'app-inventory-listings',

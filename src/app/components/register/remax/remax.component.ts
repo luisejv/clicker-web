@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RolesEnum } from 'src/app/core/interfaces/roles.enum';
+import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { User } from 'src/app/core/interfaces/user';
 import { DataService } from 'src/app/core/services/data.service';
 import { StorageService } from 'src/app/core/services/storage.service';

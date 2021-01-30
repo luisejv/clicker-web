@@ -2,7 +2,7 @@ import { LabelType, Options } from '@angular-slider/ngx-slider';
 import { Component, Input, OnInit } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
-import { ModesEnum } from 'src/app/core/interfaces/modes.enum';
+import { ModesEnum } from 'src/app/core/enums/modes.enum';
 import { User } from 'src/app/core/interfaces/user';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';

@@ -8,16 +8,15 @@ import { CommonService } from './common.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   constructor(
     private http: HttpClient,
     private commonService: CommonService,
     private storageService: StorageService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   // * Auth
 
@@ -47,12 +46,17 @@ export class UserService {
   }
 
   public getAutosSemiNuevosValidadosUserUrl(correo: string): Observable<any> {
-    return this.http.get(this.commonService.getAutosSemiNuevosValidadosUserUrl + `?id=${correo}`);
+    return this.http.get(
+      this.commonService.getAutosSemiNuevosValidadosUserUrl + `?id=${correo}`
+    );
+  }
+
+  public getAutoSemiNuevoById(id: number): Observable<any> {
+    return this.http.get(this.commonService.autoSemiNuevoUrl + `/${id}`);
   }
 
   // * Page Count
   public getAutoSemiNuevoPageCount(): Observable<any> {
     return this.http.get(this.commonService.pageCountUrl);
   }
-
 }

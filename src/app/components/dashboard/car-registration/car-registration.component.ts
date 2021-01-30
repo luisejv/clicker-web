@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -9,13 +9,14 @@ import {
 } from '@angular/forms';
 import { StorageService } from 'src/app/core/services/storage.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/core/services/data.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/interfaces/user';
+import { ViewMode } from 'src/app/core/enums/view-mode.enum';
 
 @Component({
   selector: 'app-car-registration',
@@ -24,57 +25,85 @@ import { User } from 'src/app/core/interfaces/user';
 })
 export class CarRegistrationComponent implements OnInit {
   @ViewChild('ciudadInput') ciudadInput!: ElementRef<HTMLInputElement>;
+  // @Input() viewMode: ViewMode = ViewMode.CREATE;
 
-  formGroup: FormGroup;
-  monedas: string[];
-  tipos: string[];
+  formGroup!: FormGroup;
+  monedas: string[] = [];
+  tipos: string[] = [];
   separatorKeysCodes: number[] = [];
   ciudadesDisponibles: string[] = [];
-  filteredCiudades: Observable<string[]>;
-  allCiudades: string[];
+  filteredCiudades!: Observable<string[]>;
+  allCiudades: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private storageService: StorageService,
     private router: Router,
     private dataService: DataService,
-    private userService: UserService
-  ) {
-    // * importante
-    // ? pregunta
-    // ! ciudado, muy importante
-    // TODO: pendiente
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
 
-    this.formGroup = this.fb.group({
-      auto: null,
-      precioVenta: null,
-      moneda: null,
-      codversion: null,
-      version: null,
-      ciudadesDisponibles: null,
-      kilometraje: null,
-      tipoAuto: null,
-      presentar: null,
-      duenoCarro: null,
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      if (params['id']) {
+        // * view/edit mode
+
+        this.userService.getAutoSemiNuevoById(params['id']).subscribe(
+          (response: AutoSemiNuevo) => {
+            console.group('autoseminuevo por id');
+            console.dir(response);
+            console.groupEnd();
+
+            if (
+              response.usuario.correo ===
+              this.storageService.getEmailSessionStorage()
+            ) {
+              // * edit view
+              //TODO: populate form
+            } else {
+              // * view mode
+              //TODO: populate form, but with all fields disabled
+            }
+          },
+          (error: any) => {
+            console.group('error fetching autoseminuevo por id');
+            console.error(error);
+            console.groupEnd();
+          }
+        );
+      } else {
+        // * create view
+        this.formGroup = this.fb.group({
+          auto: null,
+          precioVenta: null,
+          moneda: null,
+          codversion: null,
+          version: null,
+          ciudadesDisponibles: null,
+          kilometraje: null,
+          tipoAuto: null,
+          presentar: null,
+          duenoCarro: null,
+        });
+
+        this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
+          startWith(null),
+          map((fruit: string | null) =>
+            fruit ? this._filter(fruit) : this.allCiudades.slice()
+          )
+        );
+
+        this.monedas = this.dataService.monedas;
+        this.tipos = this.dataService.tiposDeCarro;
+        this.allCiudades = this.dataService.ciudades;
+
+        console.group('Form Group');
+        console.log(this.formGroup);
+        console.groupEnd();
+      }
     });
-
-    this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.allCiudades.slice()
-      )
-    );
-
-    this.monedas = this.dataService.monedas;
-    this.tipos = this.dataService.tiposDeCarro;
-    this.allCiudades = this.dataService.ciudades;
-
-    console.group('Form Group');
-    console.log(this.formGroup);
-    console.groupEnd();
   }
-
-  ngOnInit(): void {}
 
   get ciudadesDisponiblesFormControl() {
     return this.formGroup.controls.ciudadesDisponibles;

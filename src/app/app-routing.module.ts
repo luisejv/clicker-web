@@ -26,11 +26,12 @@ export const routes: Routes = [
   { path: 'inventory-grid', component: InventoryGridComponent },
   {
     path: 'inventory-listings',
-    component: InventoryListingsComponent
+    component: InventoryListingsComponent,
   },
   {
-    path: 'inventory-listings/:carType/:carSubset/:carBrand/:carModel/:carMaxPrice',
-    component: InventoryListingsComponent
+    path:
+      'inventory-listings/:carType/:carSubset/:carBrand/:carModel/:carMaxPrice',
+    component: InventoryListingsComponent,
   },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -41,19 +42,23 @@ export const routes: Routes = [
   { path: 'reservation-grid', component: ReservationGridComponent },
   { path: 'booking-system', component: BookingSystemComponent },
   { path: 'vehicle-details', component: VehicleDetailsComponent },
-  { 
-    path: 'dashboard', 
-    component: DashboardComponent, 
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
     children: [
       {
         path: 'registrar-carro',
         component: CarRegistrationComponent,
       },
       {
+        path: 'carro/:id',
+        component: CarRegistrationComponent,
+      },
+      {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
       },
-    ]
+    ],
   },
   { path: 'login', component: LoginComponent },
   {
@@ -67,7 +72,7 @@ export const routes: Routes = [
       {
         path: 'remax',
         component: RemaxComponent,
-      }
+      },
     ],
   },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -76,6 +81,6 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
