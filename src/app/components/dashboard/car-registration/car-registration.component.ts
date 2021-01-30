@@ -17,6 +17,8 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/interfaces/user';
 import { ViewMode } from 'src/app/core/enums/view-mode.enum';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { param } from 'jquery';
 
 @Component({
   selector: 'app-car-registration',
@@ -34,6 +36,8 @@ export class CarRegistrationComponent implements OnInit {
   filteredCiudades!: Observable<string[]>;
   allCiudades: string[] = [];
   disabled: boolean = false;
+  editView: boolean = false;
+  carId: number = -1;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +45,8 @@ export class CarRegistrationComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loaderService: LoaderService
   ) {
     this.formGroup = this.fb.group({
       auto: null,
@@ -59,17 +64,15 @@ export class CarRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO: add spinner
+    this.loaderService.setIsLoading(true);
     this.route.params.subscribe((params) => {
       if (params['id']) {
         // * view/edit mode
-
         this.userService.getAutoSemiNuevoById(params['id']).subscribe(
           (response: AutoSemiNuevo) => {
             console.group('autoseminuevo por id');
             console.dir(response);
             console.groupEnd();
-
-            //TODO: popula mal 'moneda' y 'tipoAuto'
 
             this.formGroup = this.fb.group({
               auto: null, //TODO: cómo populamos esto
@@ -94,17 +97,24 @@ export class CarRegistrationComponent implements OnInit {
               // * view mode: populate form and disable it
               this.formGroup.disable();
               this.disabled = true;
+            } else {
+              // * edit mode
+              this.editView = true;
+              this.carId = params['id'];
             }
-            // * else: edit view, just populate form
+            this.loaderService.setIsLoading(false);
           },
           (error: any) => {
+            this.loaderService.setIsLoading(false);
             console.group('error fetching autoseminuevo por id');
             console.error(error);
             console.groupEnd();
           }
         );
+      } else {
+        // * create view
+        this.loaderService.setIsLoading(false);
       }
-      // * else, create view
 
       console.group('Form Group');
       console.log(this.formGroup);
@@ -177,41 +187,72 @@ export class CarRegistrationComponent implements OnInit {
     // TODO: usuario.correo no puede ser null, mostrar SWAL sino
     const body: AutoSemiNuevo = this.toJSON();
 
-    console.group('JSON');
+    console.group('SemiNuevo JSON');
     console.log(this.toJSON());
     console.groupEnd();
 
     //TODO: chequear que el formulario sea válido
 
-    this.userService.postAutoSemiNuevo(body).subscribe(
-      (response: User) => {
-        console.group('Response');
-        console.log(response);
-        console.groupEnd();
-        Swal.fire({
-          titleText: '¡Éxito!',
-          html: 'El carro ha sido registrado.',
-          allowOutsideClick: true,
-          icon: 'success',
-          showConfirmButton: true,
-        }).then(() => {
-          this.router.navigateByUrl('/dashboard');
-        });
-      },
-      (error: any) => {
-        if (error.status === 423) {
+    if (this.editView) {
+      this.userService.putAutoSemiNuevoById(this.carId, body).subscribe(
+        (response: User) => {
+          console.group('Response');
+          console.log(response);
+          console.groupEnd();
+          Swal.fire({
+            titleText: '¡Éxito!',
+            html: 'El carro ha sido actualizado.',
+            allowOutsideClick: true,
+            icon: 'success',
+            showConfirmButton: true,
+          }).then(() => {
+            this.router.navigateByUrl('/dashboard');
+          });
+        },
+        (error: any) => {
           Swal.fire({
             titleText: 'Oops!',
-            html: 'Se agotaron sus subidas anuales.',
+            html: 'No se pudo actualizar el carro.',
             allowOutsideClick: true,
-            icon: 'warning',
+            icon: 'error',
             showConfirmButton: true,
           });
+          console.group('Car Registrarion Error');
+          console.log(error);
+          console.groupEnd();
         }
-        console.group('Car Registrarion Error');
-        console.log(error);
-        console.groupEnd();
-      }
-    );
+      );
+    } else {
+      this.userService.postAutoSemiNuevo(body).subscribe(
+        (response: User) => {
+          console.group('Response');
+          console.log(response);
+          console.groupEnd();
+          Swal.fire({
+            titleText: '¡Éxito!',
+            html: 'El carro ha sido registrado.',
+            allowOutsideClick: true,
+            icon: 'success',
+            showConfirmButton: true,
+          }).then(() => {
+            this.router.navigateByUrl('/dashboard');
+          });
+        },
+        (error: any) => {
+          if (error.status === 423) {
+            Swal.fire({
+              titleText: 'Oops!',
+              html: 'Se agotaron sus subidas anuales.',
+              allowOutsideClick: true,
+              icon: 'warning',
+              showConfirmButton: true,
+            });
+          }
+          console.group('Car Registrarion Error');
+          console.log(error);
+          console.groupEnd();
+        }
+      );
+    }
   }
 }

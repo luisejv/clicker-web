@@ -156,7 +156,7 @@
                 <div class="container mt-2 py-3">
                   <div class="row justify-content-around">
                     <button [disabled]="disabled" mat-raised-button color="primary" type="button" (click)="registerCar()">
-                      Registrar
+                      {{ editView ? 'Actualizar' : Registrar }}
                     </button>
                   </div>
                 </div>
