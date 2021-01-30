@@ -65,7 +65,7 @@
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Moneda</mat-label>
-                        <mat-select formControlName="moneda">
+                        <mat-select [disabled]="disabled" formControlName="moneda">
                           <mat-option
                             *ngFor="let mon of monedas"
                             [value]="mon"
@@ -93,7 +93,7 @@
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Disponibilidad</mat-label>
-                        <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip-list [disabled]="disabled" #chipList aria-label="Fruit selection">
                           <mat-chip
                             *ngFor="let ciudad of ciudadesDisponibles"
                             [selectable]="true"
@@ -127,7 +127,7 @@
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Tipo del Auto</mat-label>
-                        <mat-select formControlName="tipoAuto">
+                        <mat-select [disabled]="disabled" formControlName="tipoAuto">
                           <mat-option
                             *ngFor="let tipo of tipos"
                             [value]="tipo"
@@ -138,14 +138,14 @@
                       </mat-form-field>
                       <div class="d-flex flex-column align-items-start">
                         <mat-label>¿Presentar?</mat-label>
-                        <mat-radio-group formControlName="presentar">
+                        <mat-radio-group [disabled]="disabled" formControlName="presentar">
                           <mat-radio-button [value]="true">Sí</mat-radio-button>
                           <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
                       </div>
                       <div class="d-flex flex-column align-items-start">
                         <mat-label>¿Es dueño del carro?</mat-label>
-                        <mat-radio-group formControlName="duenoCarro">
+                        <mat-radio-group [disabled]="disabled" formControlName="duenoCarro">
                           <mat-radio-button [value]="true">Sí</mat-radio-button>
                           <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="container mt-2 py-3">
                   <div class="row justify-content-around">
-                    <button mat-raised-button color="primary" type="button" (click)="registerCar()">
+                    <button [disabled]="disabled" mat-raised-button color="primary" type="button" (click)="registerCar()">
                       Registrar
                     </button>
                   </div>

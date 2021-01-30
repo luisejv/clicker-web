@@ -35,34 +35,34 @@
           </app-sidebar> -->
           <!-- TODO: estilos para q se vea bonito -->
           <ul class="list-group mt-5">
-            <li class="list-group-item">
+            <li class="d-flex  align-items-center list-group-item">
               <mat-icon aria-hidden="false">account_circle</mat-icon>
-              <a>Cuenta</a>
+              <a class="ml-2">Cuenta</a>
             </li>
-            <li class="list-group-item">
+            <li class="d-flex  align-items-center list-group-item">
               <mat-icon aria-hidden="false">account_balance</mat-icon>
-              <a>Balance</a>
+              <a class="ml-2">Balance</a>
             </li>
-            <li class="list-group-item">
+            <li class="d-flex  align-items-center list-group-item">
               <mat-icon aria-hidden="false">compare_arrows</mat-icon>
-              <a>Transacciones</a>
+              <a class="ml-2">Transacciones</a>
             </li>
-            <li *ngIf="rol !== 'REMAX'" class="list-group-item" routerLink="registrar-carro">
+            <li *ngIf="rol !== 'REMAX'" class="d-flex  align-items-center list-group-item" routerLink="registrar-carro">
               <mat-icon aria-hidden="false">directions_car</mat-icon>
-              <a>Registrar Carro</a>
+              <a class="ml-2">Registrar Carro</a>
             </li>
             <!-- TODO: poner el routerLink al form 'RegistrarCarro' de un usuario Remax -->
-            <li *ngIf="rol === 'REMAX'" class="list-group-item" routerLink="">
+            <li *ngIf="rol === 'REMAX'" class="d-flex  align-items-center list-group-item" routerLink="">
               <mat-icon aria-hidden="false">directions_car</mat-icon>
-              <a>Registrar Carro</a>
+              <a class="ml-2">Registrar Carro</a>
             </li>
-            <li class="list-group-item" routerLink="carros-publicados">
+            <li class="d-flex  align-items-center list-group-item" routerLink="carros-publicados">
               <mat-icon aria-hidden="false">work</mat-icon>
-              <a>Carros Publicados</a>
+              <a class="ml-2">Carros Publicados</a>
             </li>
-            <li class="list-group-item" routerLink="home">
+            <li class="d-flex  align-items-center list-group-item" routerLink="home">
               <mat-icon aria-hidden="false">exit_to_app</mat-icon>
-              <a>Regresar</a>
+              <a class="ml-2">Regresar</a>
             </li>
           </ul>
         </div>

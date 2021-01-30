@@ -109,9 +109,11 @@
                     <div class="b-main-filter__label">Seleccionar Modelo</div>
                     <div class="b-main-filter__selector">
                     <select (change)="changeCarModel($event)" class="selectpicker" data-width="100%" data-style="ui-select">
+                        <!-- TODO: cambiar dinamicamente dependiendo de la marca -->
                         <option>Model X</option>
                         <option>Model Y</option>
                         <option>Model S</option>
+                        <option>Model 3</option>
                     </select>
                     </div>
                 </div>
@@ -119,6 +121,7 @@
                     <div class="b-main-filter__label">Rango de Precio</div>
                     <div class="b-main-filter__selector">
                     <select (change)="changeCarMaxPrice($event)" class="selectpicker" data-width="100%" data-style="ui-select">
+                        <!-- TODO: cambiar dinamicamente dependiendo de la marca? -->
                         <option>Max $5000</option>
                         <option>Max $15000</option>
                         <option>Max $25000</option>

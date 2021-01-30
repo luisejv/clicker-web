@@ -25,15 +25,15 @@ import { ViewMode } from 'src/app/core/enums/view-mode.enum';
 })
 export class CarRegistrationComponent implements OnInit {
   @ViewChild('ciudadInput') ciudadInput!: ElementRef<HTMLInputElement>;
-  // @Input() viewMode: ViewMode = ViewMode.CREATE;
 
-  formGroup!: FormGroup;
+  formGroup: FormGroup;
   monedas: string[] = [];
   tipos: string[] = [];
   separatorKeysCodes: number[] = [];
   ciudadesDisponibles: string[] = [];
   filteredCiudades!: Observable<string[]>;
   allCiudades: string[] = [];
+  disabled: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -42,9 +42,23 @@ export class CarRegistrationComponent implements OnInit {
     private dataService: DataService,
     private userService: UserService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.formGroup = this.fb.group({
+      auto: null,
+      precioVenta: null,
+      moneda: null,
+      codversion: null,
+      version: null,
+      ciudadesDisponibles: null,
+      kilometraje: null,
+      tipoAuto: null,
+      presentar: null,
+      duenoCarro: null,
+    });
+  }
 
   ngOnInit(): void {
+    //TODO: add spinner
     this.route.params.subscribe((params) => {
       if (params['id']) {
         // * view/edit mode
@@ -55,16 +69,33 @@ export class CarRegistrationComponent implements OnInit {
             console.dir(response);
             console.groupEnd();
 
+            //TODO: popula mal 'moneda' y 'tipoAuto'
+
+            this.formGroup = this.fb.group({
+              auto: null, //TODO: cómo populamos esto
+              precioVenta: response.precioVenta,
+              moneda: response.moneda,
+              codversion: response.codversion,
+              version: response.version,
+              ciudadesDisponibles: [response.ciudadesDisponibles],
+              kilometraje: response.kilometraje,
+              tipoAuto: response.tipoAuto,
+              presentar: response.presentar,
+              duenoCarro: response.duenoCarro,
+            });
+
+            //* necessary mat-chip
+            this.ciudadesDisponibles = response.ciudadesDisponibles;
+
             if (
-              response.usuario.correo ===
+              response.usuario.correo !==
               this.storageService.getEmailSessionStorage()
             ) {
-              // * edit view
-              //TODO: populate form
-            } else {
-              // * view mode
-              //TODO: populate form, but with all fields disabled
+              // * view mode: populate form and disable it
+              this.formGroup.disable();
+              this.disabled = true;
             }
+            // * else: edit view, just populate form
           },
           (error: any) => {
             console.group('error fetching autoseminuevo por id');
@@ -72,36 +103,23 @@ export class CarRegistrationComponent implements OnInit {
             console.groupEnd();
           }
         );
-      } else {
-        // * create view
-        this.formGroup = this.fb.group({
-          auto: null,
-          precioVenta: null,
-          moneda: null,
-          codversion: null,
-          version: null,
-          ciudadesDisponibles: null,
-          kilometraje: null,
-          tipoAuto: null,
-          presentar: null,
-          duenoCarro: null,
-        });
-
-        this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
-          startWith(null),
-          map((fruit: string | null) =>
-            fruit ? this._filter(fruit) : this.allCiudades.slice()
-          )
-        );
-
-        this.monedas = this.dataService.monedas;
-        this.tipos = this.dataService.tiposDeCarro;
-        this.allCiudades = this.dataService.ciudades;
-
-        console.group('Form Group');
-        console.log(this.formGroup);
-        console.groupEnd();
       }
+      // * else, create view
+
+      console.group('Form Group');
+      console.log(this.formGroup);
+      console.groupEnd();
+
+      this.monedas = this.dataService.monedas;
+      this.tipos = this.dataService.tiposDeCarro;
+      this.allCiudades = this.dataService.ciudades;
+
+      this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
+        startWith(null),
+        map((fruit: string | null) =>
+          fruit ? this._filter(fruit) : this.allCiudades.slice()
+        )
+      );
     });
   }
 
@@ -134,7 +152,7 @@ export class CarRegistrationComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allCiudades.filter(
-      (ciudad) => ciudad.toLowerCase().indexOf(filterValue) === 0
+      (ciudad: string) => ciudad.toLowerCase().indexOf(filterValue) === 0
     );
   }
 

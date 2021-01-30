@@ -71,7 +71,7 @@ export class PublishedCarsComponent implements OnInit {
 
       this.userService.getAutosSemiNuevosValidados().subscribe(
         (response: AutoSemiNuevo[]) => {
-          this.carros = response;
+          // this.carros = response;
 
           console.group('FILTERS');
           console.log(this.filters);
@@ -84,7 +84,7 @@ export class PublishedCarsComponent implements OnInit {
           let normalizedCarBrand = this._normalizeValue(this.filters.carBrand);
           let normalizedCarModel = this._normalizeValue(this.filters.carModel);
 
-          this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+          this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
             console.log(carro);
             return (
               this._normalizeValue(carro.auto.marca!) == normalizedCarBrand &&
@@ -93,6 +93,11 @@ export class PublishedCarsComponent implements OnInit {
               // && carro.auto.tipocarroceria === this.filters!.carType
             );
           });
+
+          // ! esta linea permite que cuando el usuario filtre, se haga el
+          // ! filtro sobre los carros ya filtrados y no sobre toda la bd de
+          // ! carros. lo dejamos así?
+          this.carros = this.filteredCarros;
 
           console.group('Filtered Carros');
           console.dir(this.filteredCarros);
