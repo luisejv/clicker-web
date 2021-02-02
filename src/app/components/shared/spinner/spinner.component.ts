@@ -36,7 +36,7 @@ export class SpinnerComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private loaderService: LoaderService) {
-    // * quizás esto rompió otros usos del spinner, revisar
+    // * subscribirse al cambio de estado de 'loading'
     this.loaderService.isLoading.subscribe((isLoading: boolean) => {
       this.loading = isLoading;
     });

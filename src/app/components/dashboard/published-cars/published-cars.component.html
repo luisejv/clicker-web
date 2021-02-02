@@ -49,30 +49,30 @@
                             <select
                               class="selectpicker"
                               data-width="100%"
-                              title="Select Make"
+                              title="Marca"
                               multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
+                              (change)="changeBrand($event)"
                             >
-                              <option>Select 1</option>
-                              <option>Select 2</option>
-                              <option>Select 3</option>
-                              <option>Select 4</option>
+                              <option *ngFor="let auto of autos">
+                                {{ auto.marca }}
+                              </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
                               class="selectpicker"
                               data-width="100%"
-                              title="Select Model"
+                              title="Modelo"
                               multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
+                              (change)="changeModel($event)"
                             >
-                              <option>Select 1</option>
-                              <option>Select 2</option>
-                              <option>Select 3</option>
-                              <option>Select 4</option>
+                              <option *ngFor="let modelo of modelos">
+                                {{ modelo }}
+                              </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">

@@ -38,6 +38,7 @@ export class CarRegistrationComponent implements OnInit {
   disabled: boolean = false;
   editView: boolean = false;
   carId: number = -1;
+  title: string = 'Registra tu Carro';
 
   constructor(
     private fb: FormBuilder,
@@ -94,11 +95,13 @@ export class CarRegistrationComponent implements OnInit {
               response.usuario.correo !==
               this.storageService.getEmailSessionStorage()
             ) {
+              //TODO: redirigir a vista especial para visualuzar toda la data de un carro
               // * view mode: populate form and disable it
               this.formGroup.disable();
               this.disabled = true;
             } else {
               // * edit mode
+              this.title = 'Actualiza tu Carro';
               this.editView = true;
               this.carId = params['id'];
             }

@@ -1,11 +1,11 @@
 <div class="section-title-page area-bg area-bg_dark area-bg_op_60 section-title-page_mod-b">
     <div class="area-bg__inner">
       <div class="container text-center">
-        <h1 class="b-title-page">Registro de Carro</h1>
+        <h1 class="b-title-page">{{ title }}</h1>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Registro de Carro</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
           </ol>
         </nav>
         <!-- end .breadcrumb-->
@@ -40,7 +40,7 @@
                 <b>FormGroup is dirty:</b> {{ formGroup.dirty }} -->
                 <div class="row mt-2 py-3">
                   <div class="col-sm-12 col-md-12 col-lg-12">
-                    <label class="h1-form mb-3 sub_section">Registra tu Carro</label>
+                    <label class="h1-form mb-3 sub_section">{{ title }}</label>
                     <div class="group_input w-m">
                       <div class="d-flex flex-column w-100">
                         <mat-form-field appearance="fill" class="w-100">
@@ -156,7 +156,7 @@
                 <div class="container mt-2 py-3">
                   <div class="row justify-content-around">
                     <button [disabled]="disabled" mat-raised-button color="primary" type="button" (click)="registerCar()">
-                      {{ editView ? 'Actualizar' : Registrar }}
+                      {{ editView ? 'Actualizar' : 'Registrar' }}
                     </button>
                   </div>
                 </div>

@@ -43,10 +43,6 @@
               <mat-icon aria-hidden="false">account_balance</mat-icon>
               <a class="ml-2">Balance</a>
             </li>
-            <li class="d-flex  align-items-center list-group-item">
-              <mat-icon aria-hidden="false">compare_arrows</mat-icon>
-              <a class="ml-2">Transacciones</a>
-            </li>
             <li *ngIf="rol !== 'REMAX'" class="d-flex  align-items-center list-group-item" routerLink="registrar-carro">
               <mat-icon aria-hidden="false">directions_car</mat-icon>
               <a class="ml-2">Registrar Carro</a>
@@ -75,6 +71,7 @@
       }"
     >
       <div
+        class="pill-container"
         [ngStyle]="{
           'min-height':
             commonService.screenWidth < 426
@@ -87,6 +84,9 @@
           'wrapper-lg': commonService.screenWidth > 426
         }"
       >
+      <div class="pill">
+        Balance: $ {{ balance }}
+      </div>
       <router-outlet></router-outlet>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-published-cars',
@@ -30,6 +31,10 @@ export class PublishedCarsComponent implements OnInit {
   pages: number[] = [0];
   currPage: number = 0;
   carsPerPage: number = 10;
+
+  // * marcas y modelos
+  autos: any[] = [];
+  modelos: string[] = [];
 
   // * ngs slider
   minPrice: number = 1000;
@@ -57,8 +62,11 @@ export class PublishedCarsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private storageService: StorageService,
-    private loaderService: LoaderService
-  ) {}
+    private loaderService: LoaderService,
+    private dataService: DataService
+  ) {
+    this.autos = this.dataService.autos;
+  }
 
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
@@ -183,6 +191,27 @@ export class PublishedCarsComponent implements OnInit {
     this.currPage = pageId;
   }
 
+  changeBrand(e: any): void {
+    //TODO: filtrar por marca
+    const brand = e.target.value;
+    console.log('BRAND: ', brand);
+    this.autos.forEach((auto: any) => {
+      if (auto.marca === brand) {
+        this.modelos = auto.modelos.map((a: any) => a);
+        console.log('MODELOS: ', this.modelos);
+        console.log(typeof this.modelos);
+        return;
+      }
+    });
+  }
+
+  changeModel(e: any): void {
+    //TODO: filtrar por modelo
+    //TODO: actualizar this.modelos
+    const model: string = e.target.value;
+    console.log(`MODEL: ${model}`);
+  }
+
   sortBy(order: any): void {
     console.group(order.target.value);
     console.groupEnd();
@@ -190,6 +219,7 @@ export class PublishedCarsComponent implements OnInit {
   }
 
   resetFilters(): void {
+    //TODO: resetear cómo se ven los selects
     this.filteredCarros = this.carros;
   }
 }
