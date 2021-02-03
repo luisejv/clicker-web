@@ -7,7 +7,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -19,8 +19,10 @@
     "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "^11.1.0",
     "@angular/cdk": "^11.1.0",
+    "@angular/cli": "^11.1.2",
     "@angular/common": "^11.1.0",
     "@angular/compiler": "^11.1.0",
+    "@angular/compiler-cli": "^11.1.2",
     "@angular/core": "^11.1.0",
     "@angular/forms": "^11.1.0",
     "@angular/material": "^11.1.0",
@@ -37,18 +39,18 @@
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "object-fit-images": "^3.2.4",
+    "path": "^0.12.7",
     "popper": "^1.0.1",
     "rxjs": "~6.6.0",
     "scrollreveal": "^4.0.7",
     "sweetalert2": "^10.13.3",
     "tslib": "^2.1.0",
+    "typescript": "~4.0.5",
     "waypoints": "^4.0.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.7",
-    "@angular/cli": "^11.1.1",
-    "@angular/compiler-cli": "^11.1.0",
     "@types/jasmine": "^3.6.3",
     "@types/node": "^12.19.15",
     "codelyzer": "^6.0.0",
@@ -61,7 +63,6 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
-    "typescript": "~4.0.5"
+    "tslint": "~6.1.0"
   }
 }
