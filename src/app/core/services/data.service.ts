@@ -120,6 +120,15 @@ export class DataService {
     },
   ];
 
+  marcas: string[] = ['Tesla', 'Kia', 'Opel', 'BMW'];
+
+  modelos: any = {
+    Tesla: ['Model X', 'Model Y', 'Model S', 'Roadster'],
+    Kia: ['Optima', 'Sportage', 'Sorento', 'Elantra'],
+    Opel: ['Opel 1', 'Opel 2', 'Opel 3'],
+    BMW: ['2-Series', '3-Series', '5-Series', '7-Series', '8-Series'],
+  };
+
   autos: any[] = [
     {
       marca: 'Tesla',

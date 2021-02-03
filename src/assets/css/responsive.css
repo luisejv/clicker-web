@@ -2,15 +2,13 @@
 /* RESPONSIVE CSS */
 /*///////////////////////////////////////////////////////////////////////////////////////////*/
 
-
-@media (min-width:1200px) and (max-width:1800px) {
-
+@media (min-width: 1200px) and (max-width: 1800px) {
   .b-bnr-2__figure {
     max-width: 26vw;
   }
 }
 
-@media (min-width:1800px) and (max-width:2000px) {
+@media (min-width: 1800px) and (max-width: 2000px) {
   .navbar-brand {
     max-width: 15.5vw;
   }
@@ -19,7 +17,7 @@
   }
 }
 
-@media (min-width:1200px) and (max-width:1549px) {
+@media (min-width: 1200px) and (max-width: 1549px) {
   .header-main__btn {
     padding: 9px 15px;
     font-size: 15px;
@@ -46,18 +44,16 @@
   }
 }
 
-
-@media (min-width:992px) and (max-width:1600px) {
+@media (min-width: 992px) and (max-width: 1600px) {
 }
 /* end 992px-1600px */
 
-@media (min-width:1440px) and (max-width:1600px) {
+@media (min-width: 1440px) and (max-width: 1600px) {
 }
-@media (min-width:1200px) and (max-width:1439px) {
+@media (min-width: 1200px) and (max-width: 1439px) {
 }
 
-
-@media (min-width:992px) and (max-width:1199px) {
+@media (min-width: 992px) and (max-width: 1199px) {
   .b-main-slider__figure-1 {
     margin-top: -110px;
     max-width: 40vw;
@@ -104,9 +100,7 @@
 }
 /* end 992px-1199px */
 
-
-
-@media (max-width:1199px) {
+@media (max-width: 1199px) {
   .b-team {
     padding-bottom: 0;
   }
@@ -160,19 +154,19 @@
     display: none;
   }
 
-    html .ui-gallery__img {
+  html .ui-gallery__img {
     margin-bottom: 0;
-}
-    
-    html .b-offers__wrap {
+  }
+
+  html .b-offers__wrap {
     margin-right: 0;
     margin-left: 0;
-    }
-    
-    html .b-offers {
+  }
+
+  html .b-offers {
     padding-bottom: 0;
-}
-    
+  }
+
   .b-offers-slider .slick-arrow {
     top: -50px;
   }
@@ -212,22 +206,19 @@
 }
 /* end 1199px */
 
-
-
-@media (max-width:991px) {
-    
-    .b-main-filter-nav__item{
-        margin-bottom: 3px;
-        margin-right: 0;
-    }
-    
-    html .l-sidebar_top_minus {
-    margin-top: 0;
-}
-    
-    html .nav-tabs .nav-link {
+@media (max-width: 991px) {
+  .b-main-filter-nav__item {
+    margin-bottom: 3px;
     margin-right: 0;
-}
+  }
+
+  html .l-sidebar_top_minus {
+    margin-top: 0;
+  }
+
+  html .nav-tabs .nav-link {
+    margin-right: 0;
+  }
   .ui-decor {
     height: 30px;
   }
@@ -302,9 +293,7 @@
 }
 /* end 991px */
 
-
-
-@media (max-width:991px) and (min-width:768px) {
+@media (max-width: 991px) and (min-width: 768px) {
   .b-main-filter-nav .b-main-filter-nav__link {
     padding-left: 30px;
     padding-right: 30px;
@@ -329,68 +318,66 @@
 }
 /* end 991px-768px */
 
-
-
-@media (max-width:767px) {
-    
-    html #map {
+@media (max-width: 767px) {
+  html #map {
     margin-bottom: 25px;
-}
-    
-    html .section-title-page_mod-a {
+  }
+
+  html .section-title-page_mod-a {
     height: auto;
-}
-    
-    html .section-title-page_mod-a .area-bg__inner {
+  }
+
+  html .section-title-page_mod-a .area-bg__inner {
     padding-top: 0;
     padding-bottom: 0;
-}
-    
-    html .b-post .entry-meta__item {
+  }
+
+  html .b-post .entry-meta__item {
     display: block;
     margin-bottom: 0;
     padding-top: 10px;
     padding-left: 5px;
-}
-    
-    html .section-title-page_mod-a .b-title-page {
+  }
+
+  html .section-title-page_mod-a .b-title-page {
     letter-spacing: 1px;
-}
-    
-    .b-main-slider__slogan , .b-main-slider__subtitle{
-        visibility: hidden;
-    }
-    
-    html .section-default {
+  }
+
+  .b-main-slider__slogan,
+  .b-main-slider__subtitle {
+    visibility: hidden;
+  }
+
+  html .section-default {
     padding-top: 50px;
     padding-bottom: 50px;
-}
-    
-    html .b-goods-2-descrip__item {
+  }
+
+  html .b-goods-2-descrip__item {
     margin-right: 15px;
     margin-left: 0;
     margin-bottom: 15px;
-}
-    
-   html  .b-main-slider__title-wrap {
+  }
+
+  html .b-main-slider__title-wrap {
     margin-left: 0;
-}
-    
-    html .b-goods__img {
+  }
+
+  html .b-goods__img {
     height: auto;
     margin-bottom: 15px;
-}
-    
-    html .b-booking-main__title{
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-    
-    html   .b-booking-price__day{
+  }
+
+  html .b-booking-main__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  html .b-booking-price__day {
     margin-left: 0;
     font-size: 14px;
-}
-    
+  }
+
   .section-team {
     padding-bottom: 105px;
   }
@@ -419,11 +406,11 @@
   .b-booking-main__section {
     margin-bottom: 0;
   }
-    
-    .b-booking-main__cat{
-        text-align: center;
-    }
-    
+
+  .b-booking-main__cat {
+    text-align: center;
+  }
+
   .b-booking-price__day {
     display: block;
   }
@@ -438,49 +425,46 @@
   .b-booking-price__inner {
     padding-right: 0;
   }
-.b-booking-price__label {
+  .b-booking-price__label {
     margin-left: 0;
     margin-right: 17px;
-}
-    
-.b-booking-main__section  .col-auto {
+  }
+
+  .b-booking-main__section .col-auto {
     width: 100%;
     max-width: 100%;
-}
-    
-html .b-post-full .entry-meta__item {
+  }
+
+  html .b-post-full .entry-meta__item {
     font-size: 14px;
     width: 100%;
     display: inline-block;
     text-align: left;
     padding-left: 0;
     margin-left: 0 !important;
-}
-    
+  }
+
   .b-filter-goods_center .b-filter-goods__info {
     margin-right: 0;
     margin-bottom: 10px;
   }
-    
-html .b-post-full .entry-meta {
+
+  html .b-post-full .entry-meta {
     padding-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
-}
-    
-    .b-post-full .b-post-soc__title{
+  }
+
+  .b-post-full .b-post-soc__title {
     width: 100%;
     padding-bottom: 10px;
-}
-    
-    
-    html .b-post-full .entry-blockquote {
+  }
+
+  html .b-post-full .entry-blockquote {
     background: #f2f6f7;
     padding: 20px !important;
-        
-    }
-    
-    
+  }
+
   .b-filter-goods__select {
     margin-bottom: 10px;
     margin-right: 0;
@@ -563,57 +547,54 @@ html .b-post-full .entry-meta {
     padding-left: 15%;
     padding-right: 15%;
   }
-    
-    html .b-goods-f__links-item {
+
+  html .b-goods-f__links-item {
     padding-right: 0;
     width: 100%;
     display: inline-block;
     vertical-align: top;
     text-align: left;
-}
-    
-    html .b-goods-f__links-item:not(:first-child) {
+  }
+
+  html .b-goods-f__links-item:not(:first-child) {
     padding-left: 0;
     border-left: 0;
     margin-left: 0;
-}
-    
-    
-    .b-goods-slider .slick-slide{
-        text-align: center;
-    }
-    
-    .b-goods-other {
-    max-width: 400px;
-}
-    
-    html .b-goods-flip__title {
-    letter-spacing: 1px;
-}
-    
-    
-    .b-seller-soc{
-        margin-left: -20px;
-    }
-    
-    html .b-seller__phone {
-    font-size: 17px;
-}
-    
-    html .b-seller__header {
+  }
+
+  .b-goods-slider .slick-slide {
     text-align: center;
-}
-    
-    html .b-seller__name {
+  }
+
+  .b-goods-other {
+    max-width: 400px;
+  }
+
+  html .b-goods-flip__title {
+    letter-spacing: 1px;
+  }
+
+  .b-seller-soc {
+    margin-left: -20px;
+  }
+
+  html .b-seller__phone {
+    font-size: 17px;
+  }
+
+  html .b-seller__header {
+    text-align: center;
+  }
+
+  html .b-seller__name {
     margin-bottom: 6px;
     padding-top: 10px;
-}
-    
-    .slick-dots{
-        display: none !important;
-    }
-    
-    
+  }
+
+  .slick-dots {
+    display: none !important;
+  }
+
   .b-stages__number {
     font-size: 80px;
   }
@@ -646,47 +627,44 @@ html .b-post-full .entry-meta {
     margin-bottom: 10px;
     padding-left: 0;
   }
-    
-    html .b-filter-goods__info{
-        padding-bottom: 10px;
-    }
-    
-    html .b-services-nav__inner {
+
+  html .b-filter-goods__info {
+    padding-bottom: 10px;
+  }
+
+  html .b-services-nav__inner {
     margin-left: 0;
-}
-    
+  }
+
   .b-offers__img img {
     opacity: 0 !important;
-}
-    
-    html .b-goods-2-descrip{
-        text-align: center;
-    }
-    
-    
-   .b-goods-2  .col-auto {
+  }
+
+  html .b-goods-2-descrip {
+    text-align: center;
+  }
+
+  .b-goods-2 .col-auto {
     width: 100% !important;
-}
-    
-    
-    html .ui-slider-nav .slick-slide {
+  }
+
+  html .ui-slider-nav .slick-slide {
     margin-right: 10px;
-}
-    
-    
-    html .b-bnr-2__title {
+  }
+
+  html .b-bnr-2__title {
     font-size: 22px;
-}
-    
-    html .b-post-3 {
+  }
+
+  html .b-post-3 {
     margin-right: 0;
-}
-    
-    html .footer-section {
+  }
+
+  html .footer-section {
     padding-top: 20px;
     padding-left: 0 !important;
-}
-    
+  }
+
   .b-main-filter .b-main-filter__item {
     margin-bottom: 20px;
   }
@@ -768,4 +746,3 @@ html .b-post-full .entry-meta {
   }
 }
 /* end 767px */
-

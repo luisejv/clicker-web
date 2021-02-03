@@ -20,8 +20,6 @@
   position: relative;
 }
 
-/* TODO: poner arriba el pill en la vista nuevo */
-
 .pill {
   position: absolute;
   top: 30px;

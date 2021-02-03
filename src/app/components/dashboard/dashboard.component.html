@@ -2,15 +2,15 @@
     <div>
       <app-sidebar
         [ngClass]="{
-          sidebar: commonService.screenWidth > 426,
-          sidebar_phone: commonService.screenWidth < 426,
-          sidebar_desk: commonService.screenWidth > 426
+          sidebar: commonService.screenWidth > 672,
+          sidebar_phone: commonService.screenWidth <= 672,
+          sidebar_desk: commonService.screenWidth > 672
         }"
         [ngStyle]="{
-          'display': commonService.screenWidth < 426 ? 'none' : 'block'
+          'display': commonService.screenWidth <= 672 ? 'none' : 'block'
         }"
       ></app-sidebar>
-      <div *ngIf="commonService.screenWidth < 426">
+      <div *ngIf="commonService.screenWidth <= 672">
         <mat-icon 
           class="position-relative fixed-top my-3 ml-3"
           style="color: rgb(82, 169, 192)"
@@ -67,21 +67,21 @@
     </div>
     <div
       [ngClass]="{
-        'wrapper-xs': commonService.screenWidth < 426
+        'wrapper-xs': commonService.screenWidth <= 672
       }"
     >
       <div
         class="pill-container"
         [ngStyle]="{
           'min-height':
-            commonService.screenWidth < 426
+            commonService.screenWidth <= 672
               ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
               : 'calc(' + commonService.screenHeight + 'px - 2vw)'
         }"
         [ngClass]="{
           rightWrapper: true,
           'bg-form': true,
-          'wrapper-lg': commonService.screenWidth > 426
+          'wrapper-lg': commonService.screenWidth > 672
         }"
       >
       <div class="pill">

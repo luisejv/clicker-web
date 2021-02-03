@@ -54,8 +54,9 @@
                               data-max-options="1"
                               data-style="ui-select"
                               (change)="changeBrand($event)"
+                              [(ngModel)]="marca"
                             >
-                              <option *ngFor="let auto of autos">
+                              <option [ngValue]="auto" *ngFor="let auto of autos">
                                 {{ auto.marca }}
                               </option>
                             </select>
@@ -70,9 +71,11 @@
                               data-style="ui-select"
                               (change)="changeModel($event)"
                             >
-                              <option *ngFor="let modelo of modelos">
-                                {{ modelo }}
-                              </option>
+                              <ng-container *ngFor="let modelo of marca?.modelos">
+                                <option [value]="modelo">
+                                  A: {{ modelo }}
+                                </option>
+                              </ng-container>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
