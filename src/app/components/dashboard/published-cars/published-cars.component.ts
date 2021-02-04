@@ -35,7 +35,7 @@ export class PublishedCarsComponent implements OnInit {
   // * marcas y modelos
   autos: any[] = [];
   modelos: string[] = [];
-  marca: string;
+  // marca: string;
 
   // * ngs slider
   minPrice: number = 1000;
@@ -66,8 +66,8 @@ export class PublishedCarsComponent implements OnInit {
     private loaderService: LoaderService,
     private dataService: DataService
   ) {
-    this.marcas = this.dataService.marcas;
-    this.modelosTable = this.dataService.modelos;
+    // this.marcas = this.dataService.marcas;
+    // this.modelosTable = this.dataService.modelos;
     this.autos = this.dataService.autos;
   }
 
@@ -197,7 +197,7 @@ export class PublishedCarsComponent implements OnInit {
   changeBrand(e: any): void {
     //TODO: filtrar por marca
     const brand = e.target.value;
-    console.log('BRAND: ', this.marca);
+    // console.log('BRAND: ', this.marca);
   }
 
   changeModel(e: any): void {
