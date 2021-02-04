@@ -1,2 +1,1 @@
-build: npm run prod
-web: node server.js
+web: npm start
