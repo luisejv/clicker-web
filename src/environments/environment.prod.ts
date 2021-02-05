@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'back-clicker.prieto-family.com',
+  baseUrl: 'https://back-clicker.prieto-family.com',
 };
