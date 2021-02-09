@@ -2531,6 +2531,7 @@ html .b-goods-slider .slick-list {
 }
 
 .b-main-filter {
+  margin-top: 150px;
   position: relative;
   z-index: 1;
   padding: 35px 60px 0;
