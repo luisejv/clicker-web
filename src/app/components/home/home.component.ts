@@ -3,6 +3,16 @@ import { Router } from '@angular/router';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 declare var $: any;
 
+interface Car {
+  nombre: string;
+  disponible: string;
+  precio: number;
+  kilometraje: number;
+  motor: string;
+  cambios: string;
+  photo: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,7 +26,12 @@ export class HomeComponent implements OnInit {
   carModel: string = 'MODEL X';
   carMaxPrice: number = 5000;
 
-  constructor(private router: Router) {}
+  recentCars: Car[];
+
+  constructor(private router: Router) {
+    // TODO: hacer el request de recent cars aqui
+    this.recentCars = TEST_CARS;
+  }
 
   ngOnInit(): void {}
 
@@ -59,3 +74,24 @@ export class HomeComponent implements OnInit {
     });
   }
 }
+
+const TEST_CARS: Car[] = [
+  {
+    nombre: 'Toyota Yaris 2019',
+    cambios: 'Mecánico',
+    disponible: 'Lima',
+    kilometraje: 360000,
+    motor: 'Gasolina',
+    precio: 45000,
+    photo: 'assets/media/content/b-goods/263x200/1.jpg',
+  },
+  {
+    nombre: 'Kia Rio 2021',
+    cambios: 'Automático',
+    disponible: 'Chiclayo',
+    kilometraje: 260000,
+    motor: 'Petróleo',
+    precio: 40000,
+    photo: 'assets/media/content/b-goods/263x200/2.jpg',
+  },
+];
