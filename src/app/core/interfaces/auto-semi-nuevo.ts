@@ -31,5 +31,11 @@ export interface AutoSemiNuevo {
   comisionEmpresa: number;
   fechaPublicacion: string;
   video?: string;
+  fotoPrincipal: string;
+  fotos?: Foto[];
   accesorios: string[];
+}
+
+interface Foto {
+  foto: string;
 }

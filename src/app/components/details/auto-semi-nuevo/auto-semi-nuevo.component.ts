@@ -11,7 +11,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./auto-semi-nuevo.component.css'],
 })
 export class AutoSemiNuevoComponent implements OnInit {
-  auto: AutoSemiNuevo;
+  auto!: AutoSemiNuevo;
 
   constructor(
     private userService: UserService,
