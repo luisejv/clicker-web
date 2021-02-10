@@ -33,6 +33,7 @@
     "@types/object-fit-images": "^3.2.0",
     "@types/scrollreveal": "0.0.6",
     "@types/waypoints": "^4.0.3",
+    "aws-sdk": "^2.841.0",
     "bootstrap": "^4.6.0",
     "easy-pie-chart": "^2.1.7",
     "express": "^4.17.1",

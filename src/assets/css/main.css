@@ -5168,48 +5168,6 @@ html .b-goods-slider .slick-list {
   height: 430px;
 }
 
-/* .b-goods-2__img:before {
-  position: absolute;
-  display: block;
-  right: -12px;
-  bottom: -47px;
-  content: "";
-  background: #22abc3;
-  height: 61px;
-  width: 108%;
-  -webkit-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  transform: rotate(-5deg);
-  opacity: 0;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 79%, 0% 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 79%, 0% 100%);
-}
-
-.b-goods-2__img:after {
-  position: absolute;
-  right: 0;
-  bottom: -10px;
-  left: 0;
-  height: 34px;
-  opacity: 0;
-  font-weight: bold;
-  content: "Ver más";
-  padding-right: 5px;
-  text-align: right;
-  color: white;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-clip-path: polygon(100% 0, 0% 100%, 100% 100%);
-  clip-path: polygon(100% 0, 0% 100%, 100% 100%);
-} */
-
-/* .b-goods-2:hover .b-goods-2__img:after,
-.b-goods-2:hover .b-goods-2__img:before {
-  opacity: 1;
-} */
-
 .b-goods-2:hover .b-goods-2__img img {
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 79%, 0% 100%);
   clip-path: polygon(0 0, 100% 0, 100% 79%, 0% 100%);

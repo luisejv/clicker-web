@@ -1,15 +1,15 @@
 import { HostListener, Injectable } from '@angular/core';
-import { environment } from "../../../environments/environment";
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommonService {
   private baseUrl: string = environment.baseUrl;
   screenHeight: number = 0;
   screenWidth: number = 0;
 
-/* User URL Services */
+  /* User URL Services */
   // * Auth
   loginUrl: string = this.baseUrl + '/auth/login';
   registerUrl: string = this.baseUrl + '/auth/register';
@@ -22,6 +22,8 @@ export class CommonService {
 
   // * Car Getter
   getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled';
+  getSponsoredCarsUrl: string = this.baseUrl + '/sponsor';
+  getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
 
   // * Posted Cars By User
   getAutosSemiNuevosValidadosUserUrl: string = this.userUrl + '/id';

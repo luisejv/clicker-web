@@ -4,13 +4,50 @@ import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 declare var $: any;
 
 interface Car {
-  nombre: string;
-  disponible: string;
-  precio: number;
+  usuario?: {
+    correo: string;
+  };
+  placa?: string;
+  serie?: string;
+  correoDueno?: string;
+  nombreDueno?: string;
+  telefonoDueno?: string;
+  marca?: string;
+  modelo?: string;
+  anoFabricacion?: string;
+  tipoCambios?: string;
+  tipoCombustible?: string;
+  tipoCarroceria?: string;
+  cilindrada?: number;
   kilometraje: number;
-  motor: string;
-  cambios: string;
-  photo: string;
+  numeroPuertas?: number;
+  tipoTraccion?: string;
+  color?: string;
+  numeroCilindros?: number;
+  precioVenta?: number;
+  comprado?: boolean;
+  validado?: boolean;
+  enabled?: boolean;
+  comisionUsuario?: number;
+  comisionVendedor?: number;
+  comisionEmpresa?: number;
+  fechaPublicacion?: string;
+  video?: string;
+  accesorios?: string[];
+  fotoPrincipal?: string;
+  fotos?: Foto[];
+  locaciones?: Locacion;
+}
+
+interface Foto {
+  foto: string;
+}
+
+interface Locacion {
+  id: string;
+  departamento?: string;
+  provincia?: string;
+  distrito?: string;
 }
 
 @Component({
@@ -27,10 +64,13 @@ export class HomeComponent implements OnInit {
   carMaxPrice: number = 5000;
 
   recentCars: Car[];
+  sponsoredCars: Car[];
 
   constructor(private router: Router) {
     // TODO: hacer el request de recent cars aqui
+    // TODO: hacer el request de sponsored aqui
     this.recentCars = TEST_CARS;
+    this.sponsoredCars = SPONSOR_TEST;
   }
 
   ngOnInit(): void {}
@@ -77,21 +117,90 @@ export class HomeComponent implements OnInit {
 
 const TEST_CARS: Car[] = [
   {
-    nombre: 'Toyota Yaris 2019',
-    cambios: 'Mecánico',
-    disponible: 'Lima',
+    marca: 'Toyota',
+    modelo: 'Yaris',
+    anoFabricacion: '2019',
+    tipoCambios: 'Mecánico',
+    locaciones: {
+      id: '1',
+      departamento: 'Lima',
+    },
     kilometraje: 360000,
-    motor: 'Gasolina',
-    precio: 45000,
-    photo: 'assets/media/content/b-goods/263x200/1.jpg',
+    tipoCombustible: 'Gasolina',
+    precioVenta: 45000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
   },
   {
-    nombre: 'Kia Rio 2021',
-    cambios: 'Automático',
-    disponible: 'Chiclayo',
+    marca: 'Kia',
+    modelo: 'Rio',
+    anoFabricacion: '2021',
+    tipoCambios: 'Automático',
+    locaciones: {
+      id: '10',
+      departamento: 'Chiclayo',
+    },
     kilometraje: 260000,
-    motor: 'Petróleo',
-    precio: 40000,
-    photo: 'assets/media/content/b-goods/263x200/2.jpg',
+    tipoCombustible: 'Petróleo',
+    precioVenta: 40000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
+  },
+];
+
+const SPONSOR_TEST: Car[] = [
+  {
+    marca: 'Toyota',
+    modelo: 'Yaris',
+    anoFabricacion: '2019',
+    tipoCambios: 'Mecánico',
+    locaciones: {
+      id: '1',
+      departamento: 'Lima',
+    },
+    kilometraje: 360000,
+    tipoCombustible: 'Gasolina',
+    precioVenta: 45000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
+  },
+  {
+    marca: 'Kia',
+    modelo: 'Rio',
+    anoFabricacion: '2021',
+    tipoCambios: 'Automático',
+    locaciones: {
+      id: '10',
+      departamento: 'Chiclayo',
+    },
+    kilometraje: 260000,
+    tipoCombustible: 'Petróleo',
+    precioVenta: 40000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
+  },
+  {
+    marca: 'Toyota',
+    modelo: 'Yaris',
+    anoFabricacion: '2019',
+    tipoCambios: 'Mecánico',
+    locaciones: {
+      id: '1',
+      departamento: 'Lima',
+    },
+    kilometraje: 360000,
+    tipoCombustible: 'Gasolina',
+    precioVenta: 45000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
+  },
+  {
+    marca: 'Kia',
+    modelo: 'Rio',
+    anoFabricacion: '2021',
+    tipoCambios: 'Automático',
+    locaciones: {
+      id: '10',
+      departamento: 'Chiclayo',
+    },
+    kilometraje: 260000,
+    tipoCombustible: 'Petróleo',
+    precioVenta: 40000,
+    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
   },
 ];
