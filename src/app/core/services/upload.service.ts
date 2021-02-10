@@ -12,9 +12,10 @@ export class UploadService {
   uploadFile(file: File) {
     const contentType = file.type;
     const bucket = new S3({
+      endpoint: 'https://data-clicker-pruebas.nyc3.digitaloceanspaces.com',
       accessKeyId: '3JNQKLDIYTBD6EMZUVDG',
       secretAccessKey: 'qHjOdn60eSIL0HnsZ2yRAjcE6zCtPyhbGvWYaN/1RQE',
-      region: 'NYC3',
+      region: 'NYC3', // ? Puede que no se necesite
     });
     const params = {
       Bucket: 'data-clicker-pruebas',
