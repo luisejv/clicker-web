@@ -10,6 +10,7 @@ import { CarRegistrationComponent } from './components/dashboard/car-registratio
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
 import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
+import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';
 import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
@@ -51,16 +52,20 @@ export const routes: Routes = [
         component: CarRegistrationComponent,
       },
       {
-        path: 'carro/:id',
-        component: CarRegistrationComponent,
-      },
-      {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
       },
     ],
   },
   { path: 'login', component: LoginComponent },
+  {
+    path: 'auto-semi-nuevo',
+    component: AutoSemiNuevoComponent,
+  },
+  {
+    path: 'auto-semi-nuevo/:id',
+    component: AutoSemiNuevoComponent,
+  },
   {
     path: 'registro',
     component: RegisterComponent,

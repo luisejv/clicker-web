@@ -1,5 +1,11 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/enums/modes.enum';
@@ -9,13 +15,15 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 import { DataService } from 'src/app/core/services/data.service';
+import { of } from 'rxjs';
+import { convertToObject } from 'typescript';
 
 @Component({
   selector: 'app-published-cars',
   templateUrl: './published-cars.component.html',
   styleUrls: ['./published-cars.component.css'],
 })
-export class PublishedCarsComponent implements OnInit {
+export class PublishedCarsComponent implements OnInit, OnChanges {
   @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
   @Input() filters!: CarSearchFilter;
 
@@ -33,9 +41,7 @@ export class PublishedCarsComponent implements OnInit {
   carsPerPage: number = 10;
 
   // * marcas y modelos
-  autos: any[] = [];
-  modelos: string[] = [];
-  // marca: string;
+  autos: any[];
 
   // * ngs slider
   minPrice: number = 1000;
@@ -66,9 +72,13 @@ export class PublishedCarsComponent implements OnInit {
     private loaderService: LoaderService,
     private dataService: DataService
   ) {
-    // this.marcas = this.dataService.marcas;
-    // this.modelosTable = this.dataService.modelos;
     this.autos = this.dataService.autos;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.group('Changes');
+    console.dir(changes);
+    console.groupEnd();
   }
 
   ngOnInit(): void {
@@ -98,8 +108,8 @@ export class PublishedCarsComponent implements OnInit {
           this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
             console.log(carro);
             return (
-              this._normalizeValue(carro.auto.marca!) == normalizedCarBrand &&
-              this._normalizeValue(carro.auto.modelo) == normalizedCarModel &&
+              this._normalizeValue(carro.marca) == normalizedCarBrand &&
+              this._normalizeValue(carro.modelo) == normalizedCarModel &&
               carro.precioVenta <= this.filters.carMaxPrice
               // && carro.auto.tipocarroceria === this.filters!.carType
             );
@@ -197,14 +207,14 @@ export class PublishedCarsComponent implements OnInit {
   changeBrand(e: any): void {
     //TODO: filtrar por marca
     const brand = e.target.value;
-    // console.log('BRAND: ', this.marca);
+    console.log('selected brand: ', brand);
   }
 
   changeModel(e: any): void {
     //TODO: filtrar por modelo
     //TODO: actualizar this.modelos
     const model: string = e.target.value;
-    console.log(`MODEL: ${model}`);
+    console.log('selected model: ', model);
   }
 
   sortBy(order: any): void {
