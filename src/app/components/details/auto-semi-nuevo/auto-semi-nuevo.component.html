@@ -1,0 +1,183 @@
+<div class="section-title-page area-bg area-bg_dark area-bg_op_60">
+    <div class="area-bg__inner">
+      <div class="container text-center">
+        <h1 class="b-title-page">Auto Semi Nuevo</h1>
+        <!-- TODO: cambiar eso -->
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+            <!-- <li class="breadcrumb-item"><a href="inventory-grid.html">Inventory</a></li> -->
+            <li class="breadcrumb-item active" aria-current="page">Auto Semi Nuevo</li>
+          </ol>
+        </nav>
+        <!-- end .breadcrumb-->
+        
+      </div>
+    </div>
+  </div>
+  <!-- end .b-title-page-->
+  
+  <div class="l-main-content">
+    <div class="ui-decor ui-decor_sm-h ui-decor_mirror bg-primary"></div>
+    <div class="container">
+      <section class="b-goods-f">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="ui-subtitle">Sportiness at maximum power</div>
+            <h2 class="ui-title text-uppercase">{{ auto.marca }} {{ auto.modelo }} {{ auto.anoFabricacion }}</h2>
+            <div class="b-goods-f__slider">
+              <div class="ui-slider-main js-slider-for"><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/></div>
+              <div class="ui-slider-nav js-slider-nav"><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/2.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/3.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/4.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/2.jpg" alt="photo"/></div>
+            </div>
+            <!-- <div class="b-goods-f__links"><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-map-marker-alt text-primary"></i>Florida, USA</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-question text-primary"></i>Request More Info</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-star text-primary"></i>Add To Favourite</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-car-side text-primary"></i>Schedule Test Drive</a><a class="b-goods-f__links-item" href="email:test@test.test"><i class="ic fas fa-envelope text-primary"></i>Email Friend</a></div> -->
+            <h2 class="b-goods-f__title">Vehicle Specifications</h2>
+            <div class="row">
+              <div class="col-md-6">
+                <dl class="b-goods-f__descr row">
+                  <dt class="b-goods-f__descr-title col-md-5">Año de Fabricación</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.anoFabricacion }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Marca / Modelo</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.marca }} / {{ auto.modelo }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Tipo de Carrocería</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCarroceria }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Color</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.color }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Combustible</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCombustible }}</dd>
+                  <!-- TODO: poner hp? -->
+                  <!-- TODO: poner rpm? -->
+                  <dt class="b-goods-f__descr-title col-md-5">Motor</dt><dd class="b-goods-f__descr-info col-md-7">255 hp @5000 rpm</dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <dl class="b-goods-f__descr row">
+                  <!-- <dt class="b-goods-f__descr-title col-md-5">Condition</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">New</dd> -->
+                  <dt class="b-goods-f__descr-title col-md-5">Kilometraje</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.kilometraje | number }} km</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Transmission</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCambios }}</dd>
+                  <!-- TODO: poner 'numVelocidades' en el back -->
+                  <!-- TODO: numAsientos? -->
+                  <!-- TODO: colorInterior? -->
+                  <!-- <dd class="b-goods-f__descr-info col-md-7">8-Speed A/T</dd> -->
+                  <dt class="b-goods-f__descr-title col-md-5">Drivetrain</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoTraccion }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Cilindros / Cilindrada</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.numeroCilindros }} / {{ auto.cilindrada }} cc</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Puertas</dt>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.numeroPuertas }}</dd>
+                </dl>
+              </div>
+            </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item"><a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a></li>
+              <li class="nav-item"><a class="nav-link" id="features-tab" data-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features & Options</a></li>
+              <li class="nav-item"><a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="location" aria-selected="false">Vehicle Location</a></li>
+              <li class="nav-item"><a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Owner Reviews</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                <p>Edipisicing eiusmod tempor incididunt labore sed dolore magna aliqa enim ipsum ad minim veniams quis nostrud citation ullam laboris nisi ut aliquip laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p><strong>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</strong> nisi ut aliquip ex ea commodo cons equat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Exe pteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed umt perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
+                <h3 class="b-goods-f__title-inner">Highlights of the new Audi S5 Sportback</h3>
+                <ul class="list list-mark-2">
+                  <li>Enim ipsum ad minim veniams quis nostrud citation ullam laboris nisi</li>
+                  <li>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore</li>
+                  <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco</li>
+                  <li>Laboris nisi ut aliquip ex ea comodo consequat duis aute irure dolor in</li>
+                  <li>Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</li>
+                </ul>
+              </div>
+              <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
+                <p>Edipisicing eiusmod tempor incididunt labore sed dolore magna aliqa enim ipsum ad minim veniams quis nostrud citation ullam laboris nisi ut aliquip laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </div>
+              <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons equat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Exe pteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed umt perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
+              </div>
+              <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <ul class="list list-mark-2">
+                  <li>Enim ipsum ad minim veniams quis nostrud citation ullam laboris nisi</li>
+                  <li>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore</li>
+                  <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco</li>
+                  <li>Laboris nisi ut aliquip ex ea comodo consequat duis aute irure dolor in</li>
+                  <li>Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <aside class="l-sidebar">
+              <div class="b-goods-f-price">
+                  <!-- TODO: poner 'moneda' en el auto? -->
+                <div class="b-goods-f-price__header bg-secondary">Precio Clicker<span class="b-goods-f-price__main">S/. {{ auto.precioVenta | number }}</span></div>
+                <div class="b-goods-f-price__inner">
+                  <div class="b-goods-f-price__msrp">MSRP: $34,500</div>
+                  <div class="b-goods-f-price__note">Incluye IGV?*</div>
+                </div>
+              </div>
+              <div class="b-goods__wrap-bnrs"><img class="b-goods__bnr" src="assets/media/content/b-goods/check.jpg" alt="photo"/><img class="b-goods__bnr" src="assets/media/content/b-goods/check-2.jpg" alt="photo"/></div>
+              <!-- <div class="b-seller">
+                <div class="b-seller__header bg-primary">
+                  <div class="b-seller__img"><img class="img-scale" src="assets/media/content/b-seller/1.jpg" alt="foto"/></div>
+                  <div class="b-seller__title">
+                    <div class="b-seller__name">Jane William</div>
+                    <div class="b-seller__category">Member Since April 2013</div>
+                  </div>
+                </div>
+                <div class="b-seller__main"><i class="b-seller__ic flaticon-phone-call text-primary"></i>
+                  <div class="b-seller__contact"><span class="d-block">Contact Seller</span><a class="b-seller__phone" href="tel:12584037961">1 (258) 403 7961</a></div>
+                  <ul class="b-seller-soc list-unstyled">
+                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-facebook-f"></i></a></li>
+                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-linkedin-in"></i></a></li>
+                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-twitter"></i></a></li>
+                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-google-plus-g"></i></a></li>
+                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div> -->
+              <!-- end .b-seller-->
+              
+              <div class="widget-2 section-sidebar bg-gray">
+                <h3 class="widget-title-2"><img class="ic" src="assets/media/general/logo-sm_blue.png" alt="photo"/><span class="widget-title__inner">Contacta al vendedor</span></h3>
+                <div class="widget-content">
+                  <div class="widget-inner">
+                    <form>
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Nombre"/>
+                      </div>
+                      <div class="form-group">
+                        <textarea class="form-control" placeholder="Consulta" rows="5"></textarea>
+                      </div>
+                      <button class="btn btn-secondary w-100">mandar mensaje</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="widget-2 section-sidebar bg-gray">
+                <h3 class="widget-title-2"><img class="ic" src="assets/media/general/logo-sm_blue.png" alt="photo"/><span class="widget-title__inner">Calculadora Financiera</span></h3>
+                <div class="widget-content">
+                  <div class="widget-inner">
+                    <form>
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Precio ($)"/>
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Tasa de Interés"/>
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Número de Meses"/>
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Principal"/>
+                      </div>
+                      <button class="btn btn-secondary w-100">calcular</button>
+                    </form>
+                  </div>
+                </div>
+                <!-- end .widget-->
+                
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+      <!-- end .b-goods-f-->
+      
+    </div>
+  </div>

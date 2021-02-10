@@ -37,6 +37,7 @@ import { ParticularComponent } from './components/register/particular/particular
 import { RemaxComponent } from './components/register/remax/remax.component';
 import { PublishedCarComponent } from './components/shared/published-car/published-car.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     ParticularComponent,
     RemaxComponent,
     PublishedCarComponent,
+    AutoSemiNuevoComponent,
   ],
   imports: [
     BrowserModule,

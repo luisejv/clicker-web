@@ -47,34 +47,32 @@
                         <div class="b-filter__main row">
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
+                              #selectedBrand
                               class="selectpicker"
                               data-width="100%"
                               title="Marca"
-                              multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
                               (change)="changeBrand($event)"
                             >
-                              <option [ngValue]="auto" *ngFor="let auto of autos">
+                              <option [value]="auto.modelos" *ngFor="let auto of autos">
                                 {{ auto.marca }}
                               </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
+                              #selectedModelo
                               class="selectpicker"
                               data-width="100%"
                               title="Modelo"
-                              multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
                               (change)="changeModel($event)"
                             >
-                              <!-- <ng-container *ngFor="let modelo of marca?.modelos">
-                                <option [value]="modelo">
-                                  A: {{ modelo }}
-                                </option>
-                              </ng-container> -->
+                              <option *ngFor="let modelo of selectedBrand.value.split(',')">
+                                {{ modelo }}
+                              </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
@@ -254,7 +252,7 @@
                         class="btns-switch__item js-view-list ic fas fa-list"
                       ></i
                       ><i
-                        class="btns-switch__item js-view-th active ic fas fa-th-large"
+                        class="btns-switch__item js-view-th ic active fas fa-th-large"
                       ></i>
                     </div>
                   </div>
@@ -270,11 +268,9 @@
                   "
                   class="col-lg-4 col-md-6"
                 >
-                <!-- TODO: modelo y foto pueden ser 'undefined' -->
+                <!-- TODO: poner la foto cuando esté -->
                   <app-published-car
-                    [name]="carro.auto.modelo"
-                    [photo]="carro.auto.foto"
-                    [price]="carro.precioVenta"
+                    [auto]="carro"
                   >
                   </app-published-car>
                 </div>

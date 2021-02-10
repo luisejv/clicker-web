@@ -1,50 +1,50 @@
 
-<div class="b-goods"><a class="b-goods__img" href="#"><img class="img-scale" [src]="photo" alt="Foto del Carro"/></a>
+<div class="b-goods published-car-container" style="cursor: pointer;" (click)="goToVehicleDetails()"><a class="b-goods__img"><img class="img-scale" [src]="photo" alt="Foto del Carro"/></a>
     <div class="b-goods__main">
     <div class="row no-gutters">
-        <div class="col"><a class="b-goods__title" href="#">{{ name }}</a>
-        <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div>
+        <div class="col"><a class="b-goods__title">{{ auto.marca }} - {{ auto.modelo }}</a>
+        <!-- <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div> -->
         </div>
         <div class="col-auto">
-        <div class="b-goods__price text-primary"><span class="b-goods__price-title">DEALER<br>PRICE</span><span class="b-goods__price-number">${{ price }}</span></div>
-        <div class="b-goods__price-msrp">MSRP 25,350</div>
+        <div class="b-goods__price text-primary"><span class="b-goods__price-title">PRECIO<br>VENDEDOR</span><span class="b-goods__price-number">${{ auto.precioVenta | number }}</span></div>
+        <!-- <div class="b-goods__price-msrp">MSRP 25,350</div> -->
         </div>
     </div>
     <div class="b-goods-descrip row no-gutters">
         <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-            <div class="b-goods-descrip__wrap"><i class="ic flaticon-speedometer"></i><span class="b-goods-descrip__info"> 35,000 mi</span>
-            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">MILEAGE</span><span class="b-goods-descrip__text">316,500</span></div>
+            <div class="b-goods-descrip__wrap"><i class="ic flaticon-speedometer"></i><span class="b-goods-descrip__info"> {{ auto.kilometraje | number }} km</span>
+            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">KILOMETRAJE</span><span class="b-goods-descrip__text">{{ auto.kilometraje | number }}</span></div>
             </div>
         </div>
         </div>
         <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-            <div class="b-goods-descrip__wrap"><i class="ic flaticon-fuel-station-pump"></i><span class="b-goods-descrip__info"> 38/45</span>
-            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">FUEL TYPE</span><span class="b-goods-descrip__text">PETROL</span></div>
+            <div class="b-goods-descrip__wrap"><i class="ic flaticon-fuel-station-pump"></i><span class="b-goods-descrip__info"> {{ auto.tipoCombustible }}</span>
+            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">COMBUSTIBLE</span><span class="b-goods-descrip__text">{{ auto.tipoCombustible }}</span></div>
             </div>
         </div>
         </div>
         <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-            <div class="b-goods-descrip__wrap"><i class="ic flaticon-gearshift"></i><span class="b-goods-descrip__info"> Semi-Auto</span>
-            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">TRANSMISSION</span><span class="b-goods-descrip__text">AUTOMATIC</span></div>
+            <div class="b-goods-descrip__wrap"><i class="ic flaticon-gearshift"></i><span class="b-goods-descrip__info"> {{ auto.tipoCambios }}</span>
+            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">TRANSMISIÓN</span><span class="b-goods-descrip__text">{{ auto.tipoCambios }}</span></div>
             </div>
         </div>
         </div>
         <div class="b-goods-descrip__item b-goods-descrip__item_list col">
         <div class="b-goods-descrip__inner">
             <div class="b-goods-descrip__wrap"><i class="ic flaticon-calendar"></i>
-            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">YEAR</span><span class="b-goods-descrip__text">2016</span></div>
+            <div class="b-goods-descrip__full-info"><span class="b-goods-descrip__title">AÑO</span><span class="b-goods-descrip__text">{{ auto.anoFabricacion }}</span></div>
             </div>
         </div>
         </div>
     </div>
-    <div class="b-goods__footer">
+    <!-- <div class="b-goods__footer">
         <div class="row no-gutters justify-content-between">
         <div class="col-auto"><span class="b-goods__tag">test drive</span><span class="b-goods__tag">compare</span><span class="b-goods__tag">share this</span></div>
         <div class="col-auto"><img class="b-goods__bnr" src="assets/media/content/b-goods/check.jpg" alt="photo"/><img class="b-goods__bnr" src="assets/media/content/b-goods/check-2.jpg" alt="photo"/></div>
         </div>
-    </div>
+    </div> -->
     </div>
 </div>

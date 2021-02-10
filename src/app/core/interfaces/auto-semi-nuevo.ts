@@ -1,16 +1,35 @@
-import { Auto } from "./auto";
-import { User } from "./user";
+import { User } from './user';
+
+//TODO: poner los miembros opcionales
 
 export interface AutoSemiNuevo {
-    auto: Auto,
-    precioVenta: number,
-    moneda: string,
-    codversion: number,
-    version: string,
-    ciudadesDisponibles: string[],
-    kilometraje: number,
-    tipoAuto: string,
-    presentar: boolean,
-    duenoCarro: boolean,
-    usuario: User,
+  id: number;
+  usuario: User;
+  placa: string;
+  serie: string;
+  correoDueno: string;
+  nombreDueno: string;
+  telefonoDueno: string;
+  marca: string;
+  modelo: string;
+  anoFabricacion: number;
+  tipoCambios: string;
+  tipoCombustible: string;
+  tipoCarroceria: string;
+  cilindrada: number;
+  kilometraje: number;
+  numeroPuertas: number;
+  tipoTraccion: string;
+  color: string;
+  numeroCilindros: number;
+  precioVenta: number;
+  comprado: boolean;
+  validado: boolean;
+  enabled: boolean;
+  comisionUsuario: number;
+  comisionVendedor: number;
+  comisionEmpresa: number;
+  fechaPublicacion: string;
+  video?: string;
+  accesorios: string[];
 }
