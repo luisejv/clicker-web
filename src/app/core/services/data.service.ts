@@ -120,7 +120,7 @@ export class DataService {
     },
   ];
 
-  marcas: string[] = ['Tesla', 'Kia', 'Opel', 'BMW'];
+  marcas: string[] = ['Toyota', 'Tesla', 'Kia', 'Opel', 'BMW'];
 
   modelos: any = {
     Tesla: ['Model X', 'Model Y', 'Model S', 'Roadster'],
@@ -130,6 +130,10 @@ export class DataService {
   };
 
   autos: any[] = [
+    {
+      marca: 'Toyota',
+      modelos: ['Yaris', 'Corolla', 'Rav4', 'Sequoia'],
+    },
     {
       marca: 'Tesla',
       modelos: ['Model X', 'Model Y', 'Model S', 'Roadster'],
@@ -146,6 +150,39 @@ export class DataService {
       marca: 'BMW',
       modelos: ['2-Series', '3-Series', '5-Series', '7-Series', '8-Series'],
     },
+  ];
+
+  tiposTransmision: string[] = ['Mecánico', 'Automático'];
+
+  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV'];
+
+  tiposCarroceria: string[] = [
+    'SUV',
+    'Van',
+    'Sedan',
+    'Hatchback',
+    'Coupe',
+    'Pickup',
+    'Convertible',
+    'Citycar',
+  ];
+
+  anos: number[] = [
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
   ];
 
   constructor(private userService: UserService) {}

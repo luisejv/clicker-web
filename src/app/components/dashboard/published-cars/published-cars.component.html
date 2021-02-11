@@ -47,7 +47,7 @@
                         <div class="b-filter__main row">
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
-                              #selectedBrand
+                              #filtroMarca
                               class="selectpicker"
                               data-width="100%"
                               title="Marca"
@@ -55,14 +55,14 @@
                               data-style="ui-select"
                               (change)="changeBrand($event)"
                             >
-                              <option [value]="auto.modelos" *ngFor="let auto of autos">
+                              <option *ngFor="let auto of autos">
                                 {{ auto.marca }}
                               </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
-                              #selectedModelo
+                              #filtroModelo
                               class="selectpicker"
                               data-width="100%"
                               title="Modelo"
@@ -70,27 +70,30 @@
                               data-style="ui-select"
                               (change)="changeModel($event)"
                             >
-                              <option *ngFor="let modelo of selectedBrand.value.split(',')">
+                              <option>A</option>
+                              <!-- <option *ngFor="let modelo of selectedBrand.value.split(',')">
                                 {{ modelo }}
-                              </option>
+                              </option> -->
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
+                              #filtroCarroceria
                               class="selectpicker"
                               data-width="100%"
                               title="Vehicle Type"
                               multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
+                              (change)="changeCarroceria($event)"
                             >
-                              <option>Select 1</option>
-                              <option>Select 2</option>
-                              <option>Select 3</option>
-                              <option>Select 4</option>
+                              <option *ngFor="let carroceria of tiposCarroceria">
+                                {{ carroceria }}
+                              </option>
                             </select>
                           </div>
-                          <div class="b-filter__row col-xl-12 col-md-6">
+                          <!-- TODO: condition, lo necesitamos? -->
+                          <!-- <div class="b-filter__row col-xl-12 col-md-6">
                             <select
                               class="selectpicker"
                               data-width="100%"
@@ -104,69 +107,73 @@
                               <option>Select 3</option>
                               <option>Select 4</option>
                             </select>
-                          </div>
+                          </div> -->
                           <div class="col-12">
                             <div class="b-filter__row row">
                               <div class="b-filter__item col-md-6">
                                 <select
+                                  #filtroDesde
                                   class="selectpicker"
                                   data-width="100%"
-                                  title="From"
+                                  title="Desde"
                                   multiple="multiple"
                                   data-max-options="1"
                                   data-style="ui-select"
+                                  (change)="changeAnoFrom($event)"
                                 >
-                                  <option>Select 1</option>
-                                  <option>Select 2</option>
-                                  <option>Select 3</option>
-                                  <option>Select 4</option>
+                                  <option *ngFor="let ano of anos">
+                                    {{ ano }}
+                                  </option>
                                 </select>
                               </div>
                               <div class="b-filter__item col-md-6">
                                 <select
+                                  #filtroHasta
                                   class="selectpicker"
                                   data-width="100%"
-                                  title="To"
+                                  title="Hasta"
                                   multiple="multiple"
                                   data-max-options="1"
                                   data-style="ui-select"
+                                  (change)="changeAnoTo($event)"
                                 >
-                                  <option>Select 1</option>
-                                  <option>Select 2</option>
-                                  <option>Select 3</option>
-                                  <option>Select 4</option>
+                                <option *ngFor="let ano of anos">
+                                  {{ ano }}
+                                </option>
                                 </select>
                               </div>
                             </div>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
+                              #filtroTransmision
                               class="selectpicker"
                               data-width="100%"
                               title="Transmission"
                               multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
+                              (change)="changeTransmision($event)"
                             >
-                              <option>Select 1</option>
-                              <option>Select 2</option>
-                              <option>Select 3</option>
-                              <option>Select 4</option>
+                              <option *ngFor="let transmision of tiposTransmision">
+                                {{ transmision }}
+                              </option>
                             </select>
                           </div>
                           <div class="b-filter__row col-xl-12 col-md-6">
                             <select
+                              #filtroCombustible
                               class="selectpicker"
                               data-width="100%"
                               title="Fuel Type"
                               multiple="multiple"
                               data-max-options="1"
                               data-style="ui-select"
+                              (change)="changeCombustible($event)"
                             >
-                              <option>Select 1</option>
-                              <option>Select 2</option>
-                              <option>Select 3</option>
-                              <option>Select 4</option>
+                              <option *ngFor="let combustible of tiposCombustible">
+                                {{ combustible }}
+                              </option>
                             </select>
                           </div>
                         </div>

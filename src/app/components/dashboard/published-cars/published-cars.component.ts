@@ -5,6 +5,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
@@ -17,15 +18,26 @@ import Swal from 'sweetalert2';
 import { DataService } from 'src/app/core/services/data.service';
 import { of } from 'rxjs';
 import { convertToObject } from 'typescript';
+import { AutoSemiNuevoComponent } from '../../details/auto-semi-nuevo/auto-semi-nuevo.component';
 
 @Component({
   selector: 'app-published-cars',
   templateUrl: './published-cars.component.html',
   styleUrls: ['./published-cars.component.css'],
 })
-export class PublishedCarsComponent implements OnInit, OnChanges {
+export class PublishedCarsComponent implements OnInit {
   @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
   @Input() filters!: CarSearchFilter;
+
+  @ViewChild('filtroMarca') filtroMarca: any;
+  @ViewChild('filtroModelo') filtroModelo: any;
+  @ViewChild('filtroCarroceria') filtroCarroceria: any;
+  @ViewChild('filtroDesde') filtroDesde: any;
+  @ViewChild('filtroHasta') filtroHasta: any;
+  @ViewChild('filtroTransmision') filtroTransmision: any;
+  @ViewChild('filtroCombustible') filtroCombustible: any;
+
+  filtros: any[];
 
   // * user
   correo: string = '';
@@ -40,8 +52,12 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
   currPage: number = 0;
   carsPerPage: number = 10;
 
-  // * marcas y modelos
+  // * datos
   autos: any[];
+  tiposTransmision: string[];
+  tiposCombustible: string[];
+  tiposCarroceria: string[];
+  anos: number[];
 
   // * ngs slider
   minPrice: number = 1000;
@@ -51,12 +67,14 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
     ceil: this.maxPrice,
     step: 1000,
     translate: (value: number, label: LabelType): string => {
-      this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
-        return (
-          carro.precioVenta >= this.minPrice &&
-          carro.precioVenta <= this.maxPrice
-        );
-      });
+      this.filteredCarros = this.filteredCarros.filter(
+        (carro: AutoSemiNuevo) => {
+          return (
+            carro.precioVenta >= this.minPrice &&
+            carro.precioVenta <= this.maxPrice
+          );
+        }
+      );
       this.currPage = 0;
       this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
       this.pages = Array(this.pgCnt)
@@ -73,12 +91,19 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
     private dataService: DataService
   ) {
     this.autos = this.dataService.autos;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.group('Changes');
-    console.dir(changes);
-    console.groupEnd();
+    this.tiposTransmision = this.dataService.tiposTransmision;
+    this.tiposCombustible = this.dataService.tiposCombustible;
+    this.tiposCarroceria = this.dataService.tiposCarroceria;
+    this.anos = this.dataService.anos;
+    this.filtros = [
+      this.filtroMarca,
+      this.filtroModelo,
+      this.filtroCarroceria,
+      this.filtroDesde,
+      this.filtroHasta,
+      this.filtroTransmision,
+      this.filtroCombustible,
+    ];
   }
 
   ngOnInit(): void {
@@ -187,10 +212,10 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
     console.log(event.target.value);
     console.groupEnd();
     const normalizedQuery: string = this._normalizeValue(event.target.value);
-    this.filteredCarros = this.carros.filter((carro: any) => {
+    this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
       return (
-        this._normalizeValue(carro.auto.marca).includes(normalizedQuery) ||
-        this._normalizeValue(carro.auto.modelo).includes(normalizedQuery)
+        this._normalizeValue(carro.marca).includes(normalizedQuery) ||
+        this._normalizeValue(carro.modelo).includes(normalizedQuery)
       );
     });
     this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
@@ -205,16 +230,61 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
   }
 
   changeBrand(e: any): void {
-    //TODO: filtrar por marca
     const brand = e.target.value;
     console.log('selected brand: ', brand);
+
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.marca.includes(brand);
+    });
   }
 
   changeModel(e: any): void {
-    //TODO: filtrar por modelo
-    //TODO: actualizar this.modelos
     const model: string = e.target.value;
     console.log('selected model: ', model);
+    //TODO: el error de mierdaaaaaaaaaaaaa
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.modelo.includes(model);
+    // });
+  }
+
+  changeCarroceria(e: any): void {
+    const carroceria: string = e.target.value;
+    console.log('selected carroceria: ', carroceria);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.tipoCarroceria.includes(carroceria);
+    });
+  }
+
+  changeTransmision(e: any): void {
+    const transmision: string = e.target.value;
+    console.log('selected transmision: ', transmision);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.tipoCambios.includes(transmision);
+    });
+  }
+
+  changeCombustible(e: any): void {
+    const combustible: string = e.target.value;
+    console.log('selected combustible: ', combustible);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.tipoCombustible.includes(combustible);
+    });
+  }
+
+  changeAnoFrom(e: any): void {
+    const from: number = e.target.value;
+    console.log('selected from year: ', from);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.anoFabricacion >= from;
+    });
+  }
+
+  changeAnoTo(e: any): void {
+    const to: number = e.target.value;
+    console.log('selected to year: ', to);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.anoFabricacion <= to;
+    });
   }
 
   sortBy(order: any): void {
@@ -226,5 +296,8 @@ export class PublishedCarsComponent implements OnInit, OnChanges {
   resetFilters(): void {
     //TODO: resetear cómo se ven los selects
     this.filteredCarros = this.carros;
+    this.filtros.map((filtro: any) => {
+      filtro.nativeElement.selected = false;
+    });
   }
 }
