@@ -59,8 +59,8 @@ export class HomeComponent implements OnInit {
   carType: string = 'SUV';
   carSubset: string = 'ALL';
 
-  carBrand: string = 'TESLA';
-  carModel: string = 'MODEL X';
+  carBrand: string = 'Toyota';
+  carModel: string = 'Yaris';
   carMaxPrice: number = 5000;
 
   recentCars: Car[];

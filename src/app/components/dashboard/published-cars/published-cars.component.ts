@@ -1,12 +1,5 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/enums/modes.enum';
@@ -14,11 +7,7 @@ import { User } from 'src/app/core/interfaces/user';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
-import Swal from 'sweetalert2';
 import { DataService } from 'src/app/core/services/data.service';
-import { of } from 'rxjs';
-import { convertToObject } from 'typescript';
-import { AutoSemiNuevoComponent } from '../../details/auto-semi-nuevo/auto-semi-nuevo.component';
 
 @Component({
   selector: 'app-published-cars',
@@ -127,18 +116,19 @@ export class PublishedCarsComponent implements OnInit {
           console.dir(this.carros);
           console.groupEnd();
 
-          let normalizedCarBrand = this._normalizeValue(this.filters.carBrand);
-          let normalizedCarModel = this._normalizeValue(this.filters.carModel);
-
+          console.group('Filtrando Carros');
           this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
             console.log(carro);
             return (
-              this._normalizeValue(carro.marca) == normalizedCarBrand &&
-              this._normalizeValue(carro.modelo) == normalizedCarModel &&
-              carro.precioVenta <= this.filters.carMaxPrice
-              // && carro.auto.tipocarroceria === this.filters!.carType
+              carro.marca === this.filters.carBrand &&
+              carro.modelo === this.filters.carModel &&
+              carro.precioVenta <= Number(this.filters.carMaxPrice) &&
+              (this.filters.carType === 'OTRO'
+                ? true
+                : this.filters.carType === carro.tipoCarroceria)
             );
           });
+          console.groupEnd();
 
           // ! esta linea permite que cuando el usuario filtre, se haga el
           // ! filtro sobre los carros ya filtrados y no sobre toda la bd de

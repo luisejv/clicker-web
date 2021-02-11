@@ -71,6 +71,13 @@
             ></span>
             CITYCAR
           </label>
+          <label class="btn b-main-filter__cat-item">
+            <input type="radio" name="options" id="option7" /><span
+              (click)="changeCarType('OTRO')"
+              class="ic flaticon-car"
+            ></span>
+            OTRO
+          </label>
         </div>
         <ul class="b-main-filter-nav nav nav-tabs" id="findTab" role="tablist">
           <li class="b-main-filter-nav__item nav-item">
@@ -127,6 +134,7 @@
                         data-width="100%"
                         data-style="ui-select"
                       >
+                        <option>Toyota</option>
                         <option>Tesla</option>
                         <option>BMV</option>
                         <option>Opel</option>
@@ -144,6 +152,7 @@
                         data-style="ui-select"
                       >
                         <!-- TODO: cambiar dinamicamente dependiendo de la marca -->
+                        <option>Yaris</option>
                         <option>Model X</option>
                         <option>Model Y</option>
                         <option>Model S</option>
