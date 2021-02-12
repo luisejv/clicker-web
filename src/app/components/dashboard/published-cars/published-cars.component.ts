@@ -117,17 +117,26 @@ export class PublishedCarsComponent implements OnInit {
           console.groupEnd();
 
           console.group('Filtrando Carros');
-          this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
-            console.log(carro);
-            return (
-              carro.marca === this.filters.carBrand &&
-              carro.modelo === this.filters.carModel &&
-              carro.precioVenta <= Number(this.filters.carMaxPrice) &&
-              (this.filters.carType === 'OTRO'
-                ? true
-                : this.filters.carType === carro.tipoCarroceria)
-            );
-          });
+
+          if (this.filters.allCars) {
+            this.filteredCarros = response;
+          } else {
+            this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
+              console.log(carro);
+              console.log(
+                this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+              );
+              return (
+                carro.marca === this.filters.carBrand &&
+                carro.modelo === this.filters.carModel &&
+                carro.precioVenta <= Number(this.filters.carMaxPrice) &&
+                (this.filters.carType === 'OTRO'
+                  ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+                  : this.filters.carType === carro.tipoCarroceria)
+              );
+            });
+          }
+
           console.groupEnd();
 
           // ! esta linea permite que cuando el usuario filtre, se haga el
@@ -284,10 +293,12 @@ export class PublishedCarsComponent implements OnInit {
   }
 
   resetFilters(): void {
-    //TODO: resetear cómo se ven los selects
+    //TODO: probar
     this.filteredCarros = this.carros;
     this.filtros.map((filtro: any) => {
-      filtro.nativeElement.selected = false;
+      filtro.nativeElement.options.forEach((opcion: any) => {
+        opcion.selected = false;
+      });
     });
   }
 }

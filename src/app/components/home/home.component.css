@@ -1,0 +1,16 @@
+:root {
+  --primary-color: #272727;
+}
+
+.find-your-dream-car {
+  background-image: url("https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?cs=srgb&dl=pexels-albin-berlin-919073.jpg&fm=jpg");
+  background-size: cover;
+}
+
+@media (max-width: 672px) {
+  .find-your-dream-car {
+    background-image: url("https://images.pexels.com/photos/261986/pexels-photo-261986.jpeg?cs=srgb&dl=pexels-pixabay-261986.jpg&fm=jpg");
+    background-size: cover;
+    background-size: top;
+  }
+}

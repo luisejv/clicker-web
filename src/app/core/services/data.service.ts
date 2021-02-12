@@ -160,7 +160,6 @@ export class DataService {
     'SUV',
     'Van',
     'Sedan',
-    'Hatchback',
     'Coupe',
     'Pickup',
     'Convertible',
