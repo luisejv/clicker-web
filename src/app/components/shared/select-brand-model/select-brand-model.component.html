@@ -1,0 +1,66 @@
+<div class="b-main-filter__item col-md-4">
+    <div class="b-main-filter__label">Seleccionar Marca</div>
+    <div class="b-main-filter__selector">
+      <select
+        (change)="marcaChange($event)"
+        class="selectpicker"
+        data-width="100%"
+        data-style="ui-select"
+      >
+        <option *ngFor="let marca of marcas">
+            {{ marca }}
+        </option>
+      </select>
+      <!-- <mat-form-field>
+          <mat-label>Marca</mat-label>
+          <mat-select
+          (change)="marcaChange($event)"
+          >
+            <mat-option *ngFor="let marca of marcas" [value]="marca">
+                {{ marca }}
+            </mat-option>
+          </mat-select>
+      </mat-form-field> -->
+    </div>
+  </div>
+  <div class="b-main-filter__item col-md-4">
+    <div class="b-main-filter__label">Seleccionar Modelo</div>
+    <div class="b-main-filter__selector">
+      <select
+        (change)="modeloChanged($event)"
+        class="selectpicker"
+        data-width="100%"
+        data-style="ui-select"
+      >
+        <option *ngFor="let modelo of modelos">
+            {{ modelo }}
+        </option>
+      </select>
+      <!-- <mat-form-field
+        (change)="modeloChanged($event)"
+      >
+        <mat-label>Modelo</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let modelo of modelos" [value]="modelo">
+              {{ modelo }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    </div>
+  </div>
+  <div class="b-main-filter__item col-md-4">
+    <div class="b-main-filter__label">Rango de Precio</div>
+    <div class="b-main-filter__selector">
+      <select
+        (change)="changeCarMaxPrice($event)"
+        class="selectpicker"
+        data-width="100%"
+        data-style="ui-select"
+      >
+        <!-- TODO: cambiar dinamicamente dependiendo de la marca? -->
+        <option>Max $5000</option>
+        <option>Max $15000</option>
+        <option>Max $25000</option>
+      </select>
+    </div>
+  </div>

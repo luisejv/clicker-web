@@ -123,6 +123,7 @@ export class DataService {
   marcas: string[] = ['Toyota', 'Tesla', 'Kia', 'Opel', 'BMW'];
 
   modelos: any = {
+    Toyota: ['Yaris', 'Corolla', 'Rav4', 'Sequoia'],
     Tesla: ['Model X', 'Model Y', 'Model S', 'Roadster'],
     Kia: ['Optima', 'Sportage', 'Sorento', 'Elantra'],
     Opel: ['Opel 1', 'Opel 2', 'Opel 3'],

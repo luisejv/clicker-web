@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
+import { DataService } from 'src/app/core/services/data.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 declare var $: any;
 
@@ -64,14 +65,23 @@ export class HomeComponent implements OnInit {
   carModel: string = 'Yaris';
   carMaxPrice: number = 5000;
 
+  carBrands: string[];
+  carModels: string[];
+
   recentCars: Car[];
   sponsoredCars: Car[];
 
-  constructor(private router: Router, private storageService: StorageService) {
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private dataService: DataService
+  ) {
     // TODO: hacer el request de recent cars aqui
     // TODO: hacer el request de sponsored aqui
     this.recentCars = TEST_CARS;
     this.sponsoredCars = SPONSOR_TEST;
+    this.carModels = this.dataService.modelos[this.carBrand];
+    this.carBrands = this.dataService.marcas;
   }
 
   ngOnInit(): void {}
@@ -86,9 +96,12 @@ export class HomeComponent implements OnInit {
     console.log('Car Subset: ', this.carSubset);
   }
 
-  changeCarBrand(brand: any): void {
-    this.carBrand = brand.target.value;
-    console.log('Car Brand: ', this.carBrand);
+  changeCarBrand(e: any): void {
+    const brand: string = e.target.value;
+    console.log('Change Car Brand Event: ', e.target.value);
+    this.carBrand = brand;
+    this.carModels = this.dataService.modelos[this.carBrand];
+    //TODO: change this.carBrand and this.carModels
   }
 
   changeCarModel(model: any): void {
