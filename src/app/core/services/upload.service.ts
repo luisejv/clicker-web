@@ -26,6 +26,7 @@ export class UploadService {
       Body: file,
       ACL: 'public-read',
       ContentType: contentType,
+      headers: { 'Access-Control-Allow-Origin': '*' },
     };
     bucket.upload(params, (err: any, data: any) => {
       if (err) {
