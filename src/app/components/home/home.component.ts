@@ -35,20 +35,22 @@ export class HomeComponent implements OnInit {
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
         this.recentCars = response;
-        this.clientService.getSponsoredCars().subscribe(
-          (response: SponsoredCar[]) => {
-            console.log('Response Sponsored: ', response);
-            this.sponsoredCars = response
-              .sort((a, b) => a.level - b.level)
-              .map((elem: SponsoredCar) => elem.autoSemiNuevo);
-          },
-          (error: any) => {
-            console.log('Error fetching sponsoredCars: ', error);
-          }
-        );
+        
       },
       (error: any) => {
         console.log('Error fetching recentCars: ', error);
+      }
+    );
+    this.clientService.getSponsoredCars().subscribe(
+      (response: SponsoredCar[]) => {
+        console.log('Response Sponsored: ', response);
+        this.sponsoredCars = response
+          //.sort((a, b) => a.level - b.level)
+          .map((elem: SponsoredCar) => elem.autoSemiNuevo);
+          console.log(this.sponsoredCars);
+      },
+      (error: any) => {
+        console.log('Error fetching sponsoredCars: ', error);
       }
     );
   }
