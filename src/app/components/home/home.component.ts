@@ -113,6 +113,12 @@ export class HomeComponent implements OnInit {
       queryParams: body,
     });
   }
+
+  toListings(): void {
+    this.router.navigate(['/inventory-listings'], {
+      state: { carType: 'usados' },
+    });
+  }
 }
 
 const TEST_CARS: Car[] = [
@@ -159,7 +165,7 @@ const SPONSOR_TEST: Car[] = [
     kilometraje: 360000,
     tipoCombustible: 'Gasolina',
     precioVenta: 45000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
+    fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
   },
   {
     marca: 'Kia',
@@ -173,7 +179,7 @@ const SPONSOR_TEST: Car[] = [
     kilometraje: 260000,
     tipoCombustible: 'Petróleo',
     precioVenta: 40000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
+    fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
   },
   {
     marca: 'Toyota',
@@ -187,7 +193,7 @@ const SPONSOR_TEST: Car[] = [
     kilometraje: 360000,
     tipoCombustible: 'Gasolina',
     precioVenta: 45000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
+    fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
   },
   {
     marca: 'Kia',
@@ -201,6 +207,6 @@ const SPONSOR_TEST: Car[] = [
     kilometraje: 260000,
     tipoCombustible: 'Petróleo',
     precioVenta: 40000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
+    fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
   },
 ];

@@ -1,4 +1,3 @@
-<!-- <app-spinner *ngIf="!loaded"></app-spinner> -->
 <div
   class="l-theme animated-css"
   data-header="sticky"
@@ -14,7 +13,7 @@
   <!-- Loader end-->
   <app-navbar *ngIf="!inDashboard()"></app-navbar>
   <div class="router-outlet">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
   <app-footer *ngIf="!inDashboard()"></app-footer>
 </div>

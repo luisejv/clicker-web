@@ -34,8 +34,10 @@ export class ParticularComponent implements OnInit {
     return {
       correo: this.formGroup.value.correo,
       password: this.formGroup.value.password,
-      cantidadCarrosAno: 3,
       rol: 'PARTICULAR',
+      form: {
+        estado: false,
+      },
     };
   }
 

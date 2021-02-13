@@ -9,7 +9,6 @@ import { ContactComponent } from './components/contact/contact.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
-import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';

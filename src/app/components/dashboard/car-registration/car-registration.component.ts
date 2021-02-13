@@ -18,7 +18,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/interfaces/user';
 import { ViewMode } from 'src/app/core/enums/view-mode.enum';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { param } from 'jquery';
+import { UploadService } from 'src/app/core/services/upload.service';
 
 @Component({
   selector: 'app-car-registration',
@@ -39,6 +39,7 @@ export class CarRegistrationComponent implements OnInit {
   editView: boolean = false;
   carId: number = -1;
   title: string = 'Registra tu Carro';
+  fotoPrincipal!: File;
 
   constructor(
     private fb: FormBuilder,
@@ -47,19 +48,29 @@ export class CarRegistrationComponent implements OnInit {
     private dataService: DataService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private uploadService: UploadService
   ) {
     this.formGroup = this.fb.group({
-      auto: null,
-      precioVenta: null,
-      moneda: null,
-      codversion: null,
-      version: null,
-      ciudadesDisponibles: null,
-      kilometraje: null,
-      tipoAuto: null,
-      presentar: null,
-      duenoCarro: null,
+      correoDueno: 'luis.jauregui@utec.edu.pe',
+      nombreDueno: 'Luis Jáuregui',
+      telefonoDueno: '997854810',
+      placa: 'NSFW18',
+      serie: '1234',
+      marca: 'Tesla',
+      modelo: 'Model Y',
+      anoFabricacion: '2018',
+      tipoCambios: 'Automático',
+      tipoCombustible: 'Eléctrico',
+      tipoCarroceria: 'SUV',
+      cilindrada: '35000',
+      kilometraje: '120000',
+      numeroPuertas: '5',
+      tipoTraccion: 'Trasera',
+      color: 'Azul',
+      numeroCilindros: '5',
+      precioVenta: '45000',
+      video: '',
     });
   }
 
@@ -75,19 +86,6 @@ export class CarRegistrationComponent implements OnInit {
             console.dir(response);
             console.groupEnd();
 
-            // this.formGroup = this.fb.group({
-            //   auto: null, //TODO: cómo populamos esto
-            //   precioVenta: response.precioVenta,
-            //   moneda: response.moneda,
-            //   codversion: response.codversion,
-            //   version: response.version,
-            //   ciudadesDisponibles: [response.ciudadesDisponibles],
-            //   kilometraje: response.kilometraje,
-            //   tipoAuto: response.tipoAuto,
-            //   presentar: response.presentar,
-            //   duenoCarro: response.duenoCarro,
-            // });
-
             // //* necessary mat-chip
             // this.ciudadesDisponibles = response.ciudadesDisponibles;
 
@@ -97,7 +95,7 @@ export class CarRegistrationComponent implements OnInit {
             ) {
               //TODO: redirigir a vista especial para visualuzar toda la data de un carro
               // * view mode: populate form and disable it
-              this.formGroup.disable();
+              //this.formGroup.disable();
               this.disabled = true;
             } else {
               // * edit mode
@@ -123,16 +121,16 @@ export class CarRegistrationComponent implements OnInit {
       console.log(this.formGroup);
       console.groupEnd();
 
-      this.monedas = this.dataService.monedas;
-      this.tipos = this.dataService.tiposDeCarro;
-      this.allCiudades = this.dataService.ciudades;
+      // this.monedas = this.dataService.monedas;
+      // this.tipos = this.dataService.tiposDeCarro;
+      // this.allCiudades = this.dataService.ciudades;
 
-      this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) =>
-          fruit ? this._filter(fruit) : this.allCiudades.slice()
-        )
-      );
+      // this.filteredCiudades = this.ciudadesDisponiblesFormControl.valueChanges.pipe(
+      //   startWith(null),
+      //   map((fruit: string | null) =>
+      //     fruit ? this._filter(fruit) : this.allCiudades.slice()
+      //   )
+      // );
     });
   }
 
@@ -169,92 +167,83 @@ export class CarRegistrationComponent implements OnInit {
     );
   }
 
-  // toJSON(): AutoSemiNuevo {
-  //   return {
-  //     precioVenta: this.formGroup.value.precioVenta,
-  //     moneda: this.formGroup.value.moneda,
-  //     codversion: this.formGroup.value.codversion,
-  //     version: this.formGroup.value.version, //TODO: revisar
-  //     ciudadesDisponibles: this.ciudadesDisponibles,
-  //     kilometraje: this.formGroup.value.kilometraje,
-  //     tipoAuto: this.formGroup.value.tipoAuto, //TODO: definir los tipos de los autos
-  //     presentar: this.formGroup.value.presentar,
-  //     duenoCarro: this.formGroup.value.duenoCarro,
-  //     //FIXME: si es null, que se logee de nuevo
-  //     usuario: { correo: this.storageService.getEmailSessionStorage()! },
-  //   };
-  // }
+  toJSON(): AutoSemiNuevo {
+    return {
+      //FIXME: si es null, que se logee de nuevo
+      usuario: {
+        correo: this.storageService.getEmailSessionStorage()!,
+      },
+      placa: this.formGroup.value.placa,
+      serie: this.formGroup.value.serie,
+      correoDueno: this.formGroup.value.correoDueno,
+      nombreDueno: this.formGroup.value.nombreDueno,
+      telefonoDueno: this.formGroup.value.telefonoDueno,
+      marca: this.formGroup.value.marca,
+      modelo: this.formGroup.value.modelo,
+      anoFabricacion: this.formGroup.value.anoFabricacion,
+      tipoCambios: this.formGroup.value.tipoCambios,
+      tipoCombustible: this.formGroup.value.tipoCombustible,
+      tipoCarroceria: this.formGroup.value.tipoCarroceria,
+      cilindrada: this.formGroup.value.cilindrada,
+      kilometraje: this.formGroup.value.kilometraje,
+      numeroPuertas: this.formGroup.value.numeroPuertas,
+      tipoTraccion: this.formGroup.value.tipoTraccion,
+      color: this.formGroup.value.color,
+      numeroCilindros: this.formGroup.value.numeroCilindros,
+      precioVenta: this.formGroup.value.precioVenta,
+      video: this.formGroup.value.video,
+      fotoPrincipal: '',
+      fotos: [],
+      accesorios: [],
+      locaciones: {
+        id: '150103',
+      },
+    };
+  }
 
-  // registerCar(): void {
-  //   // TODO: usuario.correo no puede ser null, mostrar SWAL sino
-  //   const body: AutoSemiNuevo = this.toJSON();
-
-  //   console.group('SemiNuevo JSON');
-  //   console.log(this.toJSON());
-  //   console.groupEnd();
-
-  //   //TODO: chequear que el formulario sea válido
-
-  //   if (this.editView) {
-  //     this.userService.putAutoSemiNuevoById(this.carId, body).subscribe(
-  //       (response: User) => {
-  //         console.group('Response');
-  //         console.log(response);
-  //         console.groupEnd();
-  //         Swal.fire({
-  //           titleText: '¡Éxito!',
-  //           html: 'El carro ha sido actualizado.',
-  //           allowOutsideClick: true,
-  //           icon: 'success',
-  //           showConfirmButton: true,
-  //         }).then(() => {
-  //           this.router.navigateByUrl('/dashboard');
-  //         });
-  //       },
-  //       (error: any) => {
-  //         Swal.fire({
-  //           titleText: 'Oops!',
-  //           html: 'No se pudo actualizar el carro.',
-  //           allowOutsideClick: true,
-  //           icon: 'error',
-  //           showConfirmButton: true,
-  //         });
-  //         console.group('Car Registrarion Error');
-  //         console.log(error);
-  //         console.groupEnd();
-  //       }
-  //     );
-  //   } else {
-  //     this.userService.postAutoSemiNuevo(body).subscribe(
-  //       (response: User) => {
-  //         console.group('Response');
-  //         console.log(response);
-  //         console.groupEnd();
-  //         Swal.fire({
-  //           titleText: '¡Éxito!',
-  //           html: 'El carro ha sido registrado.',
-  //           allowOutsideClick: true,
-  //           icon: 'success',
-  //           showConfirmButton: true,
-  //         }).then(() => {
-  //           this.router.navigateByUrl('/dashboard');
-  //         });
-  //       },
-  //       (error: any) => {
-  //         if (error.status === 423) {
-  //           Swal.fire({
-  //             titleText: 'Oops!',
-  //             html: 'Se agotaron sus subidas anuales.',
-  //             allowOutsideClick: true,
-  //             icon: 'warning',
-  //             showConfirmButton: true,
-  //           });
-  //         }
-  //         console.group('Car Registrarion Error');
-  //         console.log(error);
-  //         console.groupEnd();
-  //       }
-  //     );
-  //   }
-  // }
+  postCar(): void {
+    let body: AutoSemiNuevo = this.toJSON();
+    this.uploadService.uploadedData.subscribe(
+      (response) => {
+        body.fotoPrincipal = response;
+        console.group('SemiNuevo JSON');
+        console.log(body);
+        console.groupEnd();
+        this.userService.postAutoSemiNuevo(body).subscribe(
+          (response: User) => {
+            console.group('Response');
+            console.log(response);
+            console.groupEnd();
+            Swal.fire({
+              titleText: '¡Éxito!',
+              html: 'El carro ha sido registrado.',
+              allowOutsideClick: true,
+              icon: 'success',
+              showConfirmButton: true,
+            }).then(() => {
+              this.router.navigateByUrl('/dashboard');
+            });
+          },
+          (error: any) => {
+            if (error.status === 423) {
+              Swal.fire({
+                titleText: 'Oops!',
+                html: 'Se agotaron sus subidas anuales.',
+                allowOutsideClick: true,
+                icon: 'warning',
+                showConfirmButton: true,
+              });
+            }
+            console.group('Car Registrarion Error');
+            console.error(error);
+            console.groupEnd();
+          }
+        );
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+    this.uploadService.uploadFile(this.fotoPrincipal);
+  }
 }

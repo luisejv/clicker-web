@@ -1,7 +1,7 @@
 <!-- ========================== -->
 <!-- SEARCH MODAL-->
 <!-- ==========================-->
-<div class="header-search open-search">
+<!-- <div class="header-search open-search">
   <div class="container">
     <div class="row">
       <div class="col-sm-8 offset-sm-2 col-10 offset-1">
@@ -29,7 +29,7 @@
   <button class="search-close close" type="button">
     <i class="fa fa-times"></i>
   </button>
-</div>
+</div> -->
 <!-- ==========================-->
 <!-- MOBILE MENU-->
 <!-- ==========================-->
@@ -39,7 +39,9 @@
       <a class="nav-link" href="home.html">Inicio</a>
     </li>
 
-    <li class="nav-item"><a class="nav-link" href="about.html">Sobre Nosotros</a></li>
+    <li class="nav-item">
+      <a class="nav-link" href="about.html">Sobre Nosotros</a>
+    </li>
 
     <li class="nav-item">
       <a class="nav-link">Autos Nuevos</a>
@@ -95,7 +97,9 @@
           <div class="top-bar__item">
             <i class="ic fas fa-clock text-primary"></i> Horario de atención:
 
-            <span class="top-bar__link">Lun - Vie : 9am a 6:30pm y Sab: 9am a 1:30pm</span>
+            <span class="top-bar__link"
+              >Lun - Vie : 9am a 6:30pm y Sab: 9am a 1:30pm</span
+            >
           </div>
         </div>
         <div class="col-auto">
@@ -165,81 +169,45 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/reservation-grid']"
-                  >Sobre Nosotros</a
+                <a class="nav-link" [routerLink]="['/inventory-grid']"
+                  >Autos Usados</a
                 >
               </li>
-
+              <!-- TODO: anidar al login/register con formulario -->
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/booking-system']"
-                  >Booking?</a
+                  >Vende Tu Vehículo</a
                 >
               </li>
-
+              <!-- ? No hay info sobre el Foro aún -->
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/contact']">Contacto</a>
-              </li>
-
-              <li *ngIf="isLoggedIn()" class="nav-item">
-                <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+                <a class="nav-link">Foro</a>
               </li>
 
               <li *ngIf="!isLoggedIn()" class="nav-item">
-                <a class="nav-link" [routerLink]="['/registro']">Registrarme</a>
+                <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
               </li>
 
               <li *ngIf="!isLoggedIn()" class="nav-item">
-                <a class="nav-link" [routerLink]="['/login']">Login</a>
+                <a class="nav-link" [routerLink]="['/login']">Ingresa</a>
               </li>
 
               <li *ngIf="isLoggedIn()" class="nav-item">
-                <a class="nav-link" (click)="logout()" [routerLink]="['/home']">Logout</a>
+                <a class="nav-link" (click)="logout()" [routerLink]="['/home']"
+                  >Logout</a
+                >
               </li>
-
-              <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle">Inventory</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" routerLink="/inventory-grid"
-                    >Inventory grid</a
-                  >
-                  <a class="dropdown-item" routerLink="/inventory-listings"
-                    >Inventory listings</a
-                  >
-                  <a class="dropdown-item" routerLink="/vehicle-details"
-                    >Vehicle details</a
-                  >
-                </div>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle">Reservation</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" routerLink="/reservation-grid"
-                    >Reservation car</a
-                  >
-                  <a class="dropdown-item" routerLink="/booking-system"
-                    >Reservation service</a
-                  >
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle">News</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" routerLink="/blog-main">Blog main</a
-                  ><a class="dropdown-item" routerLink="/blog-grid">Blog grid</a
-                  ><a class="dropdown-item" routerLink="/blog-post"
-                    >Blog post</a
-                  >
-                </div>
-              </li> -->
             </ul>
-            <a class="header-main__link"><i class="ic icon-user"></i></a
-            ><span class="header-main__link btn_header_search"
-              ><i class="ic icon-magnifier"></i
-            ></span>
-            <button class="header-main__btn btn btn-secondary">
-              Take a test drive
-            </button>
+            <a
+              class="header-main__link"
+              *ngIf="isLoggedIn()"
+              [routerLink]="['/dashboard']"
+            >
+              <i class="ic icon-user"></i>
+            </a>
+            <!-- <span class="header-main__link btn_header_search">
+              <i class="ic icon-magnifier"></i>
+            </span> -->
           </nav>
         </div>
       </div>
