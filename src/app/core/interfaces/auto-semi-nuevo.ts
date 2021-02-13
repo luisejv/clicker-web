@@ -3,7 +3,7 @@ import { User } from './user';
 //TODO: poner los miembros opcionales
 
 export interface AutoSemiNuevo {
-  id: number;
+  id?: number;
   usuario: User;
   placa: string;
   serie: string;
@@ -23,19 +23,34 @@ export interface AutoSemiNuevo {
   color: string;
   numeroCilindros: number;
   precioVenta: number;
-  comprado: boolean;
-  validado: boolean;
-  enabled: boolean;
-  comisionUsuario: number;
-  comisionVendedor: number;
-  comisionEmpresa: number;
-  fechaPublicacion: string;
+  comprado?: boolean;
+  validado?: boolean;
+  enabled?: boolean;
+  comisionUsuario?: number;
+  comisionVendedor?: number;
+  comisionEmpresa?: number;
+  fechaPublicacion?: string;
   video?: string;
   fotoPrincipal: string;
   fotos?: Foto[];
-  accesorios: string[];
+  accesorios?: string[];
+  locaciones?: Locacion;
 }
 
 interface Foto {
   foto: string;
+}
+
+interface Locacion {
+  id: string;
+  departamento?: string;
+  provincia?: string;
+  distrito?: string;
+  enabled?: boolean;
+}
+
+export interface SponsoredCar {
+  id: number;
+  autoSemiNuevo: AutoSemiNuevo;
+  level: number;
 }

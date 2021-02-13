@@ -20,9 +20,13 @@ export interface User {
   cantidadCarrosAno?: number;
   carrosPosteados?: AutoSemiNuevo[];
   denuncias?: any[]; //TODO: interface denuncia
-  interesadoReventas?: any[]; //TODO: interface interesado
+  interesadosReventas?: any[]; //TODO: interface interesado
   solicitudesRetiros?: any[];
   solicitudesRetiro?: any[];
-  form?: any;
   numeroDenuncias?: number;
+  form?: Form;
+}
+
+interface Form {
+  estado: boolean;
 }

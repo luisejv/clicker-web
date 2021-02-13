@@ -35,8 +35,10 @@ export class RemaxComponent implements OnInit {
     return {
       correo: this.formGroup.value.correo,
       password: this.formGroup.value.password,
-      cantidadCarrosAno: 3,
       rol: 'REMAX',
+      form: {
+        estado: false,
+      },
     };
   }
 

@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
         Swal.fire({
           titleText: 'Logged In!',
-          html: 'Logged in succesfully!',
+          html: 'Loggeado correctamente!',
           allowOutsideClick: true,
           icon: 'success',
           showConfirmButton: true,

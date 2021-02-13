@@ -37,6 +37,7 @@ import { ParticularComponent } from './components/register/particular/particular
 import { RemaxComponent } from './components/register/remax/remax.component';
 import { PublishedCarComponent } from './components/shared/published-car/published-car.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { SelectBrandModelComponent } from './components/shared/select-brand-model/select-brand-model.component';
 
@@ -81,6 +82,7 @@ import { SelectBrandModelComponent } from './components/shared/select-brand-mode
     ReactiveFormsModule,
     CommonModule,
     NgxSliderModule,
+    NgxMatFileInputModule,
   ],
   providers: [
     {

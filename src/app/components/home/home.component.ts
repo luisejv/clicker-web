@@ -1,56 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  AutoSemiNuevo,
+  SponsoredCar,
+} from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { DataService } from 'src/app/core/services/data.service';
+import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 declare var $: any;
-
-interface Car {
-  usuario?: {
-    correo: string;
-  };
-  placa?: string;
-  serie?: string;
-  correoDueno?: string;
-  nombreDueno?: string;
-  telefonoDueno?: string;
-  marca?: string;
-  modelo?: string;
-  anoFabricacion?: string;
-  tipoCambios?: string;
-  tipoCombustible?: string;
-  tipoCarroceria?: string;
-  cilindrada?: number;
-  kilometraje: number;
-  numeroPuertas?: number;
-  tipoTraccion?: string;
-  color?: string;
-  numeroCilindros?: number;
-  precioVenta?: number;
-  comprado?: boolean;
-  validado?: boolean;
-  enabled?: boolean;
-  comisionUsuario?: number;
-  comisionVendedor?: number;
-  comisionEmpresa?: number;
-  fechaPublicacion?: string;
-  video?: string;
-  accesorios?: string[];
-  fotoPrincipal?: string;
-  fotos?: Foto[];
-  locaciones?: Locacion;
-}
-
-interface Foto {
-  foto: string;
-}
-
-interface Locacion {
-  id: string;
-  departamento?: string;
-  provincia?: string;
-  distrito?: string;
-}
 
 @Component({
   selector: 'app-home',
@@ -68,23 +26,41 @@ export class HomeComponent implements OnInit {
   carBrands: string[];
   carModels: string[];
 
-  recentCars: Car[];
-  sponsoredCars: Car[];
+  recentCars!: AutoSemiNuevo[];
+  sponsoredCars!: AutoSemiNuevo[];
 
   constructor(
     private router: Router,
     private storageService: StorageService,
+    private clientService: ClientService,
     private dataService: DataService
   ) {
-    // TODO: hacer el request de recent cars aqui
-    // TODO: hacer el request de sponsored aqui
-    this.recentCars = TEST_CARS;
-    this.sponsoredCars = SPONSOR_TEST;
     this.carModels = this.dataService.modelos[this.carBrand];
     this.carBrands = this.dataService.marcas;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clientService.getRecentCars().subscribe(
+      (response: AutoSemiNuevo[]) => {
+        this.recentCars = response;
+      },
+      (error: any) => {
+        console.log('Error fetching recentCars: ', error);
+      }
+    );
+    this.clientService.getSponsoredCars().subscribe(
+      (response: SponsoredCar[]) => {
+        console.log('Response Sponsored: ', response);
+        this.sponsoredCars = response
+          //.sort((a, b) => a.level - b.level)
+          .map((elem: SponsoredCar) => elem.autoSemiNuevo);
+        console.log(this.sponsoredCars);
+      },
+      (error: any) => {
+        console.log('Error fetching sponsoredCars: ', error);
+      }
+    );
+  }
 
   changeCarType(type: string): void {
     this.carType = type;
@@ -129,6 +105,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  toListings(): void {
+    this.router.navigate(['/inventory-listings'], {
+      state: { carType: 'usados' },
+    });
+  }
   goToCarSearch(): void {
     const body: CarSearchFilter = {
       carType: '',
@@ -154,92 +135,96 @@ export class HomeComponent implements OnInit {
   }
 }
 
-const TEST_CARS: Car[] = [
-  {
-    marca: 'Toyota',
-    modelo: 'Yaris',
-    anoFabricacion: '2019',
-    tipoCambios: 'Mecánico',
-    locaciones: {
-      id: '1',
-      departamento: 'Lima',
-    },
-    kilometraje: 360000,
-    tipoCombustible: 'Gasolina',
-    precioVenta: 45000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
-  },
-  {
-    marca: 'Kia',
-    modelo: 'Rio',
-    anoFabricacion: '2021',
-    tipoCambios: 'Automático',
-    locaciones: {
-      id: '10',
-      departamento: 'Chiclayo',
-    },
-    kilometraje: 260000,
-    tipoCombustible: 'Petróleo',
-    precioVenta: 40000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
-  },
-];
+// const TEST_CARS: AutoSemiNuevo[] = [
+//   {
+//     usuario: {
+//       correo: 'luis.jauregui@utec.edu.pe'
+//     },
+//     color: 'azul',
+//     marca: 'Toyota',
+//     modelo: 'Yaris',
+//     anoFabricacion: 2019,
+//     tipoCambios: 'Mecánico',
+//     locaciones: {
+//       id: '1',
+//       departamento: 'Lima',
+//     },
+//     kilometraje: 360000,
+//     tipoCombustible: 'Gasolina',
+//     precioVenta: 45000,
+//     fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
+//   },
+//   {
+//     marca: 'Kia',
+//     modelo: 'Rio',
+//     anoFabricacion: 2021,
+//     tipoCambios: 'Automático',
+//     locaciones: {
+//       id: '10',
+//       departamento: 'Chiclayo',
+//     },
+//     kilometraje: 260000,
+//     tipoCombustible: 'Petróleo',
+//     precioVenta: 40000,
+//     fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
+//   },
+// ];
 
-const SPONSOR_TEST: Car[] = [
-  {
-    marca: 'Toyota',
-    modelo: 'Yaris',
-    anoFabricacion: '2019',
-    tipoCambios: 'Mecánico',
-    locaciones: {
-      id: '1',
-      departamento: 'Lima',
-    },
-    kilometraje: 360000,
-    tipoCombustible: 'Gasolina',
-    precioVenta: 45000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
-  },
-  {
-    marca: 'Kia',
-    modelo: 'Rio',
-    anoFabricacion: '2021',
-    tipoCambios: 'Automático',
-    locaciones: {
-      id: '10',
-      departamento: 'Chiclayo',
-    },
-    kilometraje: 260000,
-    tipoCombustible: 'Petróleo',
-    precioVenta: 40000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
-  },
-  {
-    marca: 'Toyota',
-    modelo: 'Yaris',
-    anoFabricacion: '2019',
-    tipoCambios: 'Mecánico',
-    locaciones: {
-      id: '1',
-      departamento: 'Lima',
-    },
-    kilometraje: 360000,
-    tipoCombustible: 'Gasolina',
-    precioVenta: 45000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
-  },
-  {
-    marca: 'Kia',
-    modelo: 'Rio',
-    anoFabricacion: '2021',
-    tipoCambios: 'Automático',
-    locaciones: {
-      id: '10',
-      departamento: 'Chiclayo',
-    },
-    kilometraje: 260000,
-    tipoCombustible: 'Petróleo',
-    precioVenta: 40000,
-    fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
-  },
-];
+// const SPONSOR_TEST: AutoSemiNuevo[] = [
+//   {
+//     marca: 'Toyota',
+//     modelo: 'Yaris',
+//     anoFabricacion: '2019',
+//     tipoCambios: 'Mecánico',
+//     locaciones: {
+//       id: '1',
+//       departamento: 'Lima',
+//     },
+//     kilometraje: 360000,
+//     tipoCombustible: 'Gasolina',
+//     precioVenta: 45000,
+//     fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
+//   },
+//   {
+//     marca: 'Kia',
+//     modelo: 'Rio',
+//     anoFabricacion: '2021',
+//     tipoCambios: 'Automático',
+//     locaciones: {
+//       id: '10',
+//       departamento: 'Chiclayo',
+//     },
+//     kilometraje: 260000,
+//     tipoCombustible: 'Petróleo',
+//     precioVenta: 40000,
+//     fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
+//   },
+//   {
+//     marca: 'Toyota',
+//     modelo: 'Yaris',
+//     anoFabricacion: '2019',
+//     tipoCambios: 'Mecánico',
+//     locaciones: {
+//       id: '1',
+//       departamento: 'Lima',
+//     },
+//     kilometraje: 360000,
+//     tipoCombustible: 'Gasolina',
+//     precioVenta: 45000,
+//     fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
+//   },
+//   {
+//     marca: 'Kia',
+//     modelo: 'Rio',
+//     anoFabricacion: '2021',
+//     tipoCambios: 'Automático',
+//     locaciones: {
+//       id: '10',
+//       departamento: 'Chiclayo',
+//     },
+//     kilometraje: 260000,
+//     tipoCombustible: 'Petróleo',
+//     precioVenta: 40000,
+//     fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
+//   },
+// ];

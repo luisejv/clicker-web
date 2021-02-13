@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { param } from 'jquery';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UserService } from 'src/app/core/services/user.service';

@@ -1,3 +1,4 @@
 .router-outlet {
-    min-height: 80vh !important;
+  /* max-height: calc(100vh + 700px); */
+  max-height: 110%;
 }
