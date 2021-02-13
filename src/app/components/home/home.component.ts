@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
+import { StorageService } from 'src/app/core/services/storage.service';
 declare var $: any;
 
 interface Car {
@@ -66,7 +67,7 @@ export class HomeComponent implements OnInit {
   recentCars: Car[];
   sponsoredCars: Car[];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private storageService: StorageService) {
     // TODO: hacer el request de recent cars aqui
     // TODO: hacer el request de sponsored aqui
     this.recentCars = TEST_CARS;
@@ -108,6 +109,7 @@ export class HomeComponent implements OnInit {
       carBrand: this.carBrand,
       carModel: this.carModel,
       carMaxPrice: this.carMaxPrice,
+      allCars: false,
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
@@ -118,6 +120,29 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/inventory-listings'], {
       state: { carType: 'usados' },
     });
+  }
+  goToCarSearch(): void {
+    const body: CarSearchFilter = {
+      carType: '',
+      carSubset: '',
+      carBrand: '',
+      carModel: '',
+      carMaxPrice: 0,
+      allCars: true,
+    };
+    this.router.navigate(['/inventory-listings'], {
+      queryParams: body,
+    });
+  }
+
+  goToCarRegistration(): void {
+    if (this.storageService.isLoggedIn()) {
+      //TODO: redirect to car-registration
+      console.log('redirect to car-registration');
+    } else {
+      //TODO: register to login/register, then to car-registration
+      console.log('register to login/register, then to car-registration');
+    }
   }
 }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/enums/modes.enum';
 
@@ -11,7 +10,6 @@ import { ModesEnum } from 'src/app/core/enums/modes.enum';
 })
 export class InventoryListingsComponent implements OnInit {
   mode: ModesEnum = ModesEnum.USER_SEARCH;
-  // filters!: Observable<CarSearchFilter>;
   filters!: CarSearchFilter;
 
   constructor(private route: ActivatedRoute) {}

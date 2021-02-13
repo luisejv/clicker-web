@@ -125,6 +125,7 @@
       <div class="row align-items-center justify-content-between">
         <div class="col-auto">
           <a class="navbar-brand navbar-brand_light scroll" href="home.html">
+            <!-- assets/media/general/logo-light.png -->
             <img
               class="normal-logo img-fluid"
               src="assets/media/general/logo-light.png"
@@ -132,6 +133,7 @@
             />
           </a>
           <a class="navbar-brand navbar-brand_dark scroll" href="home.html">
+            <!-- assets/media/general/logo-dark.png -->
             <img
               class="normal-logo img-fluid"
               src="assets/media/general/logo-dark.png"
@@ -198,6 +200,7 @@
                 >
               </li>
             </ul>
+            <<<<<<< HEAD
             <a
               class="header-main__link"
               *ngIf="isLoggedIn()"
@@ -208,6 +211,24 @@
             <!-- <span class="header-main__link btn_header_search">
               <i class="ic icon-magnifier"></i>
             </span> -->
+            =======
+            <!-- <li *ngIf="isLoggedIn()" class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+            </li> -->
+            <a
+              *ngIf="isLoggedIn()"
+              [routerLink]="['/dashboard']"
+              class="header-main__link"
+            >
+              <i class="ic icon-user"></i>
+            </a>
+            <span class="header-main__link btn_header_search">
+              <i class="ic icon-magnifier"></i>
+            </span>
+            <button class="header-main__btn btn btn-secondary">
+              Take a test drive
+            </button>
+            >>>>>>> 1696ab05c333580ff8adb14eab2d8377291f7b94
           </nav>
         </div>
       </div>

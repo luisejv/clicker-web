@@ -15,6 +15,7 @@ export interface User {
   tipoDocumento?: any;
   numDocumento?: number;
   enabled?: boolean;
+  validated?: boolean;
   balance?: number;
   cantidadCarrosAno?: number;
   carrosPosteados?: AutoSemiNuevo[];
@@ -22,6 +23,7 @@ export interface User {
   interesadosReventas?: any[]; //TODO: interface interesado
   solicitudesRetiros?: any[];
   solicitudesRetiro?: any[];
+  numeroDenuncias?: number;
   form?: Form;
 }
 
