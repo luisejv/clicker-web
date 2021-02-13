@@ -48,3 +48,9 @@ interface Locacion {
   distrito?: string;
   enabled?: boolean;
 }
+
+export interface SponsoredCar {
+  id: number;
+  autoSemiNuevo: AutoSemiNuevo;
+  level: number;
+}
