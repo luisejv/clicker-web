@@ -15,4 +15,16 @@ export class ClientService {
   public getRecentCars(): Observable<any> {
     return this.http.get(this.commonService.getRecentCarsUrl);
   }
+  public getBrandCount(): Observable<any> {
+    return this.http.get(this.commonService.brandCountUrl);
+  }
+  public getAvailableVehiclesCount(): Observable<any> {
+    return this.http.get(this.commonService.availableVehiclesCountUrl);
+  }
+  public getSoldVehiclesCount(): Observable<any> {
+    return this.http.get(this.commonService.soldVehiclesCountUrl);
+  }
+  public getUserCount(): Observable<any> {
+    return this.http.get(this.commonService.userCountUrl);
+  }
 }

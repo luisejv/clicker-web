@@ -8,6 +8,7 @@ import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { DataService } from 'src/app/core/services/data.service';
 import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { Observable } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -28,6 +29,17 @@ export class HomeComponent implements OnInit {
 
   recentCars!: AutoSemiNuevo[];
   sponsoredCars!: AutoSemiNuevo[];
+  // sponsoredCars: Observable<any>;
+
+  // availableVehicles: Observable<any>;
+  // brandCount: Observable<any>;
+  // userCount: Observable<any>;
+  // soldVehicles: Observable<any>;
+
+  availableVehicles!: number;
+  brandCount!: number;
+  userCount!: number;
+  soldVehicles!: number;
 
   constructor(
     private router: Router,
@@ -37,9 +49,54 @@ export class HomeComponent implements OnInit {
   ) {
     this.carModels = this.dataService.modelos[this.carBrand];
     this.carBrands = this.dataService.marcas;
+    // this.availableVehicles = this.clientService.getAvailableVehiclesCount();
+    // this.brandCount = this.clientService.getBrandCount();
+    // this.userCount = this.clientService.getUserCount();
+    // this.soldVehicles = this.clientService.getSoldVehiclesCount();
+    // this.sponsoredCars = this.clientService.getSponsoredCars();
   }
 
   ngOnInit(): void {
+    this.clientService.getBrandCount().subscribe(
+      (count: number) => {
+        this.brandCount = count;
+      },
+      (error: any) => {
+        console.group('In getting brand count');
+        console.error(error);
+        console.groupEnd();
+      }
+    );
+    this.clientService.getUserCount().subscribe(
+      (count: number) => {
+        this.userCount = count;
+      },
+      (error: any) => {
+        console.group('In getting user count');
+        console.error(error);
+        console.groupEnd();
+      }
+    );
+    this.clientService.getSoldVehiclesCount().subscribe(
+      (count: number) => {
+        this.soldVehicles = count;
+      },
+      (error: any) => {
+        console.group('In getting sold vehicles count');
+        console.error(error);
+        console.groupEnd();
+      }
+    );
+    this.clientService.getAvailableVehiclesCount().subscribe(
+      (count: number) => {
+        this.availableVehicles = count;
+      },
+      (error: any) => {
+        console.group('In getting available count');
+        console.error(error);
+        console.groupEnd();
+      }
+    );
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
         this.recentCars = response;
@@ -106,14 +163,9 @@ export class HomeComponent implements OnInit {
   }
 
   toListings(): void {
-    this.router.navigate(['/inventory-listings'], {
-      state: { carType: 'usados' },
-    });
-  }
-  goToCarSearch(): void {
     const body: CarSearchFilter = {
       carType: '',
-      carSubset: '',
+      carSubset: 'USED',
       carBrand: '',
       carModel: '',
       carMaxPrice: 0,
@@ -124,14 +176,39 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  goToCarSearch(): void {
+    const body: CarSearchFilter = {
+      carType: '',
+      carSubset: 'ALL',
+      carBrand: '',
+      carModel: '',
+      carMaxPrice: 0,
+      allCars: true, //! if false, does not apply filters
+    };
+    this.router.navigate(['/inventory-listings'], {
+      queryParams: body,
+    });
+  }
+
   goToCarRegistration(): void {
     if (this.storageService.isLoggedIn()) {
       //TODO: redirect to car-registration
       console.log('redirect to car-registration');
+      this.router.navigateByUrl('/dashboard/registrar-carro');
     } else {
       //TODO: register to login/register, then to car-registration
       console.log('register to login/register, then to car-registration');
+      this.storageService.setGoingToCarRegistration('yes');
+      this.router.navigateByUrl('/registro');
     }
+  }
+
+  goToVehicleDetails(carId: number): void {
+    this.router.navigate(['/auto-semi-nuevo'], {
+      queryParams: {
+        id: carId,
+      },
+    });
   }
 }
 

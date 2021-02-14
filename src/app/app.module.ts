@@ -40,6 +40,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { SelectBrandModelComponent } from './components/shared/select-brand-model/select-brand-model.component';
+import { ExtractPipe } from './pipes/extract.pipe';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { SelectBrandModelComponent } from './components/shared/select-brand-mode
     PublishedCarComponent,
     AutoSemiNuevoComponent,
     SelectBrandModelComponent,
+    ExtractPipe,
   ],
   imports: [
     BrowserModule,

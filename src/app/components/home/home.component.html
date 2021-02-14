@@ -30,7 +30,7 @@
             ></span>
             PICKUP
           </label>
-          <label class="btn b-main-filter__cat-item active">
+          <label class="btn b-main-filter__cat-item">
             <input type="radio" name="options" id="option2" /><span
               (click)="changeCarType('SUV')"
               class="ic flaticon-car-suv"
@@ -414,7 +414,11 @@
       <div class="row">
         <!-- TODO: usar endpoint de seminuevos paginados (ya ta ordenado por fecha de publicacion) -->
         <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
-          <div class="b-goods">
+          <app-published-car
+            [auto]="seminuevo"
+          >
+          </app-published-car>
+          <!-- <div class="b-goods">
             <a class="b-goods__img">
               <img
                 [src]="seminuevo.fotoPrincipal"
@@ -479,7 +483,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="text-center mt-3">
@@ -503,26 +507,30 @@
       <div class="b-progress-list">
         <div class="row">
           <div class="b-progress-list__item col-md-6">
-            <span class="b-progress-list__percent js-chart" data-percent="3874"
+            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="availableVehicles | async" -->
+            <span class="b-progress-list__percent js-chart" data-percent="availableVehicles"
               ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Vehículos Disponibles</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
-            <span class="b-progress-list__percent js-chart" data-percent="265"
+            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="brandCount | async" -->
+            <span class="b-progress-list__percent js-chart" data-percent="brandCount"
               ><span class="js-percent"></span>+</span
             ><span class="b-progress-list__name"
-              >Marcas de autos que manejamos</span
+              >Marcas</span
             >
           </div>
           <div class="b-progress-list__item col-md-6">
-            <span class="b-progress-list__percent js-chart" data-percent="1450"
+            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="userCount | async" -->
+            <span class="b-progress-list__percent js-chart" data-percent="userCount"
               ><span class="js-percent"></span>+</span
-            ><span class="b-progress-list__name">?</span>
+            ><span class="b-progress-list__name">Usuarios</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
-            <span class="b-progress-list__percent js-chart" data-percent="6403"
+            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="soldVehicles | async" -->
+            <span class="b-progress-list__percent js-chart" data-percent="soldVehicles"
               ><span class="js-percent"></span></span
-            ><span class="b-progress-list__name">?</span>
+            ><span class="b-progress-list__name">Vehículos Vendidos</span>
           </div>
         </div>
       </div>
@@ -561,8 +569,9 @@
             ]
           }'
         >
-          <div class="div" *ngFor="let sponsored of sponsoredCars">
-            <div class="b-goods-2">
+          <!-- <div class="div" *ngFor="let sponsored of (sponsoredCars | async | extract:'semiNuevo')"> -->
+            <div class="div" *ngFor="let sponsored of sponsoredCars">
+            <div class="b-goods-2" style="cursor: pointer;" (click)="goToVehicleDetails(sponsored.id)">
               <div class="b-goods-2__img">
                 <img
                   [src]="sponsored.fotoPrincipal"

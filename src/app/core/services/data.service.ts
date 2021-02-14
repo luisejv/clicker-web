@@ -120,36 +120,36 @@ export class DataService {
     },
   ];
 
-  marcas: string[] = ['Toyota', 'Tesla', 'Kia', 'Opel', 'BMW'];
+  marcas: string[] = ['TOYOTA', 'Tesla', 'Kia', 'Opel', 'BMW'];
 
   modelos: any = {
-    Toyota: ['Yaris', 'Corolla', 'Rav4', 'Sequoia'],
-    Tesla: ['Model X', 'Model Y', 'Model S', 'Roadster'],
-    Kia: ['Optima', 'Sportage', 'Sorento', 'Elantra'],
-    Opel: ['Opel 1', 'Opel 2', 'Opel 3'],
-    BMW: ['2-Series', '3-Series', '5-Series', '7-Series', '8-Series'],
+    Toyota: ['YARIS', 'COROLLA', 'RAV4', 'SEQUOIA'],
+    Tesla: ['MODEL X', 'MODEL Y', 'MODEL S', 'ROADSTER'],
+    Kia: ['RIO', 'OPTIMA', 'SPORTAGE', 'SORENTO', 'ELANTRA'],
+    Opel: ['OPEL 1', 'OPEL 2', 'OPEL 3'],
+    BMW: ['2-SERIES', '3-SERIES', '5-SERIES', '7-SERIES', '8-SERIES'],
   };
 
   autos: any[] = [
     {
-      marca: 'Toyota',
-      modelos: ['Yaris', 'Corolla', 'Rav4', 'Sequoia'],
+      marca: 'TOYOTA',
+      modelos: ['YARIS', 'COROLLA', 'RAV4', 'SEQUOIA'],
     },
     {
       marca: 'Tesla',
-      modelos: ['Model X', 'Model Y', 'Model S', 'Roadster'],
+      modelos: ['MODEL X', 'MODEL Y', 'MODEL S', 'ROADSTER'],
     },
     {
       marca: 'Kia',
-      modelos: ['Optima', 'Sportage', 'Sorento', 'Elantra'],
+      modelos: ['RIO', 'OPTIMA', 'SPORTAGE', 'SORENTO', 'ELANTRA'],
     },
     {
       marca: 'Opel',
-      modelos: ['Opel 1', 'Opel 2', 'Opel 3'],
+      modelos: ['OPEL 1', 'OPEL 2', 'OPEL 3'],
     },
     {
       marca: 'BMW',
-      modelos: ['2-Series', '3-Series', '5-Series', '7-Series', '8-Series'],
+      modelos: ['2-SERIES', '3-SERIES', '5-SERIES', '7-SERIES', '8-SERIES'],
     },
   ];
 

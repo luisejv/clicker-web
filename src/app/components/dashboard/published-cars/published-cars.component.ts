@@ -104,66 +104,88 @@ export class PublishedCarsComponent implements OnInit {
 
       console.groupEnd();
 
-      this.userService.getAutosSemiNuevosValidados().subscribe(
-        (response: AutoSemiNuevo[]) => {
-          // this.carros = response;
-
-          console.group('FILTERS');
-          console.log(this.filters);
-          console.groupEnd();
-
-          console.group('buenos dias carajo');
-          console.dir(this.carros);
-          console.groupEnd();
-
-          console.group('Filtrando Carros');
-
-          if (this.filters.allCars) {
-            this.filteredCarros = response;
-          } else {
-            this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
-              console.log(carro);
-              console.log(
-                this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-              );
-              return (
-                carro.marca === this.filters.carBrand &&
-                carro.modelo === this.filters.carModel &&
-                carro.precioVenta <= Number(this.filters.carMaxPrice) &&
-                (this.filters.carType === 'OTRO'
-                  ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-                  : this.filters.carType === carro.tipoCarroceria)
-              );
-            });
-          }
-
-          console.groupEnd();
-
-          // ! esta linea permite que cuando el usuario filtre, se haga el
-          // ! filtro sobre los carros ya filtrados y no sobre toda la bd de
-          // ! carros. lo dejamos así?
-          this.carros = this.filteredCarros;
-
-          console.group('Filtered Carros');
-          console.dir(this.filteredCarros);
-          console.groupEnd();
-
-          this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-          this.pages = Array(this.pgCnt)
-            .fill(this.pgCnt)
-            .map((x: any, i: any) => i);
-
-          this.loaderService.setIsLoading(false);
-          // ? actualizar filtros
-        },
-        (error: any) => {
-          this.loaderService.setIsLoading(false);
-          console.error(
-            'when fetching all semi nuevos validados in published-car.component.ts: ',
-            error
-          );
+      switch (this.filters.carSubset) {
+        case 'ALL': {
+          //TODO: request for all cars
+          console.log('ALL');
+          break;
         }
-      );
+        case 'NEW': {
+          //TODO: request for new cars
+          console.log('NEW');
+          break;
+        }
+        case 'USED': {
+          console.log('USED');
+          this.userService.getAutosSemiNuevosValidados().subscribe(
+            (response: AutoSemiNuevo[]) => {
+              // this.carros = response;
+
+              console.group('FILTERS');
+              console.log(this.filters);
+              console.groupEnd();
+
+              console.group('buenos dias carajo');
+              console.dir(this.carros);
+              console.groupEnd();
+
+              console.group('Filtrando Carros');
+
+              if (this.filters.allCars) {
+                this.filteredCarros = response;
+              } else {
+                this.filteredCarros = response.filter(
+                  (carro: AutoSemiNuevo) => {
+                    console.log(carro);
+                    console.log(
+                      this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+                    );
+                    return (
+                      carro.marca === this.filters.carBrand &&
+                      carro.modelo === this.filters.carModel &&
+                      carro.precioVenta <= Number(this.filters.carMaxPrice) &&
+                      (this.filters.carType === 'OTRO'
+                        ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) ===
+                          -1
+                        : this.filters.carType === carro.tipoCarroceria)
+                    );
+                  }
+                );
+              }
+
+              console.groupEnd();
+
+              // ! esta linea permite que cuando el usuario filtre, se haga el
+              // ! filtro sobre los carros ya filtrados y no sobre toda la bd de
+              // ! carros. lo dejamos así?
+              this.carros = this.filteredCarros;
+
+              console.group('Filtered Carros');
+              console.dir(this.filteredCarros);
+              console.groupEnd();
+
+              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+              this.pages = Array(this.pgCnt)
+                .fill(this.pgCnt)
+                .map((x: any, i: any) => i);
+
+              this.loaderService.setIsLoading(false);
+              // ? actualizar filtros
+            },
+            (error: any) => {
+              this.loaderService.setIsLoading(false);
+              console.error(
+                'when fetching all semi nuevos validados in published-car.component.ts: ',
+                error
+              );
+            }
+          );
+          break;
+        }
+        default: {
+          console.error('unknown carSubset');
+        }
+      }
     } else {
       console.group('DASHBOARD');
 

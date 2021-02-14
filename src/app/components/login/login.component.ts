@@ -57,10 +57,15 @@ export class LoginComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          if (response.rol != 'PARTICULAR') {
-            this.router.navigateByUrl('/dashboard');
+          if (this.storageService.getGoingToCarRegistration()) {
+            this.storageService.removeGoingToCarRegistration();
+            this.router.navigateByUrl('/dashboard/registrar-carro');
           } else {
-            this.router.navigateByUrl('/home');
+            if (response.rol != 'PARTICULAR') {
+              this.router.navigateByUrl('/dashboard');
+            } else {
+              this.router.navigateByUrl('/home');
+            }
           }
         });
       },

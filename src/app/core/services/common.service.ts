@@ -1,4 +1,5 @@
 import { HostListener, Injectable } from '@angular/core';
+import { threadId } from 'worker_threads';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -30,6 +31,12 @@ export class CommonService {
 
   // * Car Pages Count
   pageCountUrl: string = this.autoSemiNuevoUrl + '/enabled/count';
+
+  // * Useful Info
+  brandCountUrl: string = this.autoSemiNuevoUrl + '/marcas';
+  userCountUrl: string = this.userUrl + '/number';
+  availableVehiclesCountUrl: string = this.autoSemiNuevoUrl + '/novendidos';
+  soldVehiclesCountUrl: string = this.autoSemiNuevoUrl + '/vendidos';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
