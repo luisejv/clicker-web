@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
+import { Filter } from '../interfaces/client';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -183,6 +185,64 @@ export class DataService {
     2019,
     2020,
     2021,
+  ];
+
+  filtros: Filter[] = [
+    {
+      marca: 'Toyota',
+      modelo: 'Corolla',
+      tipoCarroceria: 'SUV',
+    },
+    {
+      marca: 'Toyota',
+      modelo: 'Yaris',
+      tipoCarroceria: 'CITYCAR',
+    },
+    {
+      marca: 'Toyota',
+      modelo: 'Hilux',
+      tipoCarroceria: 'PICKUP',
+    },
+    {
+      marca: 'Toyota',
+      modelo: 'Corolla',
+      tipoCarroceria: 'SUV',
+    },
+    {
+      marca: 'Toyota',
+      modelo: 'Avanza',
+      tipoCarroceria: 'COUPE',
+    },
+    {
+      marca: 'Toyota',
+      modelo: 'Etios',
+      tipoCarroceria: 'CITYCAR',
+    },
+    {
+      marca: 'Hyundai',
+      modelo: 'Tucson',
+      tipoCarroceria: 'SUV',
+    },
+    {
+      marca: 'Hyundai',
+      modelo: 'Verna',
+      tipoCarroceria: 'SEDAN',
+    },
+    {
+      marca: 'Hyundai',
+      modelo: 'Accent',
+      tipoCarroceria: 'SEDAN',
+    },
+    {
+      marca: 'Hyundai',
+      modelo: 'Elantra',
+      tipoCarroceria: 'COUPE',
+    },
+    {
+      marca: 'Hyundai',
+      modelo: 'Ioniq',
+      tipoCarroceria: 'CITYCAR',
+    },
   ];
 
   constructor(private userService: UserService) {}

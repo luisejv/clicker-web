@@ -5177,18 +5177,18 @@ html .b-goods-slider .slick-list {
   position: absolute;
   background-color: #22abc3;
   content: "";
-  bottom: 0;
+  bottom: -22px;
   right: 0;
   width: 100%;
   height: 100%;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  -webkit-clip-path: polygon(0 100%, 100% 79%, 100% 100%, 0% 100%);
-  clip-path: polygon(0 100%, 100% 79%, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0 100%, 100% 77%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 100%, 100% 77%, 100% 100%, 0% 100%);
 }
 .b-goods-2:hover .b-goods-2__img:after {
   position: absolute;
-  bottom: -220px;
+  bottom: -240px;
   right: 0;
   width: 100%;
   height: 100%;
@@ -5198,4 +5198,9 @@ html .b-goods-slider .slick-list {
   font-size: 18px;
   font-weight: bold;
   text-align: right;
+}
+
+.img-fluid {
+  max-height: 100%;
+  display: inline-block !important;
 }

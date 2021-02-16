@@ -9,6 +9,8 @@ import { DataService } from 'src/app/core/services/data.service';
 import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { Observable } from 'rxjs';
+import { Filter } from 'src/app/core/interfaces/client';
+import { FormBuilder, FormGroup } from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -19,13 +21,6 @@ declare var $: any;
 export class HomeComponent implements OnInit {
   carType: string = 'SUV';
   carSubset: string = 'ALL';
-
-  carBrand: string = 'Toyota';
-  carModel: string = 'Yaris';
-  carMaxPrice: number = 5000;
-
-  carBrands: string[];
-  carModels: string[];
 
   recentCars!: AutoSemiNuevo[];
   sponsoredCars!: AutoSemiNuevo[];
@@ -41,14 +36,34 @@ export class HomeComponent implements OnInit {
   userCount!: number;
   soldVehicles!: number;
 
+  filters: Filter[];
+  filteredBrands: string[] = [''];
+  filteredModels: string[] = [''];
+  filteredPrices: number[] = [5000, 15000, 25000];
+
+  filterFormGroup: FormGroup;
+
+  carBrand: string = '';
+
   constructor(
     private router: Router,
     private storageService: StorageService,
     private clientService: ClientService,
-    private dataService: DataService
+    private dataService: DataService,
+    private fb: FormBuilder
   ) {
-    this.carModels = this.dataService.modelos[this.carBrand];
-    this.carBrands = this.dataService.marcas;
+    this.filterFormGroup = this.fb.group({
+      carType: '',
+      carSubset: '',
+      carBrand: '',
+      carModel: '',
+      carMaxPrice: '',
+    });
+    // TODO: Cambiar este request por el del backend
+    this.filters = this.dataService.filtros;
+    this.filteredBrands = this.filters
+      .map((elem) => elem.marca)
+      .filter((v, i, a) => a.indexOf(v) == i);
     // this.availableVehicles = this.clientService.getAvailableVehiclesCount();
     // this.brandCount = this.clientService.getBrandCount();
     // this.userCount = this.clientService.getUserCount();
@@ -119,42 +134,60 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  // Cambiar Carroceria
   changeCarType(type: string): void {
-    this.carType = type;
-    console.log('Car Type: ', this.carType);
+    this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
+    console.log(this.filterFormGroup.get('carType')?.value);
+    if (type.toLowerCase() != 'otro') {
+      this.filteredBrands = this.filters
+        .filter((elem: Filter) => {
+          return elem.tipoCarroceria.toLowerCase() == type.toLowerCase();
+        })
+        .map((elem) => elem.marca)
+        .filter((v, i, a) => a.indexOf(v) == i);
+      if (this.filteredBrands.length == 0) {
+        this.filteredBrands.push('No tenemos autos de ese tipo');
+      }
+    } else {
+      this.filteredBrands = this.filters
+        .map((elem) => elem.marca)
+        .filter((v, i, a) => a.indexOf(v) == i);
+    }
+    setTimeout(() => {
+      $('#marcas').selectpicker('refresh');
+    }, 500);
+    console.log(this.filteredBrands);
   }
 
+  // Cambiar Usados, Nuevos, Todos
   changeCarSubset(subset: string): void {
-    this.carSubset = subset;
-    console.log('Car Subset: ', this.carSubset);
+    this.filterFormGroup.controls['carSubset'].setValue(subset);
+    console.log(
+      'Car Subset: ',
+      this.filterFormGroup.controls['carSubset'].value
+    );
   }
 
+  // Cambiar marca
   changeCarBrand(e: any): void {
     const brand: string = e.target.value;
     console.log('Change Car Brand Event: ', e.target.value);
-    this.carBrand = brand;
-    this.carModels = this.dataService.modelos[this.carBrand];
-    //TODO: change this.carBrand and this.carModels
-  }
-
-  changeCarModel(model: any): void {
-    this.carModel = model.target.value;
-    console.log('Car Model: ', this.carModel);
-  }
-
-  changeCarMaxPrice(price: any): void {
-    let dirtyPrice: string = price.target.value;
-    this.carMaxPrice = Number(dirtyPrice.split('$')[1]);
-    console.log('Car Max Price: ', this.carMaxPrice);
+    console.log(this.filterFormGroup.get('carBrand')?.value);
+    this.filteredModels = this.filters
+      .filter((elem) => elem.marca == brand)
+      .map((elem) => elem.modelo);
+    setTimeout(() => {
+      $('#modelos').selectpicker('refresh');
+    }, 500);
   }
 
   searchCar(): void {
     const body: CarSearchFilter = {
-      carType: this.carType,
-      carSubset: this.carSubset,
-      carBrand: this.carBrand,
-      carModel: this.carModel,
-      carMaxPrice: this.carMaxPrice,
+      carType: this.filterFormGroup.value.carType,
+      carSubset: this.filterFormGroup.value.carSubset,
+      carBrand: this.filterFormGroup.value.carBrand,
+      carModel: this.filterFormGroup.value.carModel,
+      carMaxPrice: this.filterFormGroup.value.MaxPrice,
       allCars: false,
     };
     this.router.navigate(['/inventory-listings'], {
@@ -203,7 +236,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  goToVehicleDetails(carId: number): void {
+  goToVehicleDetails(carId: number | undefined): void {
     this.router.navigate(['/auto-semi-nuevo'], {
       queryParams: {
         id: carId,
@@ -211,97 +244,3 @@ export class HomeComponent implements OnInit {
     });
   }
 }
-
-// const TEST_CARS: AutoSemiNuevo[] = [
-//   {
-//     usuario: {
-//       correo: 'luis.jauregui@utec.edu.pe'
-//     },
-//     color: 'azul',
-//     marca: 'Toyota',
-//     modelo: 'Yaris',
-//     anoFabricacion: 2019,
-//     tipoCambios: 'Mecánico',
-//     locaciones: {
-//       id: '1',
-//       departamento: 'Lima',
-//     },
-//     kilometraje: 360000,
-//     tipoCombustible: 'Gasolina',
-//     precioVenta: 45000,
-//     fotoPrincipal: 'assets/media/content/b-goods/263x200/1.jpg',
-//   },
-//   {
-//     marca: 'Kia',
-//     modelo: 'Rio',
-//     anoFabricacion: 2021,
-//     tipoCambios: 'Automático',
-//     locaciones: {
-//       id: '10',
-//       departamento: 'Chiclayo',
-//     },
-//     kilometraje: 260000,
-//     tipoCombustible: 'Petróleo',
-//     precioVenta: 40000,
-//     fotoPrincipal: 'assets/media/content/b-goods/263x200/2.jpg',
-//   },
-// ];
-
-// const SPONSOR_TEST: AutoSemiNuevo[] = [
-//   {
-//     marca: 'Toyota',
-//     modelo: 'Yaris',
-//     anoFabricacion: '2019',
-//     tipoCambios: 'Mecánico',
-//     locaciones: {
-//       id: '1',
-//       departamento: 'Lima',
-//     },
-//     kilometraje: 360000,
-//     tipoCombustible: 'Gasolina',
-//     precioVenta: 45000,
-//     fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
-//   },
-//   {
-//     marca: 'Kia',
-//     modelo: 'Rio',
-//     anoFabricacion: '2021',
-//     tipoCambios: 'Automático',
-//     locaciones: {
-//       id: '10',
-//       departamento: 'Chiclayo',
-//     },
-//     kilometraje: 260000,
-//     tipoCombustible: 'Petróleo',
-//     precioVenta: 40000,
-//     fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
-//   },
-//   {
-//     marca: 'Toyota',
-//     modelo: 'Yaris',
-//     anoFabricacion: '2019',
-//     tipoCambios: 'Mecánico',
-//     locaciones: {
-//       id: '1',
-//       departamento: 'Lima',
-//     },
-//     kilometraje: 360000,
-//     tipoCombustible: 'Gasolina',
-//     precioVenta: 45000,
-//     fotoPrincipal: 'assets/media/content/b-goods/slider/1.png',
-//   },
-//   {
-//     marca: 'Kia',
-//     modelo: 'Rio',
-//     anoFabricacion: '2021',
-//     tipoCambios: 'Automático',
-//     locaciones: {
-//       id: '10',
-//       departamento: 'Chiclayo',
-//     },
-//     kilometraje: 260000,
-//     tipoCombustible: 'Petróleo',
-//     precioVenta: 40000,
-//     fotoPrincipal: 'assets/media/content/b-goods/slider/2.png',
-//   },
-// ];

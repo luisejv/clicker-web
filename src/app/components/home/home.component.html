@@ -16,67 +16,110 @@
         Encuentra el carro de tus sueños
       </h2>
       <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
-      <form class="b-main-filter__form">
+      <form class="b-main-filter__form" [formGroup]="filterFormGroup">
         <div class="b-main-filter__cat btn-group-toggle" data-toggle="buttons">
-          <label class="btn b-main-filter__cat-item">
+          <label
+            (click)="changeCarType('Pickup')"
+            class="btn b-main-filter__cat-item"
+          >
             <input
               type="radio"
-              name="options"
+              name="carType"
               id="option1"
-              checked="checked"
-            /><span
-              (click)="changeCarType('Pickup')"
-              class="ic flaticon-pick-up"
-            ></span>
+              formControlName="carType"
+              value="PICKUP"
+            /><span class="ic flaticon-pick-up"></span>
             PICKUP
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option2" /><span
-              (click)="changeCarType('SUV')"
-              class="ic flaticon-car-suv"
-            ></span>
+          <label
+            (click)="changeCarType('SUV')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option2"
+              formControlName="carType"
+              value="SUV"
+            /><span class="ic flaticon-car-suv"></span>
             SUV
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option3" /><span
-              (click)="changeCarType('Coupe')"
-              class="ic flaticon-coupe-car"
-            ></span>
+          <label
+            (click)="changeCarType('Coupe')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option3"
+              formControlName="carType"
+              value="COUPE"
+            /><span class="ic flaticon-coupe-car"></span>
             COUPE
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option4" /><span
-              (click)="changeCarType('Convertible')"
-              class="ic flaticon-cabrio-car"
-            ></span>
+          <label
+            (click)="changeCarType('Convertible')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option4"
+              formControlName="carType"
+              value="CONVERTIBLE"
+            /><span class="ic flaticon-cabrio-car"></span>
             CONVERTIBLE
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option5" /><span
-              (click)="changeCarType('Sedan')"
-              class="ic flaticon-sedan-car-model"
-            ></span>
+          <label
+            (click)="changeCarType('Sedan')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option5"
+              formControlName="carType"
+              value="SEDAN"
+            /><span class="ic flaticon-sedan-car-model"></span>
             SEDAN
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option6" /><span
-              (click)="changeCarType('Van')"
-              class="ic flaticon-car"
-            ></span>
+          <label
+            (click)="changeCarType('Van')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option6"
+              formControlName="carType"
+              value="VAN"
+            /><span class="ic flaticon-car"></span>
             VAN
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option7" /><span
-              (click)="changeCarType('Citycar')"
-              class="ic flaticon-car"
-            ></span>
+          <label
+            (click)="changeCarType('Citycar')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option7"
+              formControlName="carType"
+              value="CITYCAR"
+            /><span class="ic flaticon-car"></span>
             CITYCAR
           </label>
-          <label class="btn b-main-filter__cat-item">
-            <input type="radio" name="options" id="option7" /><span
-              (click)="changeCarType('OTRO')"
-              class="ic flaticon-car"
-            ></span>
+          <label
+            (click)="changeCarType('OTRO')"
+            class="btn b-main-filter__cat-item"
+          >
+            <input
+              type="radio"
+              name="carType"
+              id="option8"
+              formControlName="carType"
+              value="OTRO"
+            /><span class="ic flaticon-car"></span>
             OTRO
           </label>
         </div>
@@ -125,14 +168,89 @@
           <div class="tab-pane fade show active" id="content-allCar">
             <div class="row align-items-end no-gutters">
               <div class="b-main-filter__main col-lg">
-                <app-select-brand-model 
-                  class="b-main-filter__inner row no-gutters"
-                  [marca]="carBrand"
-                  [marcas]="carBrands"
-                  [modelos]="carModels"
-                  (marcaChanged)="changeCarBrand($event)"
-                >
-                </app-select-brand-model>
+                <div class="b-main-filter__inner row no-gutters">
+                  <div class="b-main-filter__item col-md-4">
+                    <div class="b-main-filter__label">Seleccionar Marca</div>
+                    <div class="b-main-filter__selector">
+                      <select
+                        formControlName="carBrand"
+                        class="selectpicker"
+                        data-width="100%"
+                        data-style="ui-select"
+                        (change)="changeCarBrand($event)"
+                        id="marcas"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Selecciona Marca
+                        </option>
+                        <option
+                          *ngFor="let brand of filteredBrands"
+                          [value]="brand"
+                        >
+                          {{ brand }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="b-main-filter__item col-md-4">
+                    <div class="b-main-filter__label">Seleccionar Modelo</div>
+                    <div class="b-main-filter__selector">
+                      <select
+                        formControlName="carModel"
+                        class="selectpicker"
+                        data-width="100%"
+                        data-style="ui-select"
+                        id="modelos"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Selecciona Modelo
+                        </option>
+                        <option
+                          *ngFor="let model of filteredModels"
+                          [value]="model"
+                        >
+                          {{ model }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="b-main-filter__item col-md-4">
+                    <div class="b-main-filter__label">Rango de Precio</div>
+                    <div class="b-main-filter__selector">
+                      <select
+                        formControlName="carMaxPrice"
+                        class="selectpicker"
+                        data-width="100%"
+                        data-style="ui-select"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Selecciona Precio
+                        </option>
+                        <option
+                          *ngFor="let price of filteredPrices"
+                          [value]="price"
+                        >
+                          Max ${{ price }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-lg-auto">
                 <button
@@ -414,10 +532,7 @@
       <div class="row">
         <!-- TODO: usar endpoint de seminuevos paginados (ya ta ordenado por fecha de publicacion) -->
         <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
-          <app-published-car
-            [auto]="seminuevo"
-          >
-          </app-published-car>
+          <app-published-car [auto]="seminuevo"> </app-published-car>
           <!-- <div class="b-goods">
             <a class="b-goods__img">
               <img
@@ -508,27 +623,33 @@
         <div class="row">
           <div class="b-progress-list__item col-md-6">
             <!-- <span class="b-progress-list__percent js-chart" [data-percent]="availableVehicles | async" -->
-            <span class="b-progress-list__percent js-chart" data-percent="availableVehicles"
+            <span
+              class="b-progress-list__percent js-chart"
+              data-percent="availableVehicles"
               ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Vehículos Disponibles</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
             <!-- <span class="b-progress-list__percent js-chart" [data-percent]="brandCount | async" -->
-            <span class="b-progress-list__percent js-chart" data-percent="brandCount"
+            <span
+              class="b-progress-list__percent js-chart"
+              data-percent="brandCount"
               ><span class="js-percent"></span>+</span
-            ><span class="b-progress-list__name"
-              >Marcas</span
-            >
+            ><span class="b-progress-list__name">Marcas</span>
           </div>
           <div class="b-progress-list__item col-md-6">
             <!-- <span class="b-progress-list__percent js-chart" [data-percent]="userCount | async" -->
-            <span class="b-progress-list__percent js-chart" data-percent="userCount"
+            <span
+              class="b-progress-list__percent js-chart"
+              data-percent="userCount"
               ><span class="js-percent"></span>+</span
             ><span class="b-progress-list__name">Usuarios</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
             <!-- <span class="b-progress-list__percent js-chart" [data-percent]="soldVehicles | async" -->
-            <span class="b-progress-list__percent js-chart" data-percent="soldVehicles"
+            <span
+              class="b-progress-list__percent js-chart"
+              data-percent="soldVehicles"
               ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Vehículos Vendidos</span>
           </div>
@@ -570,8 +691,12 @@
           }'
         >
           <!-- <div class="div" *ngFor="let sponsored of (sponsoredCars | async | extract:'semiNuevo')"> -->
-            <div class="div" *ngFor="let sponsored of sponsoredCars">
-            <div class="b-goods-2" style="cursor: pointer;" (click)="goToVehicleDetails(sponsored.id)">
+          <div class="div" *ngFor="let sponsored of sponsoredCars">
+            <div
+              class="b-goods-2"
+              style="cursor: pointer"
+              (click)="goToVehicleDetails(sponsored.id)"
+            >
               <div class="b-goods-2__img">
                 <img
                   [src]="sponsored.fotoPrincipal"
@@ -862,7 +987,11 @@
     <div class="col-lg-6">
       <section class="b-bnr-2 b-bnr-2_first">
         <div class="b-bnr-2__inner bg-primary">
-          <a class="btn-arr btn-arr_left" (click)="goToCarSearch()" style="cursor: pointer;"></a>
+          <a
+            class="btn-arr btn-arr_left"
+            (click)="goToCarSearch()"
+            style="cursor: pointer"
+          ></a>
           <h2 class="b-bnr-2__title">¿Quieres un auto<br />nuevo o usado?</h2>
           <div class="b-bnr-2__info">
             ¡Empecemos con la búsqueda de tu próximo auto!
@@ -878,7 +1007,11 @@
     <div class="col-lg-6">
       <section class="b-bnr-2 b-bnr-2_last">
         <div class="b-bnr-2__inner bg-dark-2">
-          <a class="btn-arr btn-arr_right" (click)="goToCarRegistration()" style="cursor: pointer;"></a>
+          <a
+            class="btn-arr btn-arr_right"
+            (click)="goToCarRegistration()"
+            style="cursor: pointer"
+          ></a>
           <h2 class="b-bnr-2__title">¿Quieres vender<br />tu auto?</h2>
           <div class="b-bnr-2__info">
             Tu auto pasará por una verificación y si cumple con los requisitos
