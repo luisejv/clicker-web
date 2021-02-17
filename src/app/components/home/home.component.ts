@@ -36,9 +36,9 @@ export class HomeComponent implements OnInit {
   userCount!: number;
   soldVehicles!: number;
 
-  filters: Filter[];
+  filters!: Filter[];
   filteredBrands: string[] = [''];
-  filteredModels: string[] = [''];
+  filteredModels: string[] = ['Debe seleccionar una marca'];
   filteredPrices: number[] = [5000, 15000, 25000];
 
   filterFormGroup: FormGroup;
@@ -59,8 +59,7 @@ export class HomeComponent implements OnInit {
       carModel: '',
       carMaxPrice: '',
     });
-    // TODO: Cambiar este request por el del backend
-    this.filters = this.dataService.filtros;
+
     this.filteredBrands = this.filters
       .map((elem) => elem.marca)
       .filter((v, i, a) => a.indexOf(v) == i);
@@ -72,6 +71,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.clientService.getFilters().subscribe(
+      (response: Filter[]) => {
+        this.filters = response;
+      },
+      (error) => {
+        console.group('In getting filters');
+        console.error(error);
+        console.groupEnd();
+      }
+    );
     this.clientService.getBrandCount().subscribe(
       (count: number) => {
         this.brandCount = count;
