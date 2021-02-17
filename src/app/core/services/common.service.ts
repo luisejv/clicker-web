@@ -37,6 +37,7 @@ export class CommonService {
   userCountUrl: string = this.userUrl + '/number';
   availableVehiclesCountUrl: string = this.autoSemiNuevoUrl + '/novendidos';
   soldVehiclesCountUrl: string = this.autoSemiNuevoUrl + '/vendidos';
+  filtersUrl: string = this.baseUrl + '/post/filtros';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

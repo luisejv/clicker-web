@@ -27,4 +27,7 @@ export class ClientService {
   public getUserCount(): Observable<any> {
     return this.http.get(this.commonService.userCountUrl);
   }
+  public getFilters(): Observable<any> {
+    return this.http.get(this.commonService.filtersUrl);
+  }
 }
