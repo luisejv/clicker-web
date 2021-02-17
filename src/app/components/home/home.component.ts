@@ -60,9 +60,6 @@ export class HomeComponent implements OnInit {
       carMaxPrice: '',
     });
 
-    this.filteredBrands = this.filters
-      .map((elem) => elem.marca)
-      .filter((v, i, a) => a.indexOf(v) == i);
     // this.availableVehicles = this.clientService.getAvailableVehiclesCount();
     // this.brandCount = this.clientService.getBrandCount();
     // this.userCount = this.clientService.getUserCount();
@@ -74,6 +71,9 @@ export class HomeComponent implements OnInit {
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
         this.filters = response;
+        this.filteredBrands = this.filters
+          .map((elem) => elem.marca)
+          .filter((v, i, a) => a.indexOf(v) == i);
       },
       (error) => {
         console.group('In getting filters');
