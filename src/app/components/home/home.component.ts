@@ -130,8 +130,8 @@ export class HomeComponent implements OnInit {
   }
 
   changeCarBrand(e: any): void {
-    const brand: string = e.target.value;
-    console.log('Change Car Brand Event: ', e.target.value);
+    const brand: string = e;
+    // console.log('Change Car Brand Event: ', brand);
     this.carBrand = brand;
     this.carModels = this.dataService.modelos[this.carBrand];
     //TODO: change this.carBrand and this.carModels
