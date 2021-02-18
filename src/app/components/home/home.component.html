@@ -530,7 +530,6 @@
   <div class="container">
     <div class="section-goods__list">
       <div class="row">
-        <!-- TODO: usar endpoint de seminuevos paginados (ya ta ordenado por fecha de publicacion) -->
         <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
           <app-published-car [auto]="seminuevo"> </app-published-car>
           <!-- <div class="b-goods">
@@ -622,34 +621,30 @@
       <div class="b-progress-list">
         <div class="row">
           <div class="b-progress-list__item col-md-6">
-            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="availableVehicles | async" -->
             <span
               class="b-progress-list__percent js-chart"
-              data-percent="availableVehicles"
+              #availableVehicles
               ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Vehículos Disponibles</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
-            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="brandCount | async" -->
             <span
               class="b-progress-list__percent js-chart"
-              data-percent="brandCount"
-              ><span class="js-percent"></span>+</span
+              #brandCount
+              ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Marcas que manejamos</span>
           </div>
           <div class="b-progress-list__item col-md-6">
-            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="userCount | async" -->
             <span
               class="b-progress-list__percent js-chart"
-              data-percent="userCount"
-              ><span class="js-percent"></span>+</span
+              #userCount
+              ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Trabajan con nosotros</span>
           </div>
           <div class="b-progress-list__item col-md-6 text-right">
-            <!-- <span class="b-progress-list__percent js-chart" [data-percent]="soldVehicles | async" -->
             <span
               class="b-progress-list__percent js-chart"
-              data-percent="soldVehicles"
+              #soldVehicles
               ><span class="js-percent"></span></span
             ><span class="b-progress-list__name">Vehículos Vendidos</span>
           </div>
@@ -674,88 +669,91 @@
       <div class="text-center">
         <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
         <h2 class="ui-title ui-title_light">Ofertas de la semana</h2>
+        <!-- slider da error >:c -->
+        <!-- class="b-goods-slider-2 js-slider"
+        data-slick='{
+          "slidesToShow": 2,
+          "slidesToScroll": 1,
+          "dots": true,
+          "arrows": true,
+          "autoplay": true,
+          "responsive": [
+            {
+              "breakpoint": 992,
+              "settings": { "slidesToShow": 1, "slidesToScroll": 1 }
+            }
+          ]
+        }' -->
         <div
-          class="b-goods-slider-2 js-slider"
-          data-slick='{
-            "slidesToShow": 2,
-            "slidesToScroll": 1,
-            "dots": true,
-            "arrows": true,
-            "autoplay": true,
-            "responsive": [
-              {
-                "breakpoint": 992,
-                "settings": { "slidesToShow": 1, "slidesToScroll": 1 }
-              }
-            ]
-          }'
+          class="container-fuild"
         >
-          <!-- <div class="div" *ngFor="let sponsored of (sponsoredCars | async | extract:'semiNuevo')"> -->
-          <div class="div" *ngFor="let sponsored of sponsoredCars">
-            <div
-              class="b-goods-2"
-              style="cursor: pointer"
-              (click)="goToVehicleDetails(sponsored.id)"
-            >
-              <div class="b-goods-2__img">
-                <img
-                  [src]="sponsored.fotoPrincipal"
-                  [alt]="sponsored.modelo"
-                  class="img-fluid"
-                />
-              </div>
-              <div class="b-goods-2__main">
-                <div class="row justify-content-between align-items-baseline">
-                  <div class="col-auto">
-                    <div class="b-goods-2__title text-primary">
-                      {{
-                        sponsored.marca +
-                          " " +
-                          sponsored.modelo +
-                          " " +
-                          sponsored.anoFabricacion
-                      }}
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <div class="b-goods-2__price">
-                      US$
-                      <span class="b-goods-2__price-inner text-secondary">{{
-                        sponsored.precioVenta
-                      }}</span>
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="div col-sm-12 col-md-6" *ngFor="let sponsored of sponsoredCars">
+              <div
+                class="b-goods-2"
+                style="cursor: pointer"
+                (click)="goToVehicleDetails(sponsored.id)"
+              >
+                <div class="b-goods-2__img">
+                  <img
+                    [src]="sponsored.fotoPrincipal"
+                    [alt]="sponsored.modelo"
+                    class="img-fluid"
+                  />
                 </div>
-                <div class="b-goods-2-descrip">
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-speedometer"></i>
-                        {{ sponsored.kilometraje / 1000 }}k km
+                <div class="b-goods-2__main">
+                  <div class="row justify-content-between align-items-baseline">
+                    <div class="col-auto">
+                      <div class="b-goods-2__title text-primary">
+                        {{
+                          sponsored.marca +
+                            " " +
+                            sponsored.modelo +
+                            " " +
+                            sponsored.anoFabricacion
+                        }}
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <div class="b-goods-2__price">
+                        US$
+                        <span class="b-goods-2__price-inner text-secondary">{{
+                          sponsored.precioVenta
+                        }}</span>
                       </div>
                     </div>
                   </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-fuel-station-pump"></i>
-                        {{ sponsored.tipoCombustible }}
+                  <div class="b-goods-2-descrip">
+                    <div class="b-goods-2-descrip__item">
+                      <div class="b-goods-2-descrip__inner">
+                        <div class="b-goods-2-descrip__wrap">
+                          <i class="ic flaticon-speedometer"></i>
+                          {{ sponsored.kilometraje / 1000 }}k km
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-gearshift"></i>
-                        {{ sponsored.tipoCambios }}
+                    <div class="b-goods-2-descrip__item">
+                      <div class="b-goods-2-descrip__inner">
+                        <div class="b-goods-2-descrip__wrap">
+                          <i class="ic flaticon-fuel-station-pump"></i>
+                          {{ sponsored.tipoCombustible }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-car-8"></i>
-                        {{ sponsored.anoFabricacion }}
+                    <div class="b-goods-2-descrip__item">
+                      <div class="b-goods-2-descrip__inner">
+                        <div class="b-goods-2-descrip__wrap">
+                          <i class="ic flaticon-gearshift"></i>
+                          {{ sponsored.tipoCambios }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-goods-2-descrip__item">
+                      <div class="b-goods-2-descrip__inner">
+                        <div class="b-goods-2-descrip__wrap">
+                          <i class="ic flaticon-car-8"></i>
+                          {{ sponsored.anoFabricacion }}
+                        </div>
                       </div>
                     </div>
                   </div>

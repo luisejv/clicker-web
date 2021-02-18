@@ -39,6 +39,7 @@
     "easy-pie-chart": "^2.1.7",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
+    "ngx-scrollreveal": "^3.0.0",
     "object-fit-images": "^3.2.4",
     "path": "^0.12.7",
     "popper": "^1.0.1",

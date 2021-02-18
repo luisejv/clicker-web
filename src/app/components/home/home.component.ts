@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AutoSemiNuevo,
@@ -8,9 +8,11 @@ import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { DataService } from 'src/app/core/services/data.service';
 import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { Observable } from 'rxjs';
 import { Filter } from 'src/app/core/interfaces/client';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { Observable } from 'rxjs';
+
 declare var $: any;
 
 @Component({
@@ -19,22 +21,17 @@ declare var $: any;
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('availableVehicles') availableVehicles!: ElementRef;
+  @ViewChild('brandCount') brandCount!: ElementRef;
+  @ViewChild('userCount') userCount!: ElementRef;
+  @ViewChild('soldVehicles') soldVehicles!: ElementRef;
+
   carType: string = 'SUV';
   carSubset: string = 'ALL';
 
   recentCars!: AutoSemiNuevo[];
   sponsoredCars!: AutoSemiNuevo[];
-  // sponsoredCars: Observable<any>;
-
-  // availableVehicles: Observable<any>;
-  // brandCount: Observable<any>;
-  // userCount: Observable<any>;
-  // soldVehicles: Observable<any>;
-
-  availableVehicles!: number;
-  brandCount!: number;
-  userCount!: number;
-  soldVehicles!: number;
+  // sponsoredCars!: Observable<any>;
 
   filters!: Filter[];
   filteredBrands: string[] = [''];
@@ -50,8 +47,10 @@ export class HomeComponent implements OnInit {
     private storageService: StorageService,
     private clientService: ClientService,
     private dataService: DataService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loaderService: LoaderService,
   ) {
+
     this.filterFormGroup = this.fb.group({
       carType: '',
       carSubset: '',
@@ -59,15 +58,61 @@ export class HomeComponent implements OnInit {
       carModel: '',
       carMaxPrice: '',
     });
-
-    // this.availableVehicles = this.clientService.getAvailableVehiclesCount();
-    // this.brandCount = this.clientService.getBrandCount();
-    // this.userCount = this.clientService.getUserCount();
-    // this.soldVehicles = this.clientService.getSoldVehiclesCount();
-    // this.sponsoredCars = this.clientService.getSponsoredCars();
-  }
-
+    
+    this.clientService.getAvailableVehiclesCount().subscribe(
+      (res: number) => {
+        this.availableVehicles.nativeElement.setAttribute('data-percent', res);
+      },
+      (error: any) => {
+        console.error('error when fetching available cars');
+      }
+    );
+    this.clientService.getBrandCount().subscribe(
+      (res: number) => {
+        this.brandCount.nativeElement.setAttribute('data-percent', res);
+      },
+      (error: any) => {
+        console.error('error when fetching brand count');
+      }
+    );
+    this.clientService.getUserCount().subscribe(
+      (res: number) => {
+        this.userCount.nativeElement.setAttribute('data-percent', res);
+      },
+      (error: any) => {
+        console.error('error when fetching user count');
+      }
+      );
+      this.clientService.getSoldVehiclesCount().subscribe(
+        (res: number) => {
+          this.soldVehicles.nativeElement.setAttribute('data-percent', res);
+        },
+        (error: any) => {
+          console.error('error when fetching vehicle count');
+        }
+        );
+      }
+      
   ngOnInit(): void {
+    this.loaderService.setIsLoading(true);
+    this.clientService.getSponsoredCars().subscribe(
+      (response: SponsoredCar[]) => {
+        console.log('Response Sponsored: ', response);
+        this.sponsoredCars = response.map((elem: SponsoredCar) => elem.autoSemiNuevo);
+        console.log(this.sponsoredCars);
+        // window.location.reload();
+      },
+      (error: any) => {
+        console.log('Error fetching sponsoredCars: ', error);
+      }
+    );
+
+    // this.sponsoredCars = this.clientService.getSponsoredCars();
+    // console.dir(this.sponsoredCars);
+    // this.sponsoredCars.subscribe((a: any) => {
+    //   console.log(a);
+    // });
+
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
         this.filters = response;
@@ -81,66 +126,17 @@ export class HomeComponent implements OnInit {
         console.groupEnd();
       }
     );
-    this.clientService.getBrandCount().subscribe(
-      (count: number) => {
-        this.brandCount = count;
-      },
-      (error: any) => {
-        console.group('In getting brand count');
-        console.error(error);
-        console.groupEnd();
-      }
-    );
-    this.clientService.getUserCount().subscribe(
-      (count: number) => {
-        this.userCount = count;
-      },
-      (error: any) => {
-        console.group('In getting user count');
-        console.error(error);
-        console.groupEnd();
-      }
-    );
-    this.clientService.getSoldVehiclesCount().subscribe(
-      (count: number) => {
-        this.soldVehicles = count;
-      },
-      (error: any) => {
-        console.group('In getting sold vehicles count');
-        console.error(error);
-        console.groupEnd();
-      }
-    );
-    this.clientService.getAvailableVehiclesCount().subscribe(
-      (count: number) => {
-        this.availableVehicles = count;
-      },
-      (error: any) => {
-        console.group('In getting available count');
-        console.error(error);
-        console.groupEnd();
-      }
-    );
+    
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
         this.recentCars = response;
+        this.loaderService.setIsLoading(false);
       },
       (error: any) => {
         console.log('Error fetching recentCars: ', error);
       }
     );
-    this.clientService.getSponsoredCars().subscribe(
-      (response: SponsoredCar[]) => {
-        console.log('Response Sponsored: ', response);
-        this.sponsoredCars = response
-          //.sort((a, b) => a.level - b.level)
-          .map((elem: SponsoredCar) => elem.autoSemiNuevo);
-        console.log(this.sponsoredCars);
-      },
-      (error: any) => {
-        console.log('Error fetching sponsoredCars: ', error);
-      }
-    );
+
   }
 
   // Cambiar Carroceria
@@ -162,9 +158,10 @@ export class HomeComponent implements OnInit {
         .map((elem) => elem.marca)
         .filter((v, i, a) => a.indexOf(v) == i);
     }
-    setTimeout(() => {
-      $('#marcas').selectpicker('refresh');
-    }, 500);
+    $('#marcas').selectpicker('refresh');
+    // setTimeout(() => {
+      
+    // }, 500);
     console.log(this.filteredBrands);
   }
 

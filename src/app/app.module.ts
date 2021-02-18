@@ -41,6 +41,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { SelectBrandModelComponent } from './components/shared/select-brand-model/select-brand-model.component';
 import { ExtractPipe } from './pipes/extract.pipe';
+import { NgsRevealModule } from 'ngx-scrollreveal';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { ExtractPipe } from './pipes/extract.pipe';
     CommonModule,
     NgxSliderModule,
     NgxMatFileInputModule,
+    NgsRevealModule,
   ],
   providers: [
     {
