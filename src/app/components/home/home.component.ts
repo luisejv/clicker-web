@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AutoSemiNuevo,
@@ -11,7 +11,6 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { Observable } from 'rxjs';
 
 declare var $: any;
 
@@ -31,7 +30,6 @@ export class HomeComponent implements OnInit {
 
   recentCars!: AutoSemiNuevo[];
   sponsoredCars!: AutoSemiNuevo[];
-  // sponsoredCars!: Observable<any>;
 
   filters!: Filter[];
   filteredBrands: string[] = [''];
@@ -42,15 +40,48 @@ export class HomeComponent implements OnInit {
 
   carBrand: string = '';
 
+  slideConfig = {
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    dots: true,
+    arrows: true,
+    autoplay: true,
+    infinite: true,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: { slidesToShow: 1, slidesToScroll: 1 },
+      },
+    ],
+  };
+
+  slideConfig2 = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: true,
+    autoplay: true,
+    responsive: [
+      { breakpoint: 992, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+    ],
+  };
+
+  slideConfig3 = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    dots: false,
+    arrows: false,
+  };
+
   constructor(
     private router: Router,
     private storageService: StorageService,
     private clientService: ClientService,
     private dataService: DataService,
     private fb: FormBuilder,
-    private loaderService: LoaderService,
+    private loaderService: LoaderService
   ) {
-
     this.filterFormGroup = this.fb.group({
       carType: '',
       carSubset: '',
@@ -58,7 +89,7 @@ export class HomeComponent implements OnInit {
       carModel: '',
       carMaxPrice: '',
     });
-    
+
     this.clientService.getAvailableVehiclesCount().subscribe(
       (res: number) => {
         this.availableVehicles.nativeElement.setAttribute('data-percent', res);
@@ -82,36 +113,31 @@ export class HomeComponent implements OnInit {
       (error: any) => {
         console.error('error when fetching user count');
       }
-      );
-      this.clientService.getSoldVehiclesCount().subscribe(
-        (res: number) => {
-          this.soldVehicles.nativeElement.setAttribute('data-percent', res);
-        },
-        (error: any) => {
-          console.error('error when fetching vehicle count');
-        }
-        );
+    );
+    this.clientService.getSoldVehiclesCount().subscribe(
+      (res: number) => {
+        this.soldVehicles.nativeElement.setAttribute('data-percent', res);
+      },
+      (error: any) => {
+        console.error('error when fetching vehicle count');
       }
-      
+    );
+  }
+
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
     this.clientService.getSponsoredCars().subscribe(
       (response: SponsoredCar[]) => {
         console.log('Response Sponsored: ', response);
-        this.sponsoredCars = response.map((elem: SponsoredCar) => elem.autoSemiNuevo);
+        this.sponsoredCars = response.map(
+          (elem: SponsoredCar) => elem.autoSemiNuevo
+        );
         console.log(this.sponsoredCars);
-        // window.location.reload();
       },
       (error: any) => {
         console.log('Error fetching sponsoredCars: ', error);
       }
     );
-
-    // this.sponsoredCars = this.clientService.getSponsoredCars();
-    // console.dir(this.sponsoredCars);
-    // this.sponsoredCars.subscribe((a: any) => {
-    //   console.log(a);
-    // });
 
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
@@ -126,7 +152,7 @@ export class HomeComponent implements OnInit {
         console.groupEnd();
       }
     );
-    
+
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
         this.recentCars = response;
@@ -136,7 +162,6 @@ export class HomeComponent implements OnInit {
         console.log('Error fetching recentCars: ', error);
       }
     );
-
   }
 
   // Cambiar Carroceria
@@ -160,7 +185,7 @@ export class HomeComponent implements OnInit {
     }
     $('#marcas').selectpicker('refresh');
     // setTimeout(() => {
-      
+
     // }, 500);
     console.log(this.filteredBrands);
   }
@@ -248,5 +273,21 @@ export class HomeComponent implements OnInit {
         id: carId,
       },
     });
+  }
+
+  slickInit(e: any) {
+    console.log('slick initialized');
+  }
+
+  breakpoint(e: any) {
+    console.log('breakpoint');
+  }
+
+  afterChange(e: any) {
+    console.log('afterChange');
+  }
+
+  beforeChange(e: any) {
+    console.log('beforeChange');
   }
 }

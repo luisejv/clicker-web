@@ -213,9 +213,9 @@ var custom = (function () {
     // Sliders
     ///////////////////////////////////////////
 
-    if ($(".js-slider").length) {
+    /* if ($(".js-slider").length) {
       $(".js-slider").not(".slick-initialized").slick();
-    }
+    } */
 
     ////////////////////////////////////////////
     // Sliders with thumbnails

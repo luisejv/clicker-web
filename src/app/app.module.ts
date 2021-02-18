@@ -42,6 +42,7 @@ import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/aut
 import { SelectBrandModelComponent } from './components/shared/select-brand-model/select-brand-model.component';
 import { ExtractPipe } from './pipes/extract.pipe';
 import { NgsRevealModule } from 'ngx-scrollreveal';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { NgsRevealModule } from 'ngx-scrollreveal';
     NgxSliderModule,
     NgxMatFileInputModule,
     NgsRevealModule,
+    SlickCarouselModule,
   ],
   providers: [
     {
