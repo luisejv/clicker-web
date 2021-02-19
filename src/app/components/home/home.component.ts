@@ -147,6 +147,10 @@ export class HomeComponent implements OnInit {
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
         console.log('Carrocerias: ', this.carrocerias);
+        setTimeout(() => {
+          $('#marcas').selectpicker('refresh');
+          $('#modelos').selectpicker('refresh');
+        }, 500);
       },
       (error) => {
         console.group('In getting filters');

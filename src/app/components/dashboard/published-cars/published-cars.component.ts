@@ -1,5 +1,11 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/enums/modes.enum';
@@ -17,6 +23,8 @@ import { DataService } from 'src/app/core/services/data.service';
 export class PublishedCarsComponent implements OnInit {
   @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
   @Input() filters!: CarSearchFilter;
+  @Input() name: string = 'Carros Publicados';
+  @Input() cameFrom: string = 'Dashboard';
 
   @ViewChild('filtroMarca') filtroMarca: any;
   @ViewChild('filtroModelo') filtroModelo: any;
@@ -77,7 +85,8 @@ export class PublishedCarsComponent implements OnInit {
     private userService: UserService,
     private storageService: StorageService,
     private loaderService: LoaderService,
-    private dataService: DataService
+    private dataService: DataService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.autos = this.dataService.autos;
     this.tiposTransmision = this.dataService.tiposTransmision;
@@ -93,6 +102,10 @@ export class PublishedCarsComponent implements OnInit {
       this.filtroTransmision,
       this.filtroCombustible,
     ];
+  }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {
