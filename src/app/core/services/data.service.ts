@@ -187,7 +187,7 @@ export class DataService {
     2021,
   ];
 
-  filtros: Filter[] = [
+  /* filtros: Filter[] = [
     {
       marca: 'Toyota',
       modelo: 'Corolla',
@@ -243,7 +243,7 @@ export class DataService {
       modelo: 'Ioniq',
       tipoCarroceria: 'CITYCAR',
     },
-  ];
+  ]; */
 
   constructor(private userService: UserService) {}
 }

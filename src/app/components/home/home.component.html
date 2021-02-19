@@ -2,7 +2,7 @@
 <!-- TODO: ponerle una imagen de un carro de fondo -->
 <section class="b-main-filter find-your-dream-car">
   <div class="ui-decor ui-decor_mirror bg-primary"></div>
-  <div class="container">
+  <div class="container-fluid">
     <div class="b-main-filter__wrap text-center">
       <div class="b-main-filter__logo">
         <img
@@ -19,108 +19,29 @@
       <form class="b-main-filter__form" [formGroup]="filterFormGroup">
         <div class="b-main-filter__cat btn-group-toggle" data-toggle="buttons">
           <label
-            (click)="changeCarType('Pickup')"
             class="btn b-main-filter__cat-item"
+            *ngFor="let carType of carrocerias; let i = index"
+            (click)="changeCarType(carType)"
           >
             <input
               type="radio"
               name="carType"
-              id="option1"
+              [id]="'option' + i"
               formControlName="carType"
-              value="PICKUP"
-            /><span class="ic flaticon-pick-up"></span>
-            PICKUP
-          </label>
-          <label
-            (click)="changeCarType('SUV')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option2"
-              formControlName="carType"
-              value="SUV"
-            /><span class="ic flaticon-car-suv"></span>
-            SUV
-          </label>
-          <label
-            (click)="changeCarType('Coupe')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option3"
-              formControlName="carType"
-              value="COUPE"
-            /><span class="ic flaticon-coupe-car"></span>
-            COUPE
-          </label>
-          <label
-            (click)="changeCarType('Convertible')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option4"
-              formControlName="carType"
-              value="CONVERTIBLE"
-            /><span class="ic flaticon-cabrio-car"></span>
-            CONVERTIBLE
-          </label>
-          <label
-            (click)="changeCarType('Sedan')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option5"
-              formControlName="carType"
-              value="SEDAN"
-            /><span class="ic flaticon-sedan-car-model"></span>
-            SEDAN
-          </label>
-          <label
-            (click)="changeCarType('Van')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option6"
-              formControlName="carType"
-              value="VAN"
-            /><span class="ic flaticon-car"></span>
-            VAN
-          </label>
-          <label
-            (click)="changeCarType('Citycar')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option7"
-              formControlName="carType"
-              value="CITYCAR"
-            /><span class="ic flaticon-car"></span>
-            CITYCAR
-          </label>
-          <label
-            (click)="changeCarType('OTRO')"
-            class="btn b-main-filter__cat-item"
-          >
-            <input
-              type="radio"
-              name="carType"
-              id="option8"
-              formControlName="carType"
-              value="OTRO"
-            /><span class="ic flaticon-car"></span>
-            OTRO
+              [value]="carType"
+            /><span
+              [ngClass]="{
+                ic: true,
+                'flaticon-pick-up': carType == 'PICKUP',
+                'flaticon-car-suv': carType == 'SUV',
+                'flaticon-coupe-car': carType == 'COUPE',
+                'flaticon-cabrio-car': carType == 'CONVERTIBLE',
+                'flaticon-sedan-car-model': carType == 'SEDAN',
+                'flaticon-car':
+                  carType == 'CITYCAR' || carType == 'VAN' || carType == 'OTRO'
+              }"
+            ></span>
+            {{ carType }}
           </label>
         </div>
         <ul class="b-main-filter-nav nav nav-tabs" id="findTab" role="tablist">
@@ -166,10 +87,10 @@
         </ul>
         <div class="b-main-filter-content tab-content" id="findTabContent">
           <div class="tab-pane fade show active" id="content-allCar">
-            <div class="row align-items-end no-gutters">
+            <div class="row align-items-end justify-content-between">
               <div class="b-main-filter__main col-lg">
                 <div class="b-main-filter__inner row no-gutters">
-                  <div class="b-main-filter__item col-md-4">
+                  <div class="b-main-filter__item col-md-2">
                     <div class="b-main-filter__label">Seleccionar Marca</div>
                     <div class="b-main-filter__selector">
                       <select
@@ -197,7 +118,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="b-main-filter__item col-md-4">
+                  <div class="b-main-filter__item col-md-2">
                     <div class="b-main-filter__label">Seleccionar Modelo</div>
                     <div class="b-main-filter__selector">
                       <select
@@ -215,6 +136,9 @@
                         >
                           Selecciona Modelo
                         </option>
+                        <option value="" *ngIf="carBrand == ''" disabled>
+                          Debe seleccionar una marca
+                        </option>
                         <option
                           *ngFor="let model of filteredModels"
                           [value]="model"
@@ -224,37 +148,65 @@
                       </select>
                     </div>
                   </div>
-                  <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Rango de Precio</div>
+                  <div class="b-main-filter__item col-md-2">
+                    <div class="b-main-filter__label">Precio US$ (desde)</div>
                     <div class="b-main-filter__selector">
-                      <select
+                      <input
+                        type="text"
+                        formControlName="carMinPrice"
+                        class="ui-select w-100 inputPrice"
+                        [OnlyNumber]="true"
+                        placeholder="Ingrese precio"
+                      />
+                    </div>
+                  </div>
+                  <div class="b-main-filter__item col-md-2">
+                    <div class="b-main-filter__label">Precio US$ (hasta)</div>
+                    <div class="b-main-filter__selector">
+                      <input
+                        type="text"
                         formControlName="carMaxPrice"
-                        class="selectpicker"
-                        data-width="100%"
-                        data-style="ui-select"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
-                        >
-                          Selecciona Precio
-                        </option>
-                        <option
-                          *ngFor="let price of filteredPrices"
-                          [value]="price"
-                        >
-                          Max ${{ price }}
-                        </option>
-                      </select>
+                        class="ui-select w-100 inputPrice"
+                        [OnlyNumber]="true"
+                        placeholder="Ingrese precio"
+                      />
+                    </div>
+                  </div>
+                  <div class="b-main-filter__item col-md-2">
+                    <div class="b-main-filter__label">
+                      Año Fabricación (desde)
+                    </div>
+                    <div class="b-main-filter__selector">
+                      <input
+                        type="text"
+                        formControlName="carMinYear"
+                        class="ui-select w-100 inputPrice"
+                        [OnlyNumber]="true"
+                        (keyup)="yearFilter('carMinYear')"
+                        placeholder="Ingrese año"
+                      />
+                    </div>
+                  </div>
+                  <div class="b-main-filter__item col-md-2">
+                    <div class="b-main-filter__label">
+                      Año Fabricación (hasta)
+                    </div>
+                    <div class="b-main-filter__selector">
+                      <input
+                        type="text"
+                        formControlName="carMaxYear"
+                        class="ui-select w-100 inputPrice"
+                        [OnlyNumber]="true"
+                        (keyup)="yearFilter('carMaxYear')"
+                        placeholder="Ingrese año"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-lg-auto">
                 <button
-                  (click)="searchCar()"
+                  (click)="goToListings()"
                   class="b-main-filter__btn btn btn-secondary"
                 >
                   Buscar
@@ -262,88 +214,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="tab-pane fade" id="content-newCars">
-            <div class="row align-items-end no-gutters">
-            <div class="b-main-filter__main col-lg">
-                <div class="b-main-filter__inner row no-gutters">
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Seleccionar Marca</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Audi</option>
-                        <option>BMV</option>
-                        <option>Opel</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Seleccionar Modelo</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Model 1</option>
-                        <option>Model 2</option>
-                        <option>Model 3</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Rando de Precio</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Max $5000</option>
-                        <option>Max $15000</option>
-                        <option>Max $25000</option>
-                    </select>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-auto">
-                <button class="b-main-filter__btn btn btn-secondary">Buscar</button>
-            </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="content-usedCars">
-            <div class="row align-items-end no-gutters">
-            <div class="b-main-filter__main col-lg">
-                <div class="b-main-filter__inner row no-gutters">
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Seleccionar Marca</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Audi</option>
-                        <option>BMV</option>
-                        <option>Opel</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Seleccionar Modelo</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Model 1</option>
-                        <option>Model 2</option>
-                        <option>Model 3</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="b-main-filter__item col-md-4">
-                    <div class="b-main-filter__label">Rango de Precio</div>
-                    <div class="b-main-filter__selector">
-                    <select class="selectpicker" data-width="100%" data-style="ui-select">
-                        <option>Max $5000</option>
-                        <option>Max $15000</option>
-                        <option>Max $25000</option>
-                    </select>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-auto">
-                <button class="b-main-filter__btn btn btn-secondary">Buscar</button>
-            </div>
-            </div>
-        </div> -->
         </div>
       </form>
     </div>
@@ -601,7 +471,9 @@
         </div>
       </div>
       <div class="text-center mt-3">
-        <a class="btn btn-secondary" (click)="toListings()">show more</a>
+        <a class="btn btn-secondary" (click)="goToCarSearch('USED')"
+          >show more</a
+        >
       </div>
     </div>
   </div>
@@ -665,11 +537,11 @@
           class="b-goods-slider-2"
           #slickModal="slick-carousel"
           [config]="slideConfig"
-          (init)="slickInit($event)"
+        >
+          <!--(init)="slickInit($event)"
           (breakpoint)="breakpoint($event)"
           (afterChange)="afterChange($event)"
-          (beforeChange)="beforeChange($event)"
-        >
+          (beforeChange)="beforeChange($event)" -->
           <div *ngFor="let sponsored of sponsoredCars">
             <div
               ngxSlickItem
@@ -685,8 +557,8 @@
                 />
               </div>
               <div class="b-goods-2__main">
-                <div class="row justify-content-between align-items-baseline">
-                  <div class="col-auto">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-9">
                     <div class="b-goods-2__title text-primary">
                       {{
                         sponsored.marca +
@@ -697,7 +569,7 @@
                       }}
                     </div>
                   </div>
-                  <div class="col-auto">
+                  <div class="col-3">
                     <div class="b-goods-2__price">
                       US$
                       <span class="b-goods-2__price-inner text-secondary">{{
@@ -970,7 +842,7 @@
         <div class="b-bnr-2__inner bg-primary">
           <a
             class="btn-arr btn-arr_left"
-            (click)="goToCarSearch()"
+            (click)="goToCarSearch('ALL')"
             style="cursor: pointer"
           ></a>
           <h2 class="b-bnr-2__title">¿Quieres un auto<br />nuevo o usado?</h2>

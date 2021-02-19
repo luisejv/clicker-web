@@ -43,6 +43,7 @@ import { SelectBrandModelComponent } from './components/shared/select-brand-mode
 import { ExtractPipe } from './pipes/extract.pipe';
 import { NgsRevealModule } from 'ngx-scrollreveal';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     AutoSemiNuevoComponent,
     SelectBrandModelComponent,
     ExtractPipe,
+    OnlyNumbersDirective,
   ],
   imports: [
     BrowserModule,

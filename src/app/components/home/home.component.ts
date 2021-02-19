@@ -5,7 +5,6 @@ import {
   SponsoredCar,
 } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
-import { DataService } from 'src/app/core/services/data.service';
 import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { Filter } from 'src/app/core/interfaces/client';
@@ -25,20 +24,14 @@ export class HomeComponent implements OnInit {
   @ViewChild('userCount') userCount!: ElementRef;
   @ViewChild('soldVehicles') soldVehicles!: ElementRef;
 
-  carType: string = 'SUV';
-  carSubset: string = 'ALL';
-
+  carrocerias!: string[];
   recentCars!: AutoSemiNuevo[];
   sponsoredCars!: AutoSemiNuevo[];
 
   filters!: Filter[];
-  filteredBrands: string[] = [''];
-  filteredModels: string[] = ['Debe seleccionar una marca'];
-  filteredPrices: number[] = [5000, 15000, 25000];
-
+  filteredBrands!: string[];
+  filteredModels!: string[];
   filterFormGroup: FormGroup;
-
-  carBrand: string = '';
 
   slideConfig = {
     slidesToShow: 2,
@@ -78,16 +71,18 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private storageService: StorageService,
     private clientService: ClientService,
-    private dataService: DataService,
     private fb: FormBuilder,
     private loaderService: LoaderService
   ) {
     this.filterFormGroup = this.fb.group({
-      carType: '',
-      carSubset: '',
+      carType: 'OTRO',
+      carSubset: 'ALL',
       carBrand: '',
       carModel: '',
+      carMinPrice: '',
       carMaxPrice: '',
+      carMinYear: '',
+      carMaxYear: '',
     });
 
     this.clientService.getAvailableVehiclesCount().subscribe(
@@ -141,10 +136,17 @@ export class HomeComponent implements OnInit {
 
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
+        console.log('Filtros: ', response);
         this.filters = response;
         this.filteredBrands = this.filters
           .map((elem) => elem.marca)
           .filter((v, i, a) => a.indexOf(v) == i);
+        this.carrocerias = response
+          .map((elem: Filter) => elem.tipoCarroceria)
+          .filter((v, i, a) => a.indexOf(v) == i);
+        this.carrocerias.push('OTRO');
+        console.log('Marcas: ', this.filteredBrands);
+        console.log('Carrocerias: ', this.carrocerias);
       },
       (error) => {
         console.group('In getting filters');
@@ -164,6 +166,22 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  get carType(): string {
+    return this.filterFormGroup.get('carType')?.value;
+  }
+
+  get carSubset(): string {
+    return this.filterFormGroup.get('carSubset')?.value;
+  }
+
+  get carBrand(): string {
+    return this.filterFormGroup.get('carBrand')?.value;
+  }
+
+  get carModel(): string {
+    return this.filterFormGroup.get('carModel')?.value;
+  }
+
   // Cambiar Carroceria
   changeCarType(type: string): void {
     this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
@@ -175,18 +193,18 @@ export class HomeComponent implements OnInit {
         })
         .map((elem) => elem.marca)
         .filter((v, i, a) => a.indexOf(v) == i);
-      if (this.filteredBrands.length == 0) {
-        this.filteredBrands.push('No tenemos autos de ese tipo');
-      }
     } else {
       this.filteredBrands = this.filters
         .map((elem) => elem.marca)
         .filter((v, i, a) => a.indexOf(v) == i);
     }
-    $('#marcas').selectpicker('refresh');
-    // setTimeout(() => {
-
-    // }, 500);
+    this.filteredModels = [];
+    this.filterFormGroup.get('carBrand')?.setValue('');
+    this.filterFormGroup.get('carModel')?.setValue('');
+    setTimeout(() => {
+      $('#marcas').selectpicker('refresh');
+      $('#modelos').selectpicker('refresh');
+    }, 250);
     console.log(this.filteredBrands);
   }
 
@@ -197,6 +215,19 @@ export class HomeComponent implements OnInit {
       'Car Subset: ',
       this.filterFormGroup.controls['carSubset'].value
     );
+    this.filteredBrands = this.filters
+      .filter(
+        (elem) => this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset
+      )
+      .map((elem) => elem.marca)
+      .filter((v, i, a) => a.indexOf(v) == i);
+    this.filteredModels = [];
+    this.filterFormGroup.get('carBrand')?.setValue('');
+    this.filterFormGroup.get('carModel')?.setValue('');
+    setTimeout(() => {
+      $('#marcas').selectpicker('refresh');
+      $('#modelos').selectpicker('refresh');
+    }, 500);
   }
 
   // Cambiar marca
@@ -205,49 +236,49 @@ export class HomeComponent implements OnInit {
     console.log('Change Car Brand Event: ', e.target.value);
     console.log(this.filterFormGroup.get('carBrand')?.value);
     this.filteredModels = this.filters
-      .filter((elem) => elem.marca == brand)
-      .map((elem) => elem.modelo);
+      .filter((elem) =>
+        this.carType != 'OTRO'
+          ? elem.marca == brand &&
+            elem.tipoCarroceria == this.carType &&
+            (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
+          : elem.marca == brand &&
+            (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
+      )
+      .map((elem) => elem.modelo)
+      .filter((v, i, a) => a.indexOf(v) == i);
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
-    }, 500);
+    }, 250);
   }
 
-  searchCar(): void {
+  yearFilter(type: string): void {
+    if (
+      Number(this.filterFormGroup.get(type)?.value) >
+      new Date().getFullYear() + 1
+    ) {
+      this.filterFormGroup.get(type)?.setValue('');
+    }
+  }
+
+  goToCarSearch(carSubset: string): void {
+    const body: CarSearchFilter = {
+      carSubset: carSubset,
+    };
+    this.router.navigate(['/inventory-listings'], {
+      queryParams: body,
+    });
+  }
+
+  goToListings(): void {
     const body: CarSearchFilter = {
       carType: this.filterFormGroup.value.carType,
       carSubset: this.filterFormGroup.value.carSubset,
       carBrand: this.filterFormGroup.value.carBrand,
       carModel: this.filterFormGroup.value.carModel,
-      carMaxPrice: this.filterFormGroup.value.MaxPrice,
-      allCars: false,
-    };
-    this.router.navigate(['/inventory-listings'], {
-      queryParams: body,
-    });
-  }
-
-  toListings(): void {
-    const body: CarSearchFilter = {
-      carType: '',
-      carSubset: 'USED',
-      carBrand: '',
-      carModel: '',
-      carMaxPrice: 0,
-      allCars: true,
-    };
-    this.router.navigate(['/inventory-listings'], {
-      queryParams: body,
-    });
-  }
-
-  goToCarSearch(): void {
-    const body: CarSearchFilter = {
-      carType: '',
-      carSubset: 'ALL',
-      carBrand: '',
-      carModel: '',
-      carMaxPrice: 0,
-      allCars: true, //! if false, does not apply filters
+      carMinPrice: Number(this.filterFormGroup.value.carMinPrice),
+      carMaxPrice: Number(this.filterFormGroup.value.carMaxPrice),
+      carMinYear: Number(this.filterFormGroup.value.carMinYear),
+      carMaxYear: Number(this.filterFormGroup.value.carMaxYear),
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
