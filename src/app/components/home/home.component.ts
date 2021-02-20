@@ -221,16 +221,19 @@ export class HomeComponent implements OnInit {
     );
     this.filteredBrands = this.filters
       .filter(
-        (elem) => this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset
+        (elem) => this.carType === elem.tipoCarroceria && (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
       )
       .map((elem) => elem.marca)
       .filter((v, i, a) => a.indexOf(v) == i);
     this.filteredModels = [];
+    console.log('AAAA: ', this.filteredBrands);
     this.filterFormGroup.get('carBrand')?.setValue('');
     this.filterFormGroup.get('carModel')?.setValue('');
     setTimeout(() => {
-      $('#marcas').selectpicker('refresh');
       $('#modelos').selectpicker('refresh');
+    }, 500);
+    setTimeout(() => {
+      $('#marcas').selectpicker('refresh');
     }, 500);
   }
 
@@ -250,9 +253,11 @@ export class HomeComponent implements OnInit {
       )
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
+      console.log('filtered models')
+      console.log(this.filteredModels);
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
-    }, 250);
+    }, 500);
   }
 
   yearFilter(type: string): void {

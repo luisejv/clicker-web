@@ -24,10 +24,10 @@
         <div class="row">
           <div class="col-lg-8">
             <div class="ui-subtitle">Sportiness at maximum power</div>
-            <h2 class="ui-title text-uppercase">{{ auto.marca }} {{ auto.modelo }} {{ auto.anoFabricacion }}</h2>
+            <h2 class="ui-title text-uppercase">{{ (auto | async).marca  }} {{ (auto | async).modelo }} {{ (auto | async).anoFabricacion }}</h2>
             <div class="b-goods-f__slider">
               <!-- TODO: poner las otras imagenes que el usuario puede subir -->
-              <div class="ui-slider-main js-slider-for"><img class="img-scale" [src]="auto.fotoPrincipal" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/></div>
+              <div class="ui-slider-main js-slider-for"><img class="img-scale" [src]="(auto | async).fotoPrincipal" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/main/1.jpg" alt="photo"/></div>
               <div class="ui-slider-nav js-slider-nav"><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/1.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/2.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/3.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/4.jpg" alt="photo"/><img class="img-scale" src="assets/media/content/b-goods/main-slider/thumb/2.jpg" alt="photo"/></div>
             </div>
             <!-- <div class="b-goods-f__links"><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-map-marker-alt text-primary"></i>Florida, USA</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-question text-primary"></i>Request More Info</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-star text-primary"></i>Add To Favourite</a><a class="b-goods-f__links-item" href="#"><i class="ic fas fa-car-side text-primary"></i>Schedule Test Drive</a><a class="b-goods-f__links-item" href="email:test@test.test"><i class="ic fas fa-envelope text-primary"></i>Email Friend</a></div> -->
@@ -35,11 +35,11 @@
             <div class="row">
               <div class="col-md-6">
                 <dl class="b-goods-f__descr row">
-                  <dt class="b-goods-f__descr-title col-md-5">Año de Fabricación</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.anoFabricacion }}</dd>
-                  <dt class="b-goods-f__descr-title col-md-5">Marca / Modelo</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.marca }} / {{ auto.modelo }}</dd>
-                  <dt class="b-goods-f__descr-title col-md-5">Tipo de Carrocería</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCarroceria }}</dd>
-                  <dt class="b-goods-f__descr-title col-md-5">Color</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.color }}</dd>
-                  <dt class="b-goods-f__descr-title col-md-5">Combustible</dt><dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCombustible }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Año de Fabricación</dt><dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).anoFabricacion }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Marca / Modelo</dt><dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).marca }} / {{ (auto | async).modelo }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Tipo de Carrocería</dt><dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).tipoCarroceria }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Color</dt><dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).color }}</dd>
+                  <dt class="b-goods-f__descr-title col-md-5">Combustible</dt><dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).tipoCombustible }}</dd>
                   <!-- TODO: poner hp? -->
                   <!-- TODO: poner rpm? -->
                   <dt class="b-goods-f__descr-title col-md-5">Motor</dt><dd class="b-goods-f__descr-info col-md-7">255 hp @5000 rpm</dd>
@@ -50,19 +50,19 @@
                   <!-- <dt class="b-goods-f__descr-title col-md-5">Condition</dt>
                   <dd class="b-goods-f__descr-info col-md-7">New</dd> -->
                   <dt class="b-goods-f__descr-title col-md-5">Kilometraje</dt>
-                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.kilometraje | number }} km</dd>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).kilometraje | number }} km</dd>
                   <dt class="b-goods-f__descr-title col-md-5">Transmission</dt>
-                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoCambios }}</dd>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).tipoCambios }}</dd>
                   <!-- TODO: poner 'numVelocidades' en el back -->
                   <!-- TODO: numAsientos? -->
                   <!-- TODO: colorInterior? -->
                   <!-- <dd class="b-goods-f__descr-info col-md-7">8-Speed A/T</dd> -->
                   <dt class="b-goods-f__descr-title col-md-5">Drivetrain</dt>
-                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.tipoTraccion }}</dd>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).tipoTraccion }}</dd>
                   <dt class="b-goods-f__descr-title col-md-5">Cilindros / Cilindrada</dt>
-                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.numeroCilindros }} / {{ auto.cilindrada }} cc</dd>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).numeroCilindros }} / {{ (auto | async).cilindrada }} cc</dd>
                   <dt class="b-goods-f__descr-title col-md-5">Puertas</dt>
-                  <dd class="b-goods-f__descr-info col-md-7">{{ auto.numeroPuertas }}</dd>
+                  <dd class="b-goods-f__descr-info col-md-7">{{ (auto | async).numeroPuertas }}</dd>
                 </dl>
               </div>
             </div>
@@ -106,7 +106,7 @@
             <aside class="l-sidebar">
               <div class="b-goods-f-price">
                   <!-- TODO: poner 'moneda' en el auto? -->
-                <div class="b-goods-f-price__header bg-secondary">Precio Clicker<span class="b-goods-f-price__main">S/. {{ auto.precioVenta | number }}</span></div>
+                <div class="b-goods-f-price__header bg-secondary">Precio Clicker<span class="b-goods-f-price__main">S/. {{ (auto | async).precioVenta | number }}</span></div>
                 <div class="b-goods-f-price__inner">
                   <div class="b-goods-f-price__msrp">MSRP: $34,500</div>
                   <div class="b-goods-f-price__note">Incluye IGV?*</div>

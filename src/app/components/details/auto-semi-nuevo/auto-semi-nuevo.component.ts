@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./auto-semi-nuevo.component.css'],
 })
 export class AutoSemiNuevoComponent implements OnInit {
-  auto!: AutoSemiNuevo;
+  auto!: Observable<any>;
 
   constructor(
     private userService: UserService,
@@ -25,19 +26,20 @@ export class AutoSemiNuevoComponent implements OnInit {
       console.log(params);
       console.groupEnd();
       if (params['id']) {
-        this.userService.getAutoSemiNuevoById(params['id']).subscribe(
-          (response: AutoSemiNuevo) => {
-            console.group('AutoSemiNuevo por ID:');
-            console.dir(response);
-            console.groupEnd();
-            this.auto = response;
-          },
-          (error: any) => {
-            console.group('Error fetching autoSemiNuevo por ID');
-            console.error(error);
-            console.groupEnd();
-          }
-        );
+        this.auto = this.userService.getAutoSemiNuevoById(params['id']);
+        // this.userService.getAutoSemiNuevoById(params['id']).subscribe(
+        //   (response: AutoSemiNuevo) => {
+        //     console.group('AutoSemiNuevo por ID:');
+        //     console.dir(response);
+        //     console.groupEnd();
+        //     this.auto = response;
+        //   },
+        //   (error: any) => {
+        //     console.group('Error fetching autoSemiNuevo por ID');
+        //     console.error(error);
+        //     console.groupEnd();
+        //   }
+        // );
       } else {
         console.group('Entering detail view with no ID');
         //TODO: redirect user to home or make a guard
