@@ -39,6 +39,9 @@ export class CommonService {
   soldVehiclesCountUrl: string = this.autoSemiNuevoUrl + '/vendidos';
   filtersUrl: string = this.baseUrl + '/post/filtros';
 
+  // * Interested in Car
+  postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;
