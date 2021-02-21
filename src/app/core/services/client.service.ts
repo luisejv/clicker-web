@@ -30,4 +30,7 @@ export class ClientService {
   public getFilters(): Observable<any> {
     return this.http.get(this.commonService.filtersUrl);
   }
+  public postFormInterested(body: any): void {
+    this.http.post(this.commonService.postFormInterestedUrl, body);
+  }
 }

@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     slidesToShow: 2,
     slidesToScroll: 1,
     dots: true,
-    arrows: true,
+    arrows: false,
     autoplay: true,
     infinite: true,
     responsive: [

@@ -10,10 +10,17 @@ export class LoaderService {
 
   isLoading = new EventEmitter<boolean>();
 
+  loading!: boolean;
+
   constructor() {}
 
   setIsLoading(loading: boolean): void {
     this.isLoading.emit(loading);
+    this.loading = loading;
+  }
+
+  getIsLoading(): boolean {
+    return this.loading;
   }
 
   show() {

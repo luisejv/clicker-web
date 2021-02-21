@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
     console.log(`BODY: ${body}`);
     this.userService.login(body).subscribe(
       (response: User) => {
+        console.log('response login: ', response);
         if (response.rol == 'ADMIN') {
           this.storageService.setRoleSessionStorage(RolesEnum.ADMIN);
         } else if (response.rol == 'SUPERADMIN') {
