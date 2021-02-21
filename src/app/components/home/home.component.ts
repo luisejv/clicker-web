@@ -79,10 +79,8 @@ export class HomeComponent implements OnInit {
       carSubset: 'ALL',
       carBrand: '',
       carModel: '',
-      carMinPrice: '',
       carMaxPrice: '',
       carMinYear: '',
-      carMaxYear: '',
     });
 
     this.clientService.getAvailableVehiclesCount().subscribe(
@@ -190,18 +188,15 @@ export class HomeComponent implements OnInit {
   changeCarType(type: string): void {
     this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
     console.log(this.filterFormGroup.get('carType')?.value);
-    if (type.toLowerCase() != 'otro') {
-      this.filteredBrands = this.filters
-        .filter((elem: Filter) => {
-          return elem.tipoCarroceria.toLowerCase() == type.toLowerCase();
-        })
-        .map((elem) => elem.marca)
-        .filter((v, i, a) => a.indexOf(v) == i);
-    } else {
-      this.filteredBrands = this.filters
-        .map((elem) => elem.marca)
-        .filter((v, i, a) => a.indexOf(v) == i);
-    }
+    this.filteredBrands = this.filters
+      .filter((elem: Filter) => {
+        return (
+          (type == 'OTRO' || elem.tipoCarroceria == type) &&
+          elem.tipoCarro == this.carSubset
+        );
+      })
+      .map((elem) => elem.marca)
+      .filter((v, i, a) => a.indexOf(v) == i);
     this.filteredModels = [];
     this.filterFormGroup.get('carBrand')?.setValue('');
     this.filterFormGroup.get('carModel')?.setValue('');
@@ -220,8 +215,11 @@ export class HomeComponent implements OnInit {
       this.filterFormGroup.controls['carSubset'].value
     );
     this.filteredBrands = this.filters
-      .filter(
-        (elem) => this.carType === elem.tipoCarroceria && (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
+      .filter((elem) =>
+        this.carType != 'OTRO'
+          ? this.carType === elem.tipoCarroceria &&
+            (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
+          : this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset
       )
       .map((elem) => elem.marca)
       .filter((v, i, a) => a.indexOf(v) == i);
@@ -253,8 +251,8 @@ export class HomeComponent implements OnInit {
       )
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
-      console.log('filtered models')
-      console.log(this.filteredModels);
+    console.log('filtered models');
+    console.log(this.filteredModels);
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
     }, 500);
@@ -284,10 +282,8 @@ export class HomeComponent implements OnInit {
       carSubset: this.filterFormGroup.value.carSubset,
       carBrand: this.filterFormGroup.value.carBrand,
       carModel: this.filterFormGroup.value.carModel,
-      carMinPrice: Number(this.filterFormGroup.value.carMinPrice),
       carMaxPrice: Number(this.filterFormGroup.value.carMaxPrice),
       carMinYear: Number(this.filterFormGroup.value.carMinYear),
-      carMaxYear: Number(this.filterFormGroup.value.carMaxYear),
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,

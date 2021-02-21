@@ -90,7 +90,7 @@
             <div class="row align-items-end justify-content-between">
               <div class="b-main-filter__main col-lg">
                 <div class="b-main-filter__inner row no-gutters">
-                  <div class="b-main-filter__item col-md-2">
+                  <div class="b-main-filter__item col-md-3">
                     <div class="b-main-filter__label">Seleccionar Marca</div>
                     <div class="b-main-filter__selector">
                       <select
@@ -118,7 +118,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="b-main-filter__item col-md-2">
+                  <div class="b-main-filter__item col-md-3">
                     <div class="b-main-filter__label">Seleccionar Modelo</div>
                     <div class="b-main-filter__selector">
                       <select
@@ -148,19 +148,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="b-main-filter__item col-md-2">
-                    <div class="b-main-filter__label">Precio US$ (desde)</div>
-                    <div class="b-main-filter__selector">
-                      <input
-                        type="text"
-                        formControlName="carMinPrice"
-                        class="ui-select w-100 inputPrice"
-                        [OnlyNumber]="true"
-                        placeholder="Ingrese precio"
-                      />
-                    </div>
-                  </div>
-                  <div class="b-main-filter__item col-md-2">
+                  <div class="b-main-filter__item col-md-3">
                     <div class="b-main-filter__label">Precio US$ (hasta)</div>
                     <div class="b-main-filter__selector">
                       <input
@@ -172,7 +160,7 @@
                       />
                     </div>
                   </div>
-                  <div class="b-main-filter__item col-md-2">
+                  <div class="b-main-filter__item col-md-3">
                     <div class="b-main-filter__label">
                       Año Fabricación (desde)
                     </div>
@@ -183,21 +171,6 @@
                         class="ui-select w-100 inputPrice"
                         [OnlyNumber]="true"
                         (keyup)="yearFilter('carMinYear')"
-                        placeholder="Ingrese año"
-                      />
-                    </div>
-                  </div>
-                  <div class="b-main-filter__item col-md-2">
-                    <div class="b-main-filter__label">
-                      Año Fabricación (hasta)
-                    </div>
-                    <div class="b-main-filter__selector">
-                      <input
-                        type="text"
-                        formControlName="carMaxYear"
-                        class="ui-select w-100 inputPrice"
-                        [OnlyNumber]="true"
-                        (keyup)="yearFilter('carMaxYear')"
                         placeholder="Ingrese año"
                       />
                     </div>
@@ -217,6 +190,286 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- Section-5 Carros patrocinados -->
+<section class="section-goods-slider bg-dark b-services">
+  <div class="section-goods-slider__inner">
+    <div class="ui-decor ui-decor_center bg-primary"></div>
+    <div class="container">
+      <div class="text-center">
+        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
+        <h2 class="ui-title ui-title_light">Ofertas de la semana</h2>
+        <ngx-slick-carousel
+          class="b-goods-slider-2"
+          #slickModal="slick-carousel"
+          [config]="slideConfig"
+        >
+          <!--(init)="slickInit($event)"
+          (breakpoint)="breakpoint($event)"
+          (afterChange)="afterChange($event)"
+          (beforeChange)="beforeChange($event)" -->
+          <div *ngFor="let sponsored of sponsoredCars">
+            <div
+              ngxSlickItem
+              class="b-goods-2"
+              style="cursor: pointer"
+              (click)="goToVehicleDetails(sponsored.id)"
+            >
+              <div class="b-goods-2__img">
+                <img
+                  [src]="sponsored.fotoPrincipal"
+                  [alt]="sponsored.modelo"
+                  class="img-fluid"
+                />
+              </div>
+              <div class="b-goods-2__main">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-9">
+                    <div class="b-goods-2__title text-primary">
+                      {{
+                        sponsored.marca +
+                          " " +
+                          sponsored.modelo +
+                          " " +
+                          sponsored.anoFabricacion
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="b-goods-2__price">
+                      US$
+                      <span class="b-goods-2__price-inner text-secondary">{{
+                        sponsored.precioVenta
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-goods-2-descrip">
+                  <div class="b-goods-2-descrip__item">
+                    <div class="b-goods-2-descrip__inner">
+                      <div class="b-goods-2-descrip__wrap">
+                        <i class="ic flaticon-speedometer"></i>
+                        {{ sponsored.kilometraje / 1000 }}k km
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-goods-2-descrip__item">
+                    <div class="b-goods-2-descrip__inner">
+                      <div class="b-goods-2-descrip__wrap">
+                        <i class="ic flaticon-fuel-station-pump"></i>
+                        {{ sponsored.tipoCombustible }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-goods-2-descrip__item">
+                    <div class="b-goods-2-descrip__inner">
+                      <div class="b-goods-2-descrip__wrap">
+                        <i class="ic flaticon-gearshift"></i>
+                        {{ sponsored.tipoCambios }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-goods-2-descrip__item">
+                    <div class="b-goods-2-descrip__inner">
+                      <div class="b-goods-2-descrip__wrap">
+                        <i class="ic flaticon-car-8"></i>
+                        {{ sponsored.anoFabricacion }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section-3 Recién Llegados -->
+<section class="section-goods">
+  <div class="section-default section-goods__inner bg-dark">
+    <div class="ui-decor ui-decor_mirror ui-decor_center"></div>
+    <div class="container">
+      <div class="text-center">
+        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
+        <h2 class="ui-title ui-title_light text-uppercase">
+          Seminuevos recién llegados
+        </h2>
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <p>
+              Dale una mirada a los autos que acaban de ingresar a nuestra
+              plataforma.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-goods__list">
+      <div class="row">
+        <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
+          <app-published-car [auto]="seminuevo"> </app-published-car>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <a class="btn btn-secondary" (click)="goToCarSearch('USED')"
+          >show more</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section-7 Cómo funciona? -->
+<section class="section-area mt-5">
+  <div class="container">
+    <div class="text-center">
+      <div class="ui-title-logo">CLICKER</div>
+      <h2 class="ui-title">¿Cómo funciona?</h2>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="b-stages">
+      <div class="row no-gutters align-items-start">
+        <div class="b-stages__item col-lg-3">
+          <span class="b-stages__number">01</span>
+          <div class="b-stages__title text-primary">Usa el buscador</div>
+          <div class="b-stages__info">
+            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
+            laboris aut aliquip ex consequat.
+          </div>
+        </div>
+        <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
+          <span class="b-stages__number">02</span>
+          <div class="b-stages__inner">
+            <div class="b-stages__title text-primary">
+              Elige tu auto favorito
+            </div>
+            <div class="b-stages__info">
+              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
+              laboris aut aliquip ex consequat.
+            </div>
+          </div>
+        </div>
+        <div class="b-stages__item col-lg-3">
+          <span class="b-stages__number">03</span>
+          <div class="b-stages__title text-primary">Elige tu auto favorito</div>
+          <div class="b-stages__info">
+            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
+            laboris aut aliquip ex consequat.
+          </div>
+        </div>
+        <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
+          <span class="b-stages__number">04</span>
+          <div class="b-stages__inner">
+            <div class="b-stages__title text-primary">Get Approved & Drive</div>
+            <div class="b-stages__info">
+              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
+              laboris aut aliquip ex consequat.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section-8 Compra o Vende -->
+<section class="section-bnr-2">
+  <div class="row no-gutters justify-content-center">
+    <div class="col-lg-6">
+      <section class="b-bnr-2 b-bnr-2_first">
+        <div class="b-bnr-2__inner bg-primary">
+          <a
+            class="btn-arr btn-arr_left"
+            (click)="goToCarSearch('ALL')"
+            style="cursor: pointer"
+          ></a>
+          <h2 class="b-bnr-2__title">¿Quieres un auto<br />nuevo o usado?</h2>
+          <div class="b-bnr-2__info">
+            ¡Empecemos con la búsqueda de tu próximo auto!
+          </div>
+        </div>
+        <img
+          class="b-bnr-2__figure img-fluid"
+          src="/assets/media/content/b-bnr/figure-1.png"
+          alt="foto"
+        />
+      </section>
+    </div>
+    <div class="col-lg-6">
+      <section class="b-bnr-2 b-bnr-2_last">
+        <div class="b-bnr-2__inner bg-dark-2">
+          <a
+            class="btn-arr btn-arr_right"
+            (click)="goToCarRegistration()"
+            style="cursor: pointer"
+          ></a>
+          <h2 class="b-bnr-2__title">¿Quieres vender<br />tu auto?</h2>
+          <div class="b-bnr-2__info">
+            Tu auto pasará por una verificación y si cumple con los requisitos
+            se subirá a nuestro portal.
+          </div>
+        </div>
+        <img
+          class="b-bnr-2__figure img-fluid"
+          src="/assets/media/content/b-bnr/figure-2.png"
+          alt="foto"
+        />
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- Section-4 Números de la App - EasyPieChart -->
+<section class="section-progress bg-dark">
+  <div class="container-fluid">
+    <div class="section-progress__inner">
+      <div class="section-progress__img">
+        <img
+          class="img-scale"
+          src="assets/media/content/b-progress/fig-1.png"
+          alt="photo"
+        />
+      </div>
+      <div class="b-progress-list">
+        <div class="row">
+          <div class="b-progress-list__item col-md-6">
+            <span class="b-progress-list__percent js-chart" #availableVehicles
+              ><span class="js-percent"></span></span
+            ><span class="b-progress-list__name">Vehículos Disponibles</span>
+          </div>
+          <div class="b-progress-list__item col-md-6 text-right">
+            <span class="b-progress-list__percent js-chart" #brandCount
+              ><span class="js-percent"></span></span
+            ><span class="b-progress-list__name">Marcas que manejamos</span>
+          </div>
+          <div class="b-progress-list__item col-md-6">
+            <span class="b-progress-list__percent js-chart" #userCount
+              ><span class="js-percent"></span></span
+            ><span class="b-progress-list__name">Trabajan con nosotros</span>
+          </div>
+          <div class="b-progress-list__item col-md-6 text-right">
+            <span class="b-progress-list__percent js-chart" #soldVehicles
+              ><span class="js-percent"></span></span
+            ><span class="b-progress-list__name">Vehículos Vendidos</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-progress__img ml-4">
+        <img
+          class="img-scale"
+          src="assets/media/content/b-progress/fig-2.png"
+          alt="photo"
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -377,253 +630,63 @@
   </div>
 </section>
 
-<!-- Section-3 Recién Llegados -->
-<section class="section-goods">
-  <div class="section-default section-goods__inner bg-dark">
-    <div class="ui-decor ui-decor_mirror ui-decor_center"></div>
-    <div class="container">
-      <div class="text-center">
-        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
-        <h2 class="ui-title ui-title_light text-uppercase">
-          Seminuevos recién llegados
-        </h2>
-        <div class="row">
-          <div class="col-md-8 offset-md-2">
-            <p>
-              Dale una mirada a los autos que acaban de ingresar a nuestra
-              plataforma.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="section-goods__list">
+<!-- Section-9 Testimonios -->
+<section class="section-reviews area-bg area-bg_dark area-bg_op_90">
+  <div class="area-bg__inner section-default">
+    <div class="container text-center">
+      <h2 class="ui-title-logo">Qué dicen nuestros clientes...</h2>
       <div class="row">
-        <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
-          <app-published-car [auto]="seminuevo"> </app-published-car>
-          <!-- <div class="b-goods">
-            <a class="b-goods__img">
-              <img
-                [src]="seminuevo.fotoPrincipal"
-                [alt]="seminuevo.modelo"
-                class="img-scale"
-              />
-            </a>
-            <div class="b-goods__main">
-              <div class="row no-gutters">
-                <div class="col">
-                  <a class="b-goods__title">
-                    {{
-                      seminuevo.marca +
-                        " " +
-                        seminuevo.modelo +
-                        " " +
-                        seminuevo.anoFabricacion
-                    }}
-                  </a>
-                  <div class="b-goods__info">
-                    {{ seminuevo.locaciones?.departamento }}
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div class="b-goods__price text-primary">
-                    <span class="b-goods__price-number"
-                      >US${{ seminuevo.precioVenta }}</span
-                    >
-                  </div>
-                </div>
+        <div class="col-md-8 offset-md-2">
+          <ngx-slick-carousel
+            class="b-reviews-slider"
+            #slickModal="slick-carousel"
+            [config]="slideConfig3"
+          >
+            <blockquote ngxSlickItem class="b-reviews">
+              <div class="b-reviews__text">
+                “No sabía que auto elegir y tampoco sabía si podía obtener
+                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
+                y me terminé llevando un carrazo!
               </div>
-              <div class="b-goods-descrip row no-gutters">
-                <div class="b-goods-descrip__item col">
-                  <div class="b-goods-descrip__inner">
-                    <div class="b-goods-descrip__wrap">
-                      <i class="ic flaticon-speedometer"></i
-                      ><span class="b-goods-descrip__info">
-                        {{ seminuevo.kilometraje }} km</span
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="b-goods-descrip__item col">
-                  <div class="b-goods-descrip__inner">
-                    <div class="b-goods-descrip__wrap">
-                      <i class="ic flaticon-fuel-station-pump"></i>
-                      <span class="b-goods-descrip__info">
-                        {{ seminuevo.tipoCombustible }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="b-goods-descrip__item col">
-                  <div class="b-goods-descrip__inner">
-                    <div class="b-goods-descrip__wrap">
-                      <i class="ic flaticon-gearshift"></i>
-                      <span class="b-goods-descrip__info">
-                        {{ seminuevo.tipoCambios }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <div class="b-reviews__footer">
+                <div class="b-reviews__name">Donald James</div>
+                <div class="b-reviews__category">Customer</div>
               </div>
-            </div>
-          </div> -->
+            </blockquote>
+
+            <blockquote ngxSlickItem class="b-reviews">
+              <div class="b-reviews__text">
+                “No sabía que auto elegir y tampoco sabía si podía obtener
+                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
+                y me terminé llevando un carrazo!
+              </div>
+              <div class="b-reviews__footer">
+                <div class="b-reviews__name">Donald James</div>
+                <div class="b-reviews__category">Customer</div>
+              </div>
+            </blockquote>
+
+            <blockquote ngxSlickItem class="b-reviews">
+              <div class="b-reviews__text">
+                “No sabía que auto elegir y tampoco sabía si podía obtener
+                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
+                y me terminé llevando un carraso!
+              </div>
+              <div class="b-reviews__footer">
+                <div class="b-reviews__name">Donald James</div>
+                <div class="b-reviews__category">Customer</div>
+              </div>
+            </blockquote>
+          </ngx-slick-carousel>
         </div>
       </div>
-      <div class="text-center mt-3">
-        <a class="btn btn-secondary" (click)="goToCarSearch('USED')"
-          >show more</a
-        >
-      </div>
     </div>
-  </div>
-</section>
-
-<!-- Section-4 Números de la App - EasyPieChart -->
-<section class="section-progress bg-dark">
-  <div class="container-fluid">
-    <div class="section-progress__inner">
-      <div class="section-progress__img">
-        <img
-          class="img-scale"
-          src="assets/media/content/b-progress/fig-1.png"
-          alt="photo"
-        />
-      </div>
-      <div class="b-progress-list">
-        <div class="row">
-          <div class="b-progress-list__item col-md-6">
-            <span class="b-progress-list__percent js-chart" #availableVehicles
-              ><span class="js-percent"></span></span
-            ><span class="b-progress-list__name">Vehículos Disponibles</span>
-          </div>
-          <div class="b-progress-list__item col-md-6 text-right">
-            <span class="b-progress-list__percent js-chart" #brandCount
-              ><span class="js-percent"></span></span
-            ><span class="b-progress-list__name">Marcas que manejamos</span>
-          </div>
-          <div class="b-progress-list__item col-md-6">
-            <span class="b-progress-list__percent js-chart" #userCount
-              ><span class="js-percent"></span></span
-            ><span class="b-progress-list__name">Trabajan con nosotros</span>
-          </div>
-          <div class="b-progress-list__item col-md-6 text-right">
-            <span class="b-progress-list__percent js-chart" #soldVehicles
-              ><span class="js-percent"></span></span
-            ><span class="b-progress-list__name">Vehículos Vendidos</span>
-          </div>
-        </div>
-      </div>
-      <div class="section-progress__img ml-4">
-        <img
-          class="img-scale"
-          src="assets/media/content/b-progress/fig-2.png"
-          alt="photo"
-        />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Section-5 Carros patrocinados -->
-<section class="section-goods-slider bg-dark">
-  <div class="section-goods-slider__inner">
-    <div class="ui-decor ui-decor_center bg-primary"></div>
-    <div class="container">
-      <div class="text-center">
-        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
-        <h2 class="ui-title ui-title_light">Ofertas de la semana</h2>
-        <ngx-slick-carousel
-          class="b-goods-slider-2"
-          #slickModal="slick-carousel"
-          [config]="slideConfig"
-        >
-          <!--(init)="slickInit($event)"
-          (breakpoint)="breakpoint($event)"
-          (afterChange)="afterChange($event)"
-          (beforeChange)="beforeChange($event)" -->
-          <div *ngFor="let sponsored of sponsoredCars">
-            <div
-              ngxSlickItem
-              class="b-goods-2"
-              style="cursor: pointer"
-              (click)="goToVehicleDetails(sponsored.id)"
-            >
-              <div class="b-goods-2__img">
-                <img
-                  [src]="sponsored.fotoPrincipal"
-                  [alt]="sponsored.modelo"
-                  class="img-fluid"
-                />
-              </div>
-              <div class="b-goods-2__main">
-                <div class="row justify-content-between align-items-center">
-                  <div class="col-9">
-                    <div class="b-goods-2__title text-primary">
-                      {{
-                        sponsored.marca +
-                          " " +
-                          sponsored.modelo +
-                          " " +
-                          sponsored.anoFabricacion
-                      }}
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="b-goods-2__price">
-                      US$
-                      <span class="b-goods-2__price-inner text-secondary">{{
-                        sponsored.precioVenta
-                      }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="b-goods-2-descrip">
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-speedometer"></i>
-                        {{ sponsored.kilometraje / 1000 }}k km
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-fuel-station-pump"></i>
-                        {{ sponsored.tipoCombustible }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-gearshift"></i>
-                        {{ sponsored.tipoCambios }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-goods-2-descrip__item">
-                    <div class="b-goods-2-descrip__inner">
-                      <div class="b-goods-2-descrip__wrap">
-                        <i class="ic flaticon-car-8"></i>
-                        {{ sponsored.anoFabricacion }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-      </div>
-    </div>
+    <div class="ui-decor ui-decor_down"></div>
   </div>
 </section>
 
 <!-- Section-6 Qué ofrecemos? -->
-<section class="section-offers">
+<!-- <section class="section-offers">
   <div class="section-offers__inner bg-dark">
     <div class="ui-decor ui-decor_mirror ui-decor_center bg-primary"></div>
     <div class="container">
@@ -779,163 +842,7 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- Section-7 Cómo funciona? -->
-<section class="section-area mt-5">
-  <div class="container">
-    <div class="text-center">
-      <div class="ui-title-logo">CLICKER</div>
-      <h2 class="ui-title">¿Cómo funciona?</h2>
-    </div>
-  </div>
-  <div class="container-fluid">
-    <div class="b-stages">
-      <div class="row no-gutters align-items-start">
-        <div class="b-stages__item col-lg-3">
-          <span class="b-stages__number">01</span>
-          <div class="b-stages__title text-primary">Usa el buscador</div>
-          <div class="b-stages__info">
-            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-            laboris aut aliquip ex consequat.
-          </div>
-        </div>
-        <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
-          <span class="b-stages__number">02</span>
-          <div class="b-stages__inner">
-            <div class="b-stages__title text-primary">
-              Elige tu auto favorito
-            </div>
-            <div class="b-stages__info">
-              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-              laboris aut aliquip ex consequat.
-            </div>
-          </div>
-        </div>
-        <div class="b-stages__item col-lg-3">
-          <span class="b-stages__number">03</span>
-          <div class="b-stages__title text-primary">Elige tu auto favorito</div>
-          <div class="b-stages__info">
-            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-            laboris aut aliquip ex consequat.
-          </div>
-        </div>
-        <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
-          <span class="b-stages__number">04</span>
-          <div class="b-stages__inner">
-            <div class="b-stages__title text-primary">Get Approved & Drive</div>
-            <div class="b-stages__info">
-              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-              laboris aut aliquip ex consequat.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Section-8 Compra o Vende -->
-<section class="section-bnr-2">
-  <div class="row no-gutters justify-content-center">
-    <div class="col-lg-6">
-      <section class="b-bnr-2 b-bnr-2_first">
-        <div class="b-bnr-2__inner bg-primary">
-          <a
-            class="btn-arr btn-arr_left"
-            (click)="goToCarSearch('ALL')"
-            style="cursor: pointer"
-          ></a>
-          <h2 class="b-bnr-2__title">¿Quieres un auto<br />nuevo o usado?</h2>
-          <div class="b-bnr-2__info">
-            ¡Empecemos con la búsqueda de tu próximo auto!
-          </div>
-        </div>
-        <img
-          class="b-bnr-2__figure img-fluid"
-          src="/assets/media/content/b-bnr/figure-1.png"
-          alt="foto"
-        />
-      </section>
-    </div>
-    <div class="col-lg-6">
-      <section class="b-bnr-2 b-bnr-2_last">
-        <div class="b-bnr-2__inner bg-dark-2">
-          <a
-            class="btn-arr btn-arr_right"
-            (click)="goToCarRegistration()"
-            style="cursor: pointer"
-          ></a>
-          <h2 class="b-bnr-2__title">¿Quieres vender<br />tu auto?</h2>
-          <div class="b-bnr-2__info">
-            Tu auto pasará por una verificación y si cumple con los requisitos
-            se subirá a nuestro portal.
-          </div>
-        </div>
-        <img
-          class="b-bnr-2__figure img-fluid"
-          src="/assets/media/content/b-bnr/figure-2.png"
-          alt="foto"
-        />
-      </section>
-    </div>
-  </div>
-</section>
-
-<!-- Section-9 Testimonios -->
-<section class="section-reviews area-bg area-bg_dark area-bg_op_90">
-  <div class="area-bg__inner section-default">
-    <div class="container text-center">
-      <h2 class="ui-title-logo">Qué dicen nuestros clientes...</h2>
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <ngx-slick-carousel
-            class="b-reviews-slider"
-            #slickModal="slick-carousel"
-            [config]="slideConfig3"
-          >
-            <blockquote ngxSlickItem class="b-reviews">
-              <div class="b-reviews__text">
-                “No sabía que auto elegir y tampoco sabía si podía obtener
-                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
-                y me terminé llevando un carrazo!
-              </div>
-              <div class="b-reviews__footer">
-                <div class="b-reviews__name">Donald James</div>
-                <div class="b-reviews__category">Customer</div>
-              </div>
-            </blockquote>
-
-            <blockquote ngxSlickItem class="b-reviews">
-              <div class="b-reviews__text">
-                “No sabía que auto elegir y tampoco sabía si podía obtener
-                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
-                y me terminé llevando un carrazo!
-              </div>
-              <div class="b-reviews__footer">
-                <div class="b-reviews__name">Donald James</div>
-                <div class="b-reviews__category">Customer</div>
-              </div>
-            </blockquote>
-
-            <blockquote ngxSlickItem class="b-reviews">
-              <div class="b-reviews__text">
-                “No sabía que auto elegir y tampoco sabía si podía obtener
-                financiamiento” Clicker me ayudó en todo el proceso de búsqueda
-                y me terminé llevando un carraso!
-              </div>
-              <div class="b-reviews__footer">
-                <div class="b-reviews__name">Donald James</div>
-                <div class="b-reviews__category">Customer</div>
-              </div>
-            </blockquote>
-          </ngx-slick-carousel>
-        </div>
-      </div>
-    </div>
-    <div class="ui-decor ui-decor_down"></div>
-  </div>
-</section>
+</section> -->
 
 <!-- Section-10 Contact Us -->
 <section class="section-bnr section-default bg-primary">
