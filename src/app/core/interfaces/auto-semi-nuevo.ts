@@ -1,7 +1,5 @@
 import { User } from './user';
 
-//TODO: poner los miembros opcionales
-
 export interface AutoSemiNuevo {
   id?: number;
   usuario: User;

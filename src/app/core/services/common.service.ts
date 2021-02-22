@@ -41,6 +41,7 @@ export class CommonService {
 
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
+  addCarToInsteredUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

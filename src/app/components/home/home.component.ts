@@ -270,7 +270,6 @@ export class HomeComponent implements OnInit {
   goToCarSearch(carSubset: string): void {
     const body: CarSearchFilter = {
       carSubset: 'ALL',
-      cameFrom: 'Home',
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
@@ -287,7 +286,6 @@ export class HomeComponent implements OnInit {
       carMaxPrice: Number(this.filterFormGroup.value.carMaxPrice),
       carMinYear: Number(this.filterFormGroup.value.carMinYear),
       carMaxYear: Number(this.filterFormGroup.value.carMaxYear),
-      cameFrom: 'HomeFilter',
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
