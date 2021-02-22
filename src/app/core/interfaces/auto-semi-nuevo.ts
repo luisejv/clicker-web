@@ -35,6 +35,7 @@ export interface AutoSemiNuevo {
   fotos?: Foto[];
   accesorios?: string[];
   locaciones?: Locacion;
+  descripcion?: string;
 }
 
 interface Foto {

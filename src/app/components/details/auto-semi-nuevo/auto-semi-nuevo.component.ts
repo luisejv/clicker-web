@@ -68,4 +68,10 @@ export class AutoSemiNuevoComponent implements OnInit {
       this.loaderService.setIsLoading(false);
     });
   }
+
+  submitForm(): void {}
+
+  contact(): void {}
+
+  addToInstered(): void {}
 }
