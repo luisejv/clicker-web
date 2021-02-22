@@ -269,7 +269,8 @@ export class HomeComponent implements OnInit {
 
   goToCarSearch(carSubset: string): void {
     const body: CarSearchFilter = {
-      carSubset: carSubset,
+      carSubset: 'ALL',
+      cameFrom: 'Home',
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
@@ -277,6 +278,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToListings(): void {
+    //TODO: caso cuando deja un (o todos los) field(s) vació
     const body: CarSearchFilter = {
       carType: this.filterFormGroup.value.carType,
       carSubset: this.filterFormGroup.value.carSubset,
@@ -284,6 +286,8 @@ export class HomeComponent implements OnInit {
       carModel: this.filterFormGroup.value.carModel,
       carMaxPrice: Number(this.filterFormGroup.value.carMaxPrice),
       carMinYear: Number(this.filterFormGroup.value.carMinYear),
+      carMaxYear: Number(this.filterFormGroup.value.carMaxYear),
+      cameFrom: 'HomeFilter',
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,

@@ -12,14 +12,12 @@ export class InventoryListingsComponent implements OnInit {
   mode: ModesEnum = ModesEnum.USER_SEARCH;
   filters!: CarSearchFilter;
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute) {
     this.route.queryParams.subscribe(
-      (params) => {
+      (params: CarSearchFilter) => {
         // siempre mandará todos los parámetros así que normal hacer esto
         console.group('Route Params pasados a Inventory Listings:');
-        this.filters = params as CarSearchFilter;
+        this.filters = params;
         console.log(this.filters);
         console.groupEnd();
       },
@@ -30,5 +28,8 @@ export class InventoryListingsComponent implements OnInit {
         );
       }
     );
+  }
+
+  ngOnInit(): void {
   }
 }

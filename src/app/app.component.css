@@ -2,3 +2,19 @@
   max-height: 110%;
 }
  */
+
+/* #page-container {
+  position: absolute;
+}
+
+.app-navbar {
+  z-index: 0;
+}
+
+.router-outlet {
+  z-index: 1;
+}
+
+.app-footer {
+  z-index: 0;
+} */
