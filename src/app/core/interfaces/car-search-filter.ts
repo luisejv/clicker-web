@@ -7,5 +7,4 @@ export interface CarSearchFilter {
   carMaxPrice?: number,
   carMinYear?: number,
   carMaxYear?: number,
-  cameFrom?: string,
 }

@@ -42,6 +42,9 @@ export class CommonService {
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
 
+  // * Ubigeos
+  ubigeosUrl: string = this.baseUrl + '/locaciones';
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;

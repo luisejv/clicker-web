@@ -33,4 +33,7 @@ export class ClientService {
   public postFormInterested(body: any): void {
     this.http.post(this.commonService.postFormInterestedUrl, body);
   }
+  public getUbigeos(): Observable<any> {
+    return this.http.get(this.commonService.ubigeosUrl);
+  }
 }

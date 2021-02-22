@@ -29,7 +29,7 @@ export class PublishedCarsComponent implements OnInit {
   @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
   @Input() filters!: CarSearchFilter;
   @Input() name: string = 'Carros Publicados';
-  // @Input() cameFrom: string = 'Dashboard';
+  @Input() cameFrom: string = 'Dashboard';
 
   // * filters
   carrocerias!: string[];
@@ -227,6 +227,10 @@ export class PublishedCarsComponent implements OnInit {
       //   $('#tracciones').selectpicker('refresh');
       // }, 500);
 
+      // setTimeout(() => {
+      //   $('#departamentos').selectpicker('refresh');
+      // }, 500);
+
       console.group('USER_SEARCH');
       switch (this.filters.carSubset) {
         case 'ALL': {
@@ -276,11 +280,6 @@ export class PublishedCarsComponent implements OnInit {
 
               console.groupEnd();
 
-              // ! esta linea permite que cuando el usuario filtre, se haga el
-              // ! filtro sobre los carros ya filtrados y no sobre toda la bd de
-              // ! carros. lo dejamos así?
-              // this.carros = this.filteredCarros;
-
               console.group('Filtered Carros');
               console.dir(this.filteredCarros);
               console.groupEnd();
@@ -291,7 +290,6 @@ export class PublishedCarsComponent implements OnInit {
                 .map((x: any, i: any) => i);
 
               this.loaderService.setIsLoading(false);
-              // ? actualizar filtros
             },
             (error: any) => {
               this.loaderService.setIsLoading(false);
@@ -580,10 +578,6 @@ export class PublishedCarsComponent implements OnInit {
 
   get modelo(): string {
     return typeof this.filters.carModel !== 'undefined' ? this.filters.carModel : '';
-  }
-
-  get cameFrom(): string {
-    return typeof this.filters.cameFrom !== 'undefined' ? this.filters.cameFrom : '';
   }
 
   get carroceria(): string {
