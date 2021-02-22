@@ -68,4 +68,9 @@ export class UserService {
   public getAutoSemiNuevoPageCount(): Observable<any> {
     return this.http.get(this.commonService.pageCountUrl);
   }
+
+  // * Add Car to Interested in selling
+  public addCarToInstered(body: any): void {
+    this.http.post(this.commonService.addCarToInsteredUrl, body);
+  }
 }

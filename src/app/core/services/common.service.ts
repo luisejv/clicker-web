@@ -41,6 +41,7 @@ export class CommonService {
 
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
+  addCarToInsteredUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';

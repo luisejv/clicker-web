@@ -73,14 +73,14 @@ export class PublishedCarsComponent implements OnInit {
     private dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
-    private clientService: ClientService,
+    private clientService: ClientService
   ) {
     this.autos = this.dataService.autos;
     this.tiposTransmision = this.dataService.tiposTransmision;
     this.tiposCombustible = this.dataService.tiposCombustible;
     this.tiposCarroceria = this.dataService.tiposCarroceria;
     this.filterFormGroup = this.fb.group({
-      carBrand: '', 
+      carBrand: '',
       carModel: '',
       carType: '',
       carSubset: '',
@@ -105,7 +105,7 @@ export class PublishedCarsComponent implements OnInit {
     // console.log(typeof this.filters.carModel);
     console.groupEnd();
 
-    if (this.cameFrom === 'HomeFilter') {
+    if (this.cameFrom === 'Home') {
       this.minPrice = this.filters.carMinPrice!;
       this.maxPrice = this.filters.carMaxPrice!;
     } else {
@@ -153,17 +153,19 @@ export class PublishedCarsComponent implements OnInit {
         console.log('Carrocerias: ', this.carrocerias);
 
         this.filteredModels = this.carFilters
-        .filter((elem: Filter) =>
-          this.carType?.value != 'OTRO'
-            ? elem.marca == this.carBrand?.value &&
-              elem.tipoCarroceria == this.carType?.value &&
-              (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
-            : elem.marca == this.carBrand?.value &&
-              (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
-        )
-        .map((elem) => elem.modelo)
-        .filter((v, i, a) => a.indexOf(v) == i);
-        console.log('filtered models')
+          .filter((elem: Filter) =>
+            this.carType?.value != 'OTRO'
+              ? elem.marca == this.carBrand?.value &&
+                elem.tipoCarroceria == this.carType?.value &&
+                (this.carSubset?.value == 'ALL' ||
+                  elem.tipoCarro == this.carSubset?.value)
+              : elem.marca == this.carBrand?.value &&
+                (this.carSubset?.value == 'ALL' ||
+                  elem.tipoCarro == this.carSubset?.value)
+          )
+          .map((elem) => elem.modelo)
+          .filter((v, i, a) => a.indexOf(v) == i);
+        console.log('filtered models');
         console.log(this.filteredModels);
 
         setTimeout(() => {
@@ -179,9 +181,7 @@ export class PublishedCarsComponent implements OnInit {
     );
     console.log('cameFrom: ', this.cameFrom);
 
-
     if (this.mode === ModesEnum.USER_SEARCH) {
-
       this.filterFormGroup = this.fb.group({
         carBrand: this.marca,
         carModel: this.modelo,
@@ -259,24 +259,21 @@ export class PublishedCarsComponent implements OnInit {
 
               console.group('Filtrando Carros');
 
-              this.filteredCarros = response.filter(
-                (carro: AutoSemiNuevo) => {
-                  console.log(carro);
-                  console.log(
-                    this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-                  );
-                  //TODO: caso cuando el usuario deja un field vacio pero igual pone 'Buscar'
-                  return (
-                    carro.marca === this.filters.carBrand &&
-                    carro.modelo === this.filters.carModel &&
-                    carro.precioVenta <= Number(this.filters.carMaxPrice) &&
-                    (this.filters.carType === 'OTRO'
-                      ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) ===
-                        -1
-                      : this.filters.carType === carro.tipoCarroceria)
-                  );
-                }
-              );
+              this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
+                console.log(carro);
+                console.log(
+                  this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+                );
+                //TODO: caso cuando el usuario deja un field vacio pero igual pone 'Buscar'
+                return (
+                  carro.marca === this.filters.carBrand &&
+                  carro.modelo === this.filters.carModel &&
+                  carro.precioVenta <= Number(this.filters.carMaxPrice) &&
+                  (this.filters.carType === 'OTRO'
+                    ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+                    : this.filters.carType === carro.tipoCarroceria)
+                );
+              });
 
               console.groupEnd();
 
@@ -306,7 +303,6 @@ export class PublishedCarsComponent implements OnInit {
         }
       }
       console.groupEnd();
-
     } else {
       console.group('DASHBOARD');
       // ! cuidado con esto
@@ -341,7 +337,6 @@ export class PublishedCarsComponent implements OnInit {
         );
       console.groupEnd();
     }
-
   }
 
   private _normalizeValue(value: string): string {
@@ -377,11 +372,13 @@ export class PublishedCarsComponent implements OnInit {
     );
     this.filteredBrands = this.carFilters
       .filter(
-        (elem: Filter) => this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value
+        (elem: Filter) =>
+          this.carSubset?.value == 'ALL' ||
+          elem.tipoCarro == this.carSubset?.value
       )
       .map((elem) => elem.marca)
       .filter((v, i, a) => a.indexOf(v) == i);
-    console.group('Filtered Brands')
+    console.group('Filtered Brands');
     console.log(this.filteredBrands);
     console.groupEnd();
     this.filteredModels = [];
@@ -405,14 +402,16 @@ export class PublishedCarsComponent implements OnInit {
         this.carType?.value != 'OTRO'
           ? elem.marca == brand &&
             elem.tipoCarroceria == this.carType?.value &&
-            (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
+            (this.carSubset?.value == 'ALL' ||
+              elem.tipoCarro == this.carSubset?.value)
           : elem.marca == brand &&
-            (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
+            (this.carSubset?.value == 'ALL' ||
+              elem.tipoCarro == this.carSubset?.value)
       )
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
-      console.log('filtered models')
-      console.log(this.filteredModels);
+    console.log('filtered models');
+    console.log(this.filteredModels);
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
     }, 500);
@@ -486,11 +485,10 @@ export class PublishedCarsComponent implements OnInit {
   sortBy(order: any): void {
     console.group(order.target.value);
     console.groupEnd();
-    //TODO: 
+    //TODO:
   }
 
   resetFilters(brand: boolean = false): void {
-
     //! maxPrice y minYear se quedan, los demas se van
 
     this.carBrand?.setValue('');
@@ -563,37 +561,50 @@ export class PublishedCarsComponent implements OnInit {
     setTimeout(() => {
       $('#combustibles').selectpicker('refresh');
     }, 500);
-
   }
 
   // * filtros que vienen de Home
 
   get subset(): string {
-    return typeof this.filters.carSubset !== 'undefined' ? this.filters.carSubset : '';
+    return typeof this.filters.carSubset !== 'undefined'
+      ? this.filters.carSubset
+      : '';
   }
 
   get marca(): string {
-    return typeof this.filters.carBrand !== 'undefined' ? this.filters.carBrand : '';
+    return typeof this.filters.carBrand !== 'undefined'
+      ? this.filters.carBrand
+      : '';
   }
 
   get modelo(): string {
-    return typeof this.filters.carModel !== 'undefined' ? this.filters.carModel : '';
+    return typeof this.filters.carModel !== 'undefined'
+      ? this.filters.carModel
+      : '';
   }
 
   get carroceria(): string {
-    return typeof this.filters.carType !== 'undefined' ? this.filters.carType : '';
+    return typeof this.filters.carType !== 'undefined'
+      ? this.filters.carType
+      : '';
   }
 
   get desde(): string {
-    return typeof this.filters.carMinYear !== 'undefined' ? this.filters.carMinYear.toString() : '';
+    return typeof this.filters.carMinYear !== 'undefined'
+      ? this.filters.carMinYear.toString()
+      : '';
   }
 
   get minPrecio(): string {
-    return typeof this.filters.carMinPrice !== 'undefined' ? this.filters.carMinPrice.toString() : '';
+    return typeof this.filters.carMinPrice !== 'undefined'
+      ? this.filters.carMinPrice.toString()
+      : '';
   }
 
   get maxPrecio(): string {
-    return typeof this.filters.carMaxPrice !== 'undefined' ? this.filters.carMaxPrice.toString() : '';
+    return typeof this.filters.carMaxPrice !== 'undefined'
+      ? this.filters.carMaxPrice.toString()
+      : '';
   }
 
   // * filtros que el usuario va a aplicar
@@ -637,5 +648,4 @@ export class PublishedCarsComponent implements OnInit {
   get carSubset() {
     return this.filterFormGroup.get('carSubset');
   }
-
 }

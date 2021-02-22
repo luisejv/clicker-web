@@ -15,7 +15,6 @@
           </li>
         </ol>
       </nav>
-      <!-- end .breadcrumb-->
     </div>
   </div>
 </div>
@@ -44,7 +43,7 @@
               <div class="widget-inner">
                 <form class="b-filter" [formGroup]="filterFormGroup">
                   <div class="b-filter__main row">
-                    <div  class="b-filter__row col-xl-12 col-md-6">
+                    <div class="b-filter__row col-xl-12 col-md-6">
                       <!-- *ngIf=" cameFrom !== 'HomeFilter' " -->
                       <select
                         class="selectpicker"
@@ -68,7 +67,7 @@
                         <option value="ALL">Todos</option>
                       </select>
                     </div>
-                    <div  class="b-filter__row col-xl-12 col-md-6">
+                    <div class="b-filter__row col-xl-12 col-md-6">
                       <!-- *ngIf=" cameFrom !== 'HomeFilter' " -->
                       <select
                         class="selectpicker"
@@ -95,7 +94,7 @@
                         </option>
                       </select>
                     </div>
-                    <div  class="b-filter__row col-xl-12 col-md-6">
+                    <div class="b-filter__row col-xl-12 col-md-6">
                       <!-- *ngIf=" cameFrom !== 'HomeFilter' " -->
                       <select
                         class="selectpicker"
@@ -116,7 +115,7 @@
                         </option>
                       </select>
                     </div>
-                    <div  class="b-filter__row col-xl-12 col-md-6">
+                    <div class="b-filter__row col-xl-12 col-md-6">
                       <!-- *ngIf=" cameFrom !== 'HomeFilter' " -->
                       <select
                         class="selectpicker"
@@ -135,7 +134,10 @@
                         >
                           Carrocería
                         </option>
-                        <option [value]="carroceria" *ngFor="let carroceria of tiposCarroceria">
+                        <option
+                          [value]="carroceria"
+                          *ngFor="let carroceria of tiposCarroceria"
+                        >
                           {{ carroceria }}
                         </option>
                       </select>
@@ -209,7 +211,10 @@
                         >
                           Transmisión
                         </option>
-                        <option [value]="transmision" *ngFor="let transmision of tiposTransmision">
+                        <option
+                          [value]="transmision"
+                          *ngFor="let transmision of tiposTransmision"
+                        >
                           {{ transmision }}
                         </option>
                       </select>
@@ -232,7 +237,10 @@
                         >
                           Combustible
                         </option>
-                        <option [value]="combustible" *ngFor="let combustible of tiposCombustible">
+                        <option
+                          [value]="combustible"
+                          *ngFor="let combustible of tiposCombustible"
+                        >
                           {{ combustible }}
                         </option>
                       </select>
@@ -254,7 +262,7 @@
                             disabled
                             class="ui-select"
                             [(ngModel)]="'$' + minPrice"
-                            [ngModelOptions]="{standalone: true}"
+                            [ngModelOptions]="{ standalone: true }"
                             id="input-with-keypress-0"
                           />
                         </div>
@@ -263,7 +271,7 @@
                             disabled
                             class="ui-select"
                             [(ngModel)]="'$' + maxPrice"
-                            [ngModelOptions]="{standalone: true}"
+                            [ngModelOptions]="{ standalone: true }"
                             id="input-with-keypress-1"
                           />
                         </div>
@@ -317,7 +325,6 @@
                     class="selectpicker"
                     data-width="210px"
                     title="Sort by Newest First"
-                     
                     data-max-options="1"
                     data-style="ui-select"
                     (change)="sortBy($event)"
