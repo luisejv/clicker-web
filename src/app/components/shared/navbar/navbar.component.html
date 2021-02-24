@@ -161,17 +161,25 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/about']">Sobre Nosotros</a>
+                <a class="nav-link" [routerLink]="['/contact']"
+                  >Sobre Nosotros</a
+                >
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/inventory-grid']"
+                <a
+                  class="nav-link"
+                  [routerLink]="['/inventory-listings']"
+                  [queryParams]="{ carSubset: 'NEW' }"
                   >Autos Nuevos</a
                 >
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/inventory-grid']"
+                <a
+                  class="nav-link"
+                  [routerLink]="['/inventory-listings']"
+                  [queryParams]="{ carSubset: 'USED' }"
                   >Autos Usados</a
                 >
               </li>
