@@ -3,8 +3,6 @@ export interface CarSearchFilter {
   carSubset?: string;
   carBrand?: string;
   carModel?: string;
-  carMinPrice?: number;
   carMaxPrice?: number;
   carMinYear?: number;
-  carMaxYear?: number;
 }
