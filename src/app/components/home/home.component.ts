@@ -33,6 +33,8 @@ export class HomeComponent implements OnInit {
   filteredModels!: string[];
   filterFormGroup: FormGroup;
 
+  changedCarType: boolean = false;
+
   slideConfig = {
     slidesToShow: 2,
     slidesToScroll: 1,
@@ -184,8 +186,17 @@ export class HomeComponent implements OnInit {
     return this.filterFormGroup.get('carModel')?.value;
   }
 
+  get carMaxPrice(): string {
+    return this.filterFormGroup.get('carMaxPrice')?.value;
+  }
+
+  get carMinYear(): string {
+    return this.filterFormGroup.get('carMinYear')?.value;
+  }
+
   // Cambiar Carroceria
   changeCarType(type: string): void {
+    this.changedCarType = true;
     this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
     console.log(this.filterFormGroup.get('carType')?.value);
     this.filteredBrands = this.filters
@@ -269,7 +280,7 @@ export class HomeComponent implements OnInit {
 
   goToCarSearch(carSubset: string): void {
     const body: CarSearchFilter = {
-      carSubset: 'ALL',
+      carSubset: carSubset,
     };
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
@@ -278,15 +289,18 @@ export class HomeComponent implements OnInit {
 
   goToListings(): void {
     //TODO: caso cuando deja un (o todos los) field(s) vació
-    const body: CarSearchFilter = {
-      carType: this.filterFormGroup.value.carType,
+    let body: CarSearchFilter = {
       carSubset: this.filterFormGroup.value.carSubset,
-      carBrand: this.filterFormGroup.value.carBrand,
-      carModel: this.filterFormGroup.value.carModel,
-      carMaxPrice: Number(this.filterFormGroup.value.carMaxPrice),
-      carMinYear: Number(this.filterFormGroup.value.carMinYear),
-      carMaxYear: Number(this.filterFormGroup.value.carMaxYear),
     };
+    if (this.changedCarType) body.carType = this.filterFormGroup.value.carType;
+    if (this.carBrand != '')
+      body.carBrand = this.filterFormGroup.value.carBrand;
+    if (this.carModel != '')
+      body.carModel = this.filterFormGroup.value.carModel;
+    if (this.carMaxPrice != '')
+      body.carMaxPrice = Number(this.filterFormGroup.value.carMaxPrice);
+    if (this.carMinYear != '')
+      body.carMinYear = Number(this.filterFormGroup.value.carMinYear);
     this.router.navigate(['/inventory-listings'], {
       queryParams: body,
     });
