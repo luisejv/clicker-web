@@ -1,0 +1,7 @@
+.reset-filters-button {
+    cursor: pointer;
+}
+
+.reset-filters-button:hover {
+    color: #9e8a2b;
+}

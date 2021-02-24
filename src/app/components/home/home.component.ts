@@ -308,11 +308,9 @@ export class HomeComponent implements OnInit {
 
   goToCarRegistration(): void {
     if (this.storageService.isLoggedIn()) {
-      //TODO: redirect to car-registration
       console.log('redirect to car-registration');
       this.router.navigateByUrl('/dashboard/registrar-carro');
     } else {
-      //TODO: register to login/register, then to car-registration
       console.log('register to login/register, then to car-registration');
       this.storageService.setGoingToCarRegistration('yes');
       this.router.navigateByUrl('/registro');

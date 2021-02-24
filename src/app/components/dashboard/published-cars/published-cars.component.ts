@@ -105,14 +105,16 @@ export class PublishedCarsComponent implements OnInit {
     // console.log(typeof this.filters.carModel);
     console.groupEnd();
 
-    if (this.cameFrom === 'Home') {
-      this.minPrice = this.filters.carMinPrice!;
+    if (this.filters.carMaxPrice) {
+      this.minPrice = 0;
       this.maxPrice = this.filters.carMaxPrice!;
     } else {
       //TODO: agarrar min y max precio del backend
       this.minPrice = 0;
       this.maxPrice = 50000;
     }
+
+    //TODO: revisar que los filtros estén bien
 
     this.options = {
       floor: this.minPrice,
@@ -127,11 +129,7 @@ export class PublishedCarsComponent implements OnInit {
             );
           }
         );
-        this.currPage = 0;
-        this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-        this.pages = Array(this.pgCnt)
-          .fill(this.pgCnt)
-          .map((x: any, i: any) => i);
+        this.updatePagination();
         return '';
       },
     };
@@ -236,6 +234,32 @@ export class PublishedCarsComponent implements OnInit {
         case 'ALL': {
           //TODO: GET all cars, then filter
           console.log('ALL');
+          console.warn('Por ahora se estan obteniendo los Semi Nuevos pero cuano estén, se tendrá que hacer fetch a todos los carros disponibles, no solo Semi Nuevos');;
+          this.userService.getAutosSemiNuevosValidados().subscribe(
+            (response: AutoSemiNuevo[]) => {
+              this.carros = response;
+
+              console.group('Autos Semi Nuevos');
+              console.dir(this.carros);
+              console.groupEnd();
+
+              this.filteredCarros = response;
+
+              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+              this.pages = Array(this.pgCnt)
+                .fill(this.pgCnt)
+                .map((x: any, i: any) => i);
+
+              this.loaderService.setIsLoading(false);
+            },
+            (error: any) => {
+              this.loaderService.setIsLoading(false);
+              console.error(
+                'when fetching all semi nuevos validados in published-car.component.ts: ',
+                error
+              );
+            }
+          );
           break;
         }
         case 'NEW': {
@@ -253,7 +277,7 @@ export class PublishedCarsComponent implements OnInit {
               console.log(this.filters);
               console.groupEnd();
 
-              console.group('buenos dias carajo');
+              console.group('Autos Semi Nuevos');
               console.dir(this.carros);
               console.groupEnd();
 
@@ -299,7 +323,32 @@ export class PublishedCarsComponent implements OnInit {
           break;
         }
         default: {
-          console.error('unknown carSubset');
+          console.warn('unknown carSubset');
+          this.userService.getAutosSemiNuevosValidados().subscribe(
+            (response: AutoSemiNuevo[]) => {
+              this.carros = response;
+
+              console.group('Autos Semi Nuevos');
+              console.dir(this.carros);
+              console.groupEnd();
+
+              this.filteredCarros = response;
+
+              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+              this.pages = Array(this.pgCnt)
+                .fill(this.pgCnt)
+                .map((x: any, i: any) => i);
+
+              this.loaderService.setIsLoading(false);
+            },
+            (error: any) => {
+              this.loaderService.setIsLoading(false);
+              console.error(
+                'when fetching all semi nuevos validados in published-car.component.ts: ',
+                error
+              );
+            }
+          );
         }
       }
       console.groupEnd();
@@ -354,11 +403,7 @@ export class PublishedCarsComponent implements OnInit {
         this._normalizeValue(carro.modelo).includes(normalizedQuery)
       );
     });
-    this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-    this.pages = Array(this.pgCnt)
-      .fill(this.pgCnt)
-      .map((x: any, i: any) => i);
-    this.currPage = 0;
+    this.updatePagination();
   }
 
   goToPage(pageId: number): void {
@@ -385,6 +430,7 @@ export class PublishedCarsComponent implements OnInit {
     this.resetFilters(true);
     const subset: string = e.target.value;
     this.filterFormGroup.controls['carSubset'].setValue(subset);
+    this.updatePagination();
   }
 
   changeBrand(e: any): void {
@@ -397,17 +443,29 @@ export class PublishedCarsComponent implements OnInit {
     console.groupEnd();
     console.log('Change Car Brand Event: ', e.target.value);
     console.log(this.filterFormGroup.get('carBrand')?.value);
+    console.warn('carType: ', this.carType?.value);
     this.filteredModels = this.carFilters
-      .filter((elem: Filter) =>
-        this.carType?.value != 'OTRO'
-          ? elem.marca == brand &&
-            elem.tipoCarroceria == this.carType?.value &&
-            (this.carSubset?.value == 'ALL' ||
-              elem.tipoCarro == this.carSubset?.value)
-          : elem.marca == brand &&
-            (this.carSubset?.value == 'ALL' ||
-              elem.tipoCarro == this.carSubset?.value)
-      )
+      .filter((elem: Filter) => {
+        if (this.carType?.value !== '') {
+
+          if (this.carSubset?.value !== '') {
+            return this.carType?.value != 'OTRO' ? elem.marca == brand && elem.tipoCarroceria == this.carType?.value &&
+             (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
+            : elem.marca == brand && (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
+          } else {
+            return this.carType?.value != 'OTRO' ? elem.marca == brand && elem.tipoCarroceria == this.carType?.value
+            : elem.marca == brand
+          }
+
+        } else {
+          if (this.carSubset?.value !== '') {
+            return elem.marca == brand && (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value);
+          } else {
+            return elem.marca == brand;
+          }
+        }
+
+      })
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
     console.log('filtered models');
@@ -415,6 +473,7 @@ export class PublishedCarsComponent implements OnInit {
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
     }, 500);
+    this.updatePagination();
   }
 
   changeModel(e: any): void {
@@ -423,6 +482,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.modelo.includes(model);
     });
+    this.updatePagination();
   }
 
   changeCarroceria(e: any): void {
@@ -442,9 +502,9 @@ export class PublishedCarsComponent implements OnInit {
         .filter((v, i, a) => a.indexOf(v) == i);
     }
     //TODO: lo de abajo deberia ser condicional a si no hay match entre la carroceria y la current brand
-    // this.filteredModels = [];
-    // this.filterFormGroup.get('carBrand')?.setValue('');
-    // this.filterFormGroup.get('carModel')?.setValue('');
+    this.filteredModels = [];
+    this.filterFormGroup.get('carBrand')?.setValue('');
+    this.filterFormGroup.get('carModel')?.setValue('');
     setTimeout(() => {
       $('#marcas').selectpicker('refresh');
       $('#modelos').selectpicker('refresh');
@@ -456,6 +516,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoCarroceria.includes(carroceria);
     });
+    this.updatePagination();
   }
 
   changeTransmision(e: any): void {
@@ -464,6 +525,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoCambios.includes(transmision);
     });
+    this.updatePagination();
   }
 
   changeCombustible(e: any): void {
@@ -472,6 +534,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoCombustible.includes(combustible);
     });
+    this.updatePagination();
   }
 
   changeAnoFrom(e: any): void {
@@ -480,23 +543,21 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.anoFabricacion >= from;
     });
+    this.updatePagination();
   }
 
   sortBy(order: any): void {
     console.group(order.target.value);
     console.groupEnd();
     //TODO:
+    this.updatePagination();
   }
 
   resetFilters(brand: boolean = false): void {
-    //! maxPrice y minYear se quedan, los demas se van
-
     this.carBrand?.setValue('');
     this.carModel?.setValue('');
-    this.carMinPrice?.setValue('');
     this.carMaxPrice?.setValue('');
     this.carMinYear?.setValue('');
-    this.carMaxYear?.setValue('');
     this.carTransmission?.setValue('');
     this.carFuelType?.setValue('');
     if (!brand) {
@@ -506,10 +567,10 @@ export class PublishedCarsComponent implements OnInit {
 
     this.filteredCarros = this.carros;
 
+    //TODO: get min and max car price from request
     this.minPrice = 0;
     this.maxPrice = 50000;
 
-    //TODO: get min and max car price from request
     this.options = {
       floor: this.minPrice,
       ceil: this.maxPrice,
@@ -523,11 +584,7 @@ export class PublishedCarsComponent implements OnInit {
             );
           }
         );
-        this.currPage = 0;
-        this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-        this.pages = Array(this.pgCnt)
-          .fill(this.pgCnt)
-          .map((x: any, i: any) => i);
+        this.updatePagination();
         return '';
       },
     };
@@ -595,12 +652,6 @@ export class PublishedCarsComponent implements OnInit {
       : '';
   }
 
-  get minPrecio(): string {
-    return typeof this.filters.carMinPrice !== 'undefined'
-      ? this.filters.carMinPrice.toString()
-      : '';
-  }
-
   get maxPrecio(): string {
     return typeof this.filters.carMaxPrice !== 'undefined'
       ? this.filters.carMaxPrice.toString()
@@ -617,20 +668,12 @@ export class PublishedCarsComponent implements OnInit {
     return this.filterFormGroup.get('carModel');
   }
 
-  get carMinPrice() {
-    return this.filterFormGroup.get('carMinPrice');
-  }
-
   get carMaxPrice() {
     return this.filterFormGroup.get('carMaxPrice');
   }
 
   get carMinYear() {
     return this.filterFormGroup.get('carMinYear');
-  }
-
-  get carMaxYear() {
-    return this.filterFormGroup.get('carMaxYear');
   }
 
   get carTransmission() {
@@ -648,4 +691,13 @@ export class PublishedCarsComponent implements OnInit {
   get carSubset() {
     return this.filterFormGroup.get('carSubset');
   }
+
+  updatePagination(): void {
+    this.currPage = 0;
+        this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+        this.pages = Array(this.pgCnt)
+          .fill(this.pgCnt)
+          .map((x: any, i: any) => i);
+  }
+
 }
