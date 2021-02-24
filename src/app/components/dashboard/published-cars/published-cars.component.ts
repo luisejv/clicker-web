@@ -4,7 +4,6 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
@@ -44,6 +43,7 @@ export class PublishedCarsComponent implements OnInit {
   // * cars
   carros: AutoSemiNuevo[] = [];
   filteredCarros: AutoSemiNuevo[] = [];
+  auxFilteredCarros: AutoSemiNuevo[] = [];
 
   // * pages
   pgCnt: number = 0;
@@ -87,6 +87,7 @@ export class PublishedCarsComponent implements OnInit {
       carMinYear: '',
       carTransmission: '',
       carFuelType: '',
+      //TODO: los de abajo
       carMileage: '',
       carDepartments: '',
       carTraction: '',
@@ -99,42 +100,6 @@ export class PublishedCarsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
-
-    console.group('Filters');
-    console.log(this.filters);
-    // console.log(typeof this.filters.carModel);
-    console.groupEnd();
-
-    if (this.filters.carMaxPrice) {
-      this.minPrice = 0;
-      this.maxPrice = this.filters.carMaxPrice!;
-    } else {
-      //TODO: agarrar min y max precio del backend
-      this.minPrice = 0;
-      this.maxPrice = 50000;
-    }
-
-    //TODO: revisar que los filtros estén bien
-
-    this.options = {
-      floor: this.minPrice,
-      ceil: this.maxPrice,
-      step: 1000,
-      translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.filteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return (
-              carro.precioVenta >= this.minPrice &&
-              carro.precioVenta <= this.maxPrice
-            );
-          }
-        );
-        this.updatePagination();
-        return '';
-      },
-    };
-
-    this.anos = this.dataService.anos;
 
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
@@ -177,9 +142,46 @@ export class PublishedCarsComponent implements OnInit {
         console.groupEnd();
       }
     );
+
+    console.group('Filters');
+    console.log(this.filters);
+    console.groupEnd();
+
+    if (this.filters.carMaxPrice) {
+      this.minPrice = 0;
+      this.maxPrice = this.filters.carMaxPrice!;
+    } else {
+      //TODO: agarrar min y max precio del backend
+      this.minPrice = 0;
+      this.maxPrice = 50000;
+    }
+
+    //TODO: revisar que los filtros estén bien
+
+    this.options = {
+      floor: this.minPrice,
+      ceil: this.maxPrice,
+      step: 1000,
+      translate: (value: number, label: LabelType): string => {
+        this.filteredCarros = this.filteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return (
+              carro.precioVenta >= this.minPrice &&
+              carro.precioVenta <= this.maxPrice
+            );
+          }
+        );
+        this.updatePagination();
+        return '';
+      },
+    };
+
+    this.anos = this.dataService.anos;
+
     console.log('cameFrom: ', this.cameFrom);
 
     if (this.mode === ModesEnum.USER_SEARCH) {
+
       this.filterFormGroup = this.fb.group({
         carBrand: this.marca,
         carModel: this.modelo,
@@ -188,6 +190,7 @@ export class PublishedCarsComponent implements OnInit {
         carMinYear: this.desde,
         carTransmission: '',
         carFuelType: '',
+        //TODO: los de abajo
         carMileage: '',
         carDepartments: '',
         carTraction: '',
@@ -203,6 +206,9 @@ export class PublishedCarsComponent implements OnInit {
 
       setTimeout(() => {
         $('#modelos').selectpicker('refresh');
+        if (this.marca !== '') {
+          this.changeBrand(this.marca);
+        }
       }, 500);
 
       setTimeout(() => {
@@ -243,12 +249,11 @@ export class PublishedCarsComponent implements OnInit {
               console.dir(this.carros);
               console.groupEnd();
 
-              this.filteredCarros = response;
+              this.filteredCarros = this.filterResponse(response);
 
-              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-              this.pages = Array(this.pgCnt)
-                .fill(this.pgCnt)
-                .map((x: any, i: any) => i);
+              this.auxFilteredCarros = this.filteredCarros;
+
+              this.updatePagination();
 
               this.loaderService.setIsLoading(false);
             },
@@ -283,21 +288,9 @@ export class PublishedCarsComponent implements OnInit {
 
               console.group('Filtrando Carros');
 
-              this.filteredCarros = response.filter((carro: AutoSemiNuevo) => {
-                console.log(carro);
-                console.log(
-                  this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-                );
-                //TODO: caso cuando el usuario deja un field vacio pero igual pone 'Buscar'
-                return (
-                  carro.marca === this.filters.carBrand &&
-                  carro.modelo === this.filters.carModel &&
-                  carro.precioVenta <= Number(this.filters.carMaxPrice) &&
-                  (this.filters.carType === 'OTRO'
-                    ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-                    : this.filters.carType === carro.tipoCarroceria)
-                );
-              });
+              this.filteredCarros = this.filterResponse(response);
+
+              this.auxFilteredCarros = this.filteredCarros;
 
               console.groupEnd();
 
@@ -305,10 +298,7 @@ export class PublishedCarsComponent implements OnInit {
               console.dir(this.filteredCarros);
               console.groupEnd();
 
-              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-              this.pages = Array(this.pgCnt)
-                .fill(this.pgCnt)
-                .map((x: any, i: any) => i);
+              this.updatePagination();
 
               this.loaderService.setIsLoading(false);
             },
@@ -354,7 +344,7 @@ export class PublishedCarsComponent implements OnInit {
       console.groupEnd();
     } else {
       console.group('DASHBOARD');
-      // ! cuidado con esto
+      // ! cuidado con esto, si es undefined entonces deslogger al user
       this.correo = this.storageService.getEmailSessionStorage()!; // 😬
       this.userService
         .getAutosSemiNuevosValidadosUserUrl(this.correo)
@@ -363,13 +353,10 @@ export class PublishedCarsComponent implements OnInit {
             // ! cuidado con el '!'
             const response: AutoSemiNuevo[] = res.carrosPosteados!;
 
-            this.pgCnt = Math.ceil(response.length / 10);
-            this.pages = Array(this.pgCnt)
-              .fill(this.pgCnt)
-              .map((x: any, i: any) => i);
-
             this.carros = response;
             this.filteredCarros = response;
+
+            this.updatePagination();
 
             console.group('Autos Semi Nuevos response');
             console.log(response);
@@ -392,12 +379,33 @@ export class PublishedCarsComponent implements OnInit {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
+  filterResponse(response: AutoSemiNuevo[]): AutoSemiNuevo[] {
+    let filtered = response.filter((carro: AutoSemiNuevo) => {
+      console.log(carro);
+      console.log(
+        this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+      );
+      console.log('carroceria: ', carro.tipoCarroceria);
+      return (
+        (this.filters.carBrand ? carro.marca === this.filters.carBrand : true) &&
+        (this.filters.carModel ? carro.modelo === this.filters.carModel : true) &&
+        (this.filters.carMaxPrice ? carro.precioVenta <= Number(this.filters.carMaxPrice): true) &&
+        (this.filters.carType ? (this.filters.carType === 'OTRO'
+        ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+        : this.filters.carType === carro.tipoCarroceria) : true) &&
+        (this.filters.carMinYear ? carro.anoFabricacion >= this.filters.carMinYear : true)
+      );
+    });
+    return filtered;
+  }
+
   filterByName(event: any): void {
     console.group('Event');
     console.log(event.target.value);
     console.groupEnd();
     const normalizedQuery: string = this._normalizeValue(event.target.value);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    this.filteredCarros = this.auxFilteredCarros.filter((carro: AutoSemiNuevo) => {
+      //TODO: añadir más propiedades? (año, kilometraje, etc)
       return (
         this._normalizeValue(carro.marca).includes(normalizedQuery) ||
         this._normalizeValue(carro.modelo).includes(normalizedQuery)
@@ -433,15 +441,20 @@ export class PublishedCarsComponent implements OnInit {
     this.updatePagination();
   }
 
-  changeBrand(e: any): void {
-    const brand: string = e.target.value;
+  changeBrand(e: any | string): void {
+    let brand: string;
+    if (typeof e === 'string') {
+      brand = e;
+    } else {
+      brand = e.target.value;
+    }
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.marca.includes(brand);
     });
     console.group('Filtered carros after brand change');
     console.log(this.filteredCarros);
     console.groupEnd();
-    console.log('Change Car Brand Event: ', e.target.value);
+    console.log('Change Car Brand Event: ', brand);
     console.log(this.filterFormGroup.get('carBrand')?.value);
     console.warn('carType: ', this.carType?.value);
     this.filteredModels = this.carFilters
