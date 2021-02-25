@@ -75,6 +75,7 @@ export class PublishedCarsComponent implements OnInit {
     private fb: FormBuilder,
     private clientService: ClientService
   ) {
+    // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
     this.autos = this.dataService.autos;
     this.tiposTransmision = this.dataService.tiposTransmision;
     this.tiposCombustible = this.dataService.tiposCombustible;

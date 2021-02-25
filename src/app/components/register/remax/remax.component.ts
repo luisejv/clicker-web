@@ -55,7 +55,12 @@ export class RemaxComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          this.router.navigateByUrl('/home');
+          if (this.storageService.getGoingToCarRegistration()) {
+            this.storageService.removeGoingToCarRegistration();
+            this.router.navigateByUrl('/dashboard/registrar-carro');
+          } else {
+            this.router.navigateByUrl('/dashboard');
+          }
         });
       },
       (error: any) => {

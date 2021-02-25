@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-register',
@@ -6,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private storageService: StorageService,
+    private router: Router,
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.storageService.getGoingToCarRegistration()) {
+      this.router.navigate(['/registro/particular']);
+    }
+  }
 }

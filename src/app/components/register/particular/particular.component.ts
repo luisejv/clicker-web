@@ -56,7 +56,12 @@ export class ParticularComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          this.router.navigateByUrl('/dashboard');
+          if (this.storageService.getGoingToCarRegistration()) {
+            this.storageService.removeGoingToCarRegistration();
+            this.router.navigateByUrl('/dashboard/registrar-carro');
+          } else {
+            this.router.navigateByUrl('/dashboard');
+          }
         });
       },
       (error: any) => {
