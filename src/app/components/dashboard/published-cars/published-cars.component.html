@@ -299,7 +299,7 @@
         </aside>
       </div>
       <div class="col-xl-9">
-        <div class="b-filter-goods b-filter-goods_brd">
+        <div class="b-filter-goods" [ngClass]="{ 'b-filter-goods_brd': !list }">
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
@@ -332,10 +332,30 @@
                 </div>
               </div>
               <div class="btns-switch">
-                <i class="btns-switch__item js-view-list ic fas fa-list"></i
-                ><i
-                  class="btns-switch__item js-view-th ic active fas fa-th-large"
+                <i
+                  (click)="changeGridView('list')"
+                  [ngClass]="{
+                    active: list,
+                    'btns-switch__item': true,
+                    'js-view-list': true,
+                    ic: true,
+                    fas: true,
+                    'fa-list': true
+                  }"
                 ></i>
+                <!-- class="btns-switch__item js-view-list ic fas fa-list" -->
+                <i
+                  (click)="changeGridView('grid')"
+                  [ngClass]="{
+                    active: !list,
+                    'btns-switch__item': true,
+                    'js-view-th': true,
+                    ic: true,
+                    fas: true,
+                    'fa-th-large': true
+                  }"
+                ></i>
+                <!--  class="btns-switch__item js-view-th ic fas fa-th-large" -->
               </div>
             </div>
           </div>
@@ -348,12 +368,21 @@
               let carro of filteredCarros
                 | slice: currPage * 10:currPage * 10 + 10
             "
-            class="col-lg-4 col-md-6"
+            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car [auto]="carro"> </app-published-car>
+            <app-published-car [auto]="carro" [mode]="list">
+            </app-published-car>
           </div>
           <div *ngIf="filteredCarros.length === 0" class="col text-center">
-            Oops. No se encontró ningún carro con esas especificaciones. Haz clic <span class="reset-filters-button font-weight-bold" (click)="resetFilters(true)">aquí</span> o en <span class="font-weight-bold">Limpiar Filtros</span> para reiniciar la búsqueda.
+            Oops. No se encontró ningún carro con esas especificaciones. Haz
+            clic
+            <span
+              class="reset-filters-button font-weight-bold"
+              (click)="resetFilters(true)"
+              >aquí</span
+            >
+            o en <span class="font-weight-bold">Limpiar Filtros</span> para
+            reiniciar la búsqueda.
           </div>
         </div>
         <nav class="mt-3" aria-label="Page navigation example">

@@ -1,5 +1,6 @@
 <div
   class="b-goods published-car-container"
+  [ngClass]="{ 'b-goods_list': mode }"
   style="cursor: pointer"
   (click)="goToVehicleDetails()"
 >
@@ -10,13 +11,8 @@
     <div class="row no-gutters">
       <div class="col">
         <a class="b-goods__title">
-          {{
-          auto.marca +
-            " " +
-            auto.modelo +
-            " " +
-            auto.anoFabricacion
-        }}</a>
+          {{ auto.marca + " " + auto.modelo + " " + auto.anoFabricacion }}</a
+        >
         <!-- <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div> -->
       </div>
       <div class="col-auto">

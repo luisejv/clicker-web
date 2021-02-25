@@ -1,5 +1,12 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { ModesEnum } from 'src/app/core/enums/modes.enum';
@@ -59,6 +66,11 @@ export class PublishedCarsComponent implements OnInit {
   maxPrice!: number;
   options!: Options;
 
+  // * Grid - Listings
+  /* @ViewChild('list') list!: ElementRef;
+  @ViewChild('grid') grid!: ElementRef; */
+  list: boolean = true;
+
   //TODO: kilometraje
   //TODO: departamentos
   //TODO: traccion
@@ -89,7 +101,7 @@ export class PublishedCarsComponent implements OnInit {
       carDepartments: '',
       carTraction: '',
     });
-    this.route.params.subscribe((val) => this.ngOnInit());
+    /* this.route.params.subscribe((val) => this.ngOnInit()); */
   }
 
   ngAfterViewChecked() {
@@ -374,6 +386,10 @@ export class PublishedCarsComponent implements OnInit {
     }
   }
 
+  changeGridView(type: string): void {
+    this.list = type == 'list';
+  }
+
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
@@ -425,6 +441,8 @@ export class PublishedCarsComponent implements OnInit {
 
   goToPage(pageId: number): void {
     this.currPage = pageId;
+    /* $('body').animate({ scrollTop: 0 }, 1000); */
+    window.scrollTo(0, 0);
   }
 
   changeCarSubset(e: any): void {

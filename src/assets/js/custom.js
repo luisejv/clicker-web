@@ -307,12 +307,7 @@ var custom = (function () {
     // View catalog
     ///////////////////////////////////////////
 
-    $(".btns-switch__item").on("click", function () {
-      $(".btns-switch").find(".active").removeClass("active");
-      $(this).addClass("active");
-    });
-
-    $(".js-view-th").on("click", function () {
+    /* $(".js-view-th").on("click", function () {
       $(".b-goods-group > .col-12")
         .removeClass("col-12")
         .addClass("col-lg-4 col-md-6");
@@ -326,7 +321,7 @@ var custom = (function () {
         .removeClass("col-lg-4 col-md-6");
       $(".b-goods").addClass("b-goods_list");
       $(".b-filter-goods").removeClass("b-filter-goods_brd");
-    });
+    }); */
 
     $(".flip-btn").on("click", function () {
       $(this).parent().toggleClass("flip-active");
