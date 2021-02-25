@@ -53,17 +53,17 @@ export class StorageService {
   }
 
   setGoingToCarRegistration(yesOrNo: string): void {
-    sessionStorage.setItem('goingToCarRegistration', yesOrNo);
+    localStorage.setItem('goingToCarRegistration', yesOrNo);
   }
 
   getGoingToCarRegistration(): boolean {
-    return sessionStorage.getItem('goingToCarRegistration') === 'yes'
+    return localStorage.getItem('goingToCarRegistration') === 'yes'
       ? true
       : false;
   }
 
   removeGoingToCarRegistration(): void {
-    sessionStorage.removeItem('goingToCarRegistration');
+    localStorage.removeItem('goingToCarRegistration');
   }
 
   isLoggedIn(): boolean {

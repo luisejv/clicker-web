@@ -62,11 +62,7 @@ export class LoginComponent implements OnInit {
             this.storageService.removeGoingToCarRegistration();
             this.router.navigateByUrl('/dashboard/registrar-carro');
           } else {
-            if (response.rol != 'PARTICULAR') {
-              this.router.navigateByUrl('/dashboard');
-            } else {
-              this.router.navigateByUrl('/home');
-            }
+            this.router.navigateByUrl('/dashboard');
           }
         });
       },
