@@ -16,16 +16,40 @@ export class StorageService {
     sessionStorage.removeItem('role');
   }
 
+  setRoleLocalStorage(role: string): void {
+    localStorage.setItem('role', role);
+  }
+
+  getRoleLocalStorage(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  removeRoleFromLocalStorage(): void {
+    localStorage.removeItem('role');
+  }
+
   setEmailSessionStorage(email: string): void {
     sessionStorage.setItem('email', email);
+  }
+
+  setEmailLocalStorage(email: string): void {
+    localStorage.setItem('email', email);
   }
 
   getEmailSessionStorage(): string | null {
     return sessionStorage.getItem('email');
   }
 
+  getEmailLocalStorage(): string | null {
+    return localStorage.getItem('email');
+  }
+
   removeEmailSessionStorage(): void {
     sessionStorage.removeItem('email');
+  }
+
+  removeEmailLocalStorage(): void {
+    localStorage.removeItem('email');
   }
 
   setGoingToCarRegistration(yesOrNo: string): void {
