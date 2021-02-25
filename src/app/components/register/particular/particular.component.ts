@@ -46,8 +46,8 @@ export class ParticularComponent implements OnInit {
     const body: User = this.toJSON();
     this.userService.register(body).subscribe(
       (response: User) => {
-        this.storageService.setRoleSessionStorage(RolesEnum.PARTICULAR);
-        this.storageService.setEmailSessionStorage(this.formGroup.value.email);
+        this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
+        this.storageService.setEmailLocalStorage(this.formGroup.value.email);
 
         Swal.fire({
           titleText: '¡Registrado!',

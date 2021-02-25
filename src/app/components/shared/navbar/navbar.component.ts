@@ -27,8 +27,8 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     console.log('Logging Out!');
-    this.storageService.removeEmailSessionStorage();
-    this.storageService.removeRoleFromSessionStorage();
+    this.storageService.removeEmailLocalStorage();
+    this.storageService.removeRoleFromLocalStorage();
   }
 
   checkToRegister(): string {
