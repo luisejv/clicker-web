@@ -40,16 +40,16 @@ export class LoginComponent implements OnInit {
       (response: User) => {
         console.log('response login: ', response);
         if (response.rol == 'ADMIN') {
-          this.storageService.setRoleSessionStorage(RolesEnum.ADMIN);
+          this.storageService.setRoleLocalStorage(RolesEnum.ADMIN);
         } else if (response.rol == 'SUPERADMIN') {
-          this.storageService.setRoleSessionStorage(RolesEnum.SUPERADMIN);
+          this.storageService.setRoleLocalStorage(RolesEnum.SUPERADMIN);
         } else if (response.rol == 'PARTICULAR') {
-          this.storageService.setRoleSessionStorage(RolesEnum.PARTICULAR);
+          this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
         } else {
-          this.storageService.setRoleSessionStorage(RolesEnum.REMAX);
+          this.storageService.setRoleLocalStorage(RolesEnum.REMAX);
         }
 
-        this.storageService.setEmailSessionStorage(this.formGroup.value.email);
+        this.storageService.setEmailLocalStorage(this.formGroup.value.email);
 
         Swal.fire({
           titleText: 'Logged In!',

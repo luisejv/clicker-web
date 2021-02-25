@@ -2,8 +2,10 @@ import { LabelType, Options } from '@angular-slider/ngx-slider';
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
@@ -16,6 +18,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Filter } from 'src/app/core/interfaces/client';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare var $: any;
 
@@ -25,7 +28,7 @@ declare var $: any;
   styleUrls: ['./published-cars.component.css'],
 })
 export class PublishedCarsComponent implements OnInit {
-  @Input() mode: ModesEnum = ModesEnum.DASHBOARD;
+  @Input() mode: ModesEnum = ModesEnum.USER_SEARCH;
   @Input() filters!: CarSearchFilter;
   @Input() name: string = 'Carros Publicados';
   @Input() cameFrom: string = 'Dashboard';
@@ -63,6 +66,11 @@ export class PublishedCarsComponent implements OnInit {
   maxPrice!: number;
   options!: Options;
 
+  // * Grid - Listings
+  /* @ViewChild('list') list!: ElementRef;
+  @ViewChild('grid') grid!: ElementRef; */
+  list: boolean = true;
+
   //TODO: kilometraje
   //TODO: departamentos
   //TODO: traccion
@@ -73,7 +81,8 @@ export class PublishedCarsComponent implements OnInit {
     private dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private route: ActivatedRoute
   ) {
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
     this.autos = this.dataService.autos;
@@ -93,6 +102,7 @@ export class PublishedCarsComponent implements OnInit {
       carDepartments: '',
       carTraction: '',
     });
+    /* this.route.params.subscribe((val) => this.ngOnInit()); */
   }
 
   ngAfterViewChecked() {
@@ -148,7 +158,7 @@ export class PublishedCarsComponent implements OnInit {
     console.log(this.filters);
     console.groupEnd();
 
-    if (this.filters.carMaxPrice) {
+    if (this.filters?.carMaxPrice) {
       this.minPrice = 0;
       this.maxPrice = this.filters.carMaxPrice!;
     } else {
@@ -182,7 +192,6 @@ export class PublishedCarsComponent implements OnInit {
     console.log('cameFrom: ', this.cameFrom);
 
     if (this.mode === ModesEnum.USER_SEARCH) {
-
       this.filterFormGroup = this.fb.group({
         carBrand: this.marca,
         carModel: this.modelo,
@@ -237,11 +246,13 @@ export class PublishedCarsComponent implements OnInit {
       // }, 500);
 
       console.group('USER_SEARCH');
-      switch (this.filters.carSubset) {
+      switch (this.filters?.carSubset) {
         case 'ALL': {
           //TODO: GET all cars, then filter
           console.log('ALL');
-          console.warn('Por ahora se estan obteniendo los Semi Nuevos pero cuano estén, se tendrá que hacer fetch a todos los carros disponibles, no solo Semi Nuevos');;
+          console.warn(
+            'Por ahora se estan obteniendo los Semi Nuevos pero cuano estén, se tendrá que hacer fetch a todos los carros disponibles, no solo Semi Nuevos'
+          );
           this.userService.getAutosSemiNuevosValidados().subscribe(
             (response: AutoSemiNuevo[]) => {
               this.carros = response;
@@ -376,6 +387,10 @@ export class PublishedCarsComponent implements OnInit {
     }
   }
 
+  changeGridView(type: string): void {
+    this.list = type == 'list';
+  }
+
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
@@ -383,18 +398,26 @@ export class PublishedCarsComponent implements OnInit {
   filterResponse(response: AutoSemiNuevo[]): AutoSemiNuevo[] {
     let filtered = response.filter((carro: AutoSemiNuevo) => {
       console.log(carro);
-      console.log(
-        this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-      );
+      console.log(this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1);
       console.log('carroceria: ', carro.tipoCarroceria);
       return (
-        (this.filters.carBrand ? carro.marca === this.filters.carBrand : true) &&
-        (this.filters.carModel ? carro.modelo === this.filters.carModel : true) &&
-        (this.filters.carMaxPrice ? carro.precioVenta <= Number(this.filters.carMaxPrice): true) &&
-        (this.filters.carType ? (this.filters.carType === 'OTRO'
-        ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
-        : this.filters.carType === carro.tipoCarroceria) : true) &&
-        (this.filters.carMinYear ? carro.anoFabricacion >= this.filters.carMinYear : true)
+        (this.filters.carBrand
+          ? carro.marca === this.filters.carBrand
+          : true) &&
+        (this.filters.carModel
+          ? carro.modelo === this.filters.carModel
+          : true) &&
+        (this.filters.carMaxPrice
+          ? carro.precioVenta <= Number(this.filters.carMaxPrice)
+          : true) &&
+        (this.filters.carType
+          ? this.filters.carType === 'OTRO'
+            ? this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1
+            : this.filters.carType === carro.tipoCarroceria
+          : true) &&
+        (this.filters.carMinYear
+          ? carro.anoFabricacion >= this.filters.carMinYear
+          : true)
       );
     });
     return filtered;
@@ -405,18 +428,22 @@ export class PublishedCarsComponent implements OnInit {
     console.log(event.target.value);
     console.groupEnd();
     const normalizedQuery: string = this._normalizeValue(event.target.value);
-    this.filteredCarros = this.auxFilteredCarros.filter((carro: AutoSemiNuevo) => {
-      //TODO: añadir más propiedades? (año, kilometraje, etc)
-      return (
-        this._normalizeValue(carro.marca).includes(normalizedQuery) ||
-        this._normalizeValue(carro.modelo).includes(normalizedQuery)
-      );
-    });
+    this.filteredCarros = this.auxFilteredCarros.filter(
+      (carro: AutoSemiNuevo) => {
+        //TODO: añadir más propiedades? (año, kilometraje, etc)
+        return (
+          this._normalizeValue(carro.marca).includes(normalizedQuery) ||
+          this._normalizeValue(carro.modelo).includes(normalizedQuery)
+        );
+      }
+    );
     this.updatePagination();
   }
 
   goToPage(pageId: number): void {
     this.currPage = pageId;
+    /* $('body').animate({ scrollTop: 0 }, 1000); */
+    window.scrollTo(0, 0);
   }
 
   changeCarSubset(e: any): void {
@@ -461,24 +488,32 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredModels = this.carFilters
       .filter((elem: Filter) => {
         if (this.carType?.value !== '') {
-
           if (this.carSubset?.value !== '') {
-            return this.carType?.value != 'OTRO' ? elem.marca == brand && elem.tipoCarroceria == this.carType?.value &&
-             (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
-            : elem.marca == brand && (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value)
+            return this.carType?.value != 'OTRO'
+              ? elem.marca == brand &&
+                  elem.tipoCarroceria == this.carType?.value &&
+                  (this.carSubset?.value == 'ALL' ||
+                    elem.tipoCarro == this.carSubset?.value)
+              : elem.marca == brand &&
+                  (this.carSubset?.value == 'ALL' ||
+                    elem.tipoCarro == this.carSubset?.value);
           } else {
-            return this.carType?.value != 'OTRO' ? elem.marca == brand && elem.tipoCarroceria == this.carType?.value
-            : elem.marca == brand
+            return this.carType?.value != 'OTRO'
+              ? elem.marca == brand &&
+                  elem.tipoCarroceria == this.carType?.value
+              : elem.marca == brand;
           }
-
         } else {
           if (this.carSubset?.value !== '') {
-            return elem.marca == brand && (this.carSubset?.value == 'ALL' || elem.tipoCarro == this.carSubset?.value);
+            return (
+              elem.marca == brand &&
+              (this.carSubset?.value == 'ALL' ||
+                elem.tipoCarro == this.carSubset?.value)
+            );
           } else {
             return elem.marca == brand;
           }
         }
-
       })
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
@@ -637,37 +672,37 @@ export class PublishedCarsComponent implements OnInit {
   // * filtros que vienen de Home
 
   get subset(): string {
-    return typeof this.filters.carSubset !== 'undefined'
+    return typeof this.filters?.carSubset !== 'undefined'
       ? this.filters.carSubset
       : '';
   }
 
   get marca(): string {
-    return typeof this.filters.carBrand !== 'undefined'
+    return typeof this.filters?.carBrand !== 'undefined'
       ? this.filters.carBrand
       : '';
   }
 
   get modelo(): string {
-    return typeof this.filters.carModel !== 'undefined'
+    return typeof this.filters?.carModel !== 'undefined'
       ? this.filters.carModel
       : '';
   }
 
   get carroceria(): string {
-    return typeof this.filters.carType !== 'undefined'
+    return typeof this.filters?.carType !== 'undefined'
       ? this.filters.carType
       : '';
   }
 
   get desde(): string {
-    return typeof this.filters.carMinYear !== 'undefined'
+    return typeof this.filters?.carMinYear !== 'undefined'
       ? this.filters.carMinYear.toString()
       : '';
   }
 
   get maxPrecio(): string {
-    return typeof this.filters.carMaxPrice !== 'undefined'
+    return typeof this.filters?.carMaxPrice !== 'undefined'
       ? this.filters.carMaxPrice.toString()
       : '';
   }
@@ -708,10 +743,9 @@ export class PublishedCarsComponent implements OnInit {
 
   updatePagination(): void {
     this.currPage = 0;
-        this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-        this.pages = Array(this.pgCnt)
-          .fill(this.pgCnt)
-          .map((x: any, i: any) => i);
+    this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+    this.pages = Array(this.pgCnt)
+      .fill(this.pgCnt)
+      .map((x: any, i: any) => i);
   }
-
 }

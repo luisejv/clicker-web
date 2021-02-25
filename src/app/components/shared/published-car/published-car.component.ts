@@ -9,6 +9,7 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 })
 export class PublishedCarComponent implements OnInit {
   @Input() auto!: AutoSemiNuevo;
+  @Input() mode: boolean = true;
 
   constructor(private router: Router) {}
 
