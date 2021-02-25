@@ -169,19 +169,21 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  [routerLink]="['/inventory-listings']"
-                  [queryParams]="{ carSubset: 'NEW' }"
+                  (click)="goToCarsSubset('NEW')"
                   >Autos Nuevos</a
                 >
+                <!-- [routerLink]="['/inventory-listings']"
+                [queryParams]="{ carSubset: 'NEW' }" -->
               </li>
 
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  [routerLink]="['/inventory-listings']"
-                  [queryParams]="{ carSubset: 'USED' }"
+                  (click)="goToCarsSubset('USED')"
                   >Autos Usados</a
                 >
+                <!-- [routerLink]="['/inventory-listings']"
+                [queryParams]="{ carSubset: 'USED' }" -->
               </li>
               <!-- TODO: anidar al login/register con formulario -->
               <li class="nav-item">

@@ -85,6 +85,7 @@ export class PublishedCarsComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
+    this.anos = this.dataService.anos;
     this.autos = this.dataService.autos;
     this.tiposTransmision = this.dataService.tiposTransmision;
     this.tiposCombustible = this.dataService.tiposCombustible;
@@ -102,7 +103,6 @@ export class PublishedCarsComponent implements OnInit {
       carDepartments: '',
       carTraction: '',
     });
-    /* this.route.params.subscribe((val) => this.ngOnInit()); */
   }
 
   ngAfterViewChecked() {
@@ -169,25 +169,7 @@ export class PublishedCarsComponent implements OnInit {
 
     //TODO: revisar que los filtros estén bien
 
-    this.options = {
-      floor: this.minPrice,
-      ceil: this.maxPrice,
-      step: 1000,
-      translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.filteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return (
-              carro.precioVenta >= this.minPrice &&
-              carro.precioVenta <= this.maxPrice
-            );
-          }
-        );
-        this.updatePagination();
-        return '';
-      },
-    };
-
-    this.anos = this.dataService.anos;
+    this.updateSliderOptions();
 
     console.log('cameFrom: ', this.cameFrom);
 
@@ -206,44 +188,7 @@ export class PublishedCarsComponent implements OnInit {
         carTraction: '',
       });
 
-      setTimeout(() => {
-        $('#subsets').selectpicker('refresh');
-      }, 500);
-
-      setTimeout(() => {
-        $('#marcas').selectpicker('refresh');
-      }, 500);
-
-      setTimeout(() => {
-        $('#modelos').selectpicker('refresh');
-        if (this.marca !== '') {
-          this.changeBrand(this.marca);
-        }
-      }, 500);
-
-      setTimeout(() => {
-        $('#carrocerias').selectpicker('refresh');
-      }, 500);
-
-      setTimeout(() => {
-        $('#desde').selectpicker('refresh');
-      }, 500);
-
-      setTimeout(() => {
-        $('#transmisiones').selectpicker('refresh');
-      }, 500);
-
-      setTimeout(() => {
-        $('#combustibles').selectpicker('refresh');
-      }, 500);
-
-      // setTimeout(() => {
-      //   $('#tracciones').selectpicker('refresh');
-      // }, 500);
-
-      // setTimeout(() => {
-      //   $('#departamentos').selectpicker('refresh');
-      // }, 500);
+      this.updateSelects(ModesEnum.USER_SEARCH);
 
       console.group('USER_SEARCH');
       switch (this.filters?.carSubset) {
@@ -336,10 +281,7 @@ export class PublishedCarsComponent implements OnInit {
 
               this.filteredCarros = response;
 
-              this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
-              this.pages = Array(this.pgCnt)
-                .fill(this.pgCnt)
-                .map((x: any, i: any) => i);
+              this.updatePagination();
 
               this.loaderService.setIsLoading(false);
             },
@@ -442,7 +384,6 @@ export class PublishedCarsComponent implements OnInit {
 
   goToPage(pageId: number): void {
     this.currPage = pageId;
-    /* $('body').animate({ scrollTop: 0 }, 1000); */
     window.scrollTo(0, 0);
   }
 
@@ -620,53 +561,11 @@ export class PublishedCarsComponent implements OnInit {
     this.minPrice = 0;
     this.maxPrice = 50000;
 
-    this.options = {
-      floor: this.minPrice,
-      ceil: this.maxPrice,
-      step: 1000,
-      translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.filteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return (
-              carro.precioVenta >= this.minPrice &&
-              carro.precioVenta <= this.maxPrice
-            );
-          }
-        );
-        this.updatePagination();
-        return '';
-      },
-    };
+    this.updateSliderOptions();
 
     this.filteredModels = [];
 
-    setTimeout(() => {
-      $('#subsets').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#marcas').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#modelos').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#carrocerias').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#desde').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#transmisiones').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
-      $('#combustibles').selectpicker('refresh');
-    }, 500);
+    this.updateSelects();
   }
 
   // * filtros que vienen de Home
@@ -748,4 +647,68 @@ export class PublishedCarsComponent implements OnInit {
       .fill(this.pgCnt)
       .map((x: any, i: any) => i);
   }
+
+  updateSliderOptions(): void {
+    this.options = {
+      floor: this.minPrice,
+      ceil: this.maxPrice,
+      step: 1000,
+      translate: (value: number, label: LabelType): string => {
+        this.filteredCarros = this.filteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return (
+              carro.precioVenta >= this.minPrice &&
+              carro.precioVenta <= this.maxPrice
+            );
+          }
+        );
+        this.updatePagination();
+        return '';
+      },
+    };
+  }
+
+  updateSelects(mode?: ModesEnum): void {
+    setTimeout(() => {
+      $('#subsets').selectpicker('refresh');
+    }, 500);
+
+    setTimeout(() => {
+      $('#marcas').selectpicker('refresh');
+    }, 500);
+
+    setTimeout(() => {
+      $('#modelos').selectpicker('refresh');
+      if (mode && mode === ModesEnum.USER_SEARCH) {
+        if (this.marca !== '') {
+          this.changeBrand(this.marca);
+        }
+      }
+    }, 500);
+
+    setTimeout(() => {
+      $('#carrocerias').selectpicker('refresh');
+    }, 500);
+
+    setTimeout(() => {
+      $('#desde').selectpicker('refresh');
+    }, 500);
+
+    setTimeout(() => {
+      $('#transmisiones').selectpicker('refresh');
+    }, 500);
+
+    setTimeout(() => {
+      $('#combustibles').selectpicker('refresh');
+    }, 500);
+
+    // setTimeout(() => {
+    //   $('#tracciones').selectpicker('refresh');
+    // }, 500);
+
+    // setTimeout(() => {
+    //   $('#departamentos').selectpicker('refresh');
+    // }, 500);
+  }
+
 }

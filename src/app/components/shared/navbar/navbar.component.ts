@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { StorageService } from 'src/app/core/services/storage.service';
 declare var $: any;
 declare var slidebars: any;
@@ -19,6 +20,15 @@ export class NavbarComponent implements OnInit {
       event.stopPropagation();
       controller.toggle( 'mobile-slidebar' );
     } ); */
+  }
+
+  goToCarsSubset(subset: string): void {
+    const body: CarSearchFilter = {
+      carSubset: subset,
+    };
+    this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/inventory-listings'], { queryParams: body });
+    }); 
   }
 
   isLoggedIn(): boolean {
