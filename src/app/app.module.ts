@@ -27,7 +27,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from './core/services/storage.service';
 import { SidebarComponent } from './components/dashboard/shared/sidebar/sidebar.component';
-import { UnoComponent } from './components/dashboard/shared/uno/uno.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DataService } from './core/services/data.service';
 import { CommonModule } from '@angular/common';
@@ -44,6 +43,7 @@ import { ExtractPipe } from './pipes/extract.pipe';
 import { NgsRevealModule } from 'ngx-scrollreveal';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
+import { ValidationComponent } from './components/validation/validation.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,6 @@ import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
     LoginComponent,
     DashboardComponent,
     SidebarComponent,
-    UnoComponent,
     CarRegistrationComponent,
     PublishedCarsComponent,
     RegisterComponent,
@@ -76,6 +75,7 @@ import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
     SelectBrandModelComponent,
     ExtractPipe,
     OnlyNumbersDirective,
+    ValidationComponent,
   ],
   imports: [
     BrowserModule,

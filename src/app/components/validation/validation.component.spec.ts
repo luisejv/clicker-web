@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnoComponent } from './uno.component';
+import { ValidationComponent } from './validation.component';
 
-describe('UnoComponent', () => {
-  let component: UnoComponent;
-  let fixture: ComponentFixture<UnoComponent>;
+describe('ValidationComponent', () => {
+  let component: ValidationComponent;
+  let fixture: ComponentFixture<ValidationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnoComponent ]
+      declarations: [ ValidationComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnoComponent);
+    fixture = TestBed.createComponent(ValidationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

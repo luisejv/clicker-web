@@ -14,6 +14,7 @@ export class CommonService {
   // * Auth
   loginUrl: string = this.baseUrl + '/auth/login';
   registerUrl: string = this.baseUrl + '/auth/register';
+  validateEmailUrl: string = this.baseUrl + '/user/validate';
 
   // * User
   userUrl: string = this.baseUrl + '/user';

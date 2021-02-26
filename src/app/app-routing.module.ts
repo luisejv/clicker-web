@@ -19,6 +19,7 @@ import { ParticularComponent } from './components/register/particular/particular
 import { RegisterComponent } from './components/register/register.component';
 import { RemaxComponent } from './components/register/remax/remax.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
+import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 
 export const routes: Routes = [
@@ -29,8 +30,7 @@ export const routes: Routes = [
     component: InventoryListingsComponent,
   },
   {
-    path:
-      'inventory-listings/:carType/:carSubset/:carBrand/:carModel/:carMaxPrice',
+    path: 'inventory-listings',
     component: InventoryListingsComponent,
   },
   { path: 'about', component: AboutComponent },
@@ -79,6 +79,7 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: 'validation/:id', component: ValidationComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];

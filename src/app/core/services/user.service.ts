@@ -73,4 +73,9 @@ export class UserService {
   public addCarToInstered(body: any): void {
     this.http.post(this.commonService.addCarToInsteredUrl, body);
   }
+
+  // * To Validate email with form as body
+  public validateEmail(body: any): Observable<any> {
+    return this.http.put(this.commonService.validateEmailUrl, body);
+  }
 }

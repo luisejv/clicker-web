@@ -40,7 +40,10 @@ export class AppComponent implements OnInit {
   }
 
   inDashboard(): boolean {
-    return this.router.url.includes('dashboard');
+    return (
+      this.router.url.includes('dashboard') ||
+      this.router.url.includes('validation/')
+    );
   }
 
   onResize(event: any): void {
