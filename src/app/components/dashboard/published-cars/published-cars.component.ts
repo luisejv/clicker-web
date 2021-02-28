@@ -19,6 +19,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 
 declare var $: any;
 
@@ -60,11 +61,16 @@ export class PublishedCarsComponent implements OnInit {
   tiposCombustible: string[];
   tiposCarroceria: string[];
   anos!: string[];
+  departamentos: string[] = [];
+  tiposTracciones: string[];
 
-  // * ngs slider
+  // * ngx slider
   minPrice!: number;
   maxPrice!: number;
   options!: Options;
+  minKilometraje!: number;
+  maxKilometraje!: number;
+  optionsKilometraje!: Options;
 
   // * Grid - Listings
   /* @ViewChild('list') list!: ElementRef;
@@ -85,6 +91,7 @@ export class PublishedCarsComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
+    this.tiposTracciones = this.dataService.tiposTracciones;
     this.anos = this.dataService.anos;
     this.autos = this.dataService.autos;
     this.tiposTransmision = this.dataService.tiposTransmision;
@@ -99,8 +106,8 @@ export class PublishedCarsComponent implements OnInit {
       carTransmission: '',
       carFuelType: '',
       //TODO: los de abajo
-      carMileage: '',
-      carDepartments: '',
+      // carKilometraje: '',
+      carDepartamentos: '',
       carTraction: '',
     });
   }
@@ -111,6 +118,26 @@ export class PublishedCarsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
+
+    this.clientService.getUbigeos().subscribe(
+      (response: Ubigeo[]) => {
+        console.group('Ubigeo');
+        console.log(response);
+        console.groupEnd();
+        //TODO: endpoint que devuelva todos los departamentos porq acá se hace chamba de más
+        response.forEach(
+          (ubigeo: Ubigeo) => {
+            if (this.departamentos.indexOf(ubigeo.departamento) === -1) {
+              this.departamentos.push(ubigeo.departamento);
+            }
+          }
+        );
+        console.warn('departamentos: ', this.departamentos);
+      },
+      (error: any) => {
+        console.error('fetching ubigeos')
+      }
+    );
 
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
@@ -167,9 +194,12 @@ export class PublishedCarsComponent implements OnInit {
       this.maxPrice = 50000;
     }
 
-    //TODO: revisar que los filtros estén bien
+    //TODO: agarrar minKilometraje y maxKilometraje del backend
+    this.minKilometraje = 0;
+    this.maxKilometraje = 500000; // 500 000 km
 
-    this.updateSliderOptions();
+    this.updatePriceSliderOptions();
+    this.updateKilometrajeSliderOptions();
 
     console.log('cameFrom: ', this.cameFrom);
 
@@ -183,8 +213,8 @@ export class PublishedCarsComponent implements OnInit {
         carTransmission: '',
         carFuelType: '',
         //TODO: los de abajo
-        carMileage: '',
-        carDepartments: '',
+        // carMileage: '',
+        carDepartamentos: '',
         carTraction: '',
       });
 
@@ -527,6 +557,27 @@ export class PublishedCarsComponent implements OnInit {
     this.updatePagination();
   }
 
+  changeTraccion(e: any): void {
+    const traccion: string = e.target.value;
+    console.log('selected traccion: ', traccion);
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      return carro.tipoTraccion.includes(traccion);
+    });
+    this.updatePagination();
+  }
+
+  changeDepartamentos(e: any): void {
+    const departamento: string = e.target.value;
+    console.log('selected departamento: ', departamento);
+    console.log('selected departamentos form: ', this.carDepartamentos?.value);
+    this.filteredCarros = this.filteredCarros.filter(
+      (carro: AutoSemiNuevo) => {
+        return carro.locaciones?.departamento?.includes(this.carDepartamentos?.value[this.carDepartamentos?.value.length - 1]);
+      }
+    );
+    this.updatePagination();
+  }
+
   changeAnoFrom(e: any): void {
     const from: number = e.target.value;
     console.log('selected from year: ', from);
@@ -561,12 +612,18 @@ export class PublishedCarsComponent implements OnInit {
     this.minPrice = 0;
     this.maxPrice = 50000;
 
-    this.updateSliderOptions();
+    this.minKilometraje = 0;
+    this.maxKilometraje = 500000;
+
+    this.updatePriceSliderOptions();
+    this.updateKilometrajeSliderOptions();
 
     this.filteredModels = [];
 
     this.updateSelects();
   }
+
+  //TODO: NO RECARGA SIEMPRE LOS DEPARTMANETOs
 
   // * filtros que vienen de Home
 
@@ -640,6 +697,11 @@ export class PublishedCarsComponent implements OnInit {
     return this.filterFormGroup.get('carSubset');
   }
 
+  get carDepartamentos() {
+    return this.filterFormGroup.get('carDepartamentos');
+  }
+
+
   updatePagination(): void {
     this.currPage = 0;
     this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
@@ -648,7 +710,7 @@ export class PublishedCarsComponent implements OnInit {
       .map((x: any, i: any) => i);
   }
 
-  updateSliderOptions(): void {
+  updatePriceSliderOptions(): void {
     this.options = {
       floor: this.minPrice,
       ceil: this.maxPrice,
@@ -668,47 +730,48 @@ export class PublishedCarsComponent implements OnInit {
     };
   }
 
+  updateKilometrajeSliderOptions(): void {
+    this.optionsKilometraje = {
+      floor: this.minKilometraje,
+      ceil: this.maxKilometraje,
+      step: 1000, // TODO: depende de qué kilometrajes dejemos que el usuario ingrese
+      translate: (value: number, label: LabelType): string => {
+        this.filteredCarros = this.filteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return (
+              carro.kilometraje >= this.minKilometraje &&
+              carro.kilometraje <= this.maxKilometraje
+            );
+          }
+        );
+        this.updatePagination();
+        return '';
+      },
+    };
+  }
+
   updateSelects(mode?: ModesEnum): void {
+
+    setTimeout(() => {
+      $('#departamentos').selectpicker('refresh');
+    }, 1000);
+
     setTimeout(() => {
       $('#subsets').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
       $('#marcas').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
       $('#modelos').selectpicker('refresh');
       if (mode && mode === ModesEnum.USER_SEARCH) {
         if (this.marca !== '') {
           this.changeBrand(this.marca);
         }
       }
-    }, 500);
-
-    setTimeout(() => {
       $('#carrocerias').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
       $('#desde').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
       $('#transmisiones').selectpicker('refresh');
-    }, 500);
-
-    setTimeout(() => {
       $('#combustibles').selectpicker('refresh');
+      $('#tracciones').selectpicker('refresh');
     }, 500);
 
-    // setTimeout(() => {
-    //   $('#tracciones').selectpicker('refresh');
-    // }, 500);
-
-    // setTimeout(() => {
-    //   $('#departamentos').selectpicker('refresh');
-    // }, 500);
   }
 
 }

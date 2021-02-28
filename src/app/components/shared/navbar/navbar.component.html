@@ -166,24 +166,24 @@
                 >
               </li>
 
+              <!-- TODO: no sé si lo de abajo sea la mejor solucion -->
+              <!-- TODO: ponerle routerlink y ademas meterle un navigate (click) -->
               <li class="nav-item">
                 <a
                   class="nav-link"
+                  [routerLink]="['/inventory-listings']"
                   (click)="goToCarsSubset('NEW')"
                   >Autos Nuevos</a
                 >
-                <!-- [routerLink]="['/inventory-listings']"
-                [queryParams]="{ carSubset: 'NEW' }" -->
               </li>
 
               <li class="nav-item">
                 <a
                   class="nav-link"
+                  [routerLink]="['/inventory-listings']"
                   (click)="goToCarsSubset('USED')"
                   >Autos Usados</a
                 >
-                <!-- [routerLink]="['/inventory-listings']"
-                [queryParams]="{ carSubset: 'USED' }" -->
               </li>
               <!-- TODO: anidar al login/register con formulario -->
               <li class="nav-item">

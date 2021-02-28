@@ -170,6 +170,13 @@ export class DataService {
     'OTRO',
   ];
 
+  tiposTracciones: string[] = [
+    'Delantera',
+    'Trasera',
+    'AWD',
+    //TODO: otros más?
+  ];
+
   anos: string[] = [
     '2000',
     '2001',
