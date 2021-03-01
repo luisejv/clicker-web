@@ -29,6 +29,10 @@ export class UserService {
     return this.http.post(this.commonService.registerUrl, body);
   }
 
+  public getUser(correo: string): Observable<any> {
+    return this.http.get(this.commonService.getUserUrl + `?id=${correo}`);
+  }
+
   // * Registro de Carros
 
   public postAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {

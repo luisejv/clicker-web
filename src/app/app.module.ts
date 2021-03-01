@@ -44,6 +44,8 @@ import { NgsRevealModule } from 'ngx-scrollreveal';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
 import { ValidationComponent } from './components/validation/validation.component';
+import { BalanceComponent } from './components/dashboard/balance/balance.component';
+import { RequestPaymentComponent } from './components/dashboard/balance/request/request.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { ValidationComponent } from './components/validation/validation.componen
     ExtractPipe,
     OnlyNumbersDirective,
     ValidationComponent,
+    BalanceComponent,
+    RequestPaymentComponent,
   ],
   imports: [
     BrowserModule,

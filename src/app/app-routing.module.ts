@@ -6,6 +6,7 @@ import { BlogMainComponent } from './components/blog-main/blog-main.component';
 import { BlogPostComponent } from './components/blog-post/blog-post.component';
 import { BookingSystemComponent } from './components/booking-system/booking-system.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { BalanceComponent } from './components/dashboard/balance/balance.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
@@ -53,6 +54,10 @@ export const routes: Routes = [
       {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
+      },
+      {
+        path: 'balance',
+        component: BalanceComponent,
       },
     ],
   },

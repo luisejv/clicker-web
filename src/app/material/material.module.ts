@@ -4,8 +4,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
+import {
+  MatRadioModule,
+  MAT_RADIO_DEFAULT_OPTIONS,
+} from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const AngularMaterial = [
   MatButtonModule,
@@ -15,7 +19,8 @@ const AngularMaterial = [
   MatChipsModule,
   MatRadioModule,
   MatAutocompleteModule,
-]
+  MatDialogModule,
+];
 
 @NgModule({
   imports: [AngularMaterial],
@@ -23,8 +28,8 @@ const AngularMaterial = [
   providers: [
     {
       provide: MAT_RADIO_DEFAULT_OPTIONS,
-      useValue: { color: 'primary' } 
+      useValue: { color: 'primary' },
     },
-  ]
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
