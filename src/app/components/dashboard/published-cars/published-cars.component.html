@@ -242,6 +242,91 @@
                         </option>
                       </select>
                     </div>
+                    <div class="b-filter__row col-xl-12 col-md-6">
+                      <select
+                        class="selectpicker"
+                        data-width="100%"
+                        title="Tracción"
+                        data-style="ui-select"
+                        formControlName="carTraction"
+                        (change)="changeTraccion($event)"
+                        id="tracciones"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Tracción
+                        </option>
+                        <option
+                          [value]="traccion"
+                          *ngFor="let traccion of tiposTracciones"
+                        >
+                          {{ traccion }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="b-filter__row col-xl-12 col-md-6">
+                      <select
+                        class="selectpicker"
+                        data-width="100%"
+                        multiple
+                        title="Departamentos"
+                        data-style="ui-select"
+                        formControlName="carDepartamentos"
+                        (change)="changeDepartamentos($event)"
+                        id="departamentos"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Departamentos
+                        </option>
+                        <option
+                          [value]="departamento"
+                          *ngFor="let departamento of departamentos"
+                        >
+                          {{ departamento }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="b-filter-slider ui-filter-slider">
+                      <div class="b-filter-slider__title">Kilometraje</div>
+                      <div class="b-filter-slider__main">
+                        <ngx-slider
+                          [(value)]="minKilometraje"
+                          [(highValue)]="maxKilometraje"
+                          [options]="optionsKilometraje"
+                        >
+                        </ngx-slider>
+  
+                        <div class="b-filter__row row">
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="minKilometraje"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="minKilometraje"
+                            />
+                          </div>
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="maxKilometraje"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="maxKilometraje"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div class="b-filter-slider ui-filter-slider">
                     <div class="b-filter-slider__title">Precio</div>
