@@ -203,7 +203,7 @@ export class HomeComponent implements OnInit {
       .filter((elem: Filter) => {
         return (
           (type == 'OTRO' || elem.tipoCarroceria == type) &&
-          elem.tipoCarro == this.carSubset
+          (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
         );
       })
       .map((elem) => elem.marca)

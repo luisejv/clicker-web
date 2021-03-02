@@ -1,7 +1,15 @@
 .reset-filters-button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .reset-filters-button:hover {
-    color: #9e8a2b;
+  color: #9e8a2b;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer {
+  outline: none !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer.ngx-slider-active:after {
+  background-color: white !important;
 }
