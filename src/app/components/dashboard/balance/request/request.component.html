@@ -1,0 +1,14 @@
+<!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
+<div mat-dialog-content>
+  <p>Cuánto deseas retirar?</p>
+  <mat-form-field>
+    <mat-label>Cantidad (US$)</mat-label>
+    <input matInput [(ngModel)]="cantidad" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button cdkFocusInitial (click)="requestPayment()">
+    Solicitar Pago
+  </button>
+</div>

@@ -18,6 +18,7 @@ export class CommonService {
 
   // * User
   userUrl: string = this.baseUrl + '/user';
+  getUserUrl: string = this.userUrl + '/id';
 
   // * Car Registrarion
   autoSemiNuevoUrl: string = this.baseUrl + '/post';
