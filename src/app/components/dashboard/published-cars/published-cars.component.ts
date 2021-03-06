@@ -23,6 +23,18 @@ import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 
 declare var $: any;
 
+interface Update {
+  subset?: boolean;
+  brands?: boolean;
+  models?: boolean;
+  type?: boolean; //carroceria
+  from?: boolean;
+  transmission?: boolean;
+  combustible?: boolean;
+  traction?: boolean;
+  departments?: boolean;
+}
+
 @Component({
   selector: 'app-published-cars',
   templateUrl: './published-cars.component.html',
@@ -48,6 +60,8 @@ export class PublishedCarsComponent implements OnInit {
   carros: AutoSemiNuevo[] = [];
   filteredCarros: AutoSemiNuevo[] = [];
   auxFilteredCarros: AutoSemiNuevo[] = [];
+  backupFilteredCarros: AutoSemiNuevo[] = [];
+  originalFilteredCarros: AutoSemiNuevo[] = [];
 
   // * pages
   pgCnt: number = 0;
@@ -125,17 +139,15 @@ export class PublishedCarsComponent implements OnInit {
         console.log(response);
         console.groupEnd();
         //TODO: endpoint que devuelva todos los departamentos porq acá se hace chamba de más
-        response.forEach(
-          (ubigeo: Ubigeo) => {
-            if (this.departamentos.indexOf(ubigeo.departamento) === -1) {
-              this.departamentos.push(ubigeo.departamento);
-            }
+        response.forEach((ubigeo: Ubigeo) => {
+          if (this.departamentos.indexOf(ubigeo.departamento) === -1) {
+            this.departamentos.push(ubigeo.departamento);
           }
-        );
+        });
         console.warn('departamentos: ', this.departamentos);
       },
       (error: any) => {
-        console.error('fetching ubigeos')
+        console.error('fetching ubigeos');
       }
     );
 
@@ -239,6 +251,8 @@ export class PublishedCarsComponent implements OnInit {
               this.filteredCarros = this.filterResponse(response);
 
               this.auxFilteredCarros = this.filteredCarros;
+              this.backupFilteredCarros = this.filteredCarros;
+              this.originalFilteredCarros = this.filteredCarros;
 
               this.updatePagination();
 
@@ -278,6 +292,8 @@ export class PublishedCarsComponent implements OnInit {
               this.filteredCarros = this.filterResponse(response);
 
               this.auxFilteredCarros = this.filteredCarros;
+              this.backupFilteredCarros = this.filteredCarros;
+              this.originalFilteredCarros = this.filteredCarros;
 
               console.groupEnd();
 
@@ -339,6 +355,8 @@ export class PublishedCarsComponent implements OnInit {
 
             this.carros = response;
             this.filteredCarros = response;
+            this.auxFilteredCarros = this.filteredCarros;
+            this.backupFilteredCarros = this.filteredCarros;
 
             this.updatePagination();
 
@@ -368,6 +386,7 @@ export class PublishedCarsComponent implements OnInit {
   }
 
   filterResponse(response: AutoSemiNuevo[]): AutoSemiNuevo[] {
+    //TODO: podría seter backup, filteres, aux y original acá mejor
     let filtered = response.filter((carro: AutoSemiNuevo) => {
       console.log(carro);
       console.log(this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1);
@@ -418,6 +437,33 @@ export class PublishedCarsComponent implements OnInit {
   }
 
   changeCarSubset(e: any): void {
+    const subset: string = e.target.value;
+    //TODO: función que reciba el 'subset' y retorne los carros correspondientes, hacer el request acá
+    //TODO: send request of subset ('NEW', 'USED')
+    this.userService.getAutosSemiNuevosValidados().subscribe(
+      (response: AutoSemiNuevo[]) => {
+        this.carros = response;
+        this.filteredCarros = this.carros;
+        this.auxFilteredCarros = this.filteredCarros;
+        this.backupFilteredCarros = this.filteredCarros;
+        this.originalFilteredCarros = this.filteredCarros;
+
+        console.group('Autos Semi Nuevos');
+        console.dir(this.carros);
+        console.groupEnd();
+
+        this.updatePagination();
+
+        this.loaderService.setIsLoading(false);
+      },
+      (error: any) => {
+        this.loaderService.setIsLoading(false);
+        console.error(
+          'when fetching all semi nuevos validados in published-car.component.ts: ',
+          error
+        );
+      }
+    );
     console.log(
       'Car Subset: ',
       this.filterFormGroup.controls['carSubset'].value
@@ -435,26 +481,54 @@ export class PublishedCarsComponent implements OnInit {
     console.groupEnd();
     this.filteredModels = [];
     this.resetFilters(true);
-    const subset: string = e.target.value;
     this.filterFormGroup.controls['carSubset'].setValue(subset);
     this.updatePagination();
   }
 
   changeBrand(e: any | string): void {
+    if (this.carType?.value === '') {
+      this.filteredCarros = this.carros;
+    }
+    const updateFlags: Update = {
+      models: true,
+      type: this.carType?.value !== '' ? false : true,
+      from: true,
+      transmission: true,
+      combustible: true,
+      traction: true,
+      departments: true,
+    };
+    this.updateSelects(undefined, updateFlags);
     let brand: string;
     if (typeof e === 'string') {
       brand = e;
     } else {
       brand = e.target.value;
     }
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.marca.includes(brand);
-    });
+    if (this.carType?.value === '') {
+      this.filteredCarros = this.filteredCarros.filter(
+        (carro: AutoSemiNuevo) => {
+          return carro.marca.includes(brand);
+        }
+      );
+      this.backupFilteredCarros = this.filteredCarros;
+    } else {
+      this.backupFilteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+        return carro.marca.includes(brand);
+      });
+      this.filteredCarros = this.backupFilteredCarros.filter(
+        (carro: AutoSemiNuevo) => {
+          return carro.tipoCarroceria.includes(this.carType?.value);
+        }
+      );
+    }
+    this.auxFilteredCarros = this.filteredCarros;
     console.group('Filtered carros after brand change');
     console.log(this.filteredCarros);
     console.groupEnd();
     console.log('Change Car Brand Event: ', brand);
     console.log(this.filterFormGroup.get('carBrand')?.value);
+
     console.warn('carType: ', this.carType?.value);
     this.filteredModels = this.carFilters
       .filter((elem: Filter) => {
@@ -488,20 +562,45 @@ export class PublishedCarsComponent implements OnInit {
       })
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
+
     console.log('filtered models');
     console.log(this.filteredModels);
     setTimeout(() => {
       $('#modelos').selectpicker('refresh');
-    }, 500);
+      this.carModel?.setValue('');
+    }, 1000);
     this.updatePagination();
   }
 
   changeModel(e: any): void {
     const model: string = e.target.value;
+    this.filteredCarros = this.backupFilteredCarros;
+    let resetType = true;
+    if (this.carType?.value !== '') {
+      this.carFilters.forEach((filter: Filter) => {
+        if (
+          filter.tipoCarroceria === this.carType?.value &&
+          filter.modelo === model
+        ) {
+          resetType = false;
+        }
+      });
+    }
+    const updateFlags: Update = {
+      type: resetType,
+      from: true,
+      transmission: true,
+      combustible: true,
+      traction: true,
+      departments: true,
+    };
+    this.updateSelects(undefined, updateFlags);
+
     console.log('selected model: ', model);
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.modelo.includes(model);
     });
+    this.auxFilteredCarros = this.filteredCarros;
     this.updatePagination();
   }
 
@@ -510,6 +609,8 @@ export class PublishedCarsComponent implements OnInit {
     this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
     console.log(this.filterFormGroup.get('carType')?.value);
     if (type.toLowerCase() != 'otro') {
+      // ! aca se estan camiando los brands
+      // entonces si seleccione un modelo de un brand q ya no esta acá, debo deshacer esa seleccion
       this.filteredBrands = this.carFilters
         .filter((elem: Filter) => {
           return elem.tipoCarroceria.toLowerCase() == type.toLowerCase();
@@ -521,22 +622,71 @@ export class PublishedCarsComponent implements OnInit {
         .map((elem: Filter) => elem.marca)
         .filter((v, i, a) => a.indexOf(v) == i);
     }
-    //TODO: lo de abajo deberia ser condicional a si no hay match entre la carroceria y la current brand
-    this.filteredModels = [];
-    this.filterFormGroup.get('carBrand')?.setValue('');
-    this.filterFormGroup.get('carModel')?.setValue('');
-    setTimeout(() => {
-      $('#marcas').selectpicker('refresh');
-      $('#modelos').selectpicker('refresh');
-    }, 250);
+
+    // * si la marca q he seleccionado no tiene esta carroceria, resetear Marca y Modelo
+    if (
+      this.carBrand?.value !== '' &&
+      this.filteredBrands.indexOf(this.carBrand?.value) === -1
+    ) {
+      if (this.filteredCarros.length !== 0) {
+        console.warn('deberia estar aca');
+        this.filteredCarros = this.carros;
+        this.filteredModels = [];
+        this.filterFormGroup.get('carBrand')?.setValue('');
+        this.filterFormGroup.get('carModel')?.setValue('');
+        setTimeout(() => {
+          $('#marcas').selectpicker('refresh');
+          $('#modelos').selectpicker('refresh');
+        }, 250);
+        if (type !== 'OTRO') {
+          this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+            return carro.tipoCarroceria.includes(type);
+          });
+          this.auxFilteredCarros = this.filteredCarros;
+          this.updatePagination();
+        }
+        //TODO: falta el 'else'
+      }
+    } else {
+      // * si la marca q he seleccionado si tiene esa carroceria, solo resetear Modelo
+      this.filteredModels = this.carFilters
+        .filter((elem: Filter) => {
+          return (
+            elem.marca === this.carBrand?.value && elem.tipoCarroceria === type
+          );
+        })
+        .map((elem) => elem.modelo)
+        .filter((v, i, a) => a.indexOf(v) == i);
+      setTimeout(() => {
+        let aux = this.carBrand?.value;
+        let tmp = this.carModel?.value;
+        $('#marcas').selectpicker('refresh');
+        $('#modelos').selectpicker('refresh');
+        this.carBrand?.setValue(aux);
+        this.carModel?.setValue(tmp);
+      }, 250);
+      if (type !== 'OTRO') {
+        this.filteredCarros = this.backupFilteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return carro.tipoCarroceria.includes(type);
+          }
+        );
+        this.auxFilteredCarros = this.filteredCarros;
+        this.updatePagination();
+      }
+      //TODO: falta el 'else'
+    }
+
     console.log(this.filteredBrands);
 
-    const carroceria: string = e.target.value;
-    console.log('selected carroceria: ', carroceria);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.tipoCarroceria.includes(carroceria);
-    });
-    this.updatePagination();
+    const updateFlags: Update = {
+      from: true,
+      transmission: true,
+      combustible: true,
+      traction: true,
+      departments: true,
+    };
+    this.updateSelects(undefined, updateFlags);
   }
 
   changeTransmision(e: any): void {
@@ -545,6 +695,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoCambios.includes(transmision);
     });
+    this.auxFilteredCarros = this.filteredCarros;
     this.updatePagination();
   }
 
@@ -554,6 +705,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoCombustible.includes(combustible);
     });
+    this.auxFilteredCarros = this.filteredCarros;
     this.updatePagination();
   }
 
@@ -563,6 +715,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.tipoTraccion.includes(traccion);
     });
+    this.auxFilteredCarros = this.filteredCarros;
     this.updatePagination();
   }
 
@@ -570,11 +723,18 @@ export class PublishedCarsComponent implements OnInit {
     const departamento: string = e.target.value;
     console.log('selected departamento: ', departamento);
     console.log('selected departamentos form: ', this.carDepartamentos?.value);
-    this.filteredCarros = this.filteredCarros.filter(
-      (carro: AutoSemiNuevo) => {
-        return carro.locaciones?.departamento?.includes(this.carDepartamentos?.value[this.carDepartamentos?.value.length - 1]);
-      }
-    );
+
+    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+      let johnathanPrieto: boolean = false;
+      this.carDepartamentos?.value.forEach((departamento: string) => {
+        johnathanPrieto =
+          johnathanPrieto ||
+          carro.locaciones!.departamento!.includes(departamento);
+      });
+      return johnathanPrieto;
+    });
+    this.auxFilteredCarros = this.filteredCarros;
+
     this.updatePagination();
   }
 
@@ -584,6 +744,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
       return carro.anoFabricacion >= from;
     });
+    this.auxFilteredCarros = this.filteredCarros;
     this.updatePagination();
   }
 
@@ -606,7 +767,14 @@ export class PublishedCarsComponent implements OnInit {
     }
     this.carType?.setValue('');
 
-    this.filteredCarros = this.carros;
+    if (this.mode === ModesEnum.USER_SEARCH) {
+      this.filteredCarros = this.originalFilteredCarros;
+    } else {
+      this.filteredCarros = this.carros;
+    }
+
+    this.auxFilteredCarros = this.filteredCarros;
+    this.backupFilteredCarros = this.filteredCarros;
 
     //TODO: get min and max car price from request
     this.minPrice = 0;
@@ -620,10 +788,22 @@ export class PublishedCarsComponent implements OnInit {
 
     this.filteredModels = [];
 
-    this.updateSelects();
+    const updateFlags: Update = {
+      subset: true,
+      brands: brand,
+      models: true,
+      type: true,
+      from: true,
+      transmission: true,
+      combustible: true,
+      traction: true,
+      departments: true,
+    };
+
+    this.updateSelects(undefined, updateFlags);
   }
 
-  //TODO: NO RECARGA SIEMPRE LOS DEPARTMANETOs
+  //TODO: NO RECARGA SIEMPRE LOS DEPARTMANETOs (creo q ya esta arreglado, probar varias veces)
 
   // * filtros que vienen de Home
 
@@ -701,6 +881,9 @@ export class PublishedCarsComponent implements OnInit {
     return this.filterFormGroup.get('carDepartamentos');
   }
 
+  get carTraction() {
+    return this.filterFormGroup.get('carTraction');
+  }
 
   updatePagination(): void {
     this.currPage = 0;
@@ -716,7 +899,7 @@ export class PublishedCarsComponent implements OnInit {
       ceil: this.maxPrice,
       step: 1000,
       translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.filteredCarros.filter(
+        this.filteredCarros = this.auxFilteredCarros.filter(
           (carro: AutoSemiNuevo) => {
             return (
               carro.precioVenta >= this.minPrice &&
@@ -734,9 +917,9 @@ export class PublishedCarsComponent implements OnInit {
     this.optionsKilometraje = {
       floor: this.minKilometraje,
       ceil: this.maxKilometraje,
-      step: 1000, // TODO: depende de qué kilometrajes dejemos que el usuario ingrese
+      step: 5000, // TODO: depende de qué kilometrajes dejemos que el usuario ingrese
       translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.filteredCarros.filter(
+        this.filteredCarros = this.auxFilteredCarros.filter(
           (carro: AutoSemiNuevo) => {
             return (
               carro.kilometraje >= this.minKilometraje &&
@@ -750,28 +933,67 @@ export class PublishedCarsComponent implements OnInit {
     };
   }
 
-  updateSelects(mode?: ModesEnum): void {
+  updateSelects(mode?: ModesEnum, update?: Update): void {
+    console.group('updateSelects');
+    console.dir(update);
+    console.groupEnd();
+    // interface Update {
+    //   subset?: boolean,
+    //   brands?: boolean,
+    //   models?: boolean,
+    //   type?: boolean, //carroceria
+    //   from?: boolean,
+    //   transmission?: boolean,
+    //   combustible?: boolean,
+    //   traction?: boolean,
+    //   departments?: boolean,
+    // }
+
+    if (update?.departments) {
+      setTimeout(() => {
+        $('#departamentos').selectpicker('refresh');
+      }, 1000);
+    }
+
+    if (update?.brands) {
+      setTimeout(() => {
+        $('#marcas').selectpicker('refresh');
+      }, 500);
+    }
 
     setTimeout(() => {
-      $('#departamentos').selectpicker('refresh');
-    }, 1000);
-
-    setTimeout(() => {
-      $('#subsets').selectpicker('refresh');
-      $('#marcas').selectpicker('refresh');
-      $('#modelos').selectpicker('refresh');
+      if (update?.subset) {
+        $('#subsets').selectpicker('refresh');
+      }
+      if (update?.models) {
+        $('#modelos').selectpicker('refresh');
+      }
       if (mode && mode === ModesEnum.USER_SEARCH) {
         if (this.marca !== '') {
           this.changeBrand(this.marca);
         }
       }
-      $('#carrocerias').selectpicker('refresh');
-      $('#desde').selectpicker('refresh');
-      $('#transmisiones').selectpicker('refresh');
-      $('#combustibles').selectpicker('refresh');
-      $('#tracciones').selectpicker('refresh');
+      if (update?.type) {
+        this.carType?.setValue('');
+        $('#carrocerias').selectpicker('refresh');
+      }
+      if (update?.type) {
+        console.log('carajo');
+        this.carMinYear?.setValue('');
+        $('#desde').selectpicker('refresh');
+      }
+      if (update?.transmission) {
+        this.carTransmission?.setValue('');
+        $('#transmisiones').selectpicker('refresh');
+      }
+      if (update?.combustible) {
+        this.carFuelType?.setValue('');
+        $('#combustibles').selectpicker('refresh');
+      }
+      if (update?.traction) {
+        this.carTraction?.setValue('');
+        $('#tracciones').selectpicker('refresh');
+      }
     }, 500);
-
   }
-
 }

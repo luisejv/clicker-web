@@ -43,6 +43,14 @@
             <div class="widget-content">
               <div class="widget-inner">
                 <form class="b-filter" [formGroup]="filterFormGroup">
+                  <!-- {{ filterFormGroup.value | json }} -->
+                  <button
+                    class="b-filter__reset btn btn-secondary w-100 mb-3"
+                    type="reset"
+                    (click)="resetFilters(true)"
+                  >
+                    Limpiar Filtros
+                  </button>
                   <div class="b-filter__main row">
                     <div class="b-filter__row col-xl-12 col-md-6">
                       <select
@@ -102,6 +110,14 @@
                         (change)="changeModel($event)"
                         id="modelos"
                       >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          style="display: none"
+                        >
+                          Modelo
+                        </option>
                         <option value="" *ngIf="carBrand?.value == ''" disabled>
                           Debe seleccionar una marca
                         </option>
@@ -304,7 +320,7 @@
                           [options]="optionsKilometraje"
                         >
                         </ngx-slider>
-  
+
                         <div class="b-filter__row row">
                           <div class="b-filter__item col-md-6">
                             <input
@@ -369,13 +385,6 @@
                           </div>
                         </div>
                       </div> -->
-                  <button
-                    class="b-filter__reset btn btn-secondary w-100"
-                    type="reset"
-                    (click)="resetFilters(true)"
-                  >
-                    Limpiar Filtros
-                  </button>
                 </form>
               </div>
             </div>
