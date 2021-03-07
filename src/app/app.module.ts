@@ -46,6 +46,11 @@ import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
 import { ValidationComponent } from './components/validation/validation.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
 import { RequestPaymentComponent } from './components/dashboard/balance/request/request.component';
+import { CarValidationComponent } from './components/dashboard/admin/car-validation/car-validation.component';
+import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
+import { CarComplaintComponent } from './components/dashboard/admin/car-complaint/car-complaint.component';
+import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
+import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +85,11 @@ import { RequestPaymentComponent } from './components/dashboard/balance/request/
     ValidationComponent,
     BalanceComponent,
     RequestPaymentComponent,
+    CarValidationComponent,
+    UserValidationComponent,
+    CarComplaintComponent,
+    CarSaleRegistrationComponent,
+    WithdrawalRequestsComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,11 @@ import { BlogMainComponent } from './components/blog-main/blog-main.component';
 import { BlogPostComponent } from './components/blog-post/blog-post.component';
 import { BookingSystemComponent } from './components/booking-system/booking-system.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { CarComplaintComponent } from './components/dashboard/admin/car-complaint/car-complaint.component';
+import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
+import { CarValidationComponent } from './components/dashboard/admin/car-validation/car-validation.component';
+import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
+import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -25,23 +30,13 @@ import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-de
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'inventory-grid', component: InventoryGridComponent },
-  {
-    path: 'inventory-listings',
-    component: InventoryListingsComponent,
-  },
   {
     path: 'inventory-listings',
     component: InventoryListingsComponent,
   },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'blog-grid', component: BlogGridComponent },
-  { path: 'blog-main', component: BlogMainComponent },
-  { path: 'blog-post', component: BlogPostComponent },
   { path: 'home2', component: Home2Component },
-  { path: 'reservation-grid', component: ReservationGridComponent },
-  { path: 'booking-system', component: BookingSystemComponent },
   { path: 'vehicle-details', component: VehicleDetailsComponent },
   {
     path: 'dashboard',
@@ -58,6 +53,31 @@ export const routes: Routes = [
       {
         path: 'balance',
         component: BalanceComponent,
+      },
+      {
+        path: 'autos-por-validar',
+        component: CarValidationComponent,
+        // TODO: Admin Guard
+      },
+      {
+        path: 'solicitudes-franquicia',
+        component: UserValidationComponent,
+        // TODO: Admin Guard
+      },
+      {
+        path: 'registrar-venta',
+        component: CarSaleRegistrationComponent,
+        // TODO: Admin Guard
+      },
+      {
+        path: 'autos-reportados',
+        component: CarComplaintComponent,
+        // TODO: Admin Guard
+      },
+      {
+        path: 'solicitudes-de-pago',
+        component: WithdrawalRequestsComponent,
+        // TODO: Admin Guard
       },
     ],
   },
@@ -88,6 +108,13 @@ export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];
+
+/*   { path: 'blog-grid', component: BlogGridComponent },
+  { path: 'blog-main', component: BlogMainComponent },
+  { path: 'blog-post', component: BlogPostComponent },
+    { path: 'reservation-grid', component: ReservationGridComponent },
+  { path: 'booking-system', component: BookingSystemComponent },
+    { path: 'inventory-grid', component: InventoryGridComponent },*/
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

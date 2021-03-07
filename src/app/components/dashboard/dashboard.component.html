@@ -1,30 +1,33 @@
 <div>
-    <div>
-      <app-sidebar
-        [ngClass]="{
-          sidebar: commonService.screenWidth > 672,
-          sidebar_phone: commonService.screenWidth <= 672,
-          sidebar_desk: commonService.screenWidth > 672
-        }"
-        [ngStyle]="{
-          'display': commonService.screenWidth <= 672 ? 'none' : 'block'
-        }"
-      ></app-sidebar>
-      <div *ngIf="commonService.screenWidth <= 672">
-        <mat-icon 
-          class="position-relative fixed-top my-3 ml-3"
-          style="color: rgb(82, 169, 192)"
-          aria-hidden="false"
-          data-toggle="collapse"
-          href="#menu"
-          role="button"
-          aria-expanded="false"
-          aria-controls="menu"
-        >
-          menu
-        </mat-icon>
-        <div class="collapse" id="menu">
-          <!-- <app-sidebar
+  <div>
+    <app-sidebar
+      [ngClass]="{
+        sidebar: commonService.screenWidth > 672,
+        sidebar_phone: commonService.screenWidth <= 672,
+        sidebar_desk: commonService.screenWidth > 672
+      }"
+      [ngStyle]="{
+        display: commonService.screenWidth <= 672 ? 'none' : 'block'
+      }"
+      [isAdmin]="isAdmin"
+      [isRemax]="isRemax"
+      [isUser]="isUser"
+    ></app-sidebar>
+    <div *ngIf="commonService.screenWidth <= 672">
+      <mat-icon
+        class="position-relative fixed-top my-3 ml-3"
+        style="color: rgb(82, 169, 192)"
+        aria-hidden="false"
+        data-toggle="collapse"
+        href="#menu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="menu"
+      >
+        menu
+      </mat-icon>
+      <div class="collapse" id="menu">
+        <!-- <app-sidebar
             [ngClass]="{
               sidebar: false,
               sidebar_phone: true,
@@ -33,62 +36,73 @@
             [mobile]="true"
           >
           </app-sidebar> -->
-          <!-- TODO: estilos para q se vea bonito -->
-          <ul class="list-group mt-5">
-            <li class="d-flex  align-items-center list-group-item">
-              <mat-icon aria-hidden="false">account_circle</mat-icon>
-              <a class="ml-2">Cuenta</a>
-            </li>
-            <li class="d-flex  align-items-center list-group-item">
-              <mat-icon aria-hidden="false">account_balance</mat-icon>
-              <a class="ml-2">Balance</a>
-            </li>
-            <li *ngIf="rol !== 'REMAX'" class="d-flex  align-items-center list-group-item" routerLink="registrar-carro">
-              <mat-icon aria-hidden="false">directions_car</mat-icon>
-              <a class="ml-2">Registrar Carro</a>
-            </li>
-            <!-- TODO: poner el routerLink al form 'RegistrarCarro' de un usuario Remax -->
-            <li *ngIf="rol === 'REMAX'" class="d-flex  align-items-center list-group-item" routerLink="">
-              <mat-icon aria-hidden="false">directions_car</mat-icon>
-              <a class="ml-2">Registrar Carro</a>
-            </li>
-            <li class="d-flex  align-items-center list-group-item" routerLink="carros-publicados">
-              <mat-icon aria-hidden="false">work</mat-icon>
-              <a class="ml-2">Carros Publicados</a>
-            </li>
-            <li class="d-flex  align-items-center list-group-item" routerLink="home">
-              <mat-icon aria-hidden="false">exit_to_app</mat-icon>
-              <a class="ml-2">Regresar</a>
-            </li>
-          </ul>
-        </div>
-        <!-- <h1 class="mt-5 text-center">Dashboard</h1> -->
+        <!-- TODO: estilos para q se vea bonito -->
+        <ul class="list-group mt-5">
+          <li class="d-flex align-items-center list-group-item">
+            <mat-icon aria-hidden="false">account_circle</mat-icon>
+            <a class="ml-2">Cuenta</a>
+          </li>
+          <li class="d-flex align-items-center list-group-item">
+            <mat-icon aria-hidden="false">account_balance</mat-icon>
+            <a class="ml-2">Balance</a>
+          </li>
+          <li
+            *ngIf="rol !== 'REMAX'"
+            class="d-flex align-items-center list-group-item"
+            routerLink="registrar-carro"
+          >
+            <mat-icon aria-hidden="false">directions_car</mat-icon>
+            <a class="ml-2">Registrar Carro</a>
+          </li>
+          <!-- TODO: poner el routerLink al form 'RegistrarCarro' de un usuario Remax -->
+          <li
+            *ngIf="rol === 'REMAX'"
+            class="d-flex align-items-center list-group-item"
+            routerLink=""
+          >
+            <mat-icon aria-hidden="false">directions_car</mat-icon>
+            <a class="ml-2">Registrar Carro</a>
+          </li>
+          <li
+            class="d-flex align-items-center list-group-item"
+            routerLink="carros-publicados"
+          >
+            <mat-icon aria-hidden="false">work</mat-icon>
+            <a class="ml-2">Carros Publicados</a>
+          </li>
+          <li
+            class="d-flex align-items-center list-group-item"
+            routerLink="home"
+          >
+            <mat-icon aria-hidden="false">exit_to_app</mat-icon>
+            <a class="ml-2">Regresar</a>
+          </li>
+        </ul>
       </div>
-    </div>
-    <div
-      [ngClass]="{
-        'wrapper-xs': commonService.screenWidth <= 672
-      }"
-    >
-      <div
-        class="pill-container"
-        [ngStyle]="{
-          'min-height':
-            commonService.screenWidth <= 672
-              ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
-              : 'calc(' + commonService.screenHeight + 'px - 2vw)'
-        }"
-        [ngClass]="{
-          rightWrapper: true,
-          'bg-form': true,
-          'wrapper-lg': commonService.screenWidth > 672
-        }"
-      >
-      <div class="pill">
-        Balance: $ {{ balance }}
-      </div>
-      <router-outlet></router-outlet>
-      </div>
+      <!-- <h1 class="mt-5 text-center">Dashboard</h1> -->
     </div>
   </div>
-  
+  <div
+    [ngClass]="{
+      'wrapper-xs': commonService.screenWidth <= 672
+    }"
+  >
+    <div
+      class="pill-container"
+      [ngStyle]="{
+        'min-height':
+          commonService.screenWidth <= 672
+            ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
+            : 'calc(' + commonService.screenHeight + 'px - 2vw)'
+      }"
+      [ngClass]="{
+        rightWrapper: true,
+        'bg-form': true,
+        'wrapper-lg': commonService.screenWidth > 672
+      }"
+    >
+      <div class="pill" *ngIf="!isAdmin">Balance: $ {{ balance }}</div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
