@@ -311,35 +311,35 @@
                         </option>
                       </select>
                     </div>
-                    <div class="b-filter-slider ui-filter-slider">
-                      <div class="b-filter-slider__title">Kilometraje</div>
-                      <div class="b-filter-slider__main">
-                        <ngx-slider
-                          [(value)]="minKilometraje"
-                          [(highValue)]="maxKilometraje"
-                          [options]="optionsKilometraje"
-                        >
-                        </ngx-slider>
+                  </div>
+                  <div class="b-filter-slider ui-filter-slider">
+                    <div class="b-filter-slider__title">Kilometraje</div>
+                    <div class="b-filter-slider__main">
+                      <ngx-slider
+                        [(value)]="minKilometraje"
+                        [(highValue)]="maxKilometraje"
+                        [options]="optionsKilometraje"
+                      >
+                      </ngx-slider>
 
-                        <div class="b-filter__row row">
-                          <div class="b-filter__item col-md-6">
-                            <input
-                              disabled
-                              class="ui-select"
-                              [(ngModel)]="minKilometraje"
-                              [ngModelOptions]="{ standalone: true }"
-                              id="minKilometraje"
-                            />
-                          </div>
-                          <div class="b-filter__item col-md-6">
-                            <input
-                              disabled
-                              class="ui-select"
-                              [(ngModel)]="maxKilometraje"
-                              [ngModelOptions]="{ standalone: true }"
-                              id="maxKilometraje"
-                            />
-                          </div>
+                      <div class="b-filter__row row">
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="minKilometraje"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="minKilometraje"
+                          />
+                        </div>
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="maxKilometraje"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="maxKilometraje"
+                          />
                         </div>
                       </div>
                     </div>

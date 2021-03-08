@@ -42,7 +42,8 @@ export class NavbarComponent implements OnInit {
     this.storageService.removeEmailLocalStorage();
     this.storageService.removeRoleFromLocalStorage();
     this.storageService.removeTokenLocalStorage();
-    this.storageService.removeTokenLocalStorage();
+    this.storageService.removeValidatedLocalStorage();
+    this.storageService.removeGoingToCarRegistration();
   }
 
   checkToRegister(): string {
