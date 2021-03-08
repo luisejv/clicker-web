@@ -10,6 +10,7 @@ import {
 } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 
 const AngularMaterial = [
   MatButtonModule,
@@ -20,6 +21,7 @@ const AngularMaterial = [
   MatRadioModule,
   MatAutocompleteModule,
   MatDialogModule,
+  MatTableModule,
 ];
 
 @NgModule({

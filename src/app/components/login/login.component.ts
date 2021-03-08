@@ -37,18 +37,22 @@ export class LoginComponent implements OnInit {
     };
     console.log(`BODY: ${body}`);
     this.userService.login(body).subscribe(
-      (response: User) => {
+      (response: any) => {
         console.log('response login: ', response);
-        if (response.rol == 'ADMIN') {
-          this.storageService.setRoleLocalStorage(RolesEnum.ADMIN);
-        } else if (response.rol == 'SUPERADMIN') {
-          this.storageService.setRoleLocalStorage(RolesEnum.SUPERADMIN);
-        } else if (response.rol == 'PARTICULAR') {
-          this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
+        // TODO: adecuar cuando se tenga form de remax
+        if (response.hasOwnProperty('rol')) {
+          if (response.rol == 'ADMIN') {
+            this.storageService.setRoleLocalStorage(RolesEnum.ADMIN);
+          } else if (response.rol == 'SUPERADMIN') {
+            this.storageService.setRoleLocalStorage(RolesEnum.SUPERADMIN);
+          } else if (response.rol == 'REMAX') {
+            this.storageService.setRoleLocalStorage(RolesEnum.REMAX);
+          }
         } else {
-          this.storageService.setRoleLocalStorage(RolesEnum.REMAX);
+          this.storageService.setTokenLocalStorage(response.secret);
+          this.storageService.setValidatedLocalStorage(response.validated);
+          this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
         }
-
         this.storageService.setEmailLocalStorage(this.formGroup.value.email);
 
         Swal.fire({

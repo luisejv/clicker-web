@@ -51,6 +51,8 @@ import { UserValidationComponent } from './components/dashboard/admin/user-valid
 import { CarComplaintComponent } from './components/dashboard/admin/car-complaint/car-complaint.component';
 import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
+import { UploadComponent } from './components/dashboard/car-registration/upload/upload.component';
+import { ValidatedGuard } from './core/guards/validated.guard';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,7 @@ import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdr
     CarComplaintComponent,
     CarSaleRegistrationComponent,
     WithdrawalRequestsComponent,
+    UploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +118,7 @@ import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdr
     HttpClientModule,
     StorageService,
     DataService,
+    ValidatedGuard,
   ],
   bootstrap: [AppComponent],
 })

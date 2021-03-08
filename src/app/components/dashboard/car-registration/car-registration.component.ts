@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -20,6 +27,12 @@ import { ViewMode } from 'src/app/core/enums/view-mode.enum';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 
+interface Fotos {
+  isPrincipal: boolean;
+  foto: FileList;
+  url: string;
+}
+
 @Component({
   selector: 'app-car-registration',
   templateUrl: './car-registration.component.html',
@@ -40,6 +53,8 @@ export class CarRegistrationComponent implements OnInit {
   carId: number = -1;
   title: string = 'Registra tu Carro';
   fotoPrincipal!: File;
+  fotos: Fotos[] = [];
+  uploadedPhotos = new EventEmitter<string>();
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +66,27 @@ export class CarRegistrationComponent implements OnInit {
     private loaderService: LoaderService,
     private uploadService: UploadService
   ) {
+    /* this.formGroup = this.fb.group({
+      correoDueno: '',
+      nombreDueno: '',
+      telefonoDueno: '',
+      placa: '',
+      serie: '',
+      marca: '',
+      modelo: '',
+      anoFabricacion: '',
+      tipoCambios: '',
+      tipoCombustible: '',
+      tipoCarroceria: '',
+      cilindrada: '',
+      kilometraje: '',
+      numeroPuertas: '',
+      tipoTraccion: '',
+      color: '',
+      numeroCilindros: '',
+      precioVenta: '',
+      video: '',
+    }); */
     this.formGroup = this.fb.group({
       correoDueno: 'luis.jauregui@utec.edu.pe',
       nombreDueno: 'Luis Jáuregui',
@@ -75,6 +111,9 @@ export class CarRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.storageService.getGoingToCarRegistration()) {
+      this.storageService.removeGoingToCarRegistration();
+    }
     //TODO: add spinner
     this.loaderService.setIsLoading(true);
     this.route.params.subscribe((params) => {
@@ -171,7 +210,7 @@ export class CarRegistrationComponent implements OnInit {
     return {
       //FIXME: si es null, que se logee de nuevo
       usuario: {
-        correo: this.storageService.getEmailSessionStorage()!,
+        correo: this.storageService.getEmailLocalStorage()!,
       },
       placa: this.formGroup.value.placa,
       serie: this.formGroup.value.serie,
@@ -203,9 +242,34 @@ export class CarRegistrationComponent implements OnInit {
 
   postCar(): void {
     let body: AutoSemiNuevo = this.toJSON();
-    this.uploadService.uploadedData.subscribe(
+    let cont = 0;
+    if (this.fotos.length > 0) {
+      this.fotos.forEach((foto, index) => {
+        console.log(foto);
+        this.uploadService.uploadFile(foto.foto![0], index);
+      });
+      this.uploadService.uploadedData.subscribe(
+        (response: any) => {
+          this.fotos[response.index].url = response.url;
+          cont += 1;
+          if (cont == this.fotos.length) {
+            this.uploadedPhotos.emit('ª');
+          }
+        },
+        (error: any) => {
+          console.log('Error uploading photo #' + cont, error);
+        }
+      );
+    }
+    this.uploadedPhotos.subscribe(
       (response) => {
-        body.fotoPrincipal = response;
+        console.log('contador', cont);
+        body.fotoPrincipal = this.fotos[0].url;
+        body.fotos = this.fotos.slice(1).map((foto) => {
+          return {
+            foto: foto.url,
+          };
+        });
         console.group('SemiNuevo JSON');
         console.log(body);
         console.groupEnd();
@@ -244,6 +308,13 @@ export class CarRegistrationComponent implements OnInit {
         console.log(error);
       }
     );
-    this.uploadService.uploadFile(this.fotoPrincipal);
+  }
+
+  addPhoto(event: any): void {
+    this.fotos.push({
+      isPrincipal: false,
+      foto: event.target.files,
+      url: '',
+    });
   }
 }

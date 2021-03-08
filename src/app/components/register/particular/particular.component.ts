@@ -46,24 +46,20 @@ export class ParticularComponent implements OnInit {
     const body: User = this.toJSON();
     this.userService.register(body).subscribe(
       (response: User) => {
-        this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
-        this.storageService.setEmailLocalStorage(this.formGroup.value.email);
-
         Swal.fire({
           titleText: '¡Registrado!',
-          html: 'El registro fue exitoso.',
+          html:
+            'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
           allowOutsideClick: true,
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          //TODO: este if no será necesario cuando implementemos la verificación por mail, solo tendra q estar en el login
-          if (this.storageService.getGoingToCarRegistration()) {
-            this.storageService.removeGoingToCarRegistration();
+          this.router.navigateByUrl('/home');
+          /* if (this.storageService.getGoingToCarRegistration()) {
             this.router.navigateByUrl('/dashboard/registrar-carro');
           } else {
-            //! a /home porq tiene q esperar a ser verificado
             this.router.navigateByUrl('/home');
-          }
+          } */
         });
       },
       (error: any) => {

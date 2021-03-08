@@ -53,20 +53,46 @@ export class StorageService {
   }
 
   setGoingToCarRegistration(yesOrNo: string): void {
-    localStorage.setItem('goingToCarRegistration', yesOrNo);
+    sessionStorage.setItem('goingToCarRegistration', yesOrNo);
   }
 
   getGoingToCarRegistration(): boolean {
-    return localStorage.getItem('goingToCarRegistration') === 'yes'
-      ? true
-      : false;
+    return sessionStorage.getItem('goingToCarRegistration') === 'yes';
   }
 
   removeGoingToCarRegistration(): void {
     localStorage.removeItem('goingToCarRegistration');
   }
 
+  setTokenLocalStorage(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  getTokenLocalStorage(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  removeTokenLocalStorage(): void {
+    localStorage.removeItem('token');
+  }
+
+  setValidatedLocalStorage(validated: string): void {
+    localStorage.setItem('validated', validated);
+  }
+
+  getValidatedLocalStorage(): string | null {
+    return localStorage.getItem('validated');
+  }
+
+  removeValidatedLocalStorage(): void {
+    localStorage.removeItem('validated');
+  }
+
   isLoggedIn(): boolean {
     return this.getEmailLocalStorage() != null;
+  }
+
+  isValidated(): boolean {
+    return this.getValidatedLocalStorage() == 'true';
   }
 }

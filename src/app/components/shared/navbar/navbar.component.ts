@@ -26,9 +26,11 @@ export class NavbarComponent implements OnInit {
     const body: CarSearchFilter = {
       carSubset: subset,
     };
-    this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/inventory-listings'], { queryParams: body });
-    }); 
+    this.router
+      .navigateByUrl('/home', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate(['/inventory-listings'], { queryParams: body });
+      });
   }
 
   isLoggedIn(): boolean {
@@ -39,12 +41,15 @@ export class NavbarComponent implements OnInit {
     console.log('Logging Out!');
     this.storageService.removeEmailLocalStorage();
     this.storageService.removeRoleFromLocalStorage();
+    this.storageService.removeTokenLocalStorage();
+    this.storageService.removeTokenLocalStorage();
   }
 
   checkToRegister(): string {
     if (this.storageService.isLoggedIn()) {
       return '/dashboard/registrar-carro';
     } else {
+      this.storageService.setGoingToCarRegistration('yes');
       return '/registro/particular';
     }
   }

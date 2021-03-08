@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -14,9 +15,9 @@ export class ValidationComponent implements OnInit {
   encryptedId!: string;
   constructor(
     public fb: FormBuilder,
-    private route: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {
     this.validationFormGroup = this.fb.group({
       nombre: '',
@@ -27,6 +28,9 @@ export class ValidationComponent implements OnInit {
   ngOnInit(): void {
     this.encryptedId = this.router.url.split('validation/')[1];
     console.log(this.encryptedId);
+    if (this.encryptedId != this.storageService.getTokenLocalStorage()) {
+      this.router.navigate(['/home']);
+    }
   }
 
   validate(): void {
@@ -44,7 +48,12 @@ export class ValidationComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          this.router.navigateByUrl('/dashboard');
+          this.storageService.setValidatedLocalStorage('true');
+          if (this.storageService.getGoingToCarRegistration()) {
+            this.router.navigate(['/dashboard/car-registration']);
+          } else {
+            this.router.navigateByUrl('/dashboard');
+          }
         });
       },
       (error: any) => {

@@ -42,11 +42,11 @@
               >
               </div> -->
             <form [formGroup]="formGroup">
-              {{ formGroup.value | json }}
+              <!-- {{ formGroup.value | json }}
               <br />
               {{ fotoPrincipal | json }}
               <br />
-              <b>FormGroup is dirty:</b> {{ formGroup.dirty }}
+              <b>FormGroup is dirty:</b> {{ formGroup.dirty }} -->
               <div class="row py-3">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                   <label class="h1-form mb-3 sub_section">{{ title }}</label>
@@ -214,16 +214,16 @@
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field> -->
-                    <mat-form-field appearance="fill" class="w-100">
-                      <mat-label>Elije una foto</mat-label>
-                      <ngx-mat-file-input
-                        [(ngModel)]="fotoPrincipal"
-                        [ngModelOptions]="{ standalone: true }"
-                        accept=".jpg,.jpeg,.png"
-                      >
-                        <!-- [multiple]="multiple" -->
-                      </ngx-mat-file-input>
-                    </mat-form-field>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      (change)="addPhoto($event)"
+                    />
+                    <app-upload
+                      *ngFor="let foto of fotos"
+                      [isPrincipal]="foto.isPrincipal"
+                      [foto]="foto.foto"
+                    ></app-upload>
                   </div>
                 </div>
               </div>

@@ -27,6 +27,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
+import { ValidatedGuard } from './core/guards/validated.guard';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -45,6 +46,7 @@ export const routes: Routes = [
       {
         path: 'registrar-carro',
         component: CarRegistrationComponent,
+        canActivate: [ValidatedGuard],
       },
       {
         path: 'carros-publicados',
