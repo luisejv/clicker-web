@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
@@ -13,6 +13,8 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./auto-semi-nuevo.component.css'],
 })
 export class AutoSemiNuevoComponent implements OnInit {
+  @ViewChild('') slide1!: ElementRef;
+  @ViewChild('') slide2!: ElementRef;
   auto!: AutoSemiNuevo;
   loading: boolean = true;
   logged: boolean = false;
@@ -38,6 +40,19 @@ export class AutoSemiNuevoComponent implements OnInit {
     });
   }
 
+  slideConfig = {
+    arrows: false,
+    fade: true,
+    asNavFor: '.js-slider-for',
+  };
+
+  slideConfig2 = {
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    asNavFor: '.js-slider-nav',
+    focusOnSelect: true,
+  };
+
   ngOnInit(): void {
     this.loading = true;
     this.loaderService.setIsLoading(true);
@@ -52,6 +67,7 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.dir(response);
             console.groupEnd();
             this.auto = response;
+            this.auto.fotos?.unshift({ foto: this.auto.fotoPrincipal });
             this.loading = false;
           },
           (error: any) => {

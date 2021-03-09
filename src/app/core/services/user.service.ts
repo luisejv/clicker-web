@@ -73,4 +73,8 @@ export class UserService {
   public validateEmail(body: any): Observable<any> {
     return this.http.put(this.commonService.validateEmailUrl, body);
   }
+
+  public getPlacaDetails(body: any): Observable<any> {
+    return this.http.post(this.commonService.getPlacaDetailsUrl, body);
+  }
 }

@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 })
 export class CommonService {
   private baseUrl: string = environment.baseUrl;
+  private consultaPlacaUrl: string =
+    'http://ws-consultas.herokuapp.com/api/placa';
   screenHeight: number = 0;
   screenWidth: number = 0;
 
@@ -52,6 +54,9 @@ export class CommonService {
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';
+
+  // * Placa Service
+  getPlacaDetailsUrl: string = this.consultaPlacaUrl;
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

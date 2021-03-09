@@ -55,6 +55,7 @@ export class CarRegistrationComponent implements OnInit {
   fotoPrincipal!: File;
   fotos: Fotos[] = [];
   uploadedPhotos = new EventEmitter<string>();
+  validatedPlaca: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -92,9 +93,9 @@ export class CarRegistrationComponent implements OnInit {
       nombreDueno: 'Luis Jáuregui',
       telefonoDueno: '997854810',
       placa: 'NSFW18',
-      serie: '1234',
-      marca: 'Tesla',
-      modelo: 'Model Y',
+      serie: '',
+      marca: '',
+      modelo: '',
       anoFabricacion: '2018',
       tipoCambios: 'Automático',
       tipoCombustible: 'Eléctrico',
@@ -108,6 +109,46 @@ export class CarRegistrationComponent implements OnInit {
       precioVenta: '45000',
       video: '',
     });
+    this.formGroup.controls['serie'].disable();
+    this.formGroup.controls['marca'].disable();
+    this.formGroup.controls['modelo'].disable();
+  }
+
+  checkPlaca(): void {
+    let body = {
+      placa: this.formGroup.controls['placa'].value,
+      token: 'fe6ae5a7928cd90ea30f7c3767c9c25bb2a4d0ea',
+    };
+    this.userService.getPlacaDetails(body).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response.success) {
+          this.formGroup.controls['serie'].setValue(response.data.serie);
+          this.formGroup.controls['marca'].setValue(response.data.marca);
+          this.formGroup.controls['modelo'].setValue(response.data.modelo);
+          this.validatedPlaca = true;
+        } else {
+          Swal.fire({
+            titleText: 'Oops!',
+            html:
+              'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+            allowOutsideClick: true,
+            icon: 'error',
+            showConfirmButton: true,
+          });
+        }
+      },
+      (error: any) => {
+        Swal.fire({
+          titleText: 'Oops!',
+          html:
+            'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+          allowOutsideClick: true,
+          icon: 'error',
+          showConfirmButton: true,
+        });
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -177,14 +218,14 @@ export class CarRegistrationComponent implements OnInit {
     return this.formGroup.controls.ciudadesDisponibles;
   }
 
-  remove(fruit: string): void {
+  /*  remove(fruit: string): void {
     const index = this.ciudadesDisponibles.indexOf(fruit);
 
     if (index >= 0) {
       this.ciudadesDisponibles.splice(index, 1);
     }
     // TODO: setear formChanged flag porq cuando borras un matChip, formGroup.dirty no se setea a true
-  }
+  } */
 
   selected(event: any): void {
     this.ciudadInput.nativeElement.value = '';
@@ -199,12 +240,12 @@ export class CarRegistrationComponent implements OnInit {
     console.groupEnd();
   }
 
-  private _filter(value: string): string[] {
+  /* private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allCiudades.filter(
       (ciudad: string) => ciudad.toLowerCase().indexOf(filterValue) === 0
     );
-  }
+  } */
 
   toJSON(): AutoSemiNuevo {
     return {

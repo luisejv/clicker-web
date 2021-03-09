@@ -221,20 +221,6 @@ var custom = (function () {
     // Sliders with thumbnails
     ///////////////////////////////////////////
 
-    if ($(".js-slider-for").length) {
-      $(".js-slider-for").not(".slick-initialized").slick({
-        arrows: false,
-        fade: true,
-        asNavFor: ".js-slider-nav",
-      });
-      $(".js-slider-nav").not(".slick-initialized").slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        asNavFor: ".js-slider-for",
-        focusOnSelect: true,
-      });
-    }
-
     /////////////////////////////////////////////////////////////////
     // Slider numbers
     /////////////////////////////////////////////////////////////////
