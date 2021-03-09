@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 
@@ -10,6 +10,11 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 export class PublishedCarComponent implements OnInit {
   @Input() auto!: AutoSemiNuevo;
   @Input() mode: boolean = true;
+  @Input() validationView: boolean = false;
+  // @Input() reportedView: boolean = false;
+
+  @Output() validated = new EventEmitter<number>();
+  // @Output() seeReporters = new EventEmitter<number>();
 
   constructor(private router: Router) {}
 
@@ -23,4 +28,9 @@ export class PublishedCarComponent implements OnInit {
       },
     });
   }
+
+  emitValidationEvent(): void {
+    this.validated.emit(this.auto.id!);
+  }
+
 }

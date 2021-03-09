@@ -1,3 +1,4 @@
+import { Denuncia } from './denuncia';
 import { User } from './user';
 
 export interface AutoSemiNuevo {
@@ -34,6 +35,9 @@ export interface AutoSemiNuevo {
   accesorios?: string[];
   locaciones?: Locacion;
   descripcion?: string;
+  denuncias?: Denuncia[];
+  solicitudRemocionAuto?: boolean; //TODO: esto es una clase
+  nombredeauto?: string;
 }
 
 interface Foto {

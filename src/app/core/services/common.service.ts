@@ -23,10 +23,15 @@ export class CommonService {
   // * Car Registrarion
   autoSemiNuevoUrl: string = this.baseUrl + '/post';
 
-  // * Car Getter
+  // * Car Get
   getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled';
   getSponsoredCarsUrl: string = this.baseUrl + '/sponsor';
   getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
+  getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
+  getAutosReportadosUrl: string = this.autoSemiNuevoUrl + '/reported';
+
+  // * Car Put
+  validateAutoUrl: string = this.autoSemiNuevoUrl + '/validate';
 
   // * Posted Cars By User
   getAutosSemiNuevosValidadosUserUrl: string = this.userUrl + '/id';

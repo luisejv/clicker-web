@@ -59,15 +59,6 @@ export class UserService {
     return this.http.get(this.commonService.autoSemiNuevoUrl + `/${id}`);
   }
 
-  // * Car Putters
-
-  public putAutoSemiNuevoById(
-    id: number,
-    body: AutoSemiNuevo
-  ): Observable<any> {
-    return this.http.put(this.commonService.autoSemiNuevoUrl + `/${id}`, body);
-  }
-
   // * Page Count
   public getAutoSemiNuevoPageCount(): Observable<any> {
     return this.http.get(this.commonService.pageCountUrl);

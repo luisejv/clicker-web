@@ -53,6 +53,7 @@ import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-s
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { UploadComponent } from './components/dashboard/car-registration/upload/upload.component';
 import { ValidatedGuard } from './core/guards/validated.guard';
+import { AdminCarsComponent } from './components/dashboard/admin/shared/admin-cars/admin-cars.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { ValidatedGuard } from './core/guards/validated.guard';
     CarSaleRegistrationComponent,
     WithdrawalRequestsComponent,
     UploadComponent,
+    AdminCarsComponent,
   ],
   imports: [
     BrowserModule,
