@@ -301,6 +301,11 @@ a {
   opacity: 1;
 }
 
+.slick-track {
+  display: flex !important;
+  align-items: center;
+}
+
 /* Button */
 .btn-default {
   color: #222;

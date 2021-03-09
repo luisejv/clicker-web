@@ -55,11 +55,6 @@ export class ParticularComponent implements OnInit {
           showConfirmButton: true,
         }).then(() => {
           this.router.navigateByUrl('/home');
-          /* if (this.storageService.getGoingToCarRegistration()) {
-            this.router.navigateByUrl('/dashboard/registrar-carro');
-          } else {
-            this.router.navigateByUrl('/home');
-          } */
         });
       },
       (error: any) => {
