@@ -17,6 +17,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Output() validated = new EventEmitter<number>();
   @Output() removed = new EventEmitter<number>();
   @Output() reportedIsValid = new EventEmitter<number>();
+  @Output() showReporters = new EventEmitter<AutoReportado>();
 
   constructor(private router: Router) {}
 
@@ -31,14 +32,8 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     //   console.group('Auto Publicado');
     //   console.dir(this.auto);
     //   console.groupEnd();
-      
     // }
 
-  }
-
-  seeLosQueReportaron(): void {
-    //TODO: mostrar dialog con los que reportaron (auto.denuncias tiene un Denuncia[]) crear el dialog en base a dicha interfaz
-    console.log("ver los q reportaron");
   }
 
   goToVehicleDetails(): void {
@@ -48,6 +43,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
         id: this.auto.id,
       },
     });
+  }
+
+  emitSeeReporters(): void {
+   this.showReporters.emit(this.auto as AutoReportado); 
   }
 
   emitValidationEvent(): void {

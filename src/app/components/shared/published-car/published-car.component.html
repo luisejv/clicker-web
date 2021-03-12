@@ -88,7 +88,7 @@
     <div *ngIf="validationView || reportedView" class="ml-1 mt-3 row">
       <button *ngIf="validationView" mat-raised-button color="primary" (click)="emitValidationEvent()">Validar</button>
       <button class="mx-2" *ngIf="reportedView" mat-raised-button color="primary" (click)="emitMarkAsValidEvent()">Validar</button>
-      <button class="mx-2" *ngIf="reportedView" mat-raised-button color="primary" (click)="seeLosQueReportaron()">Ver Reportantes</button>
+      <button class="mx-2" *ngIf="reportedView" mat-raised-button color="primary" (click)="emitSeeReporters()">Ver Reportantes</button>
       <button class="mx-2" *ngIf="reportedView" mat-raised-button color="warn" (click)="emitRemoveEvent()">Remover</button>
     </div>
     <!-- <div class="b-goods__footer">

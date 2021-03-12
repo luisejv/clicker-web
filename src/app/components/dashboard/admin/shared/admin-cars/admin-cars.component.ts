@@ -19,6 +19,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   @Output() validate = new EventEmitter<number>();
   @Output() remove = new EventEmitter<number>();
   @Output() reportedIsValid = new EventEmitter<number>();
+  @Output() mostrarReportadores = new EventEmitter<AutoReportado>();
 
   /*
    * replicar el evento para (validar) y (reportar)
@@ -75,6 +76,10 @@ export class AdminCarsComponent implements OnInit, OnChanges {
 
   markAsValid(id: number): void {
     this.reportedIsValid.emit(id);
+  }
+
+  showReporters(auto: AutoReportado): void {
+    this.mostrarReportadores.emit(auto);
   }
 
   changeGridView(type: string): void {

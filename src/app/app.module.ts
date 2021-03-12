@@ -54,6 +54,7 @@ import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdr
 import { UploadComponent } from './components/dashboard/car-registration/upload/upload.component';
 import { ValidatedGuard } from './core/guards/validated.guard';
 import { AdminCarsComponent } from './components/dashboard/admin/shared/admin-cars/admin-cars.component';
+import { ReportersComponent } from './components/dashboard/admin/car-complaint/reporters/reporters.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { AdminCarsComponent } from './components/dashboard/admin/shared/admin-ca
     WithdrawalRequestsComponent,
     UploadComponent,
     AdminCarsComponent,
+    ReportersComponent,
   ],
   imports: [
     BrowserModule,

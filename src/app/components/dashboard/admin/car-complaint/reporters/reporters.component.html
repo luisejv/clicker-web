@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <h1 class="text-center" mat-dialog-title>Denuncias</h1>    
+    </div>
+    <div class="row container" mat-dialog-content>
+        <div class="row" *ngFor="let denuncia of data">
+            <div class="card w-100 pt-2">
+                <div class="card-body">
+                  <h5 class="card-title">Autor: {{ denuncia.usuario!.correo }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Descripción de la denuncia</h6>
+                  <p class="card-text">{{ denuncia.descripcion }}</p>
+                  <!-- TODO: estos links -->
+                  <a href="#" class="card-link">Ver Perfil del Denunciante</a>
+                  <a href="#" class="card-link">Ver Carro Reportado</a>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" mat-dialog-actions>
+        <button mat-button (click)="closeDialog()">Cerrar</button>
+    <!-- <button mat-button [mat-dialog-close]="data.algo" cdkFocusInitial>Ok</button> -->
+    </div>
+</div>

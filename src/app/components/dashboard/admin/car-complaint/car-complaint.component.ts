@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import { AdminService } from 'src/app/core/services/admin.service';
 import Swal from 'sweetalert2';
+import { ReportersComponent } from './reporters/reporters.component';
 
 @Component({
   selector: 'app-car-complaint',
@@ -15,6 +17,7 @@ export class CarComplaintComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -36,14 +39,57 @@ export class CarComplaintComponent implements OnInit {
     );
   }
 
+  showReporters(auto: AutoReportado): void {
+    //TODO: show dialog with reporters list
+    console.log("mostrar los que reportaron este carro: ", {auto});
+    const dialogRef = this.dialog.open(ReportersComponent, {
+      width: '50vw',
+      height: 'fit-content',
+      data: auto.denuncias
+    });
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        console.log("dialog after closed callback");
+      }
+    );
+  }
+
   removeCar(id: number): void {
     //TODO
     console.log("remover carro denunciado con id: ", id);
+    Swal.fire({
+      title: '¿Eliminar carro de Clicker?',
+      showDenyButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+      focusDeny: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //TODO: request para eliminar el carro de clicker
+        console.log("carro borrado de clicker");
+      } else {
+        console.log("cancelar borrado");
+      }
+    });
   }
 
   markAsValid(id: number): void {
     //TODO
     console.log("marcar carro reportado como válido con id: ", id);
+    Swal.fire({
+      title: '¿Eliminar carro de la lista de carros reportados?',
+      showDenyButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+      focusDeny: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //TODO: request para eliminar el carro de la lista de reportados
+        console.log("carro eliminado de lista de reportados");
+      } else {
+        console.log("cancelar validacion");
+      }
+    });
   }
 
 }

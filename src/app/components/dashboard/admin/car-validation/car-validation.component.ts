@@ -51,6 +51,7 @@ export class CarValidationComponent implements OnInit {
       showDenyButton: true,
       confirmButtonText: 'Sí',
       denyButtonText: 'No',
+      focusDeny: true,
     }).then((result) => {
       if (result.isConfirmed) {
 
