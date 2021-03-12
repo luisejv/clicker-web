@@ -1,22 +1,39 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-cars',
   templateUrl: './admin-cars.component.html',
   styleUrls: ['./admin-cars.component.css']
 })
-export class AdminCarsComponent implements OnInit {
+export class AdminCarsComponent implements OnInit, OnChanges {
   @Input() name!: string;
+  @Input() validationView: boolean = false;
+  @Input() reportedView: boolean = false;
+  @Input() notValidatedCars: AutoSemiNuevo[] = [];
+  @Input() reportedCars: AutoReportado[] = [];
+
+  @Output() validate = new EventEmitter<number>();
+  @Output() remove = new EventEmitter<number>();
+  @Output() reportedIsValid = new EventEmitter<number>();
+
+  /*
+   * replicar el evento para (validar) y (reportar)
+   * copiar la funcion de (validar) a car-validation.component
+   * hacer el map para transformar cuando se este lidiando con AutoReportado
+  */
 
   list: boolean = true;
+  len: number = 0;
 
   // * carros
-  carros: AutoSemiNuevo[] = [];
-  filteredCarros: AutoSemiNuevo[] = [];
+  reportedCarros: AutoReportado[] = [];
+  reportedFilteredCarros: AutoReportado[] = [];
+  notValidatedCarros: AutoSemiNuevo[] = [];
+  notValidatedFilteredCarros: AutoSemiNuevo[] = [];
 
   // * pages
   pgCnt: number = 0;
@@ -29,54 +46,35 @@ export class AdminCarsComponent implements OnInit {
     private adminService: AdminService,
   ) { }
 
-  ngOnInit(): void {
-    this.loaderService.setIsLoading(true);
-
-    this.adminService.getAutosNoValidados().subscribe(
-      (response: AutoSemiNuevo[]) => {
-        console.group('Autos No Validados');
-        console.log(response);
-        console.groupEnd();
-
-        this.carros = response;
-        this.filteredCarros = response;
-        this.loaderService.setIsLoading(false);
-      },
-      (error: any) => {
-        console.error('fetching autos no validados: ', error);
-        this.loaderService.setIsLoading(false);
-      }  
-    );
-
+  ngOnChanges(changes: SimpleChanges): void {
+    console.group('ngOnChanges');
+    console.dir(changes);
+    console.groupEnd();
+    
+    if (changes.notValidatedCars && this.notValidatedCars.length > 0) {
+      this.notValidatedCarros = this.notValidatedCars;
+      this.notValidatedFilteredCarros = this.notValidatedCarros;
+      this.len = this.notValidatedFilteredCarros.length;
+      
+    } else if (changes.reportedCars && this.reportedCars.length > 0) {
+      this.reportedCarros = this.reportedCars;
+      this.reportedFilteredCarros = this.reportedCarros;
+      this.len = this.reportedFilteredCarros.length;
+    }
   }
 
+  ngOnInit(): void {}
+
   validateCar(id: number): void {
-    console.group('Validate Car with Id:');
-    console.log(id);
-    console.groupEnd();
+    this.validate.emit(id);
+  }
 
-    Swal.fire({
-      title: '¿Quieres validar este carro?',
-      showDenyButton: true,
-      confirmButtonText: 'Sí',
-      denyButtonText: 'No',
-    }).then((result) => {
-      if (result.isConfirmed) {
+  removeCar(id: number): void {
+    this.remove.emit(id);
+  }
 
-        this.adminService.putAutoSemiNuevoById(id).subscribe(
-          (response: AutoSemiNuevo) => {
-            if (response.id! === id) {
-              Swal.fire('¡Auto validado!', '', 'success');
-              this.ngOnInit();
-            }
-          },
-          (error: any) => {
-            Swal.fire('¡Oops!', 'Ocurrió un error. Inténtalo de nuevo.', 'error')
-            console.error('when validating car with id: ', id, ' error: ', error);
-          }
-        );
-      }
-    });
+  markAsValid(id: number): void {
+    this.reportedIsValid.emit(id);
   }
 
   changeGridView(type: string): void {
@@ -85,21 +83,35 @@ export class AdminCarsComponent implements OnInit {
 
   filterByName(event: any): void {
     const normalizedQuery: string = this._normalizeValue(event.target.value);
-    this.filteredCarros = this.carros.filter(
-      (carro: AutoSemiNuevo) => {
-        //TODO: añadir más propiedades? (año, kilometraje, etc)
-        return (
-          this._normalizeValue(carro.marca).includes(normalizedQuery) ||
-          this._normalizeValue(carro.modelo).includes(normalizedQuery)
-        );
-      }
-    );
+    if (this.validationView) {
+      this.notValidatedFilteredCarros = this.notValidatedCarros.filter(
+        (carro: AutoSemiNuevo) => {
+          //TODO: añadir más propiedades? (año, kilometraje, etc)
+          return (
+            this._normalizeValue(carro.marca).includes(normalizedQuery) ||
+            this._normalizeValue(carro.modelo).includes(normalizedQuery)
+          );
+        }
+      );
+      this.len = this.notValidatedFilteredCarros.length;
+    } else {
+      this.reportedFilteredCarros = this.reportedCarros.filter(
+        (carro: AutoReportado) => {
+          //TODO: añadir más propiedades? (año, kilometraje, etc)
+          return (
+            this._normalizeValue(carro.marca).includes(normalizedQuery) ||
+            this._normalizeValue(carro.modelo).includes(normalizedQuery)
+          );
+        }
+      );
+      this.len = this.reportedFilteredCarros.length;
+    }
     this.updatePagination();
   }
 
   private updatePagination(): void {
     this.currPage = 0;
-    this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+    this.pgCnt = Math.ceil(this.len / 10);
     this.pages = Array(this.pgCnt)
       .fill(this.pgCnt)
       .map((x: any, i: any) => i);

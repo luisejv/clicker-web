@@ -1,1 +1,8 @@
-<app-admin-cars [name]="'Carros No Validados'"></app-admin-cars>
+<app-admin-cars 
+    *ngIf="hasLoaded"
+    [name]="'Carros No Validados'"
+    [validationView]="true"
+    [notValidatedCars]="carros"
+    (validate)="validateCar($event)"
+>
+</app-admin-cars>

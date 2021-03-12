@@ -1,1 +1,9 @@
-<p>car-complaint works!</p>
+<app-admin-cars 
+    *ngIf="hasLoaded"
+    [name]="'Carros Reportados'"
+    [reportedView]="true"
+    [reportedCars]="carros"
+    (remove)="removeCar($event)"
+    (reportedIsValid)="markAsValid($event)"
+>
+</app-admin-cars>

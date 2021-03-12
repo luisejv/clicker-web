@@ -40,15 +40,15 @@
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
                 Showing results<strong>
-                  {{ filteredCarros.length === 0 ? 0 : currPage * 10 + 1 }}
+                  {{ len === 0 ? 0 : currPage * 10 + 1 }}
                   to
                   {{
-                    currPage * 10 + 10 > filteredCarros.length
-                      ? filteredCarros.length
+                    currPage * 10 + 10 > len
+                      ? len
                       : currPage * 10 + 10
                   }}</strong
                 >
-                of total {{ filteredCarros.length }}
+                of total {{ len }}
               </div>
             </div>
             <div class="col-md-auto">
@@ -98,10 +98,10 @@
         </div>
         <!-- end .b-filter-goods-->
 
-        <div class="b-goods-group row">
+        <div *ngIf="validationView" class="b-goods-group row">
           <div
             *ngFor="
-              let carro of filteredCarros
+              let carro of notValidatedFilteredCarros
                 | slice: currPage * 10:currPage * 10 + 10
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
@@ -109,12 +109,38 @@
             <app-published-car 
               [auto]="carro"
               [mode]="list"
-              [validationView]="true"
+              [validationView]="validationView"
+              [reportedView]="reportedView"
               (validated)="validateCar($event)"
+              (removed)="removeCar($event)"
+              (reportedIsValid)="markAsValid($event)"
             >
             </app-published-car>
           </div>
-          <div *ngIf="filteredCarros.length === 0" class="col text-center">
+          <div *ngIf="len === 0" class="col text-center">
+            Oops. No se encontró ningún carro con esas especificaciones.
+          </div>
+        </div>
+        <div *ngIf="reportedView" class="b-goods-group row">
+          <div
+            *ngFor="
+              let carro of reportedFilteredCarros
+                | slice: currPage * 10:currPage * 10 + 10
+            "
+            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
+          >
+            <app-published-car 
+              [auto]="carro"
+              [mode]="list"
+              [validationView]="validationView"
+              [reportedView]="reportedView"
+              (validated)="validateCar($event)"
+              (removed)="removeCar($event)"
+              (reportedIsValid)="markAsValid($event)"
+            >
+            </app-published-car>
+          </div>
+          <div *ngIf="len === 0" class="col text-center">
             Oops. No se encontró ningún carro con esas especificaciones.
           </div>
         </div>
