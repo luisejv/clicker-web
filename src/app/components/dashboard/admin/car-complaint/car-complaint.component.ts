@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { CommonService } from 'src/app/core/services/common.service';
 import Swal from 'sweetalert2';
 import { ReportersComponent } from './reporters/reporters.component';
 
@@ -17,7 +18,8 @@ export class CarComplaintComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private commonService: CommonService,
   ) {}
 
   ngOnInit(): void {
@@ -43,9 +45,12 @@ export class CarComplaintComponent implements OnInit {
     //TODO: show dialog with reporters list
     console.log("mostrar los que reportaron este carro: ", {auto});
     const dialogRef = this.dialog.open(ReportersComponent, {
-      width: '50vw',
+      width: this.commonService.screenWidth <= 672 ? '100vw' : '50vw',
       height: 'fit-content',
-      data: auto.denuncias
+      data: {
+        carId: auto.id,
+        denuncias: auto.denuncias
+      }
     });
     dialogRef.afterClosed().subscribe(
       (result) => {

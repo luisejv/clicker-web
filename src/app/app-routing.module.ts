@@ -27,6 +27,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
+import { AdminGuard } from './core/guards/admin.guard';
 import { ValidatedGuard } from './core/guards/validated.guard';
 
 export const routes: Routes = [
@@ -59,27 +60,27 @@ export const routes: Routes = [
       {
         path: 'autos-por-validar',
         component: CarValidationComponent,
-        // TODO: Admin Guard
+        canActivate: [AdminGuard]
       },
       {
         path: 'solicitudes-franquicia',
         component: UserValidationComponent,
-        // TODO: Admin Guard
+        canActivate: [AdminGuard]
       },
       {
         path: 'registrar-venta',
         component: CarSaleRegistrationComponent,
-        // TODO: Admin Guard
+        canActivate: [AdminGuard]
       },
       {
         path: 'autos-reportados',
         component: CarComplaintComponent,
-        // TODO: Admin Guard
+        canActivate: [AdminGuard]
       },
       {
         path: 'solicitudes-de-pago',
         component: WithdrawalRequestsComponent,
-        // TODO: Admin Guard
+        canActivate: [AdminGuard]
       },
     ],
   },
