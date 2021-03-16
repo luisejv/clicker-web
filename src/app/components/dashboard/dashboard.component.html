@@ -47,28 +47,28 @@
       <a class="mb-xs-1">Cuenta</a>
     </li> -->
     <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+      class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
       routerLink="balance"
     >
       <mat-icon>account_balance</mat-icon>
       <a>Balance</a>
     </li>
     <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+      class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
       routerLink="registrar-carro"
     >
       <mat-icon>directions_car</mat-icon>
       <a>Registrar Carro</a>
     </li>
     <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+      class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
       routerLink="carros-publicados"
     >
       <mat-icon>work</mat-icon>
       <a>Carros Publicados</a>
     </li>
     <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+      class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
       routerLink="home"
     >
       <mat-icon>exit_to_app</mat-icon>
@@ -77,7 +77,7 @@
   </ul>
   <!-- Admin options -->
   <ng-template #admin>
-    <ul class="py-5 sideops-container">
+    <ul class="py-5 sideops-container d-flex flex-column align-items-between justify-content-center">
       <!-- <li
         class="d-flex flex-column align-items-center justify-content-between sidebar-item"
       >
@@ -86,42 +86,42 @@
       </li> -->
       <li
         *ngIf="isAdmin"
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="autos-por-validar"
       >
         <mat-icon>car_repair</mat-icon>
         <a>Autos por Validar</a>
       </li>
       <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="solicitudes-franquicia"
       >
         <mat-icon>how_to_reg</mat-icon>
         <a>Solicitudes Remax</a>
       </li>
       <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="autos-reportados"
       >
         <mat-icon>local_car_wash</mat-icon>
         <a>Autos Reportados</a>
       </li>
       <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="registrar-venta"
       >
         <mat-icon>attach_money</mat-icon>
         <a>Registrar una Venta</a>
       </li>
       <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="solicitudes-de-pago"
       >
         <mat-icon>request_quote</mat-icon>
         <a>Solicitudes de Pago</a>
       </li>
       <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+        class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
         routerLink="home"
       >
         <mat-icon>exit_to_app</mat-icon>

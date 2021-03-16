@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container dialog-container">
     <div class="row justify-content-center">
         <h1 class="text-center" mat-dialog-title>Denuncias</h1>    
     </div>
     <div class="row container" mat-dialog-content>
         <div class="my-3 row" *ngFor="let denuncia of data.denuncias">
-            <div class="justify-content-center card w-100 pt-2 img-thumbnail">
-                <div class="card-body">
+            <div class="justify-content-center card w-100 pt-2 card-border">
+                <div class="card-body horizontal-wrap">
                   <h5 class="card-title">Denunciante: {{ denuncia.usuario!.correo }}</h5>
                   <h6 class="card-subtitle mb-2 text-muted">Descripción de la denuncia</h6>
                   <p class="card-text">{{ denuncia.descripcion }}</p>
@@ -13,7 +13,7 @@
                   <a 
                     (click)="goToReporterDetail(denuncia)"
                     [ngClass]="{ 
-                        'btn btn-primary card-link': commonService.screenWidth > 672,
+                        'btn btn-primary link-carta': commonService.screenWidth > 672,
                         'card-link': commonService.screenWidth <= 672
                     }" 
                   >
@@ -23,7 +23,7 @@
                   <a 
                     (click)="goToCarDetail()"
                     [ngClass]="{ 
-                        'btn btn-primary card-link': commonService.screenWidth > 672,
+                        'btn btn-primary link-carta': commonService.screenWidth > 672,
                         'card-link': commonService.screenWidth <= 672
                     }" 
                   >

@@ -55,7 +55,7 @@ export class CarValidationComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        this.adminService.putAutoSemiNuevoById(id).subscribe(
+        this.adminService.validateAutoSemiNuevoById(id).subscribe(
           (response: AutoSemiNuevo) => {
             if (response.id! === id) {
               Swal.fire('¡Auto validado!', '', 'success');
