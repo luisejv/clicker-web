@@ -26,7 +26,7 @@
       >
         menu
       </mat-icon>
-<div class="collapse" id="menu">
+      <div class="collapse" id="menu">
         <!-- <app-sidebar
             [ngClass]="{
               sidebar: false,
@@ -39,97 +39,100 @@
         <!-- TODO: esto es el hamburguer de mobil ojo -->
         <!-- TODO: meterle .list-group -->
         <!-- Remax options -->
-  <ul class="list-group py-5 sideops-container" *ngIf="isRemax || isUser; else admin">
-    <!-- <li
+        <ul
+          class="list-group py-5 sideops-container"
+          *ngIf="isRemax || isUser; else admin"
+        >
+          <!-- <li
       class="d-flex flex-column align-items-center justify-content-between sidebar-item"
     >
       <mat-icon class="mt-xs-1">account_circle</mat-icon>
       <a class="mb-xs-1">Cuenta</a>
     </li> -->
-    <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-      routerLink="balance"
-    >
-      <mat-icon>account_balance</mat-icon>
-      <a>Balance</a>
-    </li>
-    <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-      routerLink="registrar-carro"
-    >
-      <mat-icon>directions_car</mat-icon>
-      <a>Registrar Carro</a>
-    </li>
-    <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-      routerLink="carros-publicados"
-    >
-      <mat-icon>work</mat-icon>
-      <a>Carros Publicados</a>
-    </li>
-    <li
-      class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-      routerLink="home"
-    >
-      <mat-icon>exit_to_app</mat-icon>
-      <a>Regresar</a>
-    </li>
-  </ul>
-  <!-- Admin options -->
-  <ng-template #admin>
-    <ul class="py-5 sideops-container">
-      <!-- <li
+          <li
+            class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+            routerLink="balance"
+          >
+            <mat-icon>account_balance</mat-icon>
+            <a>Balance</a>
+          </li>
+          <li
+            class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+            routerLink="registrar-carro"
+          >
+            <mat-icon>directions_car</mat-icon>
+            <a>Registrar Carro</a>
+          </li>
+          <li
+            class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+            routerLink="carros-publicados"
+          >
+            <mat-icon>work</mat-icon>
+            <a>Carros Publicados</a>
+          </li>
+          <li
+            class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+            routerLink="home"
+          >
+            <mat-icon>exit_to_app</mat-icon>
+            <a>Regresar</a>
+          </li>
+        </ul>
+        <!-- Admin options -->
+        <ng-template #admin>
+          <ul class="py-5 sideops-container">
+            <!-- <li
         class="d-flex flex-column align-items-center justify-content-between sidebar-item"
       >
         <mat-icon class="mt-xs-1">account_circle</mat-icon>
         <a class="mb-xs-1">Cuenta</a>
       </li> -->
-      <li
-        *ngIf="isAdmin"
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="autos-por-validar"
-      >
-        <mat-icon>car_repair</mat-icon>
-        <a>Autos por Validar</a>
-      </li>
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="solicitudes-franquicia"
-      >
-        <mat-icon>how_to_reg</mat-icon>
-        <a>Solicitudes Remax</a>
-      </li>
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="autos-reportados"
-      >
-        <mat-icon>local_car_wash</mat-icon>
-        <a>Autos Reportados</a>
-      </li>
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="registrar-venta"
-      >
-        <mat-icon>attach_money</mat-icon>
-        <a>Registrar una Venta</a>
-      </li>
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="solicitudes-de-pago"
-      >
-        <mat-icon>request_quote</mat-icon>
-        <a>Solicitudes de Pago</a>
-      </li>
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-        routerLink="home"
-      >
-        <mat-icon>exit_to_app</mat-icon>
-        <a>Regresar</a>
-      </li>
-    </ul>
-  </ng-template>
-</div>
+            <li
+              *ngIf="isAdmin"
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="autos-por-validar"
+            >
+              <mat-icon>car_repair</mat-icon>
+              <a>Autos por Validar</a>
+            </li>
+            <li
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="solicitudes-franquicia"
+            >
+              <mat-icon>how_to_reg</mat-icon>
+              <a>Solicitudes Remax</a>
+            </li>
+            <li
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="autos-reportados"
+            >
+              <mat-icon>local_car_wash</mat-icon>
+              <a>Autos Reportados</a>
+            </li>
+            <li
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="registrar-venta"
+            >
+              <mat-icon>attach_money</mat-icon>
+              <a>Registrar una Venta</a>
+            </li>
+            <li
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="solicitudes-de-pago"
+            >
+              <mat-icon>request_quote</mat-icon>
+              <a>Solicitudes de Pago</a>
+            </li>
+            <li
+              class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="home"
+            >
+              <mat-icon>exit_to_app</mat-icon>
+              <a>Regresar</a>
+            </li>
+          </ul>
+        </ng-template>
+      </div>
       <!-- <h1 class="mt-5 text-center">Dashboard</h1> -->
     </div>
   </div>
@@ -152,7 +155,9 @@
         'wrapper-lg': commonService.screenWidth > 672
       }"
     >
-      <div class="pill" *ngIf="!isAdmin">Balance: $ {{ balance }}</div>
+      <div class="pill text-white" *ngIf="isRemax && user">
+        Balance: $ {{ user.balance }}
+      </div>
       <router-outlet></router-outlet>
     </div>
   </div>

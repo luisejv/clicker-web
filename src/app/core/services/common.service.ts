@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 export class CommonService {
   private baseUrl: string = environment.baseUrl;
   private consultaPlacaUrl: string =
-    'http://ws-consultas.herokuapp.com/api/placa';
+    'https://ws-consultas.herokuapp.com/api/placa';
   screenHeight: number = 0;
   screenWidth: number = 0;
 
@@ -57,6 +57,9 @@ export class CommonService {
 
   // * Placa Service
   getPlacaDetailsUrl: string = this.consultaPlacaUrl;
+
+  // * Balance
+  getRegistroBalanceUrl: string = this.userUrl + '/registroBalance';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

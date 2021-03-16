@@ -6,13 +6,14 @@
 >
   <!-- Remax options -->
   <ul class="py-5 sideops-container" *ngIf="isRemax || isUser; else admin">
-    <!-- <li
+    <li
       class="d-flex flex-column align-items-center justify-content-between sidebar-item"
     >
       <mat-icon class="mt-xs-1">account_circle</mat-icon>
       <a class="mb-xs-1">Cuenta</a>
-    </li> -->
+    </li>
     <li
+      *ngIf="isRemax"
       class="d-flex flex-column align-items-center justify-content-between sidebar-item"
       routerLink="balance"
     >
@@ -44,12 +45,6 @@
   <!-- Admin options -->
   <ng-template #admin>
     <ul class="py-5 sideops-container">
-      <li
-        class="d-flex flex-column align-items-center justify-content-between sidebar-item"
-      >
-        <mat-icon class="mt-xs-1">account_circle</mat-icon>
-        <a class="mb-xs-1">Cuenta</a>
-      </li>
       <li
         *ngIf="isAdmin"
         class="d-flex flex-column align-items-center justify-content-between sidebar-item"

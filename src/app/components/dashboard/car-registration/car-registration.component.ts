@@ -321,7 +321,7 @@ export class CarRegistrationComponent implements OnInit {
             console.groupEnd();
             Swal.fire({
               titleText: '¡Éxito!',
-              html: 'El carro ha sido registrado.',
+              html: 'Su auto ha sido registrado.',
               allowOutsideClick: true,
               icon: 'success',
               showConfirmButton: true,
@@ -334,6 +334,15 @@ export class CarRegistrationComponent implements OnInit {
               Swal.fire({
                 titleText: 'Oops!',
                 html: 'Se agotaron sus subidas anuales.',
+                allowOutsideClick: true,
+                icon: 'warning',
+                showConfirmButton: true,
+              });
+            }
+            if (error.status === 226) {
+              Swal.fire({
+                titleText: 'Oops!',
+                html: 'El auto ya existe actualmente en la aplicación!!',
                 allowOutsideClick: true,
                 icon: 'warning',
                 showConfirmButton: true,
