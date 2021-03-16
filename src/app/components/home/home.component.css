@@ -11,6 +11,6 @@
   .find-your-dream-car {
     background-image: url("https://images.pexels.com/photos/261986/pexels-photo-261986.jpeg?cs=srgb&dl=pexels-pixabay-261986.jpg&fm=jpg");
     background-size: cover;
-    background-size: top;
+    margin-top: 0 !important;
   }
 }

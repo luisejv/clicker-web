@@ -16,7 +16,9 @@
     <div *ngIf="commonService.screenWidth <= 672">
       <mat-icon
         class="position-relative fixed-top my-3 ml-3"
-        style="color: rgb(82, 169, 192)"
+        [ngStyle]="{
+          color: isAdmin ? 'rgb(148, 82, 192)' : 'rgb(82, 169, 192)'
+        }"
         aria-hidden="false"
         data-toggle="collapse"
         href="#menu"
@@ -40,7 +42,7 @@
         <!-- TODO: meterle .list-group -->
         <!-- Remax options -->
         <ul
-          class="list-group py-5 sideops-container"
+          class="list-group py-5 sideops-container pl-0"
           *ngIf="isRemax || isUser; else admin"
         >
           <li
@@ -82,7 +84,7 @@
         <!-- Admin options -->
         <ng-template #admin>
           <ul
-            class="py-5 sideops-container d-flex flex-column align-items-between justify-content-center"
+            class="sideops-container d-flex flex-column align-items-between justify-content-center pl-0"
           >
             <li
               class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
@@ -118,6 +120,13 @@
             >
               <mat-icon>request_quote</mat-icon>
               <a>Solicitudes de Pago</a>
+            </li>
+            <li
+              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              routerLink="carros-patrocinados"
+            >
+              <mat-icon>electric_car</mat-icon>
+              <a>Carros Patrocinados</a>
             </li>
             <li
               class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"

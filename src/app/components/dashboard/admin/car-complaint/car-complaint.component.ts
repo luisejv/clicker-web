@@ -9,17 +9,16 @@ import { ReportersComponent } from './reporters/reporters.component';
 @Component({
   selector: 'app-car-complaint',
   templateUrl: './car-complaint.component.html',
-  styleUrls: ['./car-complaint.component.css']
+  styleUrls: ['./car-complaint.component.css'],
 })
 export class CarComplaintComponent implements OnInit {
-
   hasLoaded: boolean = false;
-  carros: AutoReportado[]= [];
+  carros: AutoReportado[] = [];
 
   constructor(
     private adminService: AdminService,
     private dialog: MatDialog,
-    private commonService: CommonService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -36,31 +35,29 @@ export class CarComplaintComponent implements OnInit {
       (error: any) => {
         console.error('fetching carros reportados: ', error);
         // this.loaderService.setIsLoading(false);
-        // ! mostrar swal?
+        // ? mostrar swal?
       }
     );
   }
 
   showReporters(auto: AutoReportado): void {
-    console.log("mostrar los que reportaron este carro: ", {auto});
+    console.log('mostrar los que reportaron este carro: ', { auto });
     const dialogRef = this.dialog.open(ReportersComponent, {
       // TODO: en mobil se ve feaso porq no abarca toda la pantalla
       width: this.commonService.screenWidth <= 672 ? '100vw' : '50vw',
       height: 'fit-content',
       data: {
         carId: auto.id,
-        denuncias: auto.denuncias
-      }
+        denuncias: auto.denuncias,
+      },
     });
-    dialogRef.afterClosed().subscribe(
-      (result) => {
-        console.log("dialog after closed callback");
-      }
-    );
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('dialog after closed callback');
+    });
   }
 
   removeCar(id: number): void {
-    console.log("remover carro denunciado con id: ", id);
+    console.log('remover carro denunciado con id: ', id);
     Swal.fire({
       title: '¿Eliminar carro de Clicker?',
       showDenyButton: true,
@@ -72,20 +69,20 @@ export class CarComplaintComponent implements OnInit {
         this.adminService.removeAutoReportado(id).subscribe(
           (res: any) => {
             console.log(res);
-            console.log("carro borrado de clicker");
+            console.log('carro borrado de clicker');
           },
           (error: any) => {
             console.error('removing car with id: ', id, ' from clicker');
           }
         );
       } else {
-        console.log("cancelar borrado");
+        console.log('cancelar borrado');
       }
     });
   }
 
   markAsValid(id: number): void {
-    console.log("marcar carro reportado como válido con id: ", id);
+    console.log('marcar carro reportado como válido con id: ', id);
     Swal.fire({
       title: '¿Eliminar carro de la lista de carros reportados?',
       showDenyButton: true,
@@ -97,16 +94,15 @@ export class CarComplaintComponent implements OnInit {
         this.adminService.validateAutoReportado(id).subscribe(
           (res: any) => {
             console.log(res);
-            console.log("carro eliminado de lista de reportados");
+            console.log('carro eliminado de lista de reportados');
           },
           (error: any) => {
             console.error('validating reported car with id: ', id);
           }
         );
       } else {
-        console.log("cancelar validacion");
+        console.log('cancelar validacion');
       }
     });
   }
-
 }

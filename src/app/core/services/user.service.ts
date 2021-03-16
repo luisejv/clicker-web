@@ -65,8 +65,8 @@ export class UserService {
   }
 
   // * Add Car to Interested in selling
-  public addCarToInstered(body: any): void {
-    this.http.post(this.commonService.addCarToInsteredUrl, body);
+  public addCarToInsterested(body: any): Observable<any> {
+    return this.http.post(this.commonService.addCarToInsterestedUrl, body);
   }
 
   // * To Validate email with form as body
@@ -81,6 +81,20 @@ export class UserService {
   public getRegistroBalance(id: string): Observable<any> {
     return this.http.get(
       this.commonService.getRegistroBalanceUrl + `?id=${id}`
+    );
+  }
+
+  public getSolicitudRetiro(id: string): Observable<any> {
+    return this.http.get(this.commonService.solicitudRetiroUrl + `?id=${id}`);
+  }
+
+  public postSolicitudRetiro(body: any): Observable<any> {
+    return this.http.post(this.commonService.solicitudRetiroUrl, body);
+  }
+
+  public deleteSolicitudRetiro(id: number): Observable<any> {
+    return this.http.delete(
+      this.commonService.solicitudRetiroUrl + `?id=${id}`
     );
   }
 }

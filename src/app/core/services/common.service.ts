@@ -58,7 +58,7 @@ export class CommonService {
 
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
-  addCarToInsteredUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
+  addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';
@@ -66,8 +66,11 @@ export class CommonService {
   // * Placa Service
   getPlacaDetailsUrl: string = this.consultaPlacaUrl;
 
-  // * Balance
+  // * Balance & Retiros
   getRegistroBalanceUrl: string = this.userUrl + '/registroBalance';
+  solicitudRetiroUrl: string = this.baseUrl + '/solicitudRetiro';
+  getSolicitudesRetiroUrl: string = this.adminUrl + '/Retiros';
+  putSolicitudesRetiroUrl: string = this.adminUrl + '/Retiros';
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {

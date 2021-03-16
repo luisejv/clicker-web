@@ -8,6 +8,7 @@ import { BookingSystemComponent } from './components/booking-system/booking-syst
 import { ContactComponent } from './components/contact/contact.component';
 import { CarComplaintComponent } from './components/dashboard/admin/car-complaint/car-complaint.component';
 import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
+import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/car-sponsor.component';
 import { CarValidationComponent } from './components/dashboard/admin/car-validation/car-validation.component';
 import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
@@ -60,27 +61,32 @@ export const routes: Routes = [
       {
         path: 'autos-por-validar',
         component: CarValidationComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
         path: 'solicitudes-franquicia',
         component: UserValidationComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
         path: 'registrar-venta',
         component: CarSaleRegistrationComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
         path: 'autos-reportados',
         component: CarComplaintComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
         path: 'solicitudes-de-pago',
         component: WithdrawalRequestsComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'carros-patrocinados',
+        component: CarSponsorComponent,
+        canActivate: [AdminGuard],
       },
     ],
   },

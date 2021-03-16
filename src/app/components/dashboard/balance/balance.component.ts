@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Balance } from 'src/app/core/interfaces/balance';
+import { CommonService } from 'src/app/core/services/common.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { RequestPaymentComponent } from './request/request.component';
@@ -17,7 +18,8 @@ export class BalanceComponent implements OnInit {
   constructor(
     private dialogService: MatDialog,
     private userService: UserService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    public commonService: CommonService
   ) {}
 
   ngOnInit(): void {

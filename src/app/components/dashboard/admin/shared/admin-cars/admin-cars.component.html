@@ -1,7 +1,4 @@
-<div
-  [ngClass]="{ 'margin-top': '0px' }"
-  class="section-title-page area-bg area-bg_dark area-bg_op_60"
->
+<div class="section-title-page area-bg area-bg_dark area-bg_op_60 mt-0">
   <div class="area-bg__inner">
     <div class="container text-center">
       <h1 class="b-title-page">{{ name }}</h1>
@@ -21,10 +18,7 @@
 <!-- [ngClass]="{ 'mb-5': filteredCarros.length === 0 || auxFilteredCarros.length === 0 }" -->
 <div class="l-main-content mx-lg-5">
   <div class="ui-decor ui-decor_mirror ui-decor_sm-h bg-primary"></div>
-  <div 
-    class="container"
-    [ngClass]="{ 'margin-top': '15px' }"
-  >
+  <div class="container" [ngClass]="{ 'margin-top': '15px' }">
     <div class="row justify-content-center">
       <div class="justify-content-center col-xl-9">
         <mat-form-field appearance="fill" class="w-100 pr-2">
@@ -43,9 +37,7 @@
                   {{ len === 0 ? 0 : currPage * 10 + 1 }}
                   to
                   {{
-                    currPage * 10 + 10 > len
-                      ? len
-                      : currPage * 10 + 10
+                    currPage * 10 + 10 > len ? len : currPage * 10 + 10
                   }}</strong
                 >
                 of total {{ len }}
@@ -106,7 +98,7 @@
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car 
+            <app-published-car
               [auto]="carro"
               [mode]="list"
               [validationView]="validationView"
@@ -129,7 +121,7 @@
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car 
+            <app-published-car
               [auto]="carro"
               [mode]="list"
               [validationView]="validationView"

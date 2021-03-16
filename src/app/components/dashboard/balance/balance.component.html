@@ -1,6 +1,13 @@
-<div class="container py-5">
-  <div class="row justify-content-end">
-    <button mat-raised-button color="primary" (click)="openDialog()">
+<div
+  class="container"
+  [ngClass]="{
+    'py-5': commonService.screenWidth > 672,
+    'pt-4': commonService.screenWidth <= 672,
+    'pb-5': commonService.screenWidth <= 672
+  }"
+>
+  <div class="row justify-content-start">
+    <button mat-button color="primary" (click)="openDialog()">
       Solicitar Pago
     </button>
   </div>
@@ -21,7 +28,7 @@
         <ng-container matColumnDef="date">
           <th mat-header-cell class="text-center" *matHeaderCellDef>Fecha</th>
           <td class="text-center" mat-cell *matCellDef="let element">
-            {{ element.fecha | date: "dd/MM/yyyy" }}
+            {{ element.fecha | date: "dd/MM/yyyy hh:mm" }}
           </td>
         </ng-container>
 
