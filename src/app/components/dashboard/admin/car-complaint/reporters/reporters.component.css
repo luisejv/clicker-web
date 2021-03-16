@@ -1,3 +1,16 @@
 .line-break {
     display: none;
 }
+
+.dialog-container {
+    overflow-x: auto;
+}
+
+.horizontal-wrap {
+    width: fit-content;
+}
+
+.link-carta {
+    cursor: pointer;
+    color: cornflowerblue !important;
+}

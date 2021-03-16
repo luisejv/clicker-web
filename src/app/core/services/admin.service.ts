@@ -18,8 +18,16 @@ export class AdminService {
     return this.http.get(this.commonService.getAutosReportadosUrl);
   }
 
-  public putAutoSemiNuevoById(id: number): Observable<any> {
-    return this.http.put(this.commonService.validateAutoUrl + `/${id}`, {});
+  public validateAutoSemiNuevoById(id: number): Observable<any> {
+    return this.http.put(this.commonService.validateAutoUrl + `${id}`, null);
+  }
+
+  public validateAutoReportado(id: number): Observable<any> {
+    return this.http.put(this.commonService.validateReportedCarUrl + `?id=${id}`, null);
+  }
+
+  public removeAutoReportado(id: number): Observable<any> {
+    return this.http.delete(this.commonService.removeReportedCarUrl + `?id=${id}`);
   }
 
 }

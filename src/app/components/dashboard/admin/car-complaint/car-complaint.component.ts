@@ -42,9 +42,9 @@ export class CarComplaintComponent implements OnInit {
   }
 
   showReporters(auto: AutoReportado): void {
-    //TODO: show dialog with reporters list
     console.log("mostrar los que reportaron este carro: ", {auto});
     const dialogRef = this.dialog.open(ReportersComponent, {
+      // TODO: en mobil se ve feaso porq no abarca toda la pantalla
       width: this.commonService.screenWidth <= 672 ? '100vw' : '50vw',
       height: 'fit-content',
       data: {
@@ -60,7 +60,6 @@ export class CarComplaintComponent implements OnInit {
   }
 
   removeCar(id: number): void {
-    //TODO
     console.log("remover carro denunciado con id: ", id);
     Swal.fire({
       title: '¿Eliminar carro de Clicker?',
@@ -70,8 +69,15 @@ export class CarComplaintComponent implements OnInit {
       focusDeny: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        //TODO: request para eliminar el carro de clicker
-        console.log("carro borrado de clicker");
+        this.adminService.removeAutoReportado(id).subscribe(
+          (res: any) => {
+            console.log(res);
+            console.log("carro borrado de clicker");
+          },
+          (error: any) => {
+            console.error('removing car with id: ', id, ' from clicker');
+          }
+        );
       } else {
         console.log("cancelar borrado");
       }
@@ -79,7 +85,6 @@ export class CarComplaintComponent implements OnInit {
   }
 
   markAsValid(id: number): void {
-    //TODO
     console.log("marcar carro reportado como válido con id: ", id);
     Swal.fire({
       title: '¿Eliminar carro de la lista de carros reportados?',
@@ -89,8 +94,15 @@ export class CarComplaintComponent implements OnInit {
       focusDeny: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        //TODO: request para eliminar el carro de la lista de reportados
-        console.log("carro eliminado de lista de reportados");
+        this.adminService.validateAutoReportado(id).subscribe(
+          (res: any) => {
+            console.log(res);
+            console.log("carro eliminado de lista de reportados");
+          },
+          (error: any) => {
+            console.error('validating reported car with id: ', id);
+          }
+        );
       } else {
         console.log("cancelar validacion");
       }

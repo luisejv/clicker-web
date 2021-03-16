@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { CommonService } from 'src/app/core/services/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-admin-cars',
@@ -21,13 +23,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   @Output() reportedIsValid = new EventEmitter<number>();
   @Output() mostrarReportadores = new EventEmitter<AutoReportado>();
 
-  /*
-   * replicar el evento para (validar) y (reportar)
-   * copiar la funcion de (validar) a car-validation.component
-   * hacer el map para transformar cuando se este lidiando con AutoReportado
-  */
-
-  list: boolean = true;
+  list: boolean;
   len: number = 0;
 
   // * carros
@@ -44,8 +40,21 @@ export class AdminCarsComponent implements OnInit, OnChanges {
 
   constructor(
     private loaderService: LoaderService,
-    private adminService: AdminService,
-  ) { }
+    private commonService: CommonService,
+  ) {
+
+    if (this.commonService.screenWidth <= 1060) {
+      this.list = false
+    } else {
+      this.list = true;
+    }
+
+    this.commonService.changeLayoutEvent.subscribe(
+      () => {
+        this.changeGridView('grid');
+      }
+    );
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.group('ngOnChanges');

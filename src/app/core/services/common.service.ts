@@ -1,6 +1,7 @@
-import { HostListener, Injectable } from '@angular/core';
+import { EventEmitter, HostListener, Injectable } from '@angular/core';
 import { threadId } from 'worker_threads';
 import { environment } from '../../../environments/environment';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,8 @@ export class CommonService {
   private baseUrl: string = environment.baseUrl;
   private consultaPlacaUrl: string =
     'https://ws-consultas.herokuapp.com/api/placa';
+  changeLayoutEvent = new EventEmitter<void>();
+
   screenHeight: number = 0;
   screenWidth: number = 0;
 
@@ -17,6 +20,11 @@ export class CommonService {
   loginUrl: string = this.baseUrl + '/auth/login';
   registerUrl: string = this.baseUrl + '/auth/register';
   validateEmailUrl: string = this.baseUrl + '/user/validate';
+
+  // * Admin
+  adminUrl: string = this.baseUrl + '/admin';
+  validateReportedCarUrl: string = this.adminUrl + '/reported';
+  removeReportedCarUrl: string = this.adminUrl + '/reported';
 
   // * User
   userUrl: string = this.baseUrl + '/user';
@@ -30,7 +38,7 @@ export class CommonService {
   getSponsoredCarsUrl: string = this.baseUrl + '/sponsor';
   getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
   getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
-  getAutosReportadosUrl: string = this.autoSemiNuevoUrl + '/reported';
+  getAutosReportadosUrl: string = this.adminUrl + '/reported';
 
   // * Car Put
   validateAutoUrl: string = this.autoSemiNuevoUrl + '/validate';
@@ -65,10 +73,12 @@ export class CommonService {
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
-    // console.log("window resize");
+    if (this.screenWidth <= 1060) {
+      this.changeLayoutEvent.emit();
+    }
   }
 
-  constructor() {
+  constructor(private storageService: StorageService) {
     this.getScreenSize();
   }
 }

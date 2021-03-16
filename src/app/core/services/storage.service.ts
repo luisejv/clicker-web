@@ -95,4 +95,5 @@ export class StorageService {
   isValidated(): boolean {
     return this.getValidatedLocalStorage() == 'true';
   }
+  
 }
