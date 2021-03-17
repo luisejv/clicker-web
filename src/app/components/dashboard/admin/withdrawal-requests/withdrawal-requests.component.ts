@@ -41,26 +41,6 @@ export class WithdrawalRequestsComponent implements OnInit {
     };
     if (this.transferencia != '' && type) {
       body.transferencia = this.transferencia;
-      this.adminService.validateSolicitudRetiro(body).subscribe(
-        (response: any) => {
-          Swal.fire({
-            title: 'Validado!',
-            icon: 'success',
-            html:
-              'Solicitud validada correctamente, se deducirá el monto del balance del usuario.',
-            showConfirmButton: true,
-          });
-        },
-        (error: any) => {
-          Swal.fire({
-            title: 'Oops!',
-            icon: 'error',
-            html: 'Hubo un fallo en el servidor, por favor intenta más tarde.',
-            showConfirmButton: true,
-          });
-          console.log('Error processing request: ', error);
-        }
-      );
     } else if (this.transferencia == '' && type) {
       Swal.fire({
         title: 'Oops!',
@@ -69,26 +49,31 @@ export class WithdrawalRequestsComponent implements OnInit {
           'Para validar el pago debes especificar el número de transferencia realizado.',
         showConfirmButton: true,
       });
-    } else {
-      this.adminService.validateSolicitudRetiro(body).subscribe(
-        (response: any) => {
-          Swal.fire({
-            title: 'Cancelado!',
-            icon: 'success',
-            html: 'Solicitud cancelada correctamente.',
-            showConfirmButton: true,
-          });
-        },
-        (error: any) => {
-          Swal.fire({
-            title: 'Oops!',
-            icon: 'error',
-            html: 'Hubo un fallo en el servidor, por favor intenta más tarde.',
-            showConfirmButton: true,
-          });
-          console.log('Error processing request: ', error);
-        }
-      );
+      return;
     }
+    this.adminService.validateSolicitudRetiro(body).subscribe(
+      (response: any) => {
+        Swal.fire({
+          title: `${type ? 'Validado' : 'Cancelado'}`,
+          icon: 'success',
+          html: `${
+            type
+              ? 'Solicitud validada correctamente, se deducirá el monto del balance del usuario.'
+              : 'Solicitud cancelada correctamente.'
+          }`,
+          showConfirmButton: true,
+        });
+        this.ngOnInit();
+      },
+      (error: any) => {
+        Swal.fire({
+          title: 'Oops!',
+          icon: 'error',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde.',
+          showConfirmButton: true,
+        });
+        console.log('Error processing request: ', error);
+      }
+    );
   }
 }
