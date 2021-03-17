@@ -41,4 +41,9 @@ export class AdminService {
   public validateSolicitudRetiro(body: any): Observable<any> {
     return this.http.put(this.commonService.putSolicitudesRetiroUrl, body);
   }
+
+  public getCarrosInteresados(): Observable<any> {
+    return this.http.get(this.commonService.carrosInteresadosUrl);
+  }
+
 }

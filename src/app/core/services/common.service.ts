@@ -25,7 +25,7 @@ export class CommonService {
   adminUrl: string = this.baseUrl + '/admin';
   validateReportedCarUrl: string = this.adminUrl + '/reported';
   removeReportedCarUrl: string = this.adminUrl + '/reported';
-  getInteresados: string = this.adminUrl + '/interesados';
+  carrosInteresadosUrl: string = this.adminUrl + '/interesados';
 
   // * User
   userUrl: string = this.baseUrl + '/user';
