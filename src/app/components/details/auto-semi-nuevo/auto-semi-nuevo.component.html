@@ -28,7 +28,6 @@
             {{ auto.anoFabricacion }}
           </h2>
           <div class="b-goods-f__slider">
-            <!-- TODO: poner las otras imagenes que el usuario puede subir -->
             <ngx-slick-carousel
               class="ui-slider-nav js-slider-nav"
               #slickModal="slick-carousel"
@@ -338,48 +337,12 @@
         <div class="col-lg-4">
           <aside class="l-sidebar">
             <div class="b-goods-f-price">
-              <!-- TODO: poner 'moneda' en el auto? -->
               <div class="b-goods-f-price__header bg-secondary">
                 Precio Clicker<span class="b-goods-f-price__main"
                   >US$ {{ auto.precioVenta | number }}</span
                 >
               </div>
-              <!-- <div class="b-goods-f-price__inner">
-                <div class="b-goods-f-price__msrp">MSRP: $34,500</div>
-                <div class="b-goods-f-price__note">Incluye IGV?*</div>
-              </div> -->
             </div>
-            <!-- <div class="b-goods__wrap-bnrs">
-              <img
-                class="b-goods__bnr"
-                src="assets/media/content/b-goods/check.jpg"
-                alt="photo"
-              /><img
-                class="b-goods__bnr"
-                src="assets/media/content/b-goods/check-2.jpg"
-                alt="photo"
-              />
-            </div> -->
-            <!-- <div class="b-seller">
-                <div class="b-seller__header bg-primary">
-                  <div class="b-seller__img"><img class="img-scale" src="assets/media/content/b-seller/1.jpg" alt="foto"/></div>
-                  <div class="b-seller__title">
-                    <div class="b-seller__name">Jane William</div>
-                    <div class="b-seller__category">Member Since April 2013</div>
-                  </div>
-                </div>
-                <div class="b-seller__main"><i class="b-seller__ic flaticon-phone-call text-primary"></i>
-                  <div class="b-seller__contact"><span class="d-block">Contact Seller</span><a class="b-seller__phone" href="tel:12584037961">1 (258) 403 7961</a></div>
-                  <ul class="b-seller-soc list-unstyled">
-                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-facebook-f"></i></a></li>
-                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-linkedin-in"></i></a></li>
-                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-twitter"></i></a></li>
-                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-google-plus-g"></i></a></li>
-                    <li class="b-seller-soc__item"><a class="b-seller-soc__link" href="#" target="_blank"><i class="ic fab fa-youtube"></i></a></li>
-                  </ul>
-                </div>
-              </div> -->
-            <!-- end .b-seller-->
 
             <div class="widget-2 section-sidebar bg-gray">
               <h3 class="widget-title-2">
@@ -444,7 +407,7 @@
                     <ng-template #remax>
                       <button
                         class="btn btn-secondary w-100"
-                        (click)="addToInstered()"
+                        (click)="addToInsterested()"
                       >
                         ¡Lo quiero!
                       </button>

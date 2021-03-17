@@ -56,6 +56,7 @@ import { ValidatedGuard } from './core/guards/validated.guard';
 import { AdminCarsComponent } from './components/dashboard/admin/shared/admin-cars/admin-cars.component';
 import { ReportersComponent } from './components/dashboard/admin/car-complaint/reporters/reporters.component';
 import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/car-sponsor.component';
+import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/ca
     AdminCarsComponent,
     ReportersComponent,
     CarSponsorComponent,
+    InterestedCarsComponent,
   ],
   imports: [
     BrowserModule,

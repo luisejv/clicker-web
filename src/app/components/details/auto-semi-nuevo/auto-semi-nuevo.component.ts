@@ -6,6 +6,7 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auto-semi-nuevo',
@@ -30,8 +31,7 @@ export class AutoSemiNuevoComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.logged = this.storageService.isLoggedIn();
-    this.isRemax =
-      this.storageService.getRoleSessionStorage() == RolesEnum.REMAX;
+    this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
     this.contactFormGroup = this.fb.group({
       nombre: '',
       telefono: '',
@@ -85,9 +85,43 @@ export class AutoSemiNuevoComponent implements OnInit {
     });
   }
 
+  // TODO: Conectar con BD de produccion
+  // ? Los dos requests de abajo tienen el mismo body y hacen la consulta al mismo lugar,
+  // ? pero obtienen la data de lugares distintos.
+
   submitForm(): void {}
 
   contact(): void {}
 
-  addToInstered(): void {}
+  addToInsterested(): void {
+    let body = {
+      autoSemiNuevo: {
+        id: this.auto.id,
+      },
+      usuario: {
+        correo: this.storageService.getEmailLocalStorage(),
+      },
+    };
+    this.userService.addCarToInsterested(body).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Agregado!',
+          icon: 'success',
+          html:
+            'Carro agregado a interesados por vender. Ya puedes empezar a ofrecerlo entre tus contactos!.',
+          showConfirmButton: true,
+        });
+      },
+      (error: any) => {
+        Swal.fire({
+          title: 'Oops!',
+          icon: 'error',
+          html:
+            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          showConfirmButton: true,
+        });
+        console.log('Error processing request: ', error);
+      }
+    );
+  }
 }
