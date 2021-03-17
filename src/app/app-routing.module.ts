@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
-import { BlogGridComponent } from './components/blog-grid/blog-grid.component';
-import { BlogMainComponent } from './components/blog-main/blog-main.component';
-import { BlogPostComponent } from './components/blog-post/blog-post.component';
-import { BookingSystemComponent } from './components/booking-system/booking-system.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { CarComplaintComponent } from './components/dashboard/admin/car-complaint/car-complaint.component';
 import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
@@ -15,17 +11,16 @@ import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdr
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';
-import { InventoryGridComponent } from './components/inventory-grid/inventory-grid.component';
 import { InventoryListingsComponent } from './components/inventory-listings/inventory-listings.component';
 import { LoginComponent } from './components/login/login.component';
 import { ParticularComponent } from './components/register/particular/particular.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RemaxComponent } from './components/register/remax/remax.component';
-import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './core/guards/admin.guard';
@@ -57,6 +52,10 @@ export const routes: Routes = [
       {
         path: 'balance',
         component: BalanceComponent,
+      },
+      {
+        path: 'carros-interesantes',
+        component: InterestedCarsComponent,
       },
       {
         path: 'autos-por-validar',

@@ -60,6 +60,14 @@
             <a>Balance</a>
           </li>
           <li
+            *ngIf="isRemax"
+            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+            routerLink="carros-interesantes"
+          >
+            <mat-icon>stars</mat-icon>
+            <a>Carros Interesantes</a>
+          </li>
+          <li
             class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
             routerLink="registrar-carro"
           >
