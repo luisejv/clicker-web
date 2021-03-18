@@ -4,13 +4,13 @@
   style="cursor: pointer"
 >
   <a class="b-goods__img" (click)="goToVehicleDetails()">
-    <img class="img-scale" [src]="auto.fotoPrincipal" alt="Foto del Carro" />
+    <img class="img-scale" [src]="autoCasteado?.fotoPrincipal" alt="Foto del Carro" />
   </a>
   <div class="b-goods__main">
     <div class="row no-gutters">
       <div class="col">
         <a class="b-goods__title">
-          {{ auto.marca + " " + auto.modelo + " " + auto.anoFabricacion }}</a
+          {{ autoCasteado?.marca + " " + autoCasteado?.modelo + " " + autoCasteado?.anoFabricacion }}</a
         >
         <!-- <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div> -->
       </div>
@@ -18,7 +18,7 @@
         <div class="row b-goods__price text-primary">
           <span class="b-goods__price-title">PRECIO<br />VENDEDOR</span
           ><span class="b-goods__price-number"
-            >${{ auto.precioVenta | number }}</span
+            >${{ autoCasteado?.precioVenta | number }}</span
           >
         </div>
       </div>
@@ -29,12 +29,12 @@
           <div class="b-goods-descrip__wrap">
             <i class="ic flaticon-speedometer"></i
             ><span class="b-goods-descrip__info">
-              {{ auto.kilometraje | number }} km</span
+              {{ autoCasteado?.kilometraje | number }} km</span
             >
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">KILOMETRAJE</span
               ><span class="b-goods-descrip__text">{{
-                auto.kilometraje | number
+                autoCasteado?.kilometraje | number
               }}</span>
             </div>
           </div>
@@ -45,12 +45,12 @@
           <div class="b-goods-descrip__wrap">
             <i class="ic flaticon-fuel-station-pump"></i
             ><span class="b-goods-descrip__info">
-              {{ auto.tipoCombustible }}</span
+              {{ autoCasteado?.tipoCombustible }}</span
             >
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">COMBUSTIBLE</span
               ><span class="b-goods-descrip__text">{{
-                auto.tipoCombustible
+                autoCasteado?.tipoCombustible
               }}</span>
             </div>
           </div>
@@ -60,10 +60,10 @@
         <div class="b-goods-descrip__inner">
           <div class="b-goods-descrip__wrap">
             <i class="ic flaticon-gearshift"></i
-            ><span class="b-goods-descrip__info"> {{ auto.tipoCambios }}</span>
+            ><span class="b-goods-descrip__info"> {{ autoCasteado?.tipoCambios }}</span>
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">TRANSMISIÓN</span
-              ><span class="b-goods-descrip__text">{{ auto.tipoCambios }}</span>
+              ><span class="b-goods-descrip__text">{{ autoCasteado?.tipoCambios }}</span>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">AÑO</span
               ><span class="b-goods-descrip__text">{{
-                auto.anoFabricacion
+                autoCasteado?.anoFabricacion
               }}</span>
             </div>
           </div>
@@ -83,7 +83,7 @@
       </div>
     </div>
     <div
-      *ngIf="validationView || reportedView"
+      *ngIf="validationView || reportedView || interestingView"
       class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
     >
       <button
@@ -120,6 +120,15 @@
         (click)="emitRemoveEvent()"
       >
         Remover
+      </button>
+      <button
+        class="m-2"
+        *ngIf="interestingView"
+        mat-raised-button
+        color="basic"
+        (click)="emitSaleEvent()"
+      >
+        Vender
       </button>
     </div>
     <!-- <div class="b-goods__footer">
