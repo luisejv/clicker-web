@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Venta } from '../interfaces/venta';
 import { CommonService } from './common.service';
 
 @Injectable({
@@ -32,6 +33,10 @@ export class AdminService {
     return this.http.delete(
       this.commonService.removeReportedCarUrl + `?id=${id}`
     );
+  }
+
+  public registrarVenta(body: Venta): Observable<any> {
+    return this.http.post(this.commonService.registerSaleUrl, body);
   }
 
   public getSolicitudesRetiro(): Observable<any> {

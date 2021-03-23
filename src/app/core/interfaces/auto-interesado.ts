@@ -4,6 +4,6 @@ import { InteresadoReventa } from "./interesado-reventa";
 
 export interface AutoInteresado {
     auto: AutoSemiNuevo,
-    interesadosReventa: InteresadoReventa,
-    interesadosCompra: InteresadoCompra,
+    interesadosReventa: InteresadoReventa[],
+    interesadosCompra: InteresadoCompra[],
 }

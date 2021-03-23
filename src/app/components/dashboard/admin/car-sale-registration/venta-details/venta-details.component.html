@@ -1,9 +1,128 @@
-<h1 mat-dialog-title>Hi {{ data.auto.marca }}</h1>
+<h1 mat-dialog-title>Registrar Venta</h1>
 <div mat-dialog-content>
-  <p>//TODO</p>
-  
+  <form [formGroup]="formGroup">
+    <div>
+      {{ formGroup.value | json }}
+    </div>
+    <mat-radio-group 
+      aria-label="Selecciona una opción"
+      formControlName="vendidoPorRevendedor"
+      class="container"
+    >
+      <mat-label class="row">¿Vendido por un revendedor o por Clicker?</mat-label>
+      <div class="row">
+        <mat-radio-button (change)="updateInteresados()" [value]="true">Revendedor</mat-radio-button>
+        <mat-radio-button (change)="updateInteresados()" [value]="false">Clicker</mat-radio-button>
+      </div>
+      <mat-error
+        class="row"
+        *ngIf="formGroup.get('vendidoPorRevendedor')?.errors?.required"
+      >
+        Este campo es obligatorio.
+      </mat-error>
+    </mat-radio-group>
+    <mat-form-field
+      [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null || this.formGroup.value.vendidoPorRevendedor}" 
+      appearance="fill"
+      class="w-100"
+    >
+      <mat-label>Interesado Compra</mat-label>
+      <!-- NOTE: Interesado Compra -->
+        <input
+          matInput
+          type="text"
+          formControlName="comprador"
+          (keyup)="filterInteresados($event)"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="showInteresadoCompra"
+        >
+        <mat-error
+          *ngIf="formGroup.get('comprador')?.errors?.compradorMatch"
+        >
+          Seleccione un comprador válido.
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('comprador')?.errors?.required"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+          <mat-option
+            *ngFor="let option of filteredInteresadosCompra | slice: 0:10"
+            [value]="option"
+          >
+            <span>
+              {{ option.nombre }}
+            </span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field 
+        [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null || !this.formGroup.value.vendidoPorRevendedor}" 
+        appearance="fill" 
+        class="w-100"
+      >
+        <!-- NOTE: Interesado Reventa -->
+        <mat-label>Interesado Reventa</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="vendedor"
+          (keyup)="filterInteresados($event)"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="showInteresadoReventa"
+        >
+          <mat-error
+            *ngIf="formGroup.get('vendedor')?.errors?.vendedorMatch"
+          >
+            Seleccione un vendedor válido.
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('vendedor')?.errors?.required"
+          >
+            Este campo es obligatorio.
+          </mat-error>
+          <mat-option
+            *ngFor="let option of filteredInteresadosReventa | slice: 0:10"
+            [value]="option"
+          >
+            <span>
+              {{ option.usuario.nombre }} {{ option.usuario.apellidos }}
+            </span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div 
+        [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
+        appearance="fill" 
+        class="container w-100"
+      >
+        <mat-label class="row">Constancia de Pago (Foto)</mat-label>
+        <input
+          class="row"
+          type="file"
+          accept="image/*"
+          formControlName="constanciaFoto"
+          (change)="addPhoto($event)"
+        />
+        <mat-error
+          class="row"
+          *ngIf="formGroup.get('constanciaFoto')?.errors?.required"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+      </div>
+  </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="closeDialog()">Cerrar</button>
-  <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+<div class="container" mat-dialog-actions>
+  <div class="row justify-content-center">
+    <button mat-button (click)="closeDialog()">Cerrar</button>
+    <button mat-button (click)="registrarVenta()">Registrar</button>
+    <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+  </div>
 </div>
