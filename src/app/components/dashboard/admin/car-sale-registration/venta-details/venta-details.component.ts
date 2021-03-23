@@ -103,6 +103,7 @@ export class VentaDetailsComponent implements OnInit {
       // interesadosReventa
       this.filteredInteresadosReventa = this.interesadosReventa.filter((interesado: InteresadoReventa) => {
         //TODO: descripción tmb?
+        //FIXME: aca no tiene nombre, solo correo
         return (
           this._normalizeValue(interesado.usuario.nombre!).includes(queryFilter) ||
           this._normalizeValue(interesado.usuario.apellidos!).includes(queryFilter) ||
@@ -133,75 +134,46 @@ export class VentaDetailsComponent implements OnInit {
   registrarVenta(): void {
     const form = this.formGroup.value;
 
-    const body: Venta = {
-      autoSemiNuevo: this.data.auto,
-      vendedor: form.vendidoPorRevendedor ? { correo: form.vendedor.correo } : null,
-      //FIXME: cambiar
-      ciudadCompra: 'Lima',
-      // foto: this.constanciaUrl,
-      foto: 'https://data-clicker-pruebas.nyc3.digitaloceanspaces.com/clicker-prueba-imagenes/Evaluacion.jpeg',
-    };
+    this.uploadService.uploadFile(this.constancia);
 
-    console.group('Sale Registrarion JSON');
-    console.dir(body);
-    console.groupEnd();
-
-    //TODO: request
-
-    this.adminService.registrarVenta(body).subscribe(
+    this.uploadService.uploadedData.subscribe(
       (response: any) => {
-        console.group('Car Registration Response');
-        console.dir(response);
+        this.constanciaUrl = response.url;
+
+        //TODO: lo del comprador, si lo mando o no
+        const body: Venta = {
+          autoSemiNuevo: this.data.auto,
+          vendedor: form.vendidoPorRevendedor ? { correo: form.vendedor.correo } : null,
+          ciudadCompra: 'Lima', //FIXME: cambiar
+          foto: this.constanciaUrl,
+        };
+
+        //TODO: añadir estos 2 al form y mandarlos en el body
+        // "comisionGeneral": "0.05",
+        // "precioFinalVenta": 10000
+
+        console.group('Sale Registrarion JSON');
+        console.dir(body);
         console.groupEnd();
+
+        //TODO: request
+
+        this.adminService.registrarVenta(body).subscribe(
+          (response: any) => {
+            console.group('Car Registration Response');
+            console.dir(response);
+            console.groupEnd();
+          },
+          (error: any) => {
+            console.error('registering car sale: ', error);
+          }
+        );
+
       },
       (error: any) => {
-        console.error('registering car sale: ', error);
+        console.error('Error uploading constancia de pago', error);
       }
     );
-
-    // this.uploadService.uploadFile(this.constancia);
-
-    // this.uploadService.uploadedData.subscribe(
-    //   (response: any) => {
-    //     this.constanciaUrl = response.url;
-
-    //     const body: Venta = {
-    //       autoSemiNuevo: this.data.auto,
-    //       vendedor: form.vendidoPorRevendedor ? { correo: form.vendedor.correo } : null,
-    //       fecha: Date().toString(), //FIXME: ta bien? 
-    //       ciudadCompra: 'Lima', //FIXME: cambiar
-    //       // foto: this.constanciaUrl,
-    //       foto: 'https://data-clicker-pruebas.nyc3.digitaloceanspaces.com/clicker-prueba-imagenes/Evaluacion.jpeg',
-    //       //FIXME: cambiar lo de abajo
-    //       comisionGeneral: 0.5,
-    //       precioFinalVenta: 100,
-    //       gananciaUsuario: 100,
-    //       gananciaVendedor: 100,
-    //       gananciaEmpresa: 100,
-    //     };
-
-    //     console.group('Sale Registrarion JSON');
-    //     console.dir(body);
-    //     console.groupEnd();
-
-    //     //TODO: request
-
-    //     this.adminService.registrarVenta(body).subscribe(
-    //       (response: any) => {
-    //         console.group('Car Registration Response');
-    //         console.dir(response);
-    //         console.groupEnd();
-    //       },
-    //       (error: any) => {
-    //         console.error('registering car sale: ', error);
-    //       }
-    //     );
-
-    //   },
-    //   (error: any) => {
-    //     console.error('Error uploading constancia de pago', error);
-    //   }
-    // );
     
   }
 

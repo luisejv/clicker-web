@@ -53,11 +53,11 @@ export class StorageService {
   }
 
   setGoingToCarRegistration(yesOrNo: string): void {
-    sessionStorage.setItem('goingToCarRegistration', yesOrNo);
+    localStorage.setItem('goingToCarRegistration', yesOrNo);
   }
 
   getGoingToCarRegistration(): boolean {
-    return sessionStorage.getItem('goingToCarRegistration') === 'yes';
+    return localStorage.getItem('goingToCarRegistration') === 'yes';
   }
 
   removeGoingToCarRegistration(): void {

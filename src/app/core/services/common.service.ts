@@ -41,9 +41,12 @@ export class CommonService {
   getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
   getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
   getAutosReportadosUrl: string = this.adminUrl + '/reported';
+  getAutosInteresantesUrl: string = this.userUrl + '/interesadoVenta';
+  getAutosNuevosUrl: string = this.autoSemiNuevoUrl + '/nuevo';
 
   // * Car Put
   validateAutoUrl: string = this.autoSemiNuevoUrl + '/validate';
+  removeAutoFromInteresantesUrl: string = this.userUrl + '/interesadoVenta';
 
   // * Posted Cars By User
   getAutosSemiNuevosValidadosUserUrl: string = this.userUrl + '/id';
@@ -59,8 +62,8 @@ export class CommonService {
   filtersUrl: string = this.baseUrl + '/post/filtros';
 
   // * Interested in Car
-  postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
-  addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
+  postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoCompra';
+  addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoVenta';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';

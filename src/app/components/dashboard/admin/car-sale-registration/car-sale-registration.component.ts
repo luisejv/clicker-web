@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
@@ -36,12 +37,37 @@ export class CarSaleRegistrationComponent implements OnInit {
     );
   }
 
+  getDialogWidth(): string {
+    if (this.commonService.screenWidth > 672 && this.commonService.screenWidth <= 1000) {
+      return '60%';
+    } else if (this.commonService.screenWidth <= 672) {
+      return '97%';
+    } else {
+      return '40%';
+    }
+  }
+
+  getDialogHeight(): string {
+    if (this.commonService.screenWidth <= 672) {
+      return '80%';
+    } else {
+      return '60%';
+    }
+  }
+
   mostrarVentaDetails(auto: AutoInteresado): void {
     console.log("mostrar detalles de la venta del auto: ", {auto});
     const dialogRef = this.dialog.open(VentaDetailsComponent, {
-      width: this.commonService.screenWidth <= 672 ? '100vw' : '50vw',
-      height: 'fit-content',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: this.getDialogWidth(),
+      height: this.getDialogHeight(),
       data: auto,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit(); // TODO: hacer este refresh? o es innecesario?
+      console.log('dialog after closed callback');
     });
   }
 

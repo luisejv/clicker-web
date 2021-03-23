@@ -45,6 +45,18 @@ export class UserService {
   //   return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl + pageId);
   // }
 
+  public getAutosNuevos(): Observable<any> {
+    return this.http.get(this.commonService.getAutosNuevosUrl);
+  }
+
+  public getAutosInteresantes(correo: string): Observable<any> {
+    return this.http.get(this.commonService.getAutosInteresantesUrl + `?correo=${correo}`);
+  }
+
+  public removeAutoFromInteresantes(id: number): Observable<any> {
+    return this.http.delete(this.commonService.removeAutoFromInteresantesUrl + `?id=${id}`);
+  }
+
   public getAutosSemiNuevosValidados(): Observable<any> {
     return this.http.get(this.commonService.getAutosSemiNuevosValidadosUrl);
   }

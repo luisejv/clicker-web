@@ -62,7 +62,10 @@ export class LoginComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
+          console.log('AAAAAAA');
+          console.log(this.storageService.getGoingToCarRegistration());
           if (this.storageService.getGoingToCarRegistration()) {
+            console.log('SSSSSSS');
             this.storageService.removeGoingToCarRegistration();
             this.router.navigateByUrl('/dashboard/registrar-carro');
           } else {

@@ -40,18 +40,39 @@ export class CarComplaintComponent implements OnInit {
     );
   }
 
+  getDialogWidth(): string {
+    if (this.commonService.screenWidth > 672 && this.commonService.screenWidth <= 1000) {
+      return '60%';
+    } else if (this.commonService.screenWidth <= 672) {
+      return '97%';
+    } else {
+      return '40%';
+    }
+  }
+
+  getDialogHeight(): string {
+    if (this.commonService.screenWidth <= 672) {
+      return '80%';
+    } else {
+      return '60%';
+    }
+  }
+
   showReporters(auto: AutoReportado): void {
     console.log('mostrar los que reportaron este carro: ', { auto });
     const dialogRef = this.dialog.open(ReportersComponent, {
       // TODO: en mobil se ve feaso porq no abarca toda la pantalla
-      width: this.commonService.screenWidth <= 672 ? '100vw' : '50vw',
-      height: 'fit-content',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: this.getDialogWidth(),
+      height: this.getDialogHeight(),
       data: {
         carId: auto.id,
         denuncias: auto.denuncias,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit(); // TODO: hacer este refresh? o es innecesario?
       console.log('dialog after closed callback');
     });
   }
