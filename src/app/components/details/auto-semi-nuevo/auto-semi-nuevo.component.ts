@@ -93,6 +93,11 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   contact(): void {}
 
+  denunciar(descripcion: string): void {
+    console.log('denunciar auto. descripcion: ', descripcion);
+    //TODO: swal diciendo si esta seguro, y obligar a q ponga una descripcion
+  }
+
   addToInsterested(): void {
     let body = {
       autoSemiNuevo: {
@@ -104,11 +109,14 @@ export class AutoSemiNuevoComponent implements OnInit {
     };
     this.userService.addCarToInsterested(body).subscribe(
       (response) => {
+        console.group('Interesado Venta Response');
+        console.log(response);
+        console.groupEnd();
         Swal.fire({
           title: 'Agregado!',
           icon: 'success',
           html:
-            'Carro agregado a interesados por vender. Ya puedes empezar a ofrecerlo entre tus contactos!.',
+            'Carro agregado a interesados por vender. Ya puedes empezar a ofrecerlo entre tus contactos!',
           showConfirmButton: true,
         });
       },

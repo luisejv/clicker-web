@@ -21,18 +21,19 @@ export class CommonService {
   registerUrl: string = this.baseUrl + '/auth/register';
   validateEmailUrl: string = this.baseUrl + '/user/validate';
 
+  // * Car Registrarion
+  autoSemiNuevoUrl: string = this.baseUrl + '/post';
+
   // * Admin
   adminUrl: string = this.baseUrl + '/admin';
   validateReportedCarUrl: string = this.adminUrl + '/reported';
   removeReportedCarUrl: string = this.adminUrl + '/reported';
   carrosInteresadosUrl: string = this.adminUrl + '/interesados';
+  registerSaleUrl: string = this.autoSemiNuevoUrl + '/venta';
 
   // * User
   userUrl: string = this.baseUrl + '/user';
   getUserUrl: string = this.userUrl + '/id';
-
-  // * Car Registrarion
-  autoSemiNuevoUrl: string = this.baseUrl + '/post';
 
   // * Car Get
   getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled';
@@ -40,9 +41,12 @@ export class CommonService {
   getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
   getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
   getAutosReportadosUrl: string = this.adminUrl + '/reported';
+  getAutosInteresantesUrl: string = this.userUrl + '/interesadoVenta';
+  getAutosNuevosUrl: string = this.autoSemiNuevoUrl + '/nuevo';
 
   // * Car Put
   validateAutoUrl: string = this.autoSemiNuevoUrl + '/validate';
+  removeAutoFromInteresantesUrl: string = this.userUrl + '/interesadoVenta';
 
   // * Posted Cars By User
   getAutosSemiNuevosValidadosUserUrl: string = this.userUrl + '/id';

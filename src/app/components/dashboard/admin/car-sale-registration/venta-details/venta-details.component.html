@@ -1,0 +1,147 @@
+<div class="container">
+  <h1 class="pl-0 h2 row" >Registrar Venta</h1>
+  <hr>
+  <div class="row" mat-dialog-content>
+    <form [formGroup]="formGroup">
+      <!-- <div>
+        {{ formGroup.value | json }}
+      </div> -->
+      <mat-radio-group 
+        aria-label="Selecciona una opción"
+        formControlName="vendidoPorRevendedor"
+        class="container justify-content-lg-center"
+      >
+        <mat-label class="row h4 justify-content-lg-center">¿Vendido por un revendedor o por Clicker?</mat-label>
+        <div class="row my-2 justify-content-lg-center">
+          <mat-radio-button class="mr-3" (change)="updateInteresados()" [value]="true">Revendedor</mat-radio-button>
+          <mat-radio-button class="ml-3" (change)="updateInteresados()" [value]="false">Clicker</mat-radio-button>
+        </div>
+        <mat-error
+          class="row"
+          *ngIf="formGroup.get('vendidoPorRevendedor')?.errors?.required"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+      </mat-radio-group>
+      <div class="container">
+        <div 
+          class="row h4 mb-2 justify-content-lg-center"
+          [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
+        >
+          {{ this.formGroup.value.vendidoPorRevendedor ? 'Revendedor' : 'Comprador' }}
+        </div>
+      </div>
+      <mat-form-field
+        [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null || this.formGroup.value.vendidoPorRevendedor}" 
+        appearance="fill"
+        class="container align-self-center"
+      >
+        <!-- TODO: disable si length === 0 -->
+        <mat-label>Nombre del comprador</mat-label>
+        <!-- NOTE: Interesado Compra -->
+          <input
+            matInput
+            [disabled]="interesadosCompra.length === 0"
+            type="text"
+            class="row mx-auto"
+            formControlName="comprador"
+            (keyup)="filterInteresados($event)"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="showInteresadoCompra"
+          >
+          <mat-error
+            class="row"
+            *ngIf="formGroup.get('comprador')?.errors?.compradorMatch"
+          >
+            Seleccione un comprador válido.
+          </mat-error>
+          <mat-error
+            class="row"
+            *ngIf="formGroup.get('comprador')?.errors?.required"
+          >
+            Este campo es obligatorio.
+          </mat-error>
+            <mat-option
+              *ngFor="let option of filteredInteresadosCompra | slice: 0:10"
+              [value]="option"
+            >
+              <span>
+                {{ option.nombre }}
+              </span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field 
+          [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null || !this.formGroup.value.vendidoPorRevendedor}" 
+          appearance="fill" 
+          class="container align-self-center"
+        >
+          <!-- NOTE: Interesado Reventa -->
+          <mat-label>Nombre del revendedor</mat-label>
+          <input
+            matInput
+            [disabled]="interesadosReventa.length === 0"
+            type="text"
+            class="row mx-auto"
+            formControlName="vendedor"
+            (keyup)="filterInteresados($event)"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="showInteresadoReventa"
+          >
+            <mat-error
+              class="row"
+              *ngIf="formGroup.get('vendedor')?.errors?.vendedorMatch"
+            >
+              Seleccione un vendedor válido.
+            </mat-error>
+            <mat-error
+              class="row"
+              *ngIf="formGroup.get('vendedor')?.errors?.required"
+            >
+              Este campo es obligatorio.
+            </mat-error>
+            <mat-option
+              class="row"
+              *ngFor="let option of filteredInteresadosReventa | slice: 0:10"
+              [value]="option"
+            >
+              <span>
+                {{ option.usuario.nombre }} {{ option.usuario.apellidos }}
+              </span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <div 
+          [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
+          appearance="fill" 
+          class="container p-0"
+        >
+          <mat-label class="row h4 justify-content-lg-center">Constancia de Pago (Foto)</mat-label>
+          <input
+            class="row justify-content-lg-center mt-2 mx-auto"
+            style="width: 200px;"
+            type="file"
+            accept="image/*"
+            formControlName="constanciaFoto"
+            (change)="addPhoto($event)"
+          />
+          <mat-error
+            class="row"
+            *ngIf="formGroup.get('constanciaFoto')?.errors?.required"
+          >
+            Este campo es obligatorio.
+          </mat-error>
+        </div>
+    </form>
+  </div>
+  <div class="row justify-content-center" mat-dialog-actions>
+      <button class="mr-3" mat-raised-button color="warn" (click)="closeDialog()">Cerrar</button>
+      <button [disabled]="formGroup.invalid" class="ml-3" mat-raised-button color="primary" (click)="registrarVenta()">Registrar</button>
+  </div>
+</div>

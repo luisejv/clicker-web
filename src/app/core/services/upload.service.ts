@@ -11,7 +11,7 @@ export class UploadService {
   uploadedData = new EventEmitter<any>();
   constructor() {}
 
-  uploadFile(file: File, index: number): void {
+  uploadFile(file: File, index: number = 0): void {
     const contentType = file.type;
     const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
     const bucket = new S3({

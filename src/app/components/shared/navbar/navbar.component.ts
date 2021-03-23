@@ -11,7 +11,17 @@ declare var slidebars: any;
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private storageService: StorageService, private router: Router) {}
+
+  ruta: string;
+
+  constructor(private storageService: StorageService, private router: Router) {
+    if (this.storageService.isLoggedIn()) {
+     this.ruta = '/dashboard/registrar-carro';
+    } else {
+      this.storageService.setGoingToCarRegistration('yes');
+      this.ruta = '/registro/particular';
+    }
+  }
 
   ngOnInit(): void {
     /* controller.init();
@@ -44,14 +54,5 @@ export class NavbarComponent implements OnInit {
     this.storageService.removeTokenLocalStorage();
     this.storageService.removeValidatedLocalStorage();
     this.storageService.removeGoingToCarRegistration();
-  }
-
-  checkToRegister(): string {
-    if (this.storageService.isLoggedIn()) {
-      return '/dashboard/registrar-carro';
-    } else {
-      this.storageService.setGoingToCarRegistration('yes');
-      return '/registro/particular';
-    }
   }
 }
