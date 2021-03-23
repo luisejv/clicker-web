@@ -58,8 +58,8 @@ export class CommonService {
   filtersUrl: string = this.baseUrl + '/post/filtros';
 
   // * Interested in Car
-  postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosCompra';
-  addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadosVenta';
+  postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoCompra';
+  addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoVenta';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';
