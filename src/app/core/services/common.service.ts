@@ -68,6 +68,9 @@ export class CommonService {
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';
 
+  // * Denuncia
+  denunciaUrl: string = this.baseUrl + '/denuncia';
+
   // * Placa Service
   getPlacaDetailsUrl: string = this.consultaPlacaUrl;
 

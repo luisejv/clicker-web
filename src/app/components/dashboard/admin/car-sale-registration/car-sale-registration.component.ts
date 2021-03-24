@@ -51,7 +51,7 @@ export class CarSaleRegistrationComponent implements OnInit {
     if (this.commonService.screenWidth <= 672) {
       return '80%';
     } else {
-      return '60%';
+      return '70%';
     }
   }
 

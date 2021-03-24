@@ -9,11 +9,10 @@
                   <h5 class="card-title">Denunciante: {{ denuncia.usuario!.correo }}</h5>
                   <h6 class="card-subtitle mb-2 text-muted">Descripción de la denuncia</h6>
                   <p class="card-text">{{ denuncia.descripcion }}</p>
-                  <!-- TODO: estos links -->
                   <a 
                     (click)="goToReporterDetail(denuncia)"
                     [ngClass]="{ 
-                        'btn btn-primary link-carta': commonService.screenWidth > 672,
+                        'link-carta': commonService.screenWidth > 672,
                         'card-link': commonService.screenWidth <= 672
                     }" 
                   >
@@ -23,7 +22,7 @@
                   <a 
                     (click)="goToCarDetail()"
                     [ngClass]="{ 
-                        'btn btn-primary link-carta': commonService.screenWidth > 672,
+                        'link-carta': commonService.screenWidth > 672,
                         'card-link': commonService.screenWidth <= 672
                     }" 
                   >

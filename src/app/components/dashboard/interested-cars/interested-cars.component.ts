@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { InteresadoReventa } from 'src/app/core/interfaces/interesado-reventa';
+import { CommonService } from 'src/app/core/services/common.service';
+import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 
 @Component({
   selector: 'app-interested-cars',
@@ -10,6 +12,7 @@ import { InteresadoReventa } from 'src/app/core/interfaces/interesado-reventa';
 })
 export class InterestedCarsComponent implements OnInit {
 
+  carros!: InteresadoReventa[];
   correo: string | null;
   
   constructor(
@@ -17,6 +20,7 @@ export class InterestedCarsComponent implements OnInit {
     private storageService: StorageService,
   ) {
     this.correo = this.storageService.getEmailLocalStorage();
+    console.warn(this.correo);
   }
 
   ngOnInit(): void {
@@ -27,6 +31,7 @@ export class InterestedCarsComponent implements OnInit {
         console.group('Autos Interesantes');
         console.log(response);
         console.groupEnd();
+        this.carros = response;
       },
       (error: any) => {
         console.error('fetching carros marcados como interesantes:', error);

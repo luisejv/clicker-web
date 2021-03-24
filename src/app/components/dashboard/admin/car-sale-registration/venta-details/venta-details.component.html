@@ -117,10 +117,48 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <mat-form-field 
+          [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
+          appearance="fill" 
+          class="container align-self-center"
+        >
+          <mat-label>Comisión General</mat-label>
+          <input
+            matInput
+            type="number"
+            class="row mx-auto"
+            formControlName="comisionGeneral"
+          />
+          <mat-error
+            class="row"
+            *ngIf="formGroup.get('comisionGeneral')?.errors?.required"
+          >
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field 
+          [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
+          appearance="fill" 
+          class="container align-self-center"
+        >
+          <mat-label>Precio Final de la Venta</mat-label>
+          <input
+            matInput
+            type="number"
+            class="row mx-auto"
+            formControlName="precioFinalVenta"
+          />
+          <mat-error
+            class="row"
+            *ngIf="formGroup.get('precioFinalVenta')?.errors?.required"
+          >
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
         <div 
           [ngClass]="{'hide-form-field': this.formGroup.value.vendidoPorRevendedor === null}" 
           appearance="fill" 
-          class="container p-0"
+          class="container align-self-center"
         >
           <mat-label class="row h4 justify-content-lg-center">Constancia de Pago (Foto)</mat-label>
           <input

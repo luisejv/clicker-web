@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
+import { Denuncia } from '../interfaces/denuncia';
 import { User } from '../interfaces/user';
 import { CommonService } from './common.service';
 import { StorageService } from './storage.service';
@@ -109,4 +110,11 @@ export class UserService {
       this.commonService.solicitudRetiroUrl + `?id=${id}`
     );
   }
+
+  // * Denuncias
+
+  public denunciar(body: Denuncia): Observable<any> {
+    return this.http.post(this.commonService.denunciaUrl, body);
+  }
+
 }

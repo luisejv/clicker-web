@@ -39,11 +39,14 @@ export class VentaDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: validators for 'comisionGeneral' and 'precioFinalVenta'
     this.formGroup = this.fb.group({
       vendidoPorRevendedor: [null, [Validators.required]],
       vendedor: [null, [Validators.required, this.vendedorMatch.bind(this)]],
       comprador: [null, [Validators.required, this.compradorMatch.bind(this)]],
       constanciaFoto: [null, [Validators.required]],
+      comisionGeneral: [null, [Validators.required]],
+      precioFinalVenta: [null, [Validators.required]],
     });
   }
 
@@ -105,9 +108,7 @@ export class VentaDetailsComponent implements OnInit {
         //TODO: descripción tmb?
         //FIXME: aca no tiene nombre, solo correo
         return (
-          this._normalizeValue(interesado.usuario.nombre!).includes(queryFilter) ||
-          this._normalizeValue(interesado.usuario.apellidos!).includes(queryFilter) ||
-          this._normalizeValue(interesado.usuario.numDocumento!.toString()).includes(queryFilter)
+          this._normalizeValue(interesado.usuario.correo!).includes(queryFilter)
         );
       });
     } else {
