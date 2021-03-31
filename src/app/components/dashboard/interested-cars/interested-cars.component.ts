@@ -40,4 +40,18 @@ export class InterestedCarsComponent implements OnInit {
 
   }
 
+  removeInterestedMark(id: number): void {
+    console.log('desmarcar carro con id: ', id);
+    this.userService.removeAutoFromInteresantes(id).subscribe(
+      (response: any) => {
+        console.group('Desmarcar como Interesado response');
+        console.log(response);
+        console.groupEnd();
+      },
+      (error: any) => {
+        console.error('when marking car with id ', id, ' as not interesting: ', error);
+      }
+    );
+  }
+
 }

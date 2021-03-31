@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { from } from 'rxjs';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
+import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { InteresadoCompra } from 'src/app/core/interfaces/interesado-compra';
 import { InteresadoReventa } from 'src/app/core/interfaces/interesado-reventa';
 import { Venta } from 'src/app/core/interfaces/venta';
@@ -39,7 +41,6 @@ export class VentaDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO: validators for 'comisionGeneral' and 'precioFinalVenta'
     this.formGroup = this.fb.group({
       vendidoPorRevendedor: [null, [Validators.required]],
       vendedor: [null, [Validators.required, this.vendedorMatch.bind(this)]],
@@ -89,14 +90,11 @@ export class VentaDetailsComponent implements OnInit {
   }
 
   updateInteresados(): void {
-    //TODO: aqui asignar 'interesadosCompra' y 'interesadosReventa'
-    
     if (this.formGroup.value.vendidoPorRevendedor) {
       this.interesadosReventa = this.data.interesadosReventa;
     } else {
       this.interesadosCompra = this.data.interesadosCompra;
     }
-
   }
 
   filterInteresados(e: any) {
@@ -105,10 +103,9 @@ export class VentaDetailsComponent implements OnInit {
     if (this.formGroup.value.vendidoPorRevendedor) {
       // interesadosReventa
       this.filteredInteresadosReventa = this.interesadosReventa.filter((interesado: InteresadoReventa) => {
-        //TODO: descripción tmb?
-        //FIXME: aca no tiene nombre, solo correo
         return (
-          this._normalizeValue(interesado.usuario.correo!).includes(queryFilter)
+          this._normalizeValue(interesado.usuario.nombre!).includes(queryFilter) ||
+          this._normalizeValue(interesado.usuario.correo).includes(queryFilter)
         );
       });
     } else {
@@ -116,8 +113,7 @@ export class VentaDetailsComponent implements OnInit {
       this.filteredInteresadosCompra = this.interesadosCompra.filter((interesado: InteresadoCompra) => {
         return (
           this._normalizeValue(interesado.nombre).includes(queryFilter) ||
-          this._normalizeValue(interesado.correo).includes(queryFilter) ||
-          this._normalizeValue(interesado.numTelefono.toString()).includes(queryFilter)
+          this._normalizeValue(interesado.correo).includes(queryFilter)
         );
       });
     }
@@ -134,7 +130,6 @@ export class VentaDetailsComponent implements OnInit {
 
   registrarVenta(): void {
     const form = this.formGroup.value;
-
     this.uploadService.uploadFile(this.constancia);
 
     this.uploadService.uploadedData.subscribe(
@@ -147,17 +142,13 @@ export class VentaDetailsComponent implements OnInit {
           vendedor: form.vendidoPorRevendedor ? { correo: form.vendedor.correo } : null,
           ciudadCompra: 'Lima', //FIXME: cambiar
           foto: this.constanciaUrl,
+          comisionGeneral: form.comisionGeneral,
+          precioFinalVenta: form.precioFinalVenta,
         };
-
-        //TODO: añadir estos 2 al form y mandarlos en el body
-        // "comisionGeneral": "0.05",
-        // "precioFinalVenta": 10000
 
         console.group('Sale Registrarion JSON');
         console.dir(body);
         console.groupEnd();
-
-        //TODO: request
 
         this.adminService.registrarVenta(body).subscribe(
           (response: any) => {

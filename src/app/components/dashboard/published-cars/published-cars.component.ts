@@ -2,10 +2,8 @@ import { LabelType, Options } from '@angular-slider/ngx-slider';
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';

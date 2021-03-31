@@ -83,7 +83,7 @@
       </div>
     </div>
     <div
-      *ngIf="validationView || reportedView || interestingView"
+      *ngIf="validationView || reportedView || interestingView || interesadoView"
       class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
     >
       <button
@@ -129,6 +129,15 @@
         (click)="emitSaleEvent()"
       >
         Vender
+      </button>
+      <button
+        class="m-2"
+        *ngIf="interesadoView"
+        mat-raised-button
+        color="basic"
+        (click)="quitarInteresado()"
+      >
+        Quitar
       </button>
     </div>
     <!-- <div class="b-goods__footer">

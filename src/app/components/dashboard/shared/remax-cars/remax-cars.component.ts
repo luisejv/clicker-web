@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { InteresadoReventa } from 'src/app/core/interfaces/interesado-reventa';
 import { CommonService } from 'src/app/core/services/common.service';
 
@@ -13,6 +13,7 @@ export class RemaxCarsComponent implements OnInit, OnChanges {
   @Input() interestedCarros!: InteresadoReventa[];
 
   filteredInterestedCarros!: InteresadoReventa[];
+  @Output() removeInteresado = new EventEmitter<number>();
 
   // * pages
   pgCnt: number = 0;
@@ -41,8 +42,9 @@ export class RemaxCarsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.interestedCarros && this.interestedCarros.length > 0) {
+    if (changes.interestedCarros && this.interestedCarros && this.interestedCarros.length > 0) {
       this.filteredInterestedCarros = this.interestedCarros;
+      this.len = this.filteredInterestedCarros.length;
     }
   }
 
@@ -54,7 +56,15 @@ export class RemaxCarsComponent implements OnInit, OnChanges {
   }
 
   filterByName(event: any): void {
-    //TODO:
+    const normalizedQuery: string = this._normalizeValue(event.target.value);
+    this.filteredInterestedCarros = this.interestedCarros.filter((interesado: InteresadoReventa) => {
+      return (
+        this._normalizeValue(interesado.autoSemiNuevo.marca).includes(normalizedQuery) ||
+        this._normalizeValue(interesado.autoSemiNuevo.modelo).includes(normalizedQuery)
+      );
+    });
+    this.len = this.filteredInterestedCarros.length;
+    this.updatePagination();
   }
 
   private updatePagination(): void {
@@ -76,6 +86,10 @@ export class RemaxCarsComponent implements OnInit, OnChanges {
     this.currPage = pageId;
     //FIXME: este scrollTo da chongos en la vista de iPad
     window.scrollTo(0, 0);
+  }
+
+  removeInterested(id: number): void {
+    this.removeInteresado.emit(id);
   }
 
 }

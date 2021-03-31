@@ -48,14 +48,18 @@ export const routes: Routes = [
       {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
+        canActivate: [ValidatedGuard],
       },
       {
         path: 'balance',
         component: BalanceComponent,
+        canActivate: [ValidatedGuard],
       },
       {
+        //FIXME: aca hay un problema porq REMAX y PARTICULAR compartirán este endpoint
         path: 'carros-interesantes',
         component: InterestedCarsComponent,
+        canActivate: [ValidatedGuard],
       },
       {
         path: 'autos-por-validar',

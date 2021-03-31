@@ -2,16 +2,24 @@
     display: none;
 }
 
-.dialog-container {
-    overflow-x: auto;
-}
-
 .horizontal-wrap {
     width: fit-content;
 }
 
 .link-carta {
-    display: block;
+    display: inline-block;
     cursor: pointer;
     color: cornflowerblue !important;
+    margin: 0 10px;
+}
+
+.link-carta:hover {
+    background-clip: content-box;
+    text-decoration: underline;
+}
+
+.link-carta-sm {
+    display: inline-block;
+    color: cornflowerblue !important;
+    margin: 5px 0;
 }

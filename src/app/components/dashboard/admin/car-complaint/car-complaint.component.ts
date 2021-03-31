@@ -54,7 +54,7 @@ export class CarComplaintComponent implements OnInit {
     if (this.commonService.screenWidth <= 672) {
       return '80%';
     } else {
-      return '60%';
+      return '70%';
     }
   }
 
@@ -91,9 +91,10 @@ export class CarComplaintComponent implements OnInit {
           (res: any) => {
             console.log(res);
             console.log('carro borrado de clicker');
+            this.ngOnInit();
           },
           (error: any) => {
-            console.error('removing car with id: ', id, ' from clicker');
+            console.error('removing car with id: ', id, ' from clicker: ', error);
           }
         );
       } else {
@@ -116,9 +117,10 @@ export class CarComplaintComponent implements OnInit {
           (res: any) => {
             console.log(res);
             console.log('carro eliminado de lista de reportados');
+            this.ngOnInit();
           },
           (error: any) => {
-            console.error('validating reported car with id: ', id);
+            console.error('validating reported car with id: ', id, error);
           }
         );
       } else {

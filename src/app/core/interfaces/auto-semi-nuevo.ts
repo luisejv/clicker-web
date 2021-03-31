@@ -44,7 +44,7 @@ interface Foto {
   foto: string;
 }
 
-interface Locacion {
+export interface Locacion {
   id: string;
   departamento?: string;
   provincia?: string;
