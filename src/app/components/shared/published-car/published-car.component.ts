@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
@@ -19,6 +18,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Input() reportedView: boolean = false;
   @Input() interestingView: boolean = false; // admin sale
   @Input() interesadoView: boolean = false;
+  @Input() sponsorView: boolean = false;
 
   @Output() validated = new EventEmitter<number>();
 
@@ -29,6 +29,8 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Output() sell = new EventEmitter<AutoInteresado>();
 
   @Output() removeInterested = new EventEmitter<number>();
+
+  @Output() changeSponsorLevel = new EventEmitter<number>();
 
   // auto validado y interesado = AutoSemiNuevo
   // auto reportado             = Auto Reportado
@@ -49,7 +51,8 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     console.groupEnd();
 
     if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
-        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView)) {
+        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView) ||
+        (changes.sponsorView && changes.sponsorView.firstChange && this.sponsorView)) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
     } else if (changes.reportedView && changes.reportedView.firstChange && this.reportedView) {
       this.autoCasteado = this.auto as AutoReportado;
@@ -65,6 +68,11 @@ export class PublishedCarComponent implements OnInit, OnChanges {
         id: this.autoCasteado.id,
       },
     });
+  }
+
+  goToCarEditView(): void {
+    //TODO: llevarlo a la vista para editar carros
+    console.log('vista para editar carros');
   }
 
   emitSeeReporters(): void {
@@ -89,6 +97,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
 
   quitarInteresado(): void {
     this.removeInterested.emit((this.auto as AutoSemiNuevo).id);
+  }
+
+  sponsorLevelEvent(): void {
+    this.changeSponsorLevel.emit((this.autoCasteado as AutoSemiNuevo).id!);
   }
 
 }

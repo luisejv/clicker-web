@@ -54,8 +54,11 @@
                       data-style="ui-select"
                       (change)="sortBy($event)"
                     >
-                      <option>A-Z</option>
-                      <option>Z-A</option>
+                    <option selected disabled>Ordenar por</option>
+                    <option value="1">Precio ascendiente</option>
+                    <option value="2">Precio descendiente</option>
+                    <option value="3">Año ascendiente</option>
+                    <option value="4">Año descendiente</option>
                     </select>
                   </div>
                 </div>

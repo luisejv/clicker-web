@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { SortType } from 'src/app/core/enums/sort-type.enum';
 import { InteresadoReventa } from 'src/app/core/interfaces/interesado-reventa';
 import { CommonService } from 'src/app/core/services/common.service';
 
@@ -80,6 +81,43 @@ export class RemaxCarsComponent implements OnInit, OnChanges {
   }
 
   sortBy(e: any): void {
+    const by: string = e.target.value;
+
+    switch (by) {
+      case SortType.PrecioMenorMayor: {
+        this.interestedCarros.sort(
+          (a: InteresadoReventa, b: InteresadoReventa) => {
+            return a.autoSemiNuevo.precioVenta - b.autoSemiNuevo.precioVenta;
+          }
+        );
+        break;
+      }
+      case SortType.PrecioMayorMenor: {
+        this.interestedCarros.sort(
+          (a: InteresadoReventa, b: InteresadoReventa) => {
+            return b.autoSemiNuevo.precioVenta - a.autoSemiNuevo.precioVenta;
+          }
+        );
+        break;
+      }
+      case SortType.AnoMenorMayor: {
+        this.interestedCarros.sort(
+          (a: InteresadoReventa, b: InteresadoReventa) => {
+            return a.autoSemiNuevo.anoFabricacion - b.autoSemiNuevo.anoFabricacion;
+          }
+        );
+        break;
+      }
+      case SortType.AnoMayorMenor: {
+        this.interestedCarros.sort(
+          (a: InteresadoReventa, b: InteresadoReventa) => {
+            return b.autoSemiNuevo.anoFabricacion - a.autoSemiNuevo.anoFabricacion;
+          }
+        );
+        break;
+      }
+    }
+
   }
 
   goToPage(pageId: number): void {

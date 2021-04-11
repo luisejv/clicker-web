@@ -313,6 +313,38 @@
                     </div>
                   </div>
                   <div class="b-filter-slider ui-filter-slider">
+                    <div class="b-filter-slider__title">Año</div>
+                    <div class="b-filter-slider__main">
+                      <ngx-slider
+                        [(value)]="minYear"
+                        [(highValue)]="maxYear"
+                        [options]="optionsYear"
+                      >
+                      </ngx-slider>
+
+                      <div class="b-filter__row row">
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="minYear"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="minYear"
+                          />
+                        </div>
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="maxYear"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="maxYear"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-filter-slider ui-filter-slider">
                     <div class="b-filter-slider__title">Kilometraje</div>
                     <div class="b-filter-slider__main">
                       <ngx-slider
@@ -397,16 +429,16 @@
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
-                Showing results<strong>
+                Mostrando resultados del <strong>
                   {{ filteredCarros.length === 0 ? 0 : currPage * 10 + 1 }}
-                  to
+                  al
                   {{
                     currPage * 10 + 10 > filteredCarros.length
                       ? filteredCarros.length
                       : currPage * 10 + 10
                   }}</strong
                 >
-                of total {{ filteredCarros.length }}
+                de {{ filteredCarros.length }} en total
               </div>
             </div>
             <div class="col-md-auto">
@@ -420,8 +452,11 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                    <option>A-Z</option>
-                    <option>Z-A</option>
+                    <option selected disabled>Ordenar por</option>
+                    <option value="1">Precio ascendiente</option>
+                    <option value="2">Precio descendiente</option>
+                    <option value="3">Año ascendiente</option>
+                    <option value="4">Año descendiente</option>
                   </select>
                 </div>
               </div>

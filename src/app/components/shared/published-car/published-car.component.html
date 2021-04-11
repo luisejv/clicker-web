@@ -83,16 +83,26 @@
       </div>
     </div>
     <div
-      *ngIf="validationView || reportedView || interestingView || interesadoView"
+      *ngIf="validationView || reportedView || interestingView || interesadoView || sponsorView"
       class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
     >
       <button
+        class="m-2"
         *ngIf="validationView"
         mat-raised-button
         color="primary"
         (click)="emitValidationEvent()"
       >
         Validar
+      </button>
+      <button
+        class="m-2"
+        *ngIf="validationView"
+        mat-raised-button
+        color="primary"
+        (click)="goToCarEditView()"
+      >
+        Editar
       </button>
       <button
         class="m-2"
@@ -138,6 +148,15 @@
         (click)="quitarInteresado()"
       >
         Quitar
+      </button>
+      <button
+        class="m-2"
+        *ngIf="sponsorView"
+        mat-raised-button
+        color="basic"
+        (click)="sponsorLevelEvent()"
+      >
+        Cambiar Ranking
       </button>
     </div>
     <!-- <div class="b-goods__footer">

@@ -275,7 +275,7 @@ export class CarRegistrationComponent implements OnInit {
       fotoPrincipal: '',
       fotos: [],
       accesorios: [],
-      locaciones: {
+      locacion: {
         id: '150103',
       },
     };

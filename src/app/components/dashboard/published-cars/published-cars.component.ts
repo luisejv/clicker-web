@@ -18,6 +18,7 @@ import { ClientService } from 'src/app/core/services/client.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
+import { SortType } from 'src/app/core/enums/sort-type.enum';
 
 declare var $: any;
 
@@ -83,15 +84,15 @@ export class PublishedCarsComponent implements OnInit {
   minKilometraje!: number;
   maxKilometraje!: number;
   optionsKilometraje!: Options;
+  minYear!: number;
+  maxYear!: number;
+  optionsYear!: Options;
 
   // * Grid - Listings
   /* @ViewChild('list') list!: ElementRef;
   @ViewChild('grid') grid!: ElementRef; */
   list: boolean = true;
 
-  //TODO: kilometraje
-  //TODO: departamentos
-  //TODO: traccion
   constructor(
     private userService: UserService,
     private storageService: StorageService,
@@ -208,8 +209,13 @@ export class PublishedCarsComponent implements OnInit {
     this.minKilometraje = 0;
     this.maxKilometraje = 500000; // 500 000 km
 
+    //TODO: esto depende del cliente
+    this.minYear = 2000;
+    this.maxYear = 2021;
+
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
+    this.updateYearSliderOptions();
 
     console.log('cameFrom: ', this.cameFrom);
 
@@ -727,7 +733,7 @@ export class PublishedCarsComponent implements OnInit {
       this.carDepartamentos?.value.forEach((departamento: string) => {
         johnathanPrieto =
           johnathanPrieto ||
-          carro.locaciones!.departamento!.includes(departamento);
+          carro.locacion!.departamento!.includes(departamento);
       });
       return johnathanPrieto;
     });
@@ -746,10 +752,61 @@ export class PublishedCarsComponent implements OnInit {
     this.updatePagination();
   }
 
-  sortBy(order: any): void {
-    console.group(order.target.value);
-    console.groupEnd();
-    //TODO:
+  sortBy(e: any): void {
+    const by = e.target.value;
+    console.log('sortBy option selected: ', by);
+
+    switch (by) {
+      case SortType.PrecioMenorMayor: {
+        console.log('precio ascendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return a.precioVenta - b.precioVenta;
+          }
+        );
+        
+        break;
+      }
+      case SortType.PrecioMayorMenor: {
+        console.log('precio descendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return b.precioVenta - a.precioVenta;
+          }
+        );
+        break;
+      }
+      case SortType.AnoMenorMayor: {
+        console.log('precio ascendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return a.anoFabricacion - b.anoFabricacion;
+          }
+        );
+
+        break;
+      }
+      case SortType.AnoMayorMenor: {
+        console.log('precio descendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return b.anoFabricacion - a.anoFabricacion;
+          }
+        );
+
+        break;
+      }
+      default: {
+        console.warn('unknown sort type');
+      }
+    }
+
+    console.log('sorted carros: ', this.filteredCarros);
+
     this.updatePagination();
   }
 
@@ -781,8 +838,13 @@ export class PublishedCarsComponent implements OnInit {
     this.minKilometraje = 0;
     this.maxKilometraje = 500000;
 
+    //TODO: esto depende del cliente
+    this.minYear = 2000;
+    this.maxYear = 2021;
+
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
+    this.updateYearSliderOptions();
 
     this.filteredModels = [];
 
@@ -902,6 +964,26 @@ export class PublishedCarsComponent implements OnInit {
             return (
               carro.precioVenta >= this.minPrice &&
               carro.precioVenta <= this.maxPrice
+            );
+          }
+        );
+        this.updatePagination();
+        return '';
+      },
+    };
+  }
+
+  updateYearSliderOptions(): void {
+    this.optionsYear = {
+      floor: this.minYear,
+      ceil: this.maxYear,
+      step: 1,
+      translate: (value: number, label: LabelType): string => {
+        this.filteredCarros = this.auxFilteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return (
+              carro.anoFabricacion >= this.minYear &&
+              carro.anoFabricacion <= this.maxYear
             );
           }
         );

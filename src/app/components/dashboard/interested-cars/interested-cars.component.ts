@@ -47,6 +47,7 @@ export class InterestedCarsComponent implements OnInit {
         console.group('Desmarcar como Interesado response');
         console.log(response);
         console.groupEnd();
+        this.ngOnInit();
       },
       (error: any) => {
         console.error('when marking car with id ', id, ' as not interesting: ', error);

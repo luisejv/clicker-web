@@ -1,11 +1,11 @@
 <div class="container">
-  <h1 class="pl-0 h2 row" >Registrar Venta</h1>
+  <h1 class="pl-0 h2 row justify-content-center">Registrar Venta</h1>
   <hr>
   <div class="row" mat-dialog-content>
     <form [formGroup]="formGroup">
-      <!-- <div>
+      <!-- <pre>
         {{ formGroup.value | json }}
-      </div> -->
+      </pre> -->
       <mat-radio-group 
         aria-label="Selecciona una opción"
         formControlName="vendidoPorRevendedor"
@@ -13,8 +13,8 @@
       >
         <mat-label class="row h4 justify-content-lg-center">¿Vendido por un revendedor o por Clicker?</mat-label>
         <div class="row my-2 justify-content-lg-center">
-          <mat-radio-button class="mr-3" (change)="updateInteresados()" [value]="true">Revendedor</mat-radio-button>
-          <mat-radio-button class="ml-3" (change)="updateInteresados()" [value]="false">Clicker</mat-radio-button>
+          <mat-radio-button class="mr-3" (change)="resetForm($event)" [value]="true">Revendedor</mat-radio-button>
+          <mat-radio-button class="ml-3" (change)="resetForm($event)" [value]="false">Clicker</mat-radio-button>
         </div>
         <mat-error
           class="row"
@@ -36,7 +36,6 @@
         appearance="fill"
         class="container align-self-center"
       >
-        <!-- TODO: disable si length === 0 -->
         <mat-label>Nombre del comprador</mat-label>
         <!-- NOTE: Interesado Compra -->
           <input
@@ -46,23 +45,23 @@
             class="row mx-auto"
             formControlName="comprador"
             (keyup)="filterInteresados($event)"
-            [matAutocomplete]="auto"
+            [matAutocomplete]="auto1"
           />
           <mat-autocomplete
-            #auto="matAutocomplete"
+            #auto1="matAutocomplete"
             [displayWith]="showInteresadoCompra"
           >
           <mat-error
-            class="row"
-            *ngIf="formGroup.get('comprador')?.errors?.compradorMatch"
-          >
-            Seleccione un comprador válido.
-          </mat-error>
-          <mat-error
-            class="row"
+            class="row pl-2"
             *ngIf="formGroup.get('comprador')?.errors?.required"
           >
             Este campo es obligatorio.
+          </mat-error>
+          <mat-error
+            class="row pl-2"
+            *ngIf="formGroup.get('comprador')?.errors?.compradorMatch"
+          >
+            Seleccione un comprador válido.
           </mat-error>
             <mat-option
               *ngFor="let option of filteredInteresadosCompra | slice: 0:10"
@@ -88,31 +87,31 @@
             class="row mx-auto"
             formControlName="vendedor"
             (keyup)="filterInteresados($event)"
-            [matAutocomplete]="auto"
+            [matAutocomplete]="auto2"
           />
           <mat-autocomplete
-            #auto="matAutocomplete"
+            #auto2="matAutocomplete"
             [displayWith]="showInteresadoReventa"
           >
-            <mat-error
-              class="row"
-              *ngIf="formGroup.get('vendedor')?.errors?.vendedorMatch"
-            >
-              Seleccione un vendedor válido.
-            </mat-error>
             <mat-error
               class="row"
               *ngIf="formGroup.get('vendedor')?.errors?.required"
             >
               Este campo es obligatorio.
             </mat-error>
+            <mat-error
+              class="row"
+              *ngIf="formGroup.get('vendedor')?.errors?.vendedorMatch"
+            >
+              Seleccione un vendedor válido.
+            </mat-error>
             <mat-option
               class="row"
               *ngFor="let option of filteredInteresadosReventa | slice: 0:10"
               [value]="option"
             >
-              <span>
-                {{ option.usuario.nombre }} {{ option.usuario.apellidos }}
+              <span class="pl-2">
+                {{ option.usuario.nombre !== null ? option.usuario.nombre : option.usuario.correo }}
               </span>
             </mat-option>
           </mat-autocomplete>
@@ -122,18 +121,34 @@
           appearance="fill" 
           class="container align-self-center"
         >
-          <mat-label>Comisión General</mat-label>
+          <mat-label>Comisión General: 0 (0%) - 1 (100%)</mat-label>
           <input
             matInput
+            min="0"
+            max="1"
+            step="0.01"
             type="number"
             class="row mx-auto"
             formControlName="comisionGeneral"
+            (keyup)="debug($event)"
           />
           <mat-error
-            class="row"
+            class="row pl-2"
             *ngIf="formGroup.get('comisionGeneral')?.errors?.required"
           >
             Este campo es obligatorio.
+          </mat-error>
+          <mat-error
+            class="row pl-2"
+            *ngIf="formGroup.get('comisionGeneral')?.errors?.min"
+          >
+            La comisión debe ser mínimo 0 (0%).
+          </mat-error>
+          <mat-error
+            class="row pl-2"
+            *ngIf="formGroup.get('comisionGeneral')?.errors?.max"
+          >
+            La comisión debe ser máximo 1 (100%).
           </mat-error>
         </mat-form-field>
         <mat-form-field 
@@ -144,15 +159,22 @@
           <mat-label>Precio Final de la Venta</mat-label>
           <input
             matInput
+            min="0"
             type="number"
             class="row mx-auto"
             formControlName="precioFinalVenta"
           />
           <mat-error
-            class="row"
+            class="row pl-2"
             *ngIf="formGroup.get('precioFinalVenta')?.errors?.required"
           >
             Este campo es obligatorio.
+          </mat-error>
+          <mat-error
+            class="row pl-2"
+            *ngIf="formGroup.get('comisionGeneral')?.errors?.min"
+          >
+            El precio final de venta debe ser mínimo S/ 0.
           </mat-error>
         </mat-form-field>
         <div 
@@ -170,7 +192,7 @@
             (change)="addPhoto($event)"
           />
           <mat-error
-            class="row"
+            class="row pl-2"
             *ngIf="formGroup.get('constanciaFoto')?.errors?.required"
           >
             Este campo es obligatorio.
