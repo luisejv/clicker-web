@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { SponsorUpdate } from 'src/app/core/interfaces/sponsor-update';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -37,21 +38,19 @@ export class CarSponsorComponent implements OnInit {
   }
 
   setSponsorLevel(carId: number): void {
-
-    //TODO: mandar request
-    console.log(`setting new sponsor level (choose in dialog) for car with id: ${carId}`);
-
     Swal.fire({
       title: 'Cambiar ranking',
-      input: 'text', //TODO: cambiar a number
+      input: 'number', //TODO: cambiar a number
       inputLabel: 'Ingresar nuevo ranking',
-      // inputAttributes: {
-      //   min: '0',
-      //   max: '100'
-      // },
+      inputAttributes: {
+        min: '1',
+        max: '100'
+      },
       inputValidator: (value): any => {
         if (!value) {
-          return '¡Tienes que ingresar un número!'
+          return '¡Tienes que ingresar un número!';
+        } else if (+value < 1 || +value > 100) {
+          return '¡El nuevo ranking debe ser mínimo 1 y máximo 100!';
         }
       },
       showCancelButton: true,
@@ -59,34 +58,35 @@ export class CarSponsorComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       focusCancel: true,
       showLoaderOnConfirm: true,
-      preConfirm: (login: string) => {
-        // TODO: mandar request con admin service
-        return fetch(`//api.github.com/users/${login}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(response.statusText)
-            }
-            return response.json()
-          })
-          .catch(error => {
-            Swal.showValidationMessage(
-              `Request failed: ${error}`
-            )
-          })
+      preConfirm: (level: number) => {
+
+        const putBody: SponsorUpdate = {
+          id: carId,
+          level: level,
+        };
+
+        return this.adminService.putSponsoredCarLevel(putBody).subscribe(
+          (res: any) => {
+            console.log('put sponsor level response:');
+            console.dir(res);
+          },
+          (err: any) => {
+            console.log('put sponsor level error:');
+            console.error(err);
+          }
+        );
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      //TODO: adaptar esto a lo que devuelve cesar
       console.log('Swal request result:');
       console.dir(result);
       if (result.isConfirmed) {
         Swal.fire({
-          title: `${result.value.login}'s avatar`,
-          imageUrl: result.value.avatar_url
-        })
+          icon: 'success',
+          title: 'Ranking cambiado exitosamente'
+        });
       }
     })
-
   }
 
 }

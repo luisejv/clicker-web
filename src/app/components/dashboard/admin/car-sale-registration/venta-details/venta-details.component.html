@@ -38,9 +38,9 @@
       >
         <mat-label>Nombre del comprador</mat-label>
         <!-- NOTE: Interesado Compra -->
+        <!-- [disabled]="interesadosCompra.length === 0" -->
           <input
             matInput
-            [disabled]="interesadosCompra.length === 0"
             type="text"
             class="row mx-auto"
             formControlName="comprador"
@@ -80,9 +80,9 @@
         >
           <!-- NOTE: Interesado Reventa -->
           <mat-label>Nombre del revendedor</mat-label>
+          <!-- [disabled]="interesadosReventa.length === 0" -->
           <input
             matInput
-            [disabled]="interesadosReventa.length === 0"
             type="text"
             class="row mx-auto"
             formControlName="vendedor"

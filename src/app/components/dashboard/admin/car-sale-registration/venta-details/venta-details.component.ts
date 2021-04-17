@@ -53,9 +53,8 @@ export class VentaDetailsComponent implements OnInit {
       comisionGeneral: [null, [Validators.required, Validators.min(0), Validators.max(1)]],
       precioFinalVenta: [null, [Validators.required, Validators.min(0)]],
     });
+    this.disableInputs();
   }
-
-  //TODO: crear dos instancias de formGroup
 
   private vendedorMatch(control: FormControl): ValidationErrors | null {
     const selection: any = control.value;
@@ -99,6 +98,15 @@ export class VentaDetailsComponent implements OnInit {
     }
   }
 
+  disableInputs(): void {
+    if (this.interesadosCompra.length === 0) {
+      this.formGroup.controls['comprador'].disable();
+    }
+    if (this.interesadosReventa.length === 0) {
+      this.formGroup.controls['vendedor'].disable();
+    }
+  }
+
   resetForm(e: any): void {
     const revendedor = e.value;
 
@@ -121,6 +129,7 @@ export class VentaDetailsComponent implements OnInit {
         precioFinalVenta: [null, [Validators.required]],
       });
     }
+    this.disableInputs();
   }
 
   filterInteresados(e: any) {

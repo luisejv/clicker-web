@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
 import { CommonService } from './common.service';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class ClientService {
   constructor(private http: HttpClient, private commonService: CommonService) {}
 
   public getSponsoredCars(): Observable<any> {
-    return this.http.get(this.commonService.getSponsoredCarsUrl);
+    return this.http.get(this.commonService.sponsoredCarsUrl);
   }
   public getRecentCars(): Observable<any> {
     return this.http.get(this.commonService.getRecentCarsUrl);
@@ -35,5 +36,8 @@ export class ClientService {
   }
   public getUbigeos(): Observable<any> {
     return this.http.get(this.commonService.ubigeosUrl);
+  }
+  public putAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
+    return this.http.put(this.commonService.autoSemiNuevoUrl, body);
   }
 }

@@ -71,8 +71,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   goToCarEditView(): void {
-    //TODO: llevarlo a la vista para editar carros
-    console.log('vista para editar carros');
+    this.router.navigateByUrl('/dashboard/editar-carro');
   }
 
   emitSeeReporters(): void {

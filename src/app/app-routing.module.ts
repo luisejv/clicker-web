@@ -9,6 +9,7 @@ import { CarValidationComponent } from './components/dashboard/admin/car-validat
 import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
+import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
@@ -44,6 +45,18 @@ export const routes: Routes = [
         path: 'registrar-carro',
         component: CarRegistrationComponent,
         canActivate: [ValidatedGuard],
+      },
+      {
+        path: 'editar-carro',
+        component: CarEditingComponent,
+        // TODO: guard que chequee que solo esta loggeado
+        // canActivate: [ValidatedGuard],
+      },
+      {
+        path: 'editar-carro/:id',
+        component: CarEditingComponent,
+        // TODO: guard que chequee que solo esta loggeado
+        // canActivate: [ValidatedGuard],
       },
       {
         path: 'carros-publicados',

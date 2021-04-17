@@ -59,6 +59,8 @@ import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/ca
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { VentaDetailsComponent } from './components/dashboard/admin/car-sale-registration/venta-details/venta-details.component';
 import { RemaxCarsComponent } from './components/dashboard/shared/remax-cars/remax-cars.component';
+import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
+import { CarCuComponent } from './components/dashboard/shared/car-cu/car-cu.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +107,8 @@ import { RemaxCarsComponent } from './components/dashboard/shared/remax-cars/rem
     InterestedCarsComponent,
     VentaDetailsComponent,
     RemaxCarsComponent,
+    CarEditingComponent,
+    CarCuComponent,
   ],
   imports: [
     BrowserModule,
