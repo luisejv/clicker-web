@@ -37,7 +37,4 @@ export class ClientService {
   public getUbigeos(): Observable<any> {
     return this.http.get(this.commonService.ubigeosUrl);
   }
-  public putAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
-    return this.http.put(this.commonService.autoSemiNuevoUrl, body);
-  }
 }

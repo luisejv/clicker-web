@@ -40,6 +40,12 @@ export class UserService {
     return this.http.post(this.commonService.autoSemiNuevoUrl, body);
   }
 
+  // * Car Put
+
+  public putAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
+    return this.http.put(this.commonService.autoSemiNuevoUrl, body);
+  }
+
   // * Car Getters
 
   // public getAutosSemiNuevosValidados(pageId: number): Observable<any> {

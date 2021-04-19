@@ -291,7 +291,7 @@
 </section>
 
 <!-- Section-3 Recién Llegados -->
-<section class="section-goods">
+<section *ngIf="recentCars.length > 0" class="section-goods">
   <div class="section-default section-goods__inner bg-dark">
     <div class="ui-decor ui-decor_mirror ui-decor_center"></div>
     <div class="container">
@@ -315,7 +315,7 @@
     <div class="section-goods__list">
       <div class="row">
         <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
-          <app-published-car [auto]="seminuevo" [mode]="false">
+          <app-published-car [normalView]="true" [auto]="seminuevo" [mode]="false">
           </app-published-car>
         </div>
       </div>

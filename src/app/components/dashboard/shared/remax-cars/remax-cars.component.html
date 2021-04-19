@@ -34,10 +34,10 @@
               <div class="col-md-auto">
                 <div class="b-filter-goods__info">
                   Showing results<strong>
-                    {{ len === 0 ? 0 : currPage * 10 + 1 }}
+                    {{ len === 0 ? 0 : currPage * carsPerPage + 1 }}
                     to
                     {{
-                      currPage * 10 + 10 > len ? len : currPage * 10 + 10
+                      currPage * carsPerPage + carsPerPage > len ? len : currPage * carsPerPage + carsPerPage
                     }}</strong
                   >
                   of total {{ len }}
@@ -94,7 +94,7 @@
           <!-- end .b-filter-goods-->
         <div
           *ngFor="
-          let carro of filteredInterestedCarros | slice: currPage * 10:currPage * 10 + 10
+            let carro of filteredInterestedCarros | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
           "
           [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
         >

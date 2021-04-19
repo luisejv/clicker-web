@@ -23,7 +23,7 @@
       <div class="justify-content-center col-xl-9">
         <mat-form-field appearance="fill" class="w-100 pr-2">
           <mat-label>Buscar carro...</mat-label>
-          <input class="" matInput type="text" (keyup)="filterByName($event)" />
+          <input matInput type="text" (keyup)="filterByName($event)" />
         </mat-form-field>
       </div>
     </div>
@@ -54,11 +54,11 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                    <option selected disabled>Ordenar por</option>
-                    <option value="1">Precio ascendiente</option>
-                    <option value="2">Precio descendiente</option>
-                    <option value="3">Año ascendiente</option>
-                    <option value="4">Año descendiente</option>
+                  <option selected disabled>Ordenar por</option>
+                  <option value="1">Precio ascendiente</option>
+                  <option value="2">Precio descendiente</option>
+                  <option value="3">Año ascendiente</option>
+                  <option value="4">Año descendiente</option>
                   </select>
                 </div>
               </div>
@@ -92,83 +92,23 @@
           </div>
         </div>
         <!-- end .b-filter-goods-->
-        <!-- NOTE: Carros Auspiciados -->
-        <div *ngIf="sponsorView" class="b-goods-group row">
-          <div
-            *ngFor="
-              let carro of sponsoredCars
-                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
-            "
-            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-          >
-            <app-published-car
-              [auto]="carro"
-              [mode]="list"
-              [sponsorView]="true"
-              (changeSponsorLevel)="changeSponsorLevel($event)"
-            >
-            </app-published-car>
-          </div>
-        </div>
-        <!-- NOTE: Carros No Validados -->
-        <div *ngIf="validationView" class="b-goods-group row">
-          <div
-            *ngFor="
-              let carro of notValidatedFilteredCarros
-                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
-            "
-            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-          >
-            <app-published-car
-              [auto]="carro"
-              [mode]="list"
-              [validationView]="true"
-              (validated)="validateCar($event)"
-            >
-            </app-published-car>
-          </div>
-        </div>
-        <!-- NOTE: Carros Reportados -->
-        <div *ngIf="reportedView" class="b-goods-group row">
-          <div
-            *ngFor="
-              let carro of reportedFilteredCarros
-                | slice: currPage * 10:currPage * 10 + 10
-            "
-            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-          >
-            <app-published-car
-              [auto]="carro"
-              [mode]="list"
-              [reportedView]="true"
-              (removed)="removeCar($event)"
-              (reportedIsValid)="markAsValid($event)"
-              (showReporters)="showReporters($event)"
-            >
-            </app-published-car>
-          </div>
-        </div>
-        <!-- NOTE: Carros Interesados -->
-        <div *ngIf="interestingView" class="b-goods-group row">
-          <div
-            *ngFor="
-              let carro of interestingFilteredCarros
-                | slice: currPage * 10:currPage * 10 + 10
-            "
-            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-          >
-            <app-published-car
-              [auto]="carro"
-              [mode]="list"
-              [interestingView]="true"
-              (sell)="sellCar($event)"
-            >
-            </app-published-car>
-          </div>
-        </div>
-        <div *ngIf="len === 0" class="col text-center">
+      <div
+        *ngFor="
+          let carro of filteredCarros | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
+        "
+        [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
+      >
+        <app-published-car
+          [auto]="carro"
+          [mode]="list"
+          [particularPublishedView]="true"
+        >
+        <!-- TODO: esto no es [normalView], hay que cambiarlo -->
+        </app-published-car>
+      </div>
+      <div *ngIf="len === 0" class="col text-center">
           Oops. No se encontró ningún carro con esas especificaciones.
-        </div>
+      </div>
         <nav class="mt-3" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li

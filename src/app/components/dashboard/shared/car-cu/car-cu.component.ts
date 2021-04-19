@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { DataService } from 'src/app/core/services/data.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UploadService } from 'src/app/core/services/upload.service';
@@ -29,13 +31,15 @@ export class CarCuComponent implements OnInit {
   @Input() createAction!: (body: AutoSemiNuevo, fotos: Fotos[], uploadedPhotos: EventEmitter<string>) => void;
 
   formGroup: FormGroup;
-  disabled: boolean = false;
-  editView: boolean = false;
   carId: number = -1;
   fotoPrincipal!: File;
   fotos: Fotos[] = [];
   uploadedPhotos = new EventEmitter<string>();
   validatedPlaca: boolean = false;
+  role: string | null;
+  correo: string | null;
+  fetchingPlaca: boolean = false;
+  date: Date;
 
   constructor(
     private fb: FormBuilder,
@@ -44,35 +48,46 @@ export class CarCuComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private loaderService: LoaderService,
-    private uploadService: UploadService
+    public dataService: DataService,
   ) {
+    this.date = new Date();
+    this.role = this.storageService.getEmailLocalStorage();
+    this.correo = this.storageService.getEmailLocalStorage();
+    // TODO: validators
+    // TODO: validator cuando entra a editar, ningun campo que ya esté, debe cambiar a vacío, o sí puede?
+    //NOTE: sería paja autocompletar la info del usuario particular para ahorrarle chamba
+      // F3W642
+      // BJX356
     this.formGroup = this.fb.group({
-      correoDueno: 'luis.jauregui@utec.edu.pe',
-      nombreDueno: 'Luis Jáuregui',
-      telefonoDueno: '997854810',
-      placa: 'NSFW18',
-      serie: '',
-      marca: '',
-      modelo: '',
-      anoFabricacion: '2018',
-      tipoCambios: 'Automático',
-      tipoCombustible: 'Eléctrico',
-      tipoCarroceria: 'SUV',
-      cilindrada: '35000',
-      kilometraje: '120000',
-      numeroPuertas: '5',
-      tipoTraccion: 'Trasera',
-      color: 'Azul',
-      numeroCilindros: '5',
-      precioVenta: '45000',
+      id: '',
+      // correoDueno: 'luis.jauregui@utec.edu.pe',
+      // nombreDueno: 'Luis Jáuregui',
+      // telefonoDueno: '997854810',
+      // placa: 'AAA222',
+      correoDueno: ['gabriel.spranger@utec.edu.pe', [Validators.required, Validators.email]],
+      nombreDueno: ['Gabriel Spranger', [Validators.required]],
+      telefonoDueno: ['965776360', [Validators.required]],
+      placa: ['BBB222', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      serie: ['', [Validators.required]],
+      marca: ['', [Validators.required]],
+      modelo: ['', [Validators.required]],
+      anoFabricacion: ['2018', [Validators.required, Validators.max(this.date.getFullYear()), Validators.maxLength(4), Validators.min(1999)]],
+      tipoCambios: ['Automático', Validators.required],
+      tipoCombustible: ['Eléctrico', Validators.required],
+      tipoCarroceria: ['SUV', Validators.required],
+      cilindrada: ['1200', [Validators.required, Validators.min(1), Validators.max(16)]],
+      kilometraje: ['120000', Validators.required],
+      numeroPuertas: ['5', Validators.required],
+      tipoTraccion: ['Trasera', Validators.required],
+      color: ['Azul', Validators.required],
+      numeroCilindros: ['4', Validators.required],
+      precioVenta: ['69420', Validators.required],
       video: '',
     });
-    this.formGroup.controls['serie'].disable();
-    this.formGroup.controls['marca'].disable();
-    this.formGroup.controls['modelo'].disable();
   }
 
   checkPlaca(): void {
+    this.fetchingPlaca = true;
     let body = {
       placa: this.formGroup.controls['placa'].value,
       token: 'fe6ae5a7928cd90ea30f7c3767c9c25bb2a4d0ea',
@@ -80,10 +95,11 @@ export class CarCuComponent implements OnInit {
     this.userService.getPlacaDetails(body).subscribe(
       (response: any) => {
         console.log(response);
-        if (response.success) {
+        if (response.success && (response.encontrado === undefined || response.encontrado)) {
           this.formGroup.controls['serie'].setValue(response.data.serie);
           this.formGroup.controls['marca'].setValue(response.data.marca);
           this.formGroup.controls['modelo'].setValue(response.data.modelo);
+          console.log(this.formGroup);
           this.validatedPlaca = true;
         } else {
           Swal.fire({
@@ -94,6 +110,7 @@ export class CarCuComponent implements OnInit {
             icon: 'error',
             showConfirmButton: true,
           });
+          this.formGroup.controls['placa'].setValue('');
         }
       },
       (error: any) => {
@@ -105,6 +122,10 @@ export class CarCuComponent implements OnInit {
           icon: 'error',
           showConfirmButton: true,
         });
+        console.error(error);
+      },
+      () => {
+        this.fetchingPlaca = false;
       }
     );
   }
@@ -114,82 +135,81 @@ export class CarCuComponent implements OnInit {
       this.storageService.removeGoingToCarRegistration();
     }
     this.loaderService.setIsLoading(true);
-    this.route.params.subscribe((params) => {
-      if (params['id']) {
-        // * view/edit mode
-        this.userService.getAutoSemiNuevoById(params['id']).subscribe(
-          (res: AutoSemiNuevo) => {
-            console.group('autoseminuevo por id');
-            console.dir(res);
-            console.groupEnd();
+    if (this.update) {
+      this.route.params.subscribe((params) => {
+        if (params['id']) {
+          this.userService.getAutoSemiNuevoById(params['id']).subscribe(
+            (res: AutoSemiNuevo) => {
+  
+              if ((this.role !== RolesEnum.ADMIN && this.role !== RolesEnum.SUPERADMIN) && res.correoDueno !== this.correo) {
+                // el sapaso (que no es admin ni superadmin) esta tratando de editar un carro que no es suyo
+                // this.router.navigate(['/sapos-al-agua']);
+                console.log('sapaso, ese no es tu carro, porq lo quieres editar');
+                this.router.navigate(['/home']);
+                return;
+              }
+  
+              console.group('autoseminuevo por id');
+              console.dir(res);
+              console.groupEnd();
+  
+  
+              this.formGroup = this.fb.group({
+                id: res.id,
+                correoDueno: [res.correoDueno, [Validators.email]],
+                nombreDueno: res.nombreDueno,
+                telefonoDueno: res.telefonoDueno,
+                // TODO: añadir el regex de una placa peruana
+                placa: [res.placa, [Validators.minLength(6), Validators.maxLength(6)]],
+                serie: res.serie,
+                marca: res.marca,
+                modelo: res.modelo,
+                anoFabricacion: [res.anoFabricacion, [Validators.max(this.date.getFullYear()), Validators.maxLength(4), Validators.min(1999)]],
+                tipoCambios: res.tipoCambios,
+                tipoCombustible: res.tipoCombustible,
+                tipoCarroceria: res.tipoCarroceria,
+                cilindrada: [res.cilindrada, [Validators.min(1), Validators.max(16)]],
+                kilometraje: res.kilometraje,
+                numeroPuertas: res.numeroPuertas,
+                tipoTraccion: res.tipoTraccion,
+                color: res.color,
+                numeroCilindros: res.numeroCilindros,
+                precioVenta: res.precioVenta,
+                video: '',
+              });
 
-            // this.formGroup = this.fb.group({...res});
-
-            this.formGroup = this.fb.group({
-              correoDueno: res.correoDueno,
-              nombreDueno: res.nombreDueno,
-              telefonoDueno: res.telefonoDueno,
-              placa: this.update ? res.placa : '',
-              serie: this.update ? res.serie : '',
-              marca: this.update ? res.marca : '',
-              modelo: res.modelo,
-              anoFabricacion: res.anoFabricacion,
-              tipoCambios: res.tipoCambios,
-              tipoCombustible: res.tipoCombustible,
-              tipoCarroceria: res.tipoCarroceria,
-              cilindrada: res.cilindrada,
-              kilometraje: res.kilometraje,
-              numeroPuertas: res.numeroPuertas,
-              tipoTraccion: res.tipoTraccion,
-              color: res.color,
-              numeroCilindros: res.numeroCilindros,
-              precioVenta: res.precioVenta,
-              video: '',
-            });
-
-            if (this.create) {
-              this.formGroup.controls['serie'].disable();
-              this.formGroup.controls['marca'].disable();
-              this.formGroup.controls['modelo'].disable();
-            }
-
-            if (
-              res.usuario.correo !==
-              this.storageService.getEmailSessionStorage()
-            ) {
-              //TODO: redirigir a vista especial para visualuzar toda la data de un carro
-              // * view mode: populate form and disable it
-              //this.formGroup.disable();
-              this.disabled = true;
-            } else {
-              // * edit mode
+  
               this.title = 'Actualiza tu Carro';
-              this.editView = true;
               this.carId = params['id'];
+            },
+            (error: any) => {
+              console.group('error fetching autoseminuevo por id');
+              console.error(error);
+              console.groupEnd();
+            },
+            () => {
+              this.loaderService.setIsLoading(false);
             }
-            this.loaderService.setIsLoading(false);
-          },
-          (error: any) => {
-            this.loaderService.setIsLoading(false);
-            console.group('error fetching autoseminuevo por id');
-            console.error(error);
-            console.groupEnd();
+          );
+        } else {
+          // si no tiene params, mandarlo a home porq no hay carro que editar
+          this.loaderService.setIsLoading(false);
+          if (!this.create) {
+            this.router.navigate(['/home']);
           }
-        );
-      } else {
-        // * create view
-        this.loaderService.setIsLoading(false);
-      }
-
-      console.group('Form Group');
-      console.log(this.formGroup);
-      console.groupEnd();
-    });
+        }
+  
+        console.group('Form Group');
+        console.log(this.formGroup);
+        console.groupEnd();
+      });
+    }
+    
   }
 
   toJSON(): AutoSemiNuevo {
-    return {
-      //FIXME: si es null, que se logee de nuevo
+    const body: AutoSemiNuevo = {
+      id: this.formGroup.value.id,
       usuario: {
         correo: this.storageService.getEmailLocalStorage()!,
       },
@@ -216,9 +236,13 @@ export class CarCuComponent implements OnInit {
       fotos: [],
       accesorios: [],
       locacion: {
-        id: '150103',
-      },
+        id: '000000',
+      }
     };
+    if (this.create) {
+      delete body.id;
+    }
+    return body;
   }
 
   addPhoto(event: any): void {
@@ -227,6 +251,24 @@ export class CarCuComponent implements OnInit {
       foto: event.target.files,
       url: '',
     });
+  }
+
+  submitActionWrapper(): void {
+    if (this.formGroup.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: '¡Llena el formulario bien!',
+      });
+      return;
+    }
+    if (this.create) {
+      this.createActionWrapper();
+      return;
+    }
+    if (this.update) {
+      this.updateActionWrapper();
+      return;
+    }
   }
 
   updateActionWrapper(): void {

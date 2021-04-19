@@ -1,17 +1,17 @@
 <div
   class="section-title-page area-bg area-bg_dark area-bg_op_60"
-  [ngStyle]="{ 'margin-top': cameFrom != 'Dashboard' ? '170px' : '0px' }"
+  [ngStyle]="{ 'margin-top': '170px' }"
 >
   <div class="area-bg__inner">
     <div class="container text-center">
-      <h1 class="b-title-page">{{ name }}</h1>
+      <h1 class="b-title-page">Carros Disponibles</h1>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a routerLink="dashboard">{{ cameFrom }}</a>
+            <a routerLink="home">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            {{ name }}
+            Carros Disponibles
           </li>
         </ol>
       </nav>
@@ -430,12 +430,12 @@
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
                 Mostrando resultados del <strong>
-                  {{ filteredCarros.length === 0 ? 0 : currPage * 10 + 1 }}
+                  {{ filteredCarros.length === 0 ? 0 : currPage * carsPerPage + 1 }}
                   al
                   {{
-                    currPage * 10 + 10 > filteredCarros.length
+                    currPage * carsPerPage + carsPerPage > filteredCarros.length
                       ? filteredCarros.length
-                      : currPage * 10 + 10
+                      : currPage * carsPerPage + carsPerPage
                   }}</strong
                 >
                 de {{ filteredCarros.length }} en total
@@ -495,11 +495,11 @@
           <div
             *ngFor="
               let carro of filteredCarros
-                | slice: currPage * 10:currPage * 10 + 10
+                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car [auto]="carro" [mode]="list">
+            <app-published-car [normalView]="true" [auto]="carro" [mode]="list">
             </app-published-car>
           </div>
           <div *ngIf="filteredCarros.length === 0" class="col text-center">

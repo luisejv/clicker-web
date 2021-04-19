@@ -157,7 +157,7 @@ export class DataService {
 
   tiposTransmision: string[] = ['Mecánico', 'Automático'];
 
-  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV'];
+  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV', 'Eléctrico'];
 
   tiposCarroceria: string[] = [
     'SUV',

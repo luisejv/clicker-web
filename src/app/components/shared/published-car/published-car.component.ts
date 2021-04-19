@@ -19,6 +19,8 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Input() interestingView: boolean = false; // admin sale
   @Input() interesadoView: boolean = false;
   @Input() sponsorView: boolean = false;
+  @Input() normalView: boolean = false;
+  @Input() particularPublishedView: boolean = false;
 
   @Output() validated = new EventEmitter<number>();
 
@@ -50,7 +52,9 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     console.dir(changes);
     console.groupEnd();
 
-    if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
+    if (this.normalView || this.particularPublishedView) {
+      this.autoCasteado = this.auto as AutoSemiNuevo;
+    } else if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
         (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView) ||
         (changes.sponsorView && changes.sponsorView.firstChange && this.sponsorView)) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
@@ -71,7 +75,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   goToCarEditView(): void {
-    this.router.navigateByUrl('/dashboard/editar-carro');
+    this.router.navigateByUrl(`/dashboard/editar-carro/${this.autoCasteado.id}`);
   }
 
   emitSeeReporters(): void {

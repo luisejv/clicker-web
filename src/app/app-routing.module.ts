@@ -10,6 +10,7 @@ import { UserValidationComponent } from './components/dashboard/admin/user-valid
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
 import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
+import { CarPublishedComponent } from './components/dashboard/car-published/car-published.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
@@ -25,6 +26,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './core/guards/admin.guard';
+import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { ValidatedGuard } from './core/guards/validated.guard';
 
 export const routes: Routes = [
@@ -47,20 +49,18 @@ export const routes: Routes = [
         canActivate: [ValidatedGuard],
       },
       {
-        path: 'editar-carro',
-        component: CarEditingComponent,
-        // TODO: guard que chequee que solo esta loggeado
-        // canActivate: [ValidatedGuard],
-      },
-      {
         path: 'editar-carro/:id',
         component: CarEditingComponent,
-        // TODO: guard que chequee que solo esta loggeado
-        // canActivate: [ValidatedGuard],
+        canActivate: [LoggedInGuard],
       },
       {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
+        canActivate: [ValidatedGuard],
+      },
+      {
+        path: 'publicados-carros',
+        component: CarPublishedComponent,
         canActivate: [ValidatedGuard],
       },
       {

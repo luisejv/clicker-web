@@ -49,7 +49,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   pgCnt: number = 0;
   pages: number[] = [0];
   currPage: number = 0;
-  carsPerPage: number = 10;
+  carsPerPage: number = 9;
 
   constructor(
     private loaderService: LoaderService,

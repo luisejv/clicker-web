@@ -44,7 +44,7 @@ export class AdminService {
     return this.http.get(this.commonService.getSolicitudesRetiroUrl);
   }
 
-  //TODO: solicitud retiro
+  //TODO: solicitud retiro interface
   public validateSolicitudRetiro(body: any): Observable<any> {
     return this.http.put(this.commonService.putSolicitudesRetiroUrl, body);
   }

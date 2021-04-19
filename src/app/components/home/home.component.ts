@@ -24,9 +24,9 @@ export class HomeComponent implements OnInit {
   @ViewChild('userCount') userCount!: ElementRef;
   @ViewChild('soldVehicles') soldVehicles!: ElementRef;
 
-  carrocerias!: string[];
-  recentCars!: AutoSemiNuevo[];
-  sponsoredCars!: AutoSemiNuevo[];
+  carrocerias: string[] = [];
+  recentCars: AutoSemiNuevo[] = [];
+  sponsoredCars: AutoSemiNuevo[] = [];
 
   filters!: Filter[];
   filteredBrands!: string[];
@@ -161,6 +161,7 @@ export class HomeComponent implements OnInit {
 
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
+        console.log({recentCars: response});
         this.recentCars = response;
         this.loaderService.setIsLoading(false);
       },
