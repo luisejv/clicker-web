@@ -87,6 +87,19 @@
           </div>
         </div>
       </div>
+      <div *ngIf="sponsorView" class="b-goods-descrip__item b-goods-descrip__item_list col">
+        <div class="b-goods-descrip__inner">
+          <div class="b-goods-descrip__wrap">
+            <i class="ic flaticon-calendar"></i>
+            <div class="b-goods-descrip__full-info">
+              <span class="b-goods-descrip__title">RANKING</span
+              ><span class="b-goods-descrip__text">{{
+                sponsorCar.level
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       *ngIf="validationView || reportedView || interestingView || interesadoView || sponsorView || particularPublishedView"
@@ -173,6 +186,15 @@
         (click)="sponsorLevelEvent()"
       >
         Cambiar Ranking
+      </button>
+      <button
+        class="m-2"
+        *ngIf="sponsorView"
+        mat-raised-button
+        color="basic"
+        (click)="removeSponsor()"
+      >
+        Quitar Sponsor
       </button>
     </div>
     <!-- <div class="b-goods__footer">

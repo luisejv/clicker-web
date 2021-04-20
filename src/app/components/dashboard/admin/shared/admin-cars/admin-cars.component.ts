@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { SortType } from 'src/app/core/enums/sort-type.enum';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
-import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CommonService } from 'src/app/core/services/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
@@ -24,7 +24,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   @Input() notValidatedCars: AutoSemiNuevo[] = [];
   @Input() reportedCars: AutoReportado[] = [];
   @Input() interestingCars: AutoInteresado[] = [];
-  @Input() sponsoredCars: AutoSemiNuevo[] = [];
+  @Input() sponsoredCars: SponsoredCar[] = [];
 
   @Output() validate = new EventEmitter<number>();
   @Output() remove = new EventEmitter<number>();
@@ -43,7 +43,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
 
   interestingFilteredCarros: AutoInteresado[] = [];
 
-  sponsoredFilteredCarros: AutoSemiNuevo[] = [];
+  sponsoredFilteredCarros: SponsoredCar[] = [];
 
   // * pages
   pgCnt: number = 0;
@@ -163,11 +163,11 @@ export class AdminCarsComponent implements OnInit, OnChanges {
       );
     } else if (this.sponsorView) {
       this.sponsoredFilteredCarros = this.sponsoredCars.filter(
-        (carro: AutoSemiNuevo) => {
+        (carro: SponsoredCar) => {
           //TODO: añadir más propiedades? (año, kilometraje, etc)
           return (
-            this._normalizeValue(carro.marca).includes(normalizedQuery) ||
-            this._normalizeValue(carro.modelo).includes(normalizedQuery)
+            this._normalizeValue(carro.autoSemiNuevo.marca).includes(normalizedQuery) ||
+            this._normalizeValue(carro.autoSemiNuevo.modelo).includes(normalizedQuery)
           );
         }
       );
@@ -227,6 +227,38 @@ export class AdminCarsComponent implements OnInit, OnChanges {
     }
   }
 
+  filterSponsorCars(byPrice: boolean, ascending: boolean) {
+    if (byPrice) {
+      if (ascending) {
+        this.sponsoredCars.sort(
+          (a: SponsoredCar, b: SponsoredCar) => {
+            return a.autoSemiNuevo.precioVenta - b.autoSemiNuevo.precioVenta;
+          }
+        );
+      } else {
+        this.sponsoredCars.sort(
+          (a: SponsoredCar, b: SponsoredCar) => {
+            return b.autoSemiNuevo.precioVenta - a.autoSemiNuevo.precioVenta;
+          }
+        );
+      }
+    } else {
+      if (ascending) {
+        this.sponsoredCars.sort(
+          (a: SponsoredCar, b: SponsoredCar) => {
+            return a.autoSemiNuevo.anoFabricacion - b.autoSemiNuevo.anoFabricacion;
+          }
+        );
+      } else {
+        this.sponsoredCars.sort(
+          (a: SponsoredCar, b: SponsoredCar) => {
+            return b.autoSemiNuevo.anoFabricacion - a.autoSemiNuevo.anoFabricacion;
+          }
+        );
+      }
+    }
+  }
+
   filterInterestedCars(byPrice: boolean, ascending: boolean) {
     if (byPrice) {
       if (ascending) {
@@ -265,7 +297,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
     } else if (this.reportedView) {
       this.filterSimpleCars(this.reportedCars, byPrice, ascending);
     } else if (this.sponsorView) {
-      this.filterSimpleCars(this.sponsoredCars, byPrice, ascending);
+      this.filterSponsorCars(byPrice, ascending);
     } else if (this.interestingView) {
       this.filterInterestedCars(byPrice, ascending);
     } else {

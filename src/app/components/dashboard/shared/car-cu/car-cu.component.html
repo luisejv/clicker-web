@@ -280,7 +280,7 @@
                           formGroup.get('cilindrada')?.errors?.max
                         "
                       >
-                        Debes ingresar un número válido de cilindros.
+                        Debes ingresar un número válido de clindrada válido.
                       </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="w-100">
@@ -363,6 +363,14 @@
                         "
                       >
                         Este campo es obligatorio.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('numeroCilindros')?.errors?.min ||
+                          formGroup.get('numeroCilindros')?.errors?.max
+                        "
+                      >
+                        Debes ingresar un número válido de cilindros.
                       </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="w-100">

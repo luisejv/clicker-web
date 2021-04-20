@@ -51,7 +51,7 @@ export class CarCuComponent implements OnInit {
     public dataService: DataService,
   ) {
     this.date = new Date();
-    this.role = this.storageService.getEmailLocalStorage();
+    this.role = this.storageService.getRoleLocalStorage();
     this.correo = this.storageService.getEmailLocalStorage();
     // TODO: validators
     // TODO: validator cuando entra a editar, ningun campo que ya esté, debe cambiar a vacío, o sí puede?
@@ -71,16 +71,16 @@ export class CarCuComponent implements OnInit {
       serie: ['', [Validators.required]],
       marca: ['', [Validators.required]],
       modelo: ['', [Validators.required]],
-      anoFabricacion: ['2018', [Validators.required, Validators.max(this.date.getFullYear()), Validators.maxLength(4), Validators.min(1999)]],
+      anoFabricacion: ['2018', [Validators.required, Validators.max(this.date.getFullYear()+1), Validators.maxLength(4), Validators.min(1999)]],
       tipoCambios: ['Automático', Validators.required],
       tipoCombustible: ['Eléctrico', Validators.required],
       tipoCarroceria: ['SUV', Validators.required],
-      cilindrada: ['1200', [Validators.required, Validators.min(1), Validators.max(16)]],
+      cilindrada: ['1200', [Validators.required, Validators.min(100), Validators.max(32000)]],
       kilometraje: ['120000', Validators.required],
       numeroPuertas: ['5', Validators.required],
       tipoTraccion: ['Trasera', Validators.required],
       color: ['Azul', Validators.required],
-      numeroCilindros: ['4', Validators.required],
+      numeroCilindros: ['4', [Validators.required, Validators.min(1), Validators.max(16)]],
       precioVenta: ['69420', Validators.required],
       video: '',
     });
@@ -135,13 +135,13 @@ export class CarCuComponent implements OnInit {
       this.storageService.removeGoingToCarRegistration();
     }
     this.loaderService.setIsLoading(true);
-    if (this.update) {
+    if (this.update || this.role === RolesEnum.ADMIN) {
       this.route.params.subscribe((params) => {
         if (params['id']) {
           this.userService.getAutoSemiNuevoById(params['id']).subscribe(
             (res: AutoSemiNuevo) => {
   
-              if ((this.role !== RolesEnum.ADMIN && this.role !== RolesEnum.SUPERADMIN) && res.correoDueno !== this.correo) {
+              if ((this.role !== RolesEnum.ADMIN && this.role !== RolesEnum.SUPERADMIN) && res.usuario.correo !== this.correo) {
                 // el sapaso (que no es admin ni superadmin) esta tratando de editar un carro que no es suyo
                 // this.router.navigate(['/sapos-al-agua']);
                 console.log('sapaso, ese no es tu carro, porq lo quieres editar');
@@ -168,12 +168,12 @@ export class CarCuComponent implements OnInit {
                 tipoCambios: res.tipoCambios,
                 tipoCombustible: res.tipoCombustible,
                 tipoCarroceria: res.tipoCarroceria,
-                cilindrada: [res.cilindrada, [Validators.min(1), Validators.max(16)]],
+                cilindrada: [res.cilindrada, [Validators.required, Validators.min(100), Validators.max(32000)]],
                 kilometraje: res.kilometraje,
                 numeroPuertas: res.numeroPuertas,
                 tipoTraccion: res.tipoTraccion,
                 color: res.color,
-                numeroCilindros: res.numeroCilindros,
+                numeroCilindros: [res.numeroCilindros, [Validators.required, Validators.min(1), Validators.max(16)]],
                 precioVenta: res.precioVenta,
                 video: '',
               });
@@ -237,7 +237,7 @@ export class CarCuComponent implements OnInit {
       accesorios: [],
       locacion: {
         id: '000000',
-      }
+      },
     };
     if (this.create) {
       delete body.id;

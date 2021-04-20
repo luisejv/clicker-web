@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Router } from '@angular/router';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
-import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
 
 @Component({
   selector: 'app-published-car',
@@ -10,7 +10,7 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
   styleUrls: ['./published-car.component.css'],
 })
 export class PublishedCarComponent implements OnInit, OnChanges {
-  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado;
+  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado | SponsoredCar;
 
   @Input() mode: boolean = true;
 
@@ -47,6 +47,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     console.log('interesting view: ', this.interestingView);
   }
 
+  get sponsorCar(): SponsoredCar {
+    return this.auto as SponsoredCar;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.group('Changes');
     console.dir(changes);
@@ -54,9 +58,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
 
     if (this.normalView || this.particularPublishedView) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
+    } else if (this.sponsorView) {
+      this.autoCasteado = (this.auto as SponsoredCar).autoSemiNuevo;
     } else if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
-        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView) ||
-        (changes.sponsorView && changes.sponsorView.firstChange && this.sponsorView)) {
+        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView)) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
     } else if (changes.reportedView && changes.reportedView.firstChange && this.reportedView) {
       this.autoCasteado = this.auto as AutoReportado;
@@ -104,6 +109,11 @@ export class PublishedCarComponent implements OnInit, OnChanges {
 
   sponsorLevelEvent(): void {
     this.changeSponsorLevel.emit((this.autoCasteado as AutoSemiNuevo).id!);
+  }
+
+  removeSponsor(): void {
+    //TODO:
+    console.log('remove sponsor for car with id: ', (this.auto as SponsoredCar).id);
   }
 
 }

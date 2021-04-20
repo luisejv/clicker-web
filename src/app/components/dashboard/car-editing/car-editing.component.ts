@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -10,11 +12,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./car-editing.component.css']
 })
 export class CarEditingComponent implements OnInit {
+  role: string;
 
   constructor(
     private userService: UserService,
     private router: Router,
-  ) { }
+    private storageService: StorageService,
+  ) {
+    this.role = this.storageService.getRoleLocalStorage()!;
+  }
 
   ngOnInit(): void {
   }
@@ -29,7 +35,11 @@ export class CarEditingComponent implements OnInit {
           title: '¡El carro ha sido actualizado!',
           showConfirmButton: true,
         }).then(() => {
-          this.router.navigateByUrl('/dashboard/publicados-carros');
+          if (this.role === RolesEnum.ADMIN) {
+            this.router.navigateByUrl('/dashboard/autos-por-validar');
+          } else {
+            this.router.navigateByUrl('/dashboard/publicados-carros');
+          }
         });
       },
       (err: any) => {

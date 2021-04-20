@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { SponsorUpdate } from 'src/app/core/interfaces/sponsor-update';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { ClientService } from 'src/app/core/services/client.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
@@ -14,18 +15,19 @@ import Swal from 'sweetalert2';
 export class CarSponsorComponent implements OnInit {
 
   hasLoaded: boolean = false;
-  carros: AutoSemiNuevo[] = [];
+  carros: SponsoredCar[] = [];
 
   constructor(
     private userService: UserService,
     private adminService: AdminService,
     private loaderService: LoaderService,
+    private clientService: ClientService,
   ) { }
 
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
-    this.userService.getAutosSemiNuevosValidados().subscribe(
-      (res: AutoSemiNuevo[]) => {
+    this.clientService.getSponsoredCars().subscribe(
+      (res: SponsoredCar[]) => {
         this.carros = res;
         this.loaderService.setIsLoading(false);
         this.hasLoaded = true;
