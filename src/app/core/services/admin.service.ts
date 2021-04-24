@@ -19,7 +19,7 @@ export class AdminService {
   }
 
   public validateAutoSemiNuevoById(id: number): Observable<any> {
-    return this.http.put(this.commonService.validateAutoUrl + `${id}`, null);
+    return this.http.put(this.commonService.validateAutoUrl + `/${id}`, null);
   }
 
   public validateAutoReportado(id: number): Observable<any> {
@@ -50,5 +50,4 @@ export class AdminService {
   public getCarrosInteresados(): Observable<any> {
     return this.http.get(this.commonService.carrosInteresadosUrl);
   }
-
 }
