@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
-import { Filter } from '../interfaces/client';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -157,7 +155,7 @@ export class DataService {
 
   tiposTransmision: string[] = ['Mecánico', 'Automático'];
 
-  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV'];
+  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV', 'Eléctrico'];
 
   tiposCarroceria: string[] = [
     'SUV',
@@ -167,6 +165,9 @@ export class DataService {
     'PICKUP',
     'CONVERTIBLE',
     'CITYCAR',
+    'HATCHBACK',
+    'CAMION',
+    'PANEL',
     'OTRO',
   ];
 
@@ -199,7 +200,7 @@ export class DataService {
     '2018',
     '2019',
     '2020',
-    '2021'
+    '2021',
   ];
 
   /* filtros: Filter[] = [

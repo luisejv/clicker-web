@@ -196,7 +196,7 @@
               >
             </li>
             <!-- TODO: habilitar solo para remax -->
-            <li class="nav-item">
+            <li *ngIf="isRemax" class="nav-item">
               <a
                 class="nav-link"
                 id="denunciar-tab"
@@ -234,7 +234,6 @@
             </li> -->
           </ul>
           <div class="tab-content" id="myTabContent">
-            <!-- TODO: habilitar solo para remax -->
             <div
               class="tab-pane fade show active mb-5"
               id="overview"
@@ -264,6 +263,7 @@
               </p>
             </div>
             <div
+              *ngIf="isRemax"
               class="tab-pane fade mb-5"
               id="denunciar"
               role="tabpanel"

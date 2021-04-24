@@ -9,7 +9,6 @@ import { ModesEnum } from 'src/app/core/enums/modes.enum';
   styleUrls: ['./inventory-listings.component.css'],
 })
 export class InventoryListingsComponent implements OnInit {
-  mode: ModesEnum = ModesEnum.USER_SEARCH;
   filters!: CarSearchFilter;
 
   constructor(private route: ActivatedRoute) {

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Router } from '@angular/router';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
-import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
 
 @Component({
   selector: 'app-published-car',
@@ -10,14 +10,17 @@ import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
   styleUrls: ['./published-car.component.css'],
 })
 export class PublishedCarComponent implements OnInit, OnChanges {
-  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado;
+  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado | SponsoredCar;
 
   @Input() mode: boolean = true;
 
   @Input() validationView: boolean = false;
   @Input() reportedView: boolean = false;
-  @Input() interestingView: boolean = false;
-
+  @Input() interestingView: boolean = false; // admin sale
+  @Input() interesadoView: boolean = false;
+  @Input() sponsorView: boolean = false;
+  @Input() normalView: boolean = false;
+  @Input() particularPublishedView: boolean = false;
 
   @Output() validated = new EventEmitter<number>();
 
@@ -26,6 +29,11 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Output() showReporters = new EventEmitter<AutoReportado>();
 
   @Output() sell = new EventEmitter<AutoInteresado>();
+
+  @Output() removeInterested = new EventEmitter<number>();
+
+  @Output() changeSponsorLevel = new EventEmitter<number>();
+  @Output() removeSponsor = new EventEmitter<number>();
 
   // auto validado y interesado = AutoSemiNuevo
   // auto reportado             = Auto Reportado
@@ -40,12 +48,21 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     console.log('interesting view: ', this.interestingView);
   }
 
+  get sponsorCar(): SponsoredCar {
+    return this.auto as SponsoredCar;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.group('Changes');
     console.dir(changes);
     console.groupEnd();
 
-    if (changes.validationView && changes.validationView.firstChange && this.validationView) {
+    if (this.normalView || this.particularPublishedView) {
+      this.autoCasteado = this.auto as AutoSemiNuevo;
+    } else if (this.sponsorView) {
+      this.autoCasteado = (this.auto as SponsoredCar).autoSemiNuevo;
+    } else if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
+        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView)) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
     } else if (changes.reportedView && changes.reportedView.firstChange && this.reportedView) {
       this.autoCasteado = this.auto as AutoReportado;
@@ -61,6 +78,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
         id: this.autoCasteado.id,
       },
     });
+  }
+
+  goToCarEditView(): void {
+    this.router.navigateByUrl(`/dashboard/editar-carro/${this.autoCasteado.id}`);
   }
 
   emitSeeReporters(): void {
@@ -81,6 +102,18 @@ export class PublishedCarComponent implements OnInit, OnChanges {
 
   emitSaleEvent(): void {
     this.sell.emit(this.auto as AutoInteresado);
+  }
+
+  quitarInteresado(): void {
+    this.removeInterested.emit((this.auto as AutoSemiNuevo).id);
+  }
+
+  sponsorLevelEvent(): void {
+    this.changeSponsorLevel.emit((this.autoCasteado as AutoSemiNuevo).id!);
+  }
+
+  quitarSponsor(): void {
+    this.removeSponsor.emit((this.auto as SponsoredCar).id);
   }
 
 }

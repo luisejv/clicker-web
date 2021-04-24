@@ -22,7 +22,7 @@ export interface AutoReportado {
     color: string,
     numeroCilindros: number,
     precioVenta: number,
-    locaciones: Locacion[]
+    locacion: Locacion,
     comprado: string,
     validado: string,
     enabled: string,

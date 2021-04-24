@@ -1,9 +1,12 @@
-import { AutoSemiNuevo } from "./auto-semi-nuevo";
-import { User } from "./user";
+import { Usuario } from "./usuario";
+
+interface AutoSemiNuevoId {
+    id: number
+}
 
 export interface Denuncia {
     id?: number,
-    autoSemiNuevo?: AutoSemiNuevo,
-    usuario?: User,
+    autoSemiNuevo?: AutoSemiNuevoId,
+    usuario?: Usuario,
     descripcion?: string,
 }

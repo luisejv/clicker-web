@@ -18,7 +18,6 @@ import { BookingSystemComponent } from './components/booking-system/booking-syst
 import { InventoryListingsComponent } from './components/inventory-listings/inventory-listings.component';
 import { ReservationGridComponent } from './components/reservation-grid/reservation-grid.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
-import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptorService } from './core/services/loader-interceptor.service';
 import { SpinnerModule } from './components/shared/spinner/spinner.module';
@@ -39,7 +38,6 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { SelectBrandModelComponent } from './components/shared/select-brand-model/select-brand-model.component';
-import { ExtractPipe } from './pipes/extract.pipe';
 import { NgsRevealModule } from 'ngx-scrollreveal';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { OnlyNumbersDirective } from './core/directives/only-numbers.directive';
@@ -58,6 +56,13 @@ import { ReportersComponent } from './components/dashboard/admin/car-complaint/r
 import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/car-sponsor.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { VentaDetailsComponent } from './components/dashboard/admin/car-sale-registration/venta-details/venta-details.component';
+import { RemaxCarsComponent } from './components/dashboard/shared/remax-cars/remax-cars.component';
+import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
+import { CarCuComponent } from './components/dashboard/shared/car-cu/car-cu.component';
+import { ParticularCarsComponent } from './components/dashboard/shared/particular-cars/particular-cars.component';
+import { CarPublishedComponent } from './components/dashboard/car-published/car-published.component';
+import { UploadService } from './core/services/upload.service';
+import { NormalizePipe } from './core/pipes/normalize.pipe';
 
 @NgModule({
   declarations: [
@@ -87,7 +92,6 @@ import { VentaDetailsComponent } from './components/dashboard/admin/car-sale-reg
     PublishedCarComponent,
     AutoSemiNuevoComponent,
     SelectBrandModelComponent,
-    ExtractPipe,
     OnlyNumbersDirective,
     ValidationComponent,
     BalanceComponent,
@@ -103,6 +107,12 @@ import { VentaDetailsComponent } from './components/dashboard/admin/car-sale-reg
     CarSponsorComponent,
     InterestedCarsComponent,
     VentaDetailsComponent,
+    RemaxCarsComponent,
+    CarEditingComponent,
+    CarCuComponent,
+    ParticularCarsComponent,
+    CarPublishedComponent,
+    NormalizePipe,
   ],
   imports: [
     BrowserModule,
@@ -129,6 +139,7 @@ import { VentaDetailsComponent } from './components/dashboard/admin/car-sale-reg
     StorageService,
     DataService,
     ValidatedGuard,
+    UploadService,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 import { LoaderState } from '../../components/shared/spinner/spinner.model';
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,20 @@ export class LoaderService {
   loading!: boolean;
 
   constructor() {}
+
+  setIsLoadingSWAL(loading: boolean, title?: string, subtitle?: string): void {
+    if (loading) {
+      Swal.fire({
+        title: title ? title : '',
+        html: subtitle ? subtitle : '',
+        didOpen: () => {
+          Swal.showLoading()
+        }
+      });
+    } else {
+      Swal.close();
+    }
+  }
 
   setIsLoading(loading: boolean): void {
     this.isLoading.emit(loading);

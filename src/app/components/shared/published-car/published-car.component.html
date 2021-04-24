@@ -4,7 +4,13 @@
   style="cursor: pointer"
 >
   <a class="b-goods__img" (click)="goToVehicleDetails()">
-    <img class="img-scale" [src]="autoCasteado?.fotoPrincipal" alt="Foto del Carro" />
+    <!-- style="max-width: 100%; height: auto;" -->
+    <img 
+      class="img-scale"
+      
+      [src]="autoCasteado?.fotoPrincipal !== '' ? autoCasteado?.fotoPrincipal : 'assets/media/content/b-special/263x200/1.jpg'"
+      alt="Foto del Carro" 
+    />
   </a>
   <div class="b-goods__main">
     <div class="row no-gutters">
@@ -81,18 +87,51 @@
           </div>
         </div>
       </div>
+      <div *ngIf="sponsorView" class="b-goods-descrip__item b-goods-descrip__item_list col">
+        <div class="b-goods-descrip__inner">
+          <div class="b-goods-descrip__wrap">
+            <i class="ic flaticon-calendar"></i>
+            <div class="b-goods-descrip__full-info">
+              <span class="b-goods-descrip__title">RANKING</span
+              ><span class="b-goods-descrip__text">{{
+                sponsorCar.level
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div
-      *ngIf="validationView || reportedView || interestingView"
+      *ngIf="validationView || reportedView || interestingView || interesadoView || sponsorView || particularPublishedView"
       class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
     >
       <button
+        class="m-2"
         *ngIf="validationView"
         mat-raised-button
         color="primary"
         (click)="emitValidationEvent()"
       >
         Validar
+      </button>
+      <!-- TODO: mejorar el API de este componente porq no es flexible -->
+      <button
+        class="m-2"
+        *ngIf="validationView"
+        mat-raised-button
+        color="primary"
+        (click)="goToCarEditView()"
+      >
+        Editar
+      </button>
+      <button
+        class="m-2"
+        *ngIf="particularPublishedView"
+        mat-raised-button
+        color="primary"
+        (click)="goToCarEditView()"
+      >
+        Editar
       </button>
       <button
         class="m-2"
@@ -129,6 +168,33 @@
         (click)="emitSaleEvent()"
       >
         Vender
+      </button>
+      <button
+        class="m-2"
+        *ngIf="interesadoView"
+        mat-raised-button
+        color="basic"
+        (click)="quitarInteresado()"
+      >
+        Quitar
+      </button>
+      <button
+        class="m-2"
+        *ngIf="sponsorView"
+        mat-raised-button
+        color="basic"
+        (click)="sponsorLevelEvent()"
+      >
+        Cambiar Ranking
+      </button>
+      <button
+        class="m-2"
+        *ngIf="sponsorView"
+        mat-raised-button
+        color="basic"
+        (click)="quitarSponsor()"
+      >
+        Quitar Sponsor
       </button>
     </div>
     <!-- <div class="b-goods__footer">

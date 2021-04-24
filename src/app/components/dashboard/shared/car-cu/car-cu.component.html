@@ -1,0 +1,428 @@
+<div
+  class="section-title-page area-bg area-bg_dark area-bg_op_60"
+  [ngStyle]="{ 'margin-top': '0px' }"
+>
+  >
+  <div class="area-bg__inner">
+    <div class="container text-center">
+      <h1 class="b-title-page">{{ title }}</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a routerLink="dashboard">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ title }}
+          </li>
+        </ol>
+      </nav>
+      <!-- end .breadcrumb-->
+    </div>
+  </div>
+</div>
+<!-- end .b-title-page-->
+
+<div class="l-main-content">
+  <div class="ui-decor ui-decor_mirror bg-primary"></div>
+  <div class="container">
+    <main>
+      <div class="b-booking-group mt-lg-4">
+        <div class="container">
+          <div class="row">
+            <!-- <div
+                class="form-wrapper"
+                [ngStyle]="{
+                  overflow: 'auto',
+                  'max-height':
+                    commonService.screenWidth < 426
+                      ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
+                      : 'calc(' + commonService.screenHeight + 'px - 2vw)'
+                }"
+                cdkScrollable
+              >
+              </div> -->
+            <form [formGroup]="formGroup">
+              <!-- {{ formGroup.value | json }}
+              <br />
+              {{ fotoPrincipal | json }}
+              <br />
+              <b>FormGroup is dirty:</b> {{ formGroup.dirty }} -->
+              <div class="row py-3">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <!-- <label class="h1-form mb-3 sub_section">{{ title }}</label> -->
+                  <div class="group_input w-m">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Correo Dueño</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="correoDueno"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('correoDueno')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Nombre Dueño</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="nombreDueno"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('nombreDueno')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Teléfono Dueño</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="telefonoDueno"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('telefonoDueno')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Placa</mat-label>
+                      <input maxlength="6" matInput type="text" formControlName="placa" />
+                      <button mat-icon-button matSuffix title="Buscar Placa" type="button">
+                        <mat-icon (click)="checkPlaca()" *ngIf="!fetchingPlaca">
+                          search
+                        </mat-icon>
+                          <mat-spinner style="cursor: progress;" *ngIf="fetchingPlaca" diameter="24">
+                          </mat-spinner>
+                      </button>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('placa')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('placa')?.errors?.minLength ||
+                          formGroup.get('placa')?.errors?.maxLength
+                        "
+                      >
+                        Debe ingresar una placa válida.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Serie</mat-label>
+                      <input readonly matInput type="text" formControlName="serie" />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('serie')?.errors?.required
+                        "
+                      >
+                        Primero, debes buscar la placa ingresada.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Marca</mat-label>
+                      <input readonly matInput type="text" formControlName="marca" />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('marca')?.errors?.required
+                        "
+                      >
+                        Primero, debes buscar la placa ingresada.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Modelo</mat-label>
+                      <input readonly matInput type="text" formControlName="modelo" />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('modelo')?.errors?.required
+                        "
+                      >
+                        Primero, debes buscar la placa ingresada.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Año Fabricación</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="anoFabricacion"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('anoFabricacion')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('anoFabricacion')?.errors?.min
+                        "
+                      >
+                        No pueden venderse carros fabricados antes de 1999.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('anoFabricacion')?.errors?.max ||
+                          formGroup.get('anoFabricacion')?.errors?.maxlength
+                        "
+                      >
+                        Debe ingresar un año válido.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Tipo de Transmisión</mat-label>
+                      <!-- <input
+                        matInput
+                        type="text"
+                        formControlName="tipoCambios"
+                      /> -->
+                      <mat-select
+                        formControlName="tipoCambios"
+                      >
+                        <mat-option
+                          *ngFor="let cambios of dataService.tiposTransmision"
+                          [value]="cambios"
+                        >
+                          {{ cambios }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('tipoCambios')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Combustible</mat-label>
+                      <!-- <input
+                        matInput
+                        type="text"
+                        formControlName="tipoCombustible"
+                      /> -->
+                      <mat-select
+                        formControlName="tipoCombustible"
+                      >
+                        <mat-option
+                          *ngFor="let combustible of dataService.tiposCombustible"
+                          [value]="combustible"
+                        >
+                          {{ combustible }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('tipoCombustible')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Carrocería</mat-label>
+                      <!-- <input
+                        matInput
+                        type="text"
+                        formControlName="tipoCarroceria"
+                      /> -->
+                      <mat-select
+                        formControlName="tipoCarroceria"
+                      >
+                        <mat-option
+                          *ngFor="let carroceria of dataService.tiposCarroceria"
+                          [value]="carroceria"
+                        >
+                          {{ carroceria }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('tipoCarroceria')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Motor (cc)</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="cilindrada"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('cilindrada')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('cilindrada')?.errors?.min ||
+                          formGroup.get('cilindrada')?.errors?.max
+                        "
+                      >
+                        Debes ingresar un número válido de clindrada válido.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <!-- TODO: Agregar función para no dejar ingresar texto que no sea número -->
+                      <mat-label>Kilometraje</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="kilometraje"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('kilometraje')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Nº Puertas</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="numeroPuertas"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('numeroPuertas')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Tracción</mat-label>
+                      <!-- <input
+                        matInput
+                        type="text"
+                        formControlName="tipoTraccion"
+                      /> -->
+                      <mat-select
+                        formControlName="tipoTraccion"
+                      >
+                        <mat-option
+                          *ngFor="let traccion of dataService.tiposTracciones"
+                          [value]="traccion"
+                        >
+                          {{ traccion }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('tipoTraccion')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Color</mat-label>
+                      <input matInput type="text" formControlName="color" />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('color')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Nº Cilindros</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="numeroCilindros"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('numeroCilindros')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('numeroCilindros')?.errors?.min ||
+                          formGroup.get('numeroCilindros')?.errors?.max
+                        "
+                      >
+                        Debes ingresar un número válido de cilindros.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <!-- TODO: Agregar función para no dejar ingresar texto que no sea número -->
+                      <mat-label>Precio Venta</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="precioVenta"
+                      />
+                      <mat-error
+                        *ngIf="
+                          formGroup.get('precioVenta')?.errors?.required
+                        "
+                      >
+                        Este campo es obligatorio.
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Video</mat-label>
+                      <input matInput type="text" formControlName="video" />
+                    </mat-form-field>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      (change)="addPhoto($event)"
+                    />
+                    <app-upload
+                      *ngFor="let foto of fotos"
+                      [isPrincipal]="foto.isPrincipal"
+                      [foto]="foto.foto"
+                    ></app-upload>
+                  </div>
+                </div>
+              </div>
+              <div class="container mt-2 py-3">
+                <div class="row justify-content-around">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    (click)="submitActionWrapper()"
+                  >
+                    {{ submitButtonText }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- end .b-booking-->
+    </main>
+  </div>
+</div>

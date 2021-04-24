@@ -9,6 +9,8 @@ import { CarValidationComponent } from './components/dashboard/admin/car-validat
 import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
+import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
+import { CarPublishedComponent } from './components/dashboard/car-published/car-published.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
@@ -24,6 +26,7 @@ import { RemaxComponent } from './components/register/remax/remax.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './core/guards/admin.guard';
+import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { ValidatedGuard } from './core/guards/validated.guard';
 
 export const routes: Routes = [
@@ -46,16 +49,31 @@ export const routes: Routes = [
         canActivate: [ValidatedGuard],
       },
       {
+        path: 'editar-carro/:id',
+        component: CarEditingComponent,
+        canActivate: [LoggedInGuard],
+      },
+      {
         path: 'carros-publicados',
         component: PublishedCarsComponent,
+        canActivate: [ValidatedGuard],
+      },
+      {
+        path: 'publicados-carros',
+        component: CarPublishedComponent,
+        canActivate: [ValidatedGuard],
       },
       {
         path: 'balance',
         component: BalanceComponent,
+        canActivate: [ValidatedGuard],
       },
       {
+        //FIXME: aca hay un problema porq REMAX y PARTICULAR compartirán este endpoint
+        //NOTE: podríamos hacer '/carros-interesantes/particular' y '/carros-interesantes/remax', cada uno con sus guards
         path: 'carros-interesantes',
         component: InterestedCarsComponent,
+        canActivate: [ValidatedGuard],
       },
       {
         path: 'autos-por-validar',

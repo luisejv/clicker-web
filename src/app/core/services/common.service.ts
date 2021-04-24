@@ -37,7 +37,7 @@ export class CommonService {
 
   // * Car Get
   getAutosSemiNuevosValidadosUrl: string = this.autoSemiNuevoUrl + '/enabled';
-  getSponsoredCarsUrl: string = this.baseUrl + '/sponsor';
+  sponsoredCarsUrl: string = this.baseUrl + '/sponsor';
   getRecentCarsUrl: string = this.baseUrl + '/post/enabled/0';
   getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
   getAutosReportadosUrl: string = this.adminUrl + '/reported';
@@ -67,6 +67,9 @@ export class CommonService {
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';
+
+  // * Denuncia
+  denunciaUrl: string = this.baseUrl + '/denuncia';
 
   // * Placa Service
   getPlacaDetailsUrl: string = this.consultaPlacaUrl;

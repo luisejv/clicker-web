@@ -1,1 +1,9 @@
-<p>car-sponsor works!</p>
+<app-admin-cars 
+    *ngIf="hasLoaded"
+    [name]="'Carros Auspiciados'"
+    [sponsorView]="true"
+    [sponsoredCars]="carros"
+    (setSponsorLevel)="setSponsorLevel($event)"
+    (removeSponsor)="removeSponsor($event)"
+>
+</app-admin-cars>

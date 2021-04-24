@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { NormalizePipe } from 'src/app/core/pipes/normalize.pipe';
 
 declare var $: any;
 
@@ -24,9 +25,9 @@ export class HomeComponent implements OnInit {
   @ViewChild('userCount') userCount!: ElementRef;
   @ViewChild('soldVehicles') soldVehicles!: ElementRef;
 
-  carrocerias!: string[];
-  recentCars!: AutoSemiNuevo[];
-  sponsoredCars!: AutoSemiNuevo[];
+  carrocerias: string[] = [];
+  recentCars: AutoSemiNuevo[] = [];
+  sponsoredCars: AutoSemiNuevo[] = [];
 
   filters!: Filter[];
   filteredBrands!: string[];
@@ -139,10 +140,10 @@ export class HomeComponent implements OnInit {
         console.log('Filtros: ', response);
         this.filters = response;
         this.filteredBrands = this.filters
-          .map((elem) => elem.marca)
+          .map((elem) => NormalizePipe.prototype.transform(elem.marca))
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias = response
-          .map((elem: Filter) => elem.tipoCarroceria)
+          .map((elem: Filter) => NormalizePipe.prototype.transform(elem.tipoCarroceria))
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
@@ -161,6 +162,7 @@ export class HomeComponent implements OnInit {
 
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
+        console.log({recentCars: response});
         this.recentCars = response;
         this.loaderService.setIsLoading(false);
       },

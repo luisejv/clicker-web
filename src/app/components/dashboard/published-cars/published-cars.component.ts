@@ -2,24 +2,19 @@ import { LabelType, Options } from '@angular-slider/ngx-slider';
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
-import { ModesEnum } from 'src/app/core/enums/modes.enum';
-import { User } from 'src/app/core/interfaces/user';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Filter } from 'src/app/core/interfaces/client';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
+import { SortType } from 'src/app/core/enums/sort-type.enum';
 
 declare var $: any;
 
@@ -41,10 +36,7 @@ interface Update {
   styleUrls: ['./published-cars.component.css'],
 })
 export class PublishedCarsComponent implements OnInit {
-  @Input() mode: ModesEnum = ModesEnum.USER_SEARCH;
   @Input() filters!: CarSearchFilter;
-  @Input() name: string = 'Carros Publicados';
-  @Input() cameFrom: string = 'Dashboard';
 
   // * filters
   carrocerias!: string[];
@@ -52,9 +44,6 @@ export class PublishedCarsComponent implements OnInit {
   filteredBrands!: string[];
   filteredModels!: string[];
   carFilters!: Filter[];
-
-  // * user
-  correo: string = '';
 
   // * cars
   carros: AutoSemiNuevo[] = [];
@@ -67,7 +56,7 @@ export class PublishedCarsComponent implements OnInit {
   pgCnt: number = 0;
   pages: number[] = [0];
   currPage: number = 0;
-  carsPerPage: number = 10;
+  carsPerPage: number = 9;
 
   // * datos
   autos: any[];
@@ -85,24 +74,20 @@ export class PublishedCarsComponent implements OnInit {
   minKilometraje!: number;
   maxKilometraje!: number;
   optionsKilometraje!: Options;
+  minYear!: number;
+  maxYear!: number;
+  optionsYear!: Options;
 
   // * Grid - Listings
-  /* @ViewChild('list') list!: ElementRef;
-  @ViewChild('grid') grid!: ElementRef; */
   list: boolean = true;
 
-  //TODO: kilometraje
-  //TODO: departamentos
-  //TODO: traccion
   constructor(
     private userService: UserService,
-    private storageService: StorageService,
     private loaderService: LoaderService,
     private dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
     private clientService: ClientService,
-    private route: ActivatedRoute
   ) {
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
     this.tiposTracciones = this.dataService.tiposTracciones;
@@ -210,12 +195,14 @@ export class PublishedCarsComponent implements OnInit {
     this.minKilometraje = 0;
     this.maxKilometraje = 500000; // 500 000 km
 
+    //TODO: esto depende del cliente
+    this.minYear = 2000;
+    this.maxYear = 2021;
+
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
+    this.updateYearSliderOptions();
 
-    console.log('cameFrom: ', this.cameFrom);
-
-    if (this.mode === ModesEnum.USER_SEARCH) {
       this.filterFormGroup = this.fb.group({
         carBrand: this.marca,
         carModel: this.modelo,
@@ -230,7 +217,7 @@ export class PublishedCarsComponent implements OnInit {
         carTraction: '',
       });
 
-      this.updateSelects(ModesEnum.USER_SEARCH);
+      this.updateSelects();
 
       console.group('USER_SEARCH');
       switch (this.filters?.carSubset) {
@@ -342,39 +329,6 @@ export class PublishedCarsComponent implements OnInit {
         }
       }
       console.groupEnd();
-    } else {
-      console.group('DASHBOARD');
-      // ! cuidado con esto, si es undefined entonces deslogger al user
-      this.correo = this.storageService.getEmailSessionStorage()!; // 😬
-      this.userService
-        .getAutosSemiNuevosValidadosUserUrl(this.correo)
-        .subscribe(
-          (res: User) => {
-            // ! cuidado con el '!'
-            const response: AutoSemiNuevo[] = res.carrosPosteados!;
-
-            this.carros = response;
-            this.filteredCarros = response;
-            this.auxFilteredCarros = this.filteredCarros;
-            this.backupFilteredCarros = this.filteredCarros;
-
-            this.updatePagination();
-
-            console.group('Autos Semi Nuevos response');
-            console.log(response);
-            console.groupEnd();
-            this.loaderService.setIsLoading(false);
-          },
-          (error: any) => {
-            this.loaderService.setIsLoading(false);
-            console.group('Error');
-            console.error('In pubished-cars.component:');
-            console.error(error);
-            console.groupEnd();
-          }
-        );
-      console.groupEnd();
-    }
   }
 
   changeGridView(type: string): void {
@@ -498,7 +452,7 @@ export class PublishedCarsComponent implements OnInit {
       traction: true,
       departments: true,
     };
-    this.updateSelects(undefined, updateFlags);
+    this.updateSelects(updateFlags);
     let brand: string;
     if (typeof e === 'string') {
       brand = e;
@@ -594,7 +548,7 @@ export class PublishedCarsComponent implements OnInit {
       traction: true,
       departments: true,
     };
-    this.updateSelects(undefined, updateFlags);
+    this.updateSelects(updateFlags);
 
     console.log('selected model: ', model);
     this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
@@ -686,7 +640,7 @@ export class PublishedCarsComponent implements OnInit {
       traction: true,
       departments: true,
     };
-    this.updateSelects(undefined, updateFlags);
+    this.updateSelects(updateFlags);
   }
 
   changeTransmision(e: any): void {
@@ -729,7 +683,7 @@ export class PublishedCarsComponent implements OnInit {
       this.carDepartamentos?.value.forEach((departamento: string) => {
         johnathanPrieto =
           johnathanPrieto ||
-          carro.locaciones!.departamento!.includes(departamento);
+          carro.locacion!.departamento!.includes(departamento);
       });
       return johnathanPrieto;
     });
@@ -748,10 +702,61 @@ export class PublishedCarsComponent implements OnInit {
     this.updatePagination();
   }
 
-  sortBy(order: any): void {
-    console.group(order.target.value);
-    console.groupEnd();
-    //TODO:
+  sortBy(e: any): void {
+    const by = e.target.value;
+    console.log('sortBy option selected: ', by);
+
+    switch (by) {
+      case SortType.PrecioMenorMayor: {
+        console.log('precio ascendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return a.precioVenta - b.precioVenta;
+          }
+        );
+        
+        break;
+      }
+      case SortType.PrecioMayorMenor: {
+        console.log('precio descendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return b.precioVenta - a.precioVenta;
+          }
+        );
+        break;
+      }
+      case SortType.AnoMenorMayor: {
+        console.log('precio ascendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return a.anoFabricacion - b.anoFabricacion;
+          }
+        );
+
+        break;
+      }
+      case SortType.AnoMayorMenor: {
+        console.log('precio descendiente');
+
+        this.filteredCarros.sort(
+          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+            return b.anoFabricacion - a.anoFabricacion;
+          }
+        );
+
+        break;
+      }
+      default: {
+        console.warn('unknown sort type');
+      }
+    }
+
+    console.log('sorted carros: ', this.filteredCarros);
+
     this.updatePagination();
   }
 
@@ -767,11 +772,7 @@ export class PublishedCarsComponent implements OnInit {
     }
     this.carType?.setValue('');
 
-    if (this.mode === ModesEnum.USER_SEARCH) {
-      this.filteredCarros = this.originalFilteredCarros;
-    } else {
-      this.filteredCarros = this.carros;
-    }
+    this.filteredCarros = this.originalFilteredCarros;
 
     this.auxFilteredCarros = this.filteredCarros;
     this.backupFilteredCarros = this.filteredCarros;
@@ -783,8 +784,13 @@ export class PublishedCarsComponent implements OnInit {
     this.minKilometraje = 0;
     this.maxKilometraje = 500000;
 
+    //TODO: esto depende del cliente
+    this.minYear = 2000;
+    this.maxYear = 2021;
+
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
+    this.updateYearSliderOptions();
 
     this.filteredModels = [];
 
@@ -800,7 +806,7 @@ export class PublishedCarsComponent implements OnInit {
       departments: true,
     };
 
-    this.updateSelects(undefined, updateFlags);
+    this.updateSelects(updateFlags);
   }
 
   //TODO: NO RECARGA SIEMPRE LOS DEPARTMANETOs (creo q ya esta arreglado, probar varias veces)
@@ -913,6 +919,26 @@ export class PublishedCarsComponent implements OnInit {
     };
   }
 
+  updateYearSliderOptions(): void {
+    this.optionsYear = {
+      floor: this.minYear,
+      ceil: this.maxYear,
+      step: 1,
+      translate: (value: number, label: LabelType): string => {
+        this.filteredCarros = this.auxFilteredCarros.filter(
+          (carro: AutoSemiNuevo) => {
+            return (
+              carro.anoFabricacion >= this.minYear &&
+              carro.anoFabricacion <= this.maxYear
+            );
+          }
+        );
+        this.updatePagination();
+        return '';
+      },
+    };
+  }
+
   updateKilometrajeSliderOptions(): void {
     this.optionsKilometraje = {
       floor: this.minKilometraje,
@@ -933,21 +959,10 @@ export class PublishedCarsComponent implements OnInit {
     };
   }
 
-  updateSelects(mode?: ModesEnum, update?: Update): void {
+  updateSelects(update?: Update): void {
     console.group('updateSelects');
     console.dir(update);
     console.groupEnd();
-    // interface Update {
-    //   subset?: boolean,
-    //   brands?: boolean,
-    //   models?: boolean,
-    //   type?: boolean, //carroceria
-    //   from?: boolean,
-    //   transmission?: boolean,
-    //   combustible?: boolean,
-    //   traction?: boolean,
-    //   departments?: boolean,
-    // }
 
     if (update?.departments) {
       setTimeout(() => {
@@ -968,10 +983,8 @@ export class PublishedCarsComponent implements OnInit {
       if (update?.models) {
         $('#modelos').selectpicker('refresh');
       }
-      if (mode && mode === ModesEnum.USER_SEARCH) {
-        if (this.marca !== '') {
-          this.changeBrand(this.marca);
-        }
+      if (this.marca !== '') {
+        this.changeBrand(this.marca);
       }
       if (update?.type) {
         this.carType?.setValue('');

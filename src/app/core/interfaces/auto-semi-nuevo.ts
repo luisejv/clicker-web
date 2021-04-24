@@ -25,6 +25,7 @@ export interface AutoSemiNuevo {
   comprado?: boolean;
   validado?: boolean;
   enabled?: boolean;
+  revisado?: boolean;
   comisionUsuario?: number;
   comisionVendedor?: number;
   comisionEmpresa?: number;
@@ -33,18 +34,21 @@ export interface AutoSemiNuevo {
   fotoPrincipal: string;
   fotos?: Foto[];
   accesorios?: string[];
-  locaciones?: Locacion;
+  locacion?: Locacion;
   descripcion?: string;
   denuncias?: Denuncia[];
   solicitudRemocionAuto?: boolean; //TODO: esto es una clase
   nombredeauto?: string;
+  version?: string;
+  mantenimiento?: string;
+  unicoDueno?: boolean;
 }
 
 interface Foto {
   foto: string;
 }
 
-interface Locacion {
+export interface Locacion {
   id: string;
   departamento?: string;
   provincia?: string;

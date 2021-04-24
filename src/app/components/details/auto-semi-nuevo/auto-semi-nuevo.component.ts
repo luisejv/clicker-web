@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import { Denuncia } from 'src/app/core/interfaces/denuncia';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -95,7 +96,42 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   denunciar(descripcion: string): void {
     console.log('denunciar auto. descripcion: ', descripcion);
-    //TODO: swal diciendo si esta seguro, y obligar a q ponga una descripcion
+
+    if (descripcion === '') {
+      Swal.fire('¡Debes poner una descripción!', '', 'error');
+      return;
+    }
+
+    const body: Denuncia = {
+      autoSemiNuevo: {
+        id: this.auto.id!
+      },
+      usuario: {
+        correo: this.storageService.getEmailLocalStorage()
+      },
+      descripcion: descripcion
+    };
+
+    Swal.fire({
+      title: '¿Denunciar este carro?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+      focusCancel: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.denunciar(body).subscribe(
+          (response: any) => {
+            console.log(response);
+            Swal.fire('Denunciado', '', 'success');
+          },
+          (error: any) => {
+            console.error('denunciando: ', error);
+            Swal.fire('No se puede denunciar un carro dos veces', '', 'error');
+          }
+        ); 
+      }
+    });
   }
 
   addToInsterested(): void {

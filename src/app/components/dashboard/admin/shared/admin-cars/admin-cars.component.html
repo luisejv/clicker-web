@@ -34,10 +34,10 @@
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
                 Showing results<strong>
-                  {{ len === 0 ? 0 : currPage * 10 + 1 }}
+                  {{ len === 0 ? 0 : currPage * carsPerPage + 1 }}
                   to
                   {{
-                    currPage * 10 + 10 > len ? len : currPage * 10 + 10
+                    currPage * carsPerPage + carsPerPage > len ? len : currPage * carsPerPage + carsPerPage
                   }}</strong
                 >
                 of total {{ len }}
@@ -54,8 +54,11 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                    <option>A-Z</option>
-                    <option>Z-A</option>
+                    <option selected disabled>Ordenar por</option>
+                    <option value="1">Precio ascendiente</option>
+                    <option value="2">Precio descendiente</option>
+                    <option value="3">Año ascendiente</option>
+                    <option value="4">Año descendiente</option>
                   </select>
                 </div>
               </div>
@@ -89,13 +92,31 @@
           </div>
         </div>
         <!-- end .b-filter-goods-->
-
+        <!-- NOTE: Carros Auspiciados -->
+        <div *ngIf="sponsorView" class="b-goods-group row">
+          <div
+            *ngFor="
+              let carro of sponsoredCars
+                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
+            "
+            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
+          >
+            <app-published-car
+              [auto]="carro"
+              [mode]="list"
+              [sponsorView]="true"
+              (changeSponsorLevel)="changeSponsorLevel($event)"
+              (removeSponsor)="quitarSponsor($event)"
+            >
+            </app-published-car>
+          </div>
+        </div>
         <!-- NOTE: Carros No Validados -->
         <div *ngIf="validationView" class="b-goods-group row">
           <div
             *ngFor="
               let carro of notValidatedFilteredCarros
-                | slice: currPage * 10:currPage * 10 + 10
+                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
@@ -106,9 +127,6 @@
               (validated)="validateCar($event)"
             >
             </app-published-car>
-          </div>
-          <div *ngIf="len === 0" class="col text-center">
-            Oops. No se encontró ningún carro con esas especificaciones.
           </div>
         </div>
         <!-- NOTE: Carros Reportados -->
@@ -130,9 +148,6 @@
             >
             </app-published-car>
           </div>
-          <div *ngIf="len === 0" class="col text-center">
-            Oops. No se encontró ningún carro con esas especificaciones.
-          </div>
         </div>
         <!-- NOTE: Carros Interesados -->
         <div *ngIf="interestingView" class="b-goods-group row">
@@ -151,9 +166,9 @@
             >
             </app-published-car>
           </div>
-          <div *ngIf="len === 0" class="col text-center">
-            Oops. No se encontró ningún carro con esas especificaciones.
-          </div>
+        </div>
+        <div *ngIf="len === 0" class="col text-center">
+          Oops. No se encontró ningún carro con esas especificaciones.
         </div>
         <nav class="mt-3" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">

@@ -1,17 +1,17 @@
 <div
   class="section-title-page area-bg area-bg_dark area-bg_op_60"
-  [ngStyle]="{ 'margin-top': cameFrom != 'Dashboard' ? '170px' : '0px' }"
+  [ngStyle]="{ 'margin-top': '170px' }"
 >
   <div class="area-bg__inner">
     <div class="container text-center">
-      <h1 class="b-title-page">{{ name }}</h1>
+      <h1 class="b-title-page">Carros Disponibles</h1>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a routerLink="dashboard">{{ cameFrom }}</a>
+            <a routerLink="home">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            {{ name }}
+            Carros Disponibles
           </li>
         </ol>
       </nav>
@@ -313,6 +313,38 @@
                     </div>
                   </div>
                   <div class="b-filter-slider ui-filter-slider">
+                    <div class="b-filter-slider__title">Año</div>
+                    <div class="b-filter-slider__main">
+                      <ngx-slider
+                        [(value)]="minYear"
+                        [(highValue)]="maxYear"
+                        [options]="optionsYear"
+                      >
+                      </ngx-slider>
+
+                      <div class="b-filter__row row">
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="minYear"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="minYear"
+                          />
+                        </div>
+                        <div class="b-filter__item col-md-6">
+                          <input
+                            disabled
+                            class="ui-select"
+                            [(ngModel)]="maxYear"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="maxYear"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-filter-slider ui-filter-slider">
                     <div class="b-filter-slider__title">Kilometraje</div>
                     <div class="b-filter-slider__main">
                       <ngx-slider
@@ -397,16 +429,16 @@
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
-                Showing results<strong>
-                  {{ filteredCarros.length === 0 ? 0 : currPage * 10 + 1 }}
-                  to
+                Mostrando resultados del <strong>
+                  {{ filteredCarros.length === 0 ? 0 : currPage * carsPerPage + 1 }}
+                  al
                   {{
-                    currPage * 10 + 10 > filteredCarros.length
+                    currPage * carsPerPage + carsPerPage > filteredCarros.length
                       ? filteredCarros.length
-                      : currPage * 10 + 10
+                      : currPage * carsPerPage + carsPerPage
                   }}</strong
                 >
-                of total {{ filteredCarros.length }}
+                de {{ filteredCarros.length }} en total
               </div>
             </div>
             <div class="col-md-auto">
@@ -420,8 +452,11 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                    <option>A-Z</option>
-                    <option>Z-A</option>
+                    <option selected disabled>Ordenar por</option>
+                    <option value="1">Precio ascendiente</option>
+                    <option value="2">Precio descendiente</option>
+                    <option value="3">Año ascendiente</option>
+                    <option value="4">Año descendiente</option>
                   </select>
                 </div>
               </div>
@@ -460,11 +495,11 @@
           <div
             *ngFor="
               let carro of filteredCarros
-                | slice: currPage * 10:currPage * 10 + 10
+                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car [auto]="carro" [mode]="list">
+            <app-published-car [normalView]="true" [auto]="carro" [mode]="list">
             </app-published-car>
           </div>
           <div *ngIf="filteredCarros.length === 0" class="col text-center">
