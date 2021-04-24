@@ -30,6 +30,10 @@ export class AdminService {
     );
   }
 
+  public removeSponsoredCar(id: number): Observable<any> {
+    return this.http.delete(this.commonService.sponsoredCarsUrl + `?id=${id}`);
+  }
+
   public removeAutoReportado(id: number): Observable<any> {
     return this.http.delete(
       this.commonService.removeReportedCarUrl + `?id=${id}`

@@ -32,6 +32,7 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   @Output() mostrarReportadores = new EventEmitter<AutoReportado>();
   @Output() mostrarVentaDetails = new EventEmitter<AutoInteresado>();
   @Output() setSponsorLevel = new EventEmitter<number>();
+  @Output() removeSponsor = new EventEmitter<number>();
 
   list: boolean;
   len: number = 0;
@@ -121,6 +122,10 @@ export class AdminCarsComponent implements OnInit, OnChanges {
 
   sellCar(auto: AutoInteresado): void {
     this.mostrarVentaDetails.emit(auto);
+  }
+
+  quitarSponsor(id: number): void {
+    this.removeSponsor.emit(id);
   }
 
   changeGridView(type: string): void {

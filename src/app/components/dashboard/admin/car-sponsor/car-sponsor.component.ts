@@ -39,6 +39,31 @@ export class CarSponsorComponent implements OnInit {
     );
   }
 
+  removeSponsor(id: number): void {
+    console.log('remove sponsor for car with id: ', id);
+    this.adminService.removeSponsoredCar(id).subscribe(
+      (res: any) => {
+        console.group('Remove Sponsor Response');
+        console.dir(res);
+        console.groupEnd();
+        Swal.fire({
+          title: '¡Éxito!',
+          icon: 'success',
+          text: 'El carro ha sido quitado de los carros auspiciados.',
+        });
+        this.ngOnInit();
+      },
+      (err: any) => {
+        console.error('when removing sponsor: ', {err});
+        Swal.fire({
+          title: '¡Error!',
+          icon: 'error',
+          text: 'Ocurrió un error. Inténtalo de nuevo.',
+        });
+      }
+    );
+  }
+
   setSponsorLevel(carId: number): void {
     Swal.fire({
       title: 'Cambiar ranking',
@@ -46,13 +71,13 @@ export class CarSponsorComponent implements OnInit {
       inputLabel: 'Ingresar nuevo ranking',
       inputAttributes: {
         min: '1',
-        max: '100'
+        max: '8'
       },
       inputValidator: (value): any => {
         if (!value) {
           return '¡Tienes que ingresar un número!';
-        } else if (+value < 1 || +value > 100) {
-          return '¡El nuevo ranking debe ser mínimo 1 y máximo 100!';
+        } else if (+value < 1 || +value > 8) {
+          return '¡El nuevo ranking debe ser mínimo 1 y máximo 8!';
         }
       },
       showCancelButton: true,

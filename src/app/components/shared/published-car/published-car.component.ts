@@ -33,6 +33,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Output() removeInterested = new EventEmitter<number>();
 
   @Output() changeSponsorLevel = new EventEmitter<number>();
+  @Output() removeSponsor = new EventEmitter<number>();
 
   // auto validado y interesado = AutoSemiNuevo
   // auto reportado             = Auto Reportado
@@ -111,9 +112,8 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     this.changeSponsorLevel.emit((this.autoCasteado as AutoSemiNuevo).id!);
   }
 
-  removeSponsor(): void {
-    //TODO:
-    console.log('remove sponsor for car with id: ', (this.auto as SponsoredCar).id);
+  quitarSponsor(): void {
+    this.removeSponsor.emit((this.auto as SponsoredCar).id);
   }
 
 }
