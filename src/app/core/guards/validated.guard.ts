@@ -13,7 +13,8 @@ export class ValidatedGuard implements CanActivate {
       return true;
     } else {
       this.router.navigate([
-        '/validation/' + this.storageService.getTokenLocalStorage(),
+        '/validation/0',
+        // '/validation/' + this.storageService.getTokenLocalStorage(),
       ]);
       return false;
     }

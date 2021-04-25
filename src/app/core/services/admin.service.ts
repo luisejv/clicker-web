@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SponsoredCar } from '../interfaces/auto-semi-nuevo';
 import { SponsorUpdate } from '../interfaces/sponsor-update';
 import { Venta } from '../interfaces/venta';
 import { CommonService } from './common.service';
@@ -59,5 +60,9 @@ export class AdminService {
 
   public putSponsoredCarLevel(body: SponsorUpdate): Observable<any> {
     return this.http.put(this.commonService.sponsoredCarsUrl, body);
+  }
+
+  public addCarToSponsored(body: SponsoredCar): Observable<any> {
+    return this.http.post(this.commonService.sponsoredCarsUrl, body);
   }
 }

@@ -196,6 +196,7 @@
               >
             </li>
             <!-- TODO: habilitar solo para remax -->
+            <!-- isLoggedIn && !isAdmin -->
             <li *ngIf="isRemax" class="nav-item">
               <a
                 class="nav-link"
@@ -241,10 +242,10 @@
               aria-labelledby="overview-tab"
             >
               <p>
-                {{ 
-                  (auto.descripcion === null || auto.descripcion?.length === 0) 
-                  ? 'Este auto no tiene descripción.' 
-                  : auto.descripcion 
+                {{
+                  auto.descripcion === null || auto.descripcion?.length === 0
+                    ? "Este auto no tiene descripción."
+                    : auto.descripcion
                 }}
               </p>
             </div>
@@ -278,7 +279,12 @@
                   #descripcion
                 />
               </div>
-              <button (click)="denunciar(descripcion.value)" class="btn btn-secondary w-100">denunciar</button>
+              <button
+                (click)="denunciar(descripcion.value)"
+                class="btn btn-secondary w-100"
+              >
+                denunciar
+              </button>
             </div>
             <div
               class="tab-pane fade"
@@ -337,14 +343,27 @@
             </div>
 
             <div class="widget-2 section-sidebar bg-gray">
-              <h3 class="widget-title-2">
+              <h3 class="widget-title-2 pb-3">
                 <img
                   class="ic"
                   src="assets/media/general/logo-sm_blue.png"
                   alt="photo"
-                /><span class="widget-title__inner">¿Deseas este auto?</span>
+                />
+                <span
+                  class="widget-title__inner"
+                  *ngIf="auto.comprado || !auto.enabled; else options"
+                  >No disponible</span
+                >
+                <ng-template #options>
+                  <span class="widget-title__inner" *ngIf="!isAdmin"
+                    >¿Deseas este auto?</span
+                  >
+                  <span class="widget-title__inner" *ngIf="isAdmin"
+                    >¿Patrocinar este auto?</span
+                  >
+                </ng-template>
               </h3>
-              <div class="widget-content">
+              <div class="widget-content" *ngIf="!auto.comprado">
                 <div class="widget-inner">
                   <div *ngIf="!logged; else enviar">
                     <form [formGroup]="contactFormGroup">
@@ -352,8 +371,25 @@
                         <input
                           class="form-control"
                           type="text"
-                          formControlName="nombre"
-                          placeholder="Nombre"
+                          [OnlyNumber]="true"
+                          formControlName="dni"
+                          placeholder="DNI"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="nombres"
+                          placeholder="Nombres"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="apellidos"
+                          placeholder="Apellidos"
                         />
                       </div>
                       <div class="form-group">
@@ -391,19 +427,25 @@
                   <ng-template #enviar>
                     <button
                       class="btn btn-secondary w-100"
-                      *ngIf="!isRemax; else remax"
+                      *ngIf="isAdmin"
+                      (click)="addCarToSponsored()"
+                    >
+                      Patrocinar
+                    </button>
+                    <button
+                      class="btn btn-secondary w-100"
+                      *ngIf="!isRemax && !isAdmin"
                       (click)="contact()"
                     >
                       Contactar
                     </button>
-                    <ng-template #remax>
-                      <button
-                        class="btn btn-secondary w-100"
-                        (click)="addToInsterested()"
-                      >
-                        ¡Lo quiero!
-                      </button>
-                    </ng-template>
+                    <button
+                      class="btn btn-secondary w-100"
+                      *ngIf="isRemax"
+                      (click)="addToInsterested()"
+                    >
+                      ¡Lo quiero!
+                    </button>
                   </ng-template>
                 </div>
               </div>

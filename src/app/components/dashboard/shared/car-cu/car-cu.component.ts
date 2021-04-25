@@ -19,16 +19,19 @@ export interface Fotos {
 @Component({
   selector: 'app-car-cu',
   templateUrl: './car-cu.component.html',
-  styleUrls: ['./car-cu.component.css']
+  styleUrls: ['./car-cu.component.css'],
 })
 export class CarCuComponent implements OnInit {
-
   @Input() create: boolean = false;
   @Input() update: boolean = false;
   @Input() title!: string;
   @Input() submitButtonText!: string;
   @Input() updateAction!: (auto: AutoSemiNuevo) => void;
-  @Input() createAction!: (body: AutoSemiNuevo, fotos: Fotos[], uploadedPhotos: EventEmitter<string>) => void;
+  @Input() createAction!: (
+    body: AutoSemiNuevo,
+    fotos: Fotos[],
+    uploadedPhotos: EventEmitter<string>
+  ) => void;
 
   formGroup: FormGroup;
   carId: number = -1;
@@ -49,6 +52,7 @@ export class CarCuComponent implements OnInit {
     private route: ActivatedRoute,
     private loaderService: LoaderService,
     public dataService: DataService,
+    public uploadService: UploadService
   ) {
     this.date = new Date();
     this.role = this.storageService.getRoleLocalStorage();
@@ -56,31 +60,44 @@ export class CarCuComponent implements OnInit {
     // TODO: validators
     // TODO: validator cuando entra a editar, ningun campo que ya esté, debe cambiar a vacío, o sí puede?
     //NOTE: sería paja autocompletar la info del usuario particular para ahorrarle chamba
-      // F3W642
-      // BJX356
+    // F3W642
+    // BJX356
     this.formGroup = this.fb.group({
       id: '',
-      // correoDueno: 'luis.jauregui@utec.edu.pe',
-      // nombreDueno: 'Luis Jáuregui',
-      // telefonoDueno: '997854810',
-      // placa: 'AAA222',
-      correoDueno: ['gabriel.spranger@utec.edu.pe', [Validators.required, Validators.email]],
+      correoDueno: [this.correo, [Validators.required, Validators.email]],
       nombreDueno: ['Gabriel Spranger', [Validators.required]],
       telefonoDueno: ['965776360', [Validators.required]],
-      placa: ['BBB222', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      placa: [
+        'BBB222',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
       serie: ['', [Validators.required]],
       marca: ['', [Validators.required]],
       modelo: ['', [Validators.required]],
-      anoFabricacion: ['2018', [Validators.required, Validators.max(this.date.getFullYear()+1), Validators.maxLength(4), Validators.min(1999)]],
+      anoFabricacion: [
+        '2018',
+        [
+          Validators.required,
+          Validators.max(this.date.getFullYear() + 1),
+          Validators.maxLength(4),
+          Validators.min(1999),
+        ],
+      ],
       tipoCambios: ['Automático', Validators.required],
       tipoCombustible: ['Eléctrico', Validators.required],
       tipoCarroceria: ['SUV', Validators.required],
-      cilindrada: ['1200', [Validators.required, Validators.min(100), Validators.max(32000)]],
+      cilindrada: [
+        '1200',
+        [Validators.required, Validators.min(100), Validators.max(32000)],
+      ],
       kilometraje: ['120000', Validators.required],
       numeroPuertas: ['5', Validators.required],
       tipoTraccion: ['Trasera', Validators.required],
       color: ['Azul', Validators.required],
-      numeroCilindros: ['4', [Validators.required, Validators.min(1), Validators.max(16)]],
+      numeroCilindros: [
+        '4',
+        [Validators.required, Validators.min(1), Validators.max(16)],
+      ],
       precioVenta: ['69420', Validators.required],
       video: '',
     });
@@ -95,7 +112,10 @@ export class CarCuComponent implements OnInit {
     this.userService.getPlacaDetails(body).subscribe(
       (response: any) => {
         console.log(response);
-        if (response.success && (response.encontrado === undefined || response.encontrado)) {
+        if (
+          response.success &&
+          (response.encontrado === undefined || response.encontrado)
+        ) {
           this.formGroup.controls['serie'].setValue(response.data.serie);
           this.formGroup.controls['marca'].setValue(response.data.marca);
           this.formGroup.controls['modelo'].setValue(response.data.modelo);
@@ -140,45 +160,68 @@ export class CarCuComponent implements OnInit {
         if (params['id']) {
           this.userService.getAutoSemiNuevoById(params['id']).subscribe(
             (res: AutoSemiNuevo) => {
-  
-              if ((this.role !== RolesEnum.ADMIN && this.role !== RolesEnum.SUPERADMIN) && res.usuario.correo !== this.correo) {
+              if (
+                this.role !== RolesEnum.ADMIN &&
+                this.role !== RolesEnum.SUPERADMIN &&
+                res.usuario.correo !== this.correo
+              ) {
                 // el sapaso (que no es admin ni superadmin) esta tratando de editar un carro que no es suyo
                 // this.router.navigate(['/sapos-al-agua']);
-                console.log('sapaso, ese no es tu carro, porq lo quieres editar');
+                console.log(
+                  'sapaso, ese no es tu carro, porq lo quieres editar'
+                );
                 this.router.navigate(['/home']);
                 return;
               }
-  
+
               console.group('autoseminuevo por id');
               console.dir(res);
               console.groupEnd();
-  
-  
+
               this.formGroup = this.fb.group({
                 id: res.id,
                 correoDueno: [res.correoDueno, [Validators.email]],
                 nombreDueno: res.nombreDueno,
                 telefonoDueno: res.telefonoDueno,
                 // TODO: añadir el regex de una placa peruana
-                placa: [res.placa, [Validators.minLength(6), Validators.maxLength(6)]],
+                placa: [
+                  res.placa,
+                  [Validators.minLength(6), Validators.maxLength(6)],
+                ],
                 serie: res.serie,
                 marca: res.marca,
                 modelo: res.modelo,
-                anoFabricacion: [res.anoFabricacion, [Validators.max(this.date.getFullYear()), Validators.maxLength(4), Validators.min(1999)]],
+                anoFabricacion: [
+                  res.anoFabricacion,
+                  [
+                    Validators.max(this.date.getFullYear()),
+                    Validators.maxLength(4),
+                    Validators.min(1999),
+                  ],
+                ],
                 tipoCambios: res.tipoCambios,
                 tipoCombustible: res.tipoCombustible,
                 tipoCarroceria: res.tipoCarroceria,
-                cilindrada: [res.cilindrada, [Validators.required, Validators.min(100), Validators.max(32000)]],
+                cilindrada: [
+                  res.cilindrada,
+                  [
+                    Validators.required,
+                    Validators.min(100),
+                    Validators.max(32000),
+                  ],
+                ],
                 kilometraje: res.kilometraje,
                 numeroPuertas: res.numeroPuertas,
                 tipoTraccion: res.tipoTraccion,
                 color: res.color,
-                numeroCilindros: [res.numeroCilindros, [Validators.required, Validators.min(1), Validators.max(16)]],
+                numeroCilindros: [
+                  res.numeroCilindros,
+                  [Validators.required, Validators.min(1), Validators.max(16)],
+                ],
                 precioVenta: res.precioVenta,
                 video: '',
               });
 
-  
               this.title = 'Actualiza tu Carro';
               this.carId = params['id'];
             },
@@ -198,13 +241,12 @@ export class CarCuComponent implements OnInit {
             this.router.navigate(['/home']);
           }
         }
-  
+
         console.group('Form Group');
         console.log(this.formGroup);
         console.groupEnd();
       });
     }
-    
   }
 
   toJSON(): AutoSemiNuevo {
@@ -278,5 +320,4 @@ export class CarCuComponent implements OnInit {
   createActionWrapper(): void {
     this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
   }
-
 }

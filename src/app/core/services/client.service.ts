@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
+import { Lead } from '../interfaces/lead';
 import { CommonService } from './common.service';
 
 @Injectable({
@@ -31,10 +32,16 @@ export class ClientService {
   public getFilters(): Observable<any> {
     return this.http.get(this.commonService.filtersUrl);
   }
-  public postFormInterested(body: any): void {
-    this.http.post(this.commonService.postFormInterestedUrl, body);
+  public postFormInterested(body: any): Observable<any> {
+    return this.http.post(this.commonService.postFormInterestedUrl, body);
   }
   public getUbigeos(): Observable<any> {
     return this.http.get(this.commonService.ubigeosUrl);
+  }
+  public postPilot(body: Lead): Observable<any> {
+    return this.http.post(this.commonService.leadPilotUrl, body);
+  }
+  public getAllCars(): Observable<any> {
+    return this.http.get(this.commonService.getAllCarsUrl);
   }
 }

@@ -1,25 +1,3 @@
-<div class="container">
-  <div class="row h-100 align-items-center">
-    <div class="col">
-      <form [formGroup]="validationFormGroup">
-        <div class="row justify-content-center">
-          <mat-form-field appearance="fill" class="w-75">
-            <mat-label>Nombres</mat-label>
-            <input matInput formControlName="nombre" />
-          </mat-form-field>
-        </div>
-        <div class="row justify-content-center">
-          <mat-form-field appearance="fill" class="w-75">
-            <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="telefono" />
-          </mat-form-field>
-        </div>
-        <div class="row justify-content-center">
-          <button mat-raised-button color="primary" (click)="validate()">
-            Validar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+<div class="container" *ngIf="!validated">
+  Por favor, valida tus credenciales en el correo que te hemos enviado
 </div>

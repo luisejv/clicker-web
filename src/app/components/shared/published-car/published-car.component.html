@@ -5,18 +5,27 @@
 >
   <a class="b-goods__img" (click)="goToVehicleDetails()">
     <!-- style="max-width: 100%; height: auto;" -->
-    <img 
+    <img
       class="img-scale"
-      
-      [src]="autoCasteado?.fotoPrincipal !== '' ? autoCasteado?.fotoPrincipal : 'assets/media/content/b-special/263x200/1.jpg'"
-      alt="Foto del Carro" 
+      [src]="
+        autoCasteado?.fotoPrincipal !== ''
+          ? autoCasteado?.fotoPrincipal
+          : 'assets/media/content/b-special/263x200/1.jpg'
+      "
+      alt="Foto del Carro"
     />
   </a>
   <div class="b-goods__main">
     <div class="row no-gutters">
       <div class="col">
         <a class="b-goods__title">
-          {{ autoCasteado?.marca + " " + autoCasteado?.modelo + " " + autoCasteado?.anoFabricacion }}</a
+          {{
+            autoCasteado?.marca +
+              " " +
+              autoCasteado?.modelo +
+              " " +
+              autoCasteado?.anoFabricacion
+          }}</a
         >
         <!-- <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div> -->
       </div>
@@ -40,7 +49,9 @@
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">KILOMETRAJE</span
               ><span class="b-goods-descrip__text">{{
-                autoCasteado?.kilometraje | number
+                autoCasteado?.kilometraje
+                  ? (autoCasteado?.kilometraje | number)
+                  : (0 | number)
               }}</span>
             </div>
           </div>
@@ -66,10 +77,14 @@
         <div class="b-goods-descrip__inner">
           <div class="b-goods-descrip__wrap">
             <i class="ic flaticon-gearshift"></i
-            ><span class="b-goods-descrip__info"> {{ autoCasteado?.tipoCambios }}</span>
+            ><span class="b-goods-descrip__info">
+              {{ autoCasteado?.tipoCambios }}</span
+            >
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">TRANSMISIÓN</span
-              ><span class="b-goods-descrip__text">{{ autoCasteado?.tipoCambios }}</span>
+              ><span class="b-goods-descrip__text">{{
+                autoCasteado?.tipoCambios
+              }}</span>
             </div>
           </div>
         </div>
@@ -87,22 +102,30 @@
           </div>
         </div>
       </div>
-      <div *ngIf="sponsorView" class="b-goods-descrip__item b-goods-descrip__item_list col">
+      <div
+        *ngIf="sponsorView"
+        class="b-goods-descrip__item b-goods-descrip__item_list col"
+      >
         <div class="b-goods-descrip__inner">
           <div class="b-goods-descrip__wrap">
             <i class="ic flaticon-calendar"></i>
             <div class="b-goods-descrip__full-info">
               <span class="b-goods-descrip__title">RANKING</span
-              ><span class="b-goods-descrip__text">{{
-                sponsorCar.level
-              }}</span>
+              ><span class="b-goods-descrip__text">{{ sponsorCar.level }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      *ngIf="validationView || reportedView || interestingView || interesadoView || sponsorView || particularPublishedView"
+      *ngIf="
+        validationView ||
+        reportedView ||
+        interestingView ||
+        interesadoView ||
+        sponsorView ||
+        particularPublishedView
+      "
       class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
     >
       <button

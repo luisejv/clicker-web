@@ -69,8 +69,6 @@ export const routes: Routes = [
         canActivate: [ValidatedGuard],
       },
       {
-        //FIXME: aca hay un problema porq REMAX y PARTICULAR compartirán este endpoint
-        //NOTE: podríamos hacer '/carros-interesantes/particular' y '/carros-interesantes/remax', cada uno con sus guards
         path: 'carros-interesantes',
         component: InterestedCarsComponent,
         canActivate: [ValidatedGuard],

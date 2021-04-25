@@ -57,11 +57,15 @@ export class UserService {
   }
 
   public getAutosInteresantes(correo: string): Observable<any> {
-    return this.http.get(this.commonService.getAutosInteresantesUrl + `?correo=${correo}`);
+    return this.http.get(
+      this.commonService.getAutosInteresantesUrl + `?correo=${correo}`
+    );
   }
 
   public removeAutoFromInteresantes(id: number): Observable<any> {
-    return this.http.delete(this.commonService.removeAutoFromInteresantesUrl + `?id=${id}`);
+    return this.http.delete(
+      this.commonService.removeAutoFromInteresantesUrl + `?id=${id}`
+    );
   }
 
   public getAutosSemiNuevosValidados(): Observable<any> {
@@ -122,5 +126,4 @@ export class UserService {
   public denunciar(body: Denuncia): Observable<any> {
     return this.http.post(this.commonService.denunciaUrl, body);
   }
-
 }

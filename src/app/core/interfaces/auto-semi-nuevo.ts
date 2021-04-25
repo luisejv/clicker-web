@@ -42,6 +42,15 @@ export interface AutoSemiNuevo {
   version?: string;
   mantenimiento?: string;
   unicoDueno?: boolean;
+
+  // ? De Auto Nuevo:
+  concesionarios?: string;
+  documentacion?: string;
+  moneda?: string;
+  usoauto?: string[];
+  presentar?: boolean;
+  codVersion?: string;
+  locaciones?: string[];
 }
 
 interface Foto {
@@ -57,7 +66,7 @@ export interface Locacion {
 }
 
 export interface SponsoredCar {
-  id: number;
+  id?: number;
   autoSemiNuevo: AutoSemiNuevo;
-  level: number;
+  level?: number;
 }

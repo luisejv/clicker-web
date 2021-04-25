@@ -1,8 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
-import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
+import {
+  AutoSemiNuevo,
+  SponsoredCar,
+} from 'src/app/core/interfaces/auto-semi-nuevo';
 
 @Component({
   selector: 'app-published-car',
@@ -39,9 +50,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   // auto reportado             = Auto Reportado
   autoCasteado!: AutoSemiNuevo | AutoReportado;
 
-  constructor(
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     console.log('auto interesado: ', this.auto);
@@ -61,15 +70,28 @@ export class PublishedCarComponent implements OnInit, OnChanges {
       this.autoCasteado = this.auto as AutoSemiNuevo;
     } else if (this.sponsorView) {
       this.autoCasteado = (this.auto as SponsoredCar).autoSemiNuevo;
-    } else if ((changes.validationView && changes.validationView.firstChange && this.validationView) || 
-        (changes.interesadoView && changes.interesadoView.firstChange && this.interesadoView)) {
+    } else if (
+      (changes.validationView &&
+        changes.validationView.firstChange &&
+        this.validationView) ||
+      (changes.interesadoView &&
+        changes.interesadoView.firstChange &&
+        this.interesadoView)
+    ) {
       this.autoCasteado = this.auto as AutoSemiNuevo;
-    } else if (changes.reportedView && changes.reportedView.firstChange && this.reportedView) {
+    } else if (
+      changes.reportedView &&
+      changes.reportedView.firstChange &&
+      this.reportedView
+    ) {
       this.autoCasteado = this.auto as AutoReportado;
-    } else if (changes.interestingView && changes.interestingView.firstChange && this.interestingView) {
+    } else if (
+      changes.interestingView &&
+      changes.interestingView.firstChange &&
+      this.interestingView
+    ) {
       this.autoCasteado = (this.auto as AutoInteresado).auto as AutoSemiNuevo;
     }
-
   }
 
   goToVehicleDetails(): void {
@@ -81,11 +103,13 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   goToCarEditView(): void {
-    this.router.navigateByUrl(`/dashboard/editar-carro/${this.autoCasteado.id}`);
+    this.router.navigateByUrl(
+      `/dashboard/editar-carro/${this.autoCasteado.id}`
+    );
   }
 
   emitSeeReporters(): void {
-   this.showReporters.emit(this.auto as AutoReportado); 
+    this.showReporters.emit(this.auto as AutoReportado);
   }
 
   emitValidationEvent(): void {
@@ -109,11 +133,11 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   sponsorLevelEvent(): void {
-    this.changeSponsorLevel.emit((this.autoCasteado as AutoSemiNuevo).id!);
+    console.log('casteado: ', (this.auto as SponsoredCar).id!);
+    this.changeSponsorLevel.emit((this.auto as SponsoredCar).id!);
   }
 
   quitarSponsor(): void {
     this.removeSponsor.emit((this.auto as SponsoredCar).id);
   }
-
 }

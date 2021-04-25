@@ -1,5 +1,5 @@
-/// <reference types="aws-sdk" />
 import { EventEmitter, Injectable } from '@angular/core';
+/// <reference types="aws-sdk" />
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 
@@ -11,7 +11,7 @@ export class UploadService {
   uploadedData = new EventEmitter<any>();
   constructor() {}
 
-  uploadFile(file: File, index: number = 0): void {
+  public uploadFile(file: File, index: number = 0): void {
     const contentType = file.type;
     const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
     const bucket = new S3({

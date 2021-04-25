@@ -1,10 +1,5 @@
 import { LabelType, Options } from '@angular-slider/ngx-slider';
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -81,13 +76,16 @@ export class PublishedCarsComponent implements OnInit {
   // * Grid - Listings
   list: boolean = true;
 
+  minPage: number = 0;
+  maxPage: number = 10;
+
   constructor(
     private userService: UserService,
     private loaderService: LoaderService,
     private dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
-    private clientService: ClientService,
+    private clientService: ClientService
   ) {
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
     this.tiposTracciones = this.dataService.tiposTracciones;
@@ -203,132 +201,180 @@ export class PublishedCarsComponent implements OnInit {
     this.updateKilometrajeSliderOptions();
     this.updateYearSliderOptions();
 
-      this.filterFormGroup = this.fb.group({
-        carBrand: this.marca,
-        carModel: this.modelo,
-        carType: this.carroceria,
-        carSubset: this.subset,
-        carMinYear: this.desde,
-        carTransmission: '',
-        carFuelType: '',
-        //TODO: los de abajo
-        // carMileage: '',
-        carDepartamentos: '',
-        carTraction: '',
-      });
+    this.filterFormGroup = this.fb.group({
+      carBrand: this.marca,
+      carModel: this.modelo,
+      carType: this.carroceria,
+      carSubset: this.subset,
+      carMinYear: this.desde,
+      carTransmission: '',
+      carFuelType: '',
+      //TODO: los de abajo
+      // carMileage: '',
+      carDepartamentos: '',
+      carTraction: '',
+    });
 
-      this.updateSelects();
+    this.updateSelects();
 
-      console.group('USER_SEARCH');
-      switch (this.filters?.carSubset) {
-        case 'ALL': {
-          //TODO: GET all cars, then filter
-          console.log('ALL');
-          console.warn(
-            'Por ahora se estan obteniendo los Semi Nuevos pero cuano estén, se tendrá que hacer fetch a todos los carros disponibles, no solo Semi Nuevos'
-          );
-          this.userService.getAutosSemiNuevosValidados().subscribe(
-            (response: AutoSemiNuevo[]) => {
-              this.carros = response;
+    console.group('USER_SEARCH');
+    switch (this.filters?.carSubset) {
+      case 'ALL': {
+        console.log('ALL');
+        console.warn(
+          'Por ahora se estan obteniendo los Semi Nuevos pero cuano estén, se tendrá que hacer fetch a todos los carros disponibles, no solo Semi Nuevos'
+        );
+        this.clientService.getAllCars().subscribe(
+          (response: AutoSemiNuevo[]) => {
+            this.carros = response;
 
-              console.group('Autos Semi Nuevos');
-              console.dir(this.carros);
-              console.groupEnd();
+            console.group('FILTERS');
+            console.log(this.filters);
+            console.groupEnd();
 
-              this.filteredCarros = this.filterResponse(response);
+            console.group('Autos Semi Nuevos');
+            console.dir(this.carros);
+            console.groupEnd();
 
-              this.auxFilteredCarros = this.filteredCarros;
-              this.backupFilteredCarros = this.filteredCarros;
-              this.originalFilteredCarros = this.filteredCarros;
+            console.group('Filtrando Carros');
 
-              this.updatePagination();
+            this.filteredCarros = this.filterResponse(response);
 
-              this.loaderService.setIsLoading(false);
-            },
-            (error: any) => {
-              this.loaderService.setIsLoading(false);
-              console.error(
-                'when fetching all semi nuevos validados in published-car.component.ts: ',
-                error
-              );
-            }
-          );
-          break;
-        }
-        case 'NEW': {
-          //TODO: GET new cars, then filter
-          console.log('NEW');
-          break;
-        }
-        case 'USED': {
-          console.log('USED');
-          this.userService.getAutosSemiNuevosValidados().subscribe(
-            (response: AutoSemiNuevo[]) => {
-              this.carros = response;
+            this.auxFilteredCarros = this.filteredCarros;
+            this.backupFilteredCarros = this.filteredCarros;
+            this.originalFilteredCarros = this.filteredCarros;
 
-              console.group('FILTERS');
-              console.log(this.filters);
-              console.groupEnd();
+            console.groupEnd();
 
-              console.group('Autos Semi Nuevos');
-              console.dir(this.carros);
-              console.groupEnd();
+            console.group('Filtered Carros');
+            console.dir(this.filteredCarros);
+            console.groupEnd();
 
-              console.group('Filtrando Carros');
+            this.updatePagination();
 
-              this.filteredCarros = this.filterResponse(response);
-
-              this.auxFilteredCarros = this.filteredCarros;
-              this.backupFilteredCarros = this.filteredCarros;
-              this.originalFilteredCarros = this.filteredCarros;
-
-              console.groupEnd();
-
-              console.group('Filtered Carros');
-              console.dir(this.filteredCarros);
-              console.groupEnd();
-
-              this.updatePagination();
-
-              this.loaderService.setIsLoading(false);
-            },
-            (error: any) => {
-              this.loaderService.setIsLoading(false);
-              console.error(
-                'when fetching all semi nuevos validados in published-car.component.ts: ',
-                error
-              );
-            }
-          );
-          break;
-        }
-        default: {
-          console.warn('unknown carSubset');
-          this.userService.getAutosSemiNuevosValidados().subscribe(
-            (response: AutoSemiNuevo[]) => {
-              this.carros = response;
-
-              console.group('Autos Semi Nuevos');
-              console.dir(this.carros);
-              console.groupEnd();
-
-              this.filteredCarros = response;
-
-              this.updatePagination();
-
-              this.loaderService.setIsLoading(false);
-            },
-            (error: any) => {
-              this.loaderService.setIsLoading(false);
-              console.error(
-                'when fetching all semi nuevos validados in published-car.component.ts: ',
-                error
-              );
-            }
-          );
-        }
+            this.loaderService.setIsLoading(false);
+          },
+          (error: any) => {
+            this.loaderService.setIsLoading(false);
+            console.error(
+              'when fetching all semi nuevos validados in published-car.component.ts: ',
+              error
+            );
+          }
+        );
+        break;
       }
-      console.groupEnd();
+      case 'NEW': {
+        console.log('NEW');
+        this.userService.getAutosNuevos().subscribe(
+          (response: AutoSemiNuevo[]) => {
+            this.carros = response;
+
+            console.group('FILTERS');
+            console.log(this.filters);
+            console.groupEnd();
+
+            console.group('Autos Semi Nuevos');
+            console.dir(this.carros);
+            console.groupEnd();
+
+            console.group('Filtrando Carros');
+
+            this.filteredCarros = this.filterResponse(response);
+
+            this.auxFilteredCarros = this.filteredCarros;
+            this.backupFilteredCarros = this.filteredCarros;
+            this.originalFilteredCarros = this.filteredCarros;
+
+            console.groupEnd();
+
+            console.group('Filtered Carros');
+            console.dir(this.filteredCarros);
+            console.groupEnd();
+
+            this.updatePagination();
+
+            this.loaderService.setIsLoading(false);
+          },
+          (error: any) => {
+            this.loaderService.setIsLoading(false);
+            console.error(
+              'when fetching all semi nuevos validados in published-car.component.ts: ',
+              error
+            );
+          }
+        );
+        break;
+      }
+      case 'USED': {
+        console.log('USED');
+        this.userService.getAutosSemiNuevosValidados().subscribe(
+          (response: AutoSemiNuevo[]) => {
+            this.carros = response;
+
+            console.group('FILTERS');
+            console.log(this.filters);
+            console.groupEnd();
+
+            console.group('Autos Semi Nuevos');
+            console.dir(this.carros);
+            console.groupEnd();
+
+            console.group('Filtrando Carros');
+
+            this.filteredCarros = this.filterResponse(response);
+
+            this.auxFilteredCarros = this.filteredCarros;
+            this.backupFilteredCarros = this.filteredCarros;
+            this.originalFilteredCarros = this.filteredCarros;
+
+            console.groupEnd();
+
+            console.group('Filtered Carros');
+            console.dir(this.filteredCarros);
+            console.groupEnd();
+
+            this.updatePagination();
+
+            this.loaderService.setIsLoading(false);
+          },
+          (error: any) => {
+            this.loaderService.setIsLoading(false);
+            console.error(
+              'when fetching all semi nuevos validados in published-car.component.ts: ',
+              error
+            );
+          }
+        );
+        break;
+      }
+      default: {
+        console.warn('unknown carSubset');
+        this.userService.getAutosSemiNuevosValidados().subscribe(
+          (response: AutoSemiNuevo[]) => {
+            this.carros = response;
+
+            console.group('Autos Semi Nuevos');
+            console.dir(this.carros);
+            console.groupEnd();
+
+            this.filteredCarros = response;
+
+            this.updatePagination();
+
+            this.loaderService.setIsLoading(false);
+          },
+          (error: any) => {
+            this.loaderService.setIsLoading(false);
+            console.error(
+              'when fetching all semi nuevos validados in published-car.component.ts: ',
+              error
+            );
+          }
+        );
+      }
+    }
+    console.groupEnd();
   }
 
   changeGridView(type: string): void {
@@ -710,43 +756,35 @@ export class PublishedCarsComponent implements OnInit {
       case SortType.PrecioMenorMayor: {
         console.log('precio ascendiente');
 
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return a.precioVenta - b.precioVenta;
-          }
-        );
-        
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return a.precioVenta - b.precioVenta;
+        });
+
         break;
       }
       case SortType.PrecioMayorMenor: {
         console.log('precio descendiente');
 
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return b.precioVenta - a.precioVenta;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return b.precioVenta - a.precioVenta;
+        });
         break;
       }
       case SortType.AnoMenorMayor: {
         console.log('precio ascendiente');
 
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return a.anoFabricacion - b.anoFabricacion;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return a.anoFabricacion - b.anoFabricacion;
+        });
 
         break;
       }
       case SortType.AnoMayorMenor: {
         console.log('precio descendiente');
 
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return b.anoFabricacion - a.anoFabricacion;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return b.anoFabricacion - a.anoFabricacion;
+        });
 
         break;
       }
@@ -893,7 +931,7 @@ export class PublishedCarsComponent implements OnInit {
 
   updatePagination(): void {
     this.currPage = 0;
-    this.pgCnt = Math.ceil(this.filteredCarros.length / 10);
+    this.pgCnt = Math.ceil(this.filteredCarros.length / this.carsPerPage);
     this.pages = Array(this.pgCnt)
       .fill(this.pgCnt)
       .map((x: any, i: any) => i);
@@ -1008,5 +1046,41 @@ export class PublishedCarsComponent implements OnInit {
         $('#tracciones').selectpicker('refresh');
       }
     }, 500);
+  }
+
+  rewind(): void {
+    this.minPage = 0;
+    this.maxPage = 10;
+    this.goToPage(this.minPage);
+    // window.scrollTo(0, 0);
+  }
+
+  forward(): void {
+    this.minPage = this.pgCnt - 10;
+    this.maxPage = this.pgCnt;
+    this.goToPage(this.maxPage - 1);
+    // window.scrollTo(0, 0);
+  }
+
+  next(): void {
+    if (this.maxPage + 10 <= this.pgCnt) {
+      this.minPage = this.minPage + 10;
+      this.maxPage = this.maxPage + 10;
+    } else {
+      this.minPage = this.pgCnt - 10;
+      this.maxPage = this.pgCnt;
+    }
+    this.goToPage(this.minPage);
+  }
+
+  prev(): void {
+    if (this.minPage - 10 >= 0) {
+      this.minPage = this.minPage - 10;
+      this.maxPage = this.maxPage - 10;
+    } else {
+      this.minPage = 0;
+      this.maxPage = 10;
+    }
+    this.goToPage(this.maxPage - 1);
   }
 }

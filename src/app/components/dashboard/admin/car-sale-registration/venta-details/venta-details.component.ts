@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
@@ -17,7 +23,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-venta-details',
   templateUrl: './venta-details.component.html',
-  styleUrls: ['./venta-details.component.css']
+  styleUrls: ['./venta-details.component.css'],
 })
 export class VentaDetailsComponent implements OnInit {
   formGroup!: FormGroup;
@@ -35,7 +41,7 @@ export class VentaDetailsComponent implements OnInit {
     public commonService: CommonService,
     private fb: FormBuilder,
     private uploadService: UploadService,
-    private adminService: AdminService,
+    private adminService: AdminService
   ) {
     console.group('Dialog Data');
     console.dir(data);
@@ -50,7 +56,10 @@ export class VentaDetailsComponent implements OnInit {
       vendedor: [null, [Validators.required, this.vendedorMatch.bind(this)]],
       comprador: null,
       constanciaFoto: [null, [Validators.required]],
-      comisionGeneral: [null, [Validators.required, Validators.min(0), Validators.max(1)]],
+      comisionGeneral: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(1)],
+      ],
       precioFinalVenta: [null, [Validators.required, Validators.min(0)]],
     });
     this.disableInputs();
@@ -83,20 +92,30 @@ export class VentaDetailsComponent implements OnInit {
   }
 
   public showInteresadoCompra = (interesado?: InteresadoCompra) => {
-    return interesado?.nombre || '';
-  }
+    if (interesado) {
+      return (
+        interesado?.nombres +
+        ' ' +
+        interesado?.apellidos +
+        ' - ' +
+        interesado?.dni
+      );
+    } else {
+      return '';
+    }
+  };
 
   public showInteresadoReventa = (interesado?: InteresadoReventa) => {
     if (interesado) {
       if (interesado!.usuario.nombre) {
         return `${interesado?.usuario.nombre}`;
       } else {
-        return `${interesado?.usuario.correo}`; 
+        return `${interesado?.usuario.correo}`;
       }
     } else {
       return '';
     }
-  }
+  };
 
   disableInputs(): void {
     if (this.interesadosCompra.length === 0) {
@@ -114,9 +133,15 @@ export class VentaDetailsComponent implements OnInit {
       this.formGroup = this.fb.group({
         vendidoPorRevendedor: [revendedor, [Validators.required]],
         vendedor: null,
-        comprador: [null, [Validators.required, this.compradorMatch.bind(this)]], 
+        comprador: [
+          null,
+          [Validators.required, this.compradorMatch.bind(this)],
+        ],
         constanciaFoto: [null, [Validators.required]],
-        comisionGeneral: [null, [Validators.required, Validators.min(0), Validators.max(1)]],
+        comisionGeneral: [
+          null,
+          [Validators.required, Validators.min(0), Validators.max(1)],
+        ],
         precioFinalVenta: [null, [Validators.required, Validators.min(0)]],
       });
     } else {
@@ -137,23 +162,39 @@ export class VentaDetailsComponent implements OnInit {
 
     if (this.formGroup.value.vendidoPorRevendedor) {
       // interesadosReventa
-      this.filteredInteresadosReventa = this.interesadosReventa.filter((interesado: InteresadoReventa) => {
-        return (
-          this._normalizeValue(interesado.usuario.nombre!).includes(queryFilter) ||
-          this._normalizeValue(interesado.usuario.correo).includes(queryFilter)
-        );
-      });
-      console.log('filteredInteresadosReventa: ', this.filteredInteresadosReventa);
+      this.filteredInteresadosReventa = this.interesadosReventa.filter(
+        (interesado: InteresadoReventa) => {
+          return (
+            this._normalizeValue(interesado.usuario.nombre!).includes(
+              queryFilter
+            ) ||
+            this._normalizeValue(interesado.usuario.correo).includes(
+              queryFilter
+            )
+          );
+        }
+      );
+      console.log(
+        'filteredInteresadosReventa: ',
+        this.filteredInteresadosReventa
+      );
       console.log('interesadosReventa: ', this.interesadosReventa);
     } else {
       // interesadosCompra
-      this.filteredInteresadosCompra = this.interesadosCompra.filter((interesado: InteresadoCompra) => {
-        return (
-          this._normalizeValue(interesado.nombre).includes(queryFilter) ||
-          this._normalizeValue(interesado.correo).includes(queryFilter)
-        );
-      });
-      console.log('filteredInteresadosCompra: ', this.filteredInteresadosCompra);
+      this.filteredInteresadosCompra = this.interesadosCompra.filter(
+        (interesado: InteresadoCompra) => {
+          return (
+            this._normalizeValue(interesado.nombres).includes(queryFilter) ||
+            this._normalizeValue(interesado.apellidos).includes(queryFilter) ||
+            this._normalizeValue(interesado.dni).includes(queryFilter) ||
+            this._normalizeValue(interesado.correo).includes(queryFilter)
+          );
+        }
+      );
+      console.log(
+        'filteredInteresadosCompra: ',
+        this.filteredInteresadosCompra
+      );
       console.log('interesadosCompra: ', this.interesadosCompra);
     }
   }
@@ -171,28 +212,29 @@ export class VentaDetailsComponent implements OnInit {
     Swal.fire({
       title: 'Carro registrado',
       html: 'El carro se registró con éxito',
-      icon: 'success'
+      icon: 'success',
     });
   }
 
   showFailure(): void {
     Swal.fire({
       title: 'Ocurrió un error',
-      html: 'No se pudo registrar la venta. Inténtalo más tarde o contacta al administrador',
-      icon: 'error'
+      html:
+        'No se pudo registrar la venta. Inténtalo más tarde o contacta al administrador',
+      icon: 'error',
     });
   }
-
-  //FIXME: ERROR CUANDO CLICKEAS 'CLICKER' la primera vez
 
   debug(e: any) {
     console.log(this.formGroup.get('comisionGeneral')?.errors!);
   }
 
-  //FIXME: llamar a ngOnInit luego de registrar una venta
-
   registrarVenta(): void {
-    this.loaderService.setIsLoadingSWAL(true, 'Registrando la venta', 'Espere unos momentos');
+    this.loaderService.setIsLoadingSWAL(
+      true,
+      'Registrando la venta',
+      'Espere unos momentos'
+    );
     const form = this.formGroup.value;
     this.uploadService.uploadFile(this.constancia);
 
@@ -202,14 +244,16 @@ export class VentaDetailsComponent implements OnInit {
 
         const body: Venta = {
           autoSemiNuevo: this.data.auto,
-          comprador: !form.vendidoPorRevendedor ?
-            {
-              correo: form.comprador.correo,
-              nombre: form.comprador.nombre,
-              telefono: form.comprador.numTelefono,
-            }
+          comprador: !form.vendidoPorRevendedor
+            ? {
+                correo: form.comprador.correo,
+                nombre: form.comprador.nombre,
+                telefono: form.comprador.numTelefono,
+              }
             : null,
-          vendedor: form.vendidoPorRevendedor ? { correo: form.vendedor.usuario.correo } : null,
+          vendedor: form.vendidoPorRevendedor
+            ? { correo: form.vendedor.usuario.correo }
+            : null,
           ciudadCompra: this.data.auto.locacion!.departamento!,
           foto: this.constanciaUrl,
           comisionGeneral: form.comisionGeneral,
@@ -236,7 +280,6 @@ export class VentaDetailsComponent implements OnInit {
             this.closeDialog();
           }
         );
-
       },
       (error: any) => {
         console.error('Error uploading constancia de pago', error);
@@ -245,11 +288,9 @@ export class VentaDetailsComponent implements OnInit {
         this.closeDialog();
       }
     );
-    
   }
 
   closeDialog(): void {
     this.dialogRef.close();
   }
-
 }

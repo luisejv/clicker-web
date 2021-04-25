@@ -43,6 +43,7 @@ export class CommonService {
   getAutosReportadosUrl: string = this.adminUrl + '/reported';
   getAutosInteresantesUrl: string = this.userUrl + '/interesadoVenta';
   getAutosNuevosUrl: string = this.autoSemiNuevoUrl + '/nuevo';
+  getAllCarsUrl: string = this.autoSemiNuevoUrl + '/all';
 
   // * Car Put
   validateAutoUrl: string = this.autoSemiNuevoUrl + '/validate';
@@ -64,6 +65,7 @@ export class CommonService {
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoCompra';
   addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoVenta';
+  leadPilotUrl: string = this.autoSemiNuevoUrl + '/pilot';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';

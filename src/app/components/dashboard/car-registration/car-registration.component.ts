@@ -1,8 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { UserService } from 'src/app/core/services/user.service';
@@ -17,24 +13,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./car-registration.component.css'],
 })
 export class CarRegistrationComponent implements OnInit {
-
   constructor(
     private router: Router,
     private userService: UserService,
-    private uploadService: UploadService,
+    private uploadService: UploadService
   ) {
     console.log('this.uploadService: ', this.uploadService);
   }
 
   ngOnInit(): void {}
 
-  postCar(body: AutoSemiNuevo, fotos: Fotos[], uploadedPhotos: EventEmitter<string>): void {
+  postCar(
+    body: AutoSemiNuevo,
+    fotos: Fotos[],
+    uploadedPhotos: EventEmitter<string>
+  ): void {
     let cont = 0;
     if (fotos.length > 0) {
       fotos.forEach((foto, index) => {
         console.log(foto);
         console.log('this.uploadService: ', this.uploadService);
-        //FIXME: la linea de abajo da error, dice que 'this.uploadService' es undefined
         this.uploadService.uploadFile(foto.foto![0], index);
       });
       this.uploadService.uploadedData.subscribe(
@@ -49,8 +47,6 @@ export class CarRegistrationComponent implements OnInit {
           console.log('Error uploading photo #' + cont, error);
         }
       );
-    }
-    if (fotos.length > 0) {
       uploadedPhotos.subscribe(
         (response) => {
           console.log('contador', cont);
@@ -149,5 +145,4 @@ export class CarRegistrationComponent implements OnInit {
       );
     }
   }
-
 }

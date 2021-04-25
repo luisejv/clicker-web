@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { CommonService } from 'src/app/core/services/common.service';
@@ -13,12 +14,13 @@ import { ReportersComponent } from './reporters/reporters.component';
 })
 export class CarComplaintComponent implements OnInit {
   hasLoaded: boolean = false;
-  carros: AutoReportado[] = [];
+  carros!: AutoReportado[];
 
   constructor(
     private adminService: AdminService,
     private dialog: MatDialog,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +43,10 @@ export class CarComplaintComponent implements OnInit {
   }
 
   getDialogWidth(): string {
-    if (this.commonService.screenWidth > 672 && this.commonService.screenWidth <= 1000) {
+    if (
+      this.commonService.screenWidth > 672 &&
+      this.commonService.screenWidth <= 1000
+    ) {
       return '60%';
     } else if (this.commonService.screenWidth <= 672) {
       return '97%';
@@ -58,6 +63,13 @@ export class CarComplaintComponent implements OnInit {
     }
   }
 
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
+
   showReporters(auto: AutoReportado): void {
     console.log('mostrar los que reportaron este carro: ', { auto });
     const dialogRef = this.dialog.open(ReportersComponent, {
@@ -72,7 +84,7 @@ export class CarComplaintComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit(); // TODO: hacer este refresh? o es innecesario?
+      this.reloadComponent();
       console.log('dialog after closed callback');
     });
   }
@@ -84,17 +96,29 @@ export class CarComplaintComponent implements OnInit {
       showDenyButton: true,
       confirmButtonText: 'Sí',
       denyButtonText: 'No',
-      focusDeny: true,
+      // focusDeny: true,
     }).then((result) => {
       if (result.isConfirmed) {
         this.adminService.removeAutoReportado(id).subscribe(
           (res: any) => {
             console.log(res);
             console.log('carro borrado de clicker');
-            this.ngOnInit();
+            Swal.fire({
+              title: 'Eliminado',
+              confirmButtonText: 'Ok',
+              showConfirmButton: true,
+              icon: 'success',
+            }).then(() => {
+              this.reloadComponent();
+            });
           },
           (error: any) => {
-            console.error('removing car with id: ', id, ' from clicker: ', error);
+            console.error(
+              'removing car with id: ',
+              id,
+              ' from clicker: ',
+              error
+            );
           }
         );
       } else {

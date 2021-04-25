@@ -429,8 +429,11 @@
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
-                Mostrando resultados del <strong>
-                  {{ filteredCarros.length === 0 ? 0 : currPage * carsPerPage + 1 }}
+                Mostrando resultados del
+                <strong>
+                  {{
+                    filteredCarros.length === 0 ? 0 : currPage * carsPerPage + 1
+                  }}
                   al
                   {{
                     currPage * carsPerPage + carsPerPage > filteredCarros.length
@@ -495,7 +498,9 @@
           <div
             *ngFor="
               let carro of filteredCarros
-                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
+                | slice
+                  : currPage * carsPerPage
+                  : currPage * carsPerPage + carsPerPage
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
@@ -516,14 +521,26 @@
         </div>
         <nav class="mt-3" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link" (click)="rewind()"> &lt;&lt; </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="prev()"> &lt; </a>
+            </li>
             <li
-              *ngFor="let pageId of pages"
+              *ngFor="let pageId of pages | slice: minPage:maxPage"
               class="page-item"
               [ngClass]="{ active: currPage == pageId }"
             >
               <a class="page-link" (click)="goToPage(pageId)">{{
                 pageId + 1
               }}</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="next()"> &gt; </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="forward()"> &gt;&gt; </a>
             </li>
           </ul>
         </nav>

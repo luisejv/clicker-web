@@ -1,9 +1,16 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
-import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
+import {
+  AutoSemiNuevo,
+  SponsoredCar,
+} from 'src/app/core/interfaces/auto-semi-nuevo';
 import { Denuncia } from 'src/app/core/interfaces/denuncia';
+import { Lead } from 'src/app/core/interfaces/lead';
+import { AdminService } from 'src/app/core/services/admin.service';
+import { ClientService } from 'src/app/core/services/client.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -21,25 +28,9 @@ export class AutoSemiNuevoComponent implements OnInit {
   loading: boolean = true;
   logged: boolean = false;
   isRemax: boolean = false;
+  isAdmin: boolean = false;
 
   contactFormGroup: FormGroup;
-
-  constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private loaderService: LoaderService,
-    public storageService: StorageService,
-    private fb: FormBuilder
-  ) {
-    this.logged = this.storageService.isLoggedIn();
-    this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
-    this.contactFormGroup = this.fb.group({
-      nombre: '',
-      telefono: '',
-      correo: '',
-      descripcion: '',
-    });
-  }
 
   slideConfig = {
     arrows: false,
@@ -53,6 +44,30 @@ export class AutoSemiNuevoComponent implements OnInit {
     asNavFor: '.js-slider-nav',
     focusOnSelect: true,
   };
+
+  constructor(
+    private userService: UserService,
+    private clientService: ClientService,
+    private adminService: AdminService,
+    private route: ActivatedRoute,
+    private loaderService: LoaderService,
+    public storageService: StorageService,
+    private fb: FormBuilder
+  ) {
+    this.logged = this.storageService.isLoggedIn();
+    this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
+    this.isAdmin =
+      this.storageService.getRoleLocalStorage() == RolesEnum.ADMIN ||
+      this.storageService.getRoleLocalStorage() == RolesEnum.SUPERADMIN;
+    this.contactFormGroup = this.fb.group({
+      dni: '',
+      nombres: '',
+      apellidos: '',
+      telefono: '',
+      correo: '',
+      descripcion: '',
+    });
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -90,9 +105,141 @@ export class AutoSemiNuevoComponent implements OnInit {
   // ? Los dos requests de abajo tienen el mismo body y hacen la consulta al mismo lugar,
   // ? pero obtienen la data de lugares distintos.
 
-  submitForm(): void {}
+  submitForm(): void {
+    const body: Lead = {
+      tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+      carroceria: this.auto.tipoCarroceria,
+      dni: this.contactFormGroup.value.dni,
+      nombre: this.contactFormGroup.value.nombres,
+      apellidos: this.contactFormGroup.value.apellidos,
+      correo: this.contactFormGroup.value.correo,
+      numTelefono: this.contactFormGroup.value.telefono,
+    };
+    const body2 = {
+      autoSemiNuevo: {
+        id: this.auto.id,
+      },
+      dni: this.contactFormGroup.value.dni,
+      nombres: this.contactFormGroup.value.nombres,
+      apellidos: this.contactFormGroup.value.apellidos,
+      correo: this.contactFormGroup.value.correo,
+      numTelefono: this.contactFormGroup.value.telefono,
+      descripcion: this.contactFormGroup.value.descripcion,
+    };
+    this.clientService.postPilot(body).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Enviado!',
+          icon: 'success',
+          html:
+            'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          showConfirmButton: true,
+        });
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Oops!',
+          icon: 'error',
+          html:
+            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          showConfirmButton: true,
+        });
+      }
+    );
+    this.clientService.postFormInterested(body2).subscribe(
+      (response) => {
+        console.log('Agregado a InteresadosCompra');
+      },
+      (error) => {
+        console.log('Error en agregar a InteresadosCompra');
+      }
+    );
+  }
 
-  contact(): void {}
+  contact(): void {
+    // TODO: recoger datos de LocalStorage cuando tengamos nombres, dni, etc.
+    const body: Lead = {
+      tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+      carroceria: this.auto.tipoCarroceria,
+      dni: this.contactFormGroup.value.dni,
+      nombre: this.contactFormGroup.value.nombres,
+      apellidos: this.contactFormGroup.value.apellidos,
+      correo: this.contactFormGroup.value.correo,
+      numTelefono: this.contactFormGroup.value.telefono,
+    };
+    const body2 = {
+      autoSemiNuevo: {
+        id: this.auto.id,
+      },
+      dni: this.contactFormGroup.value.dni,
+      nombres: this.contactFormGroup.value.nombres,
+      apellidos: this.contactFormGroup.value.apellidos,
+      correo: this.contactFormGroup.value.correo,
+      numTelefono: this.contactFormGroup.value.telefono,
+    };
+    this.clientService.postPilot(body).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Enviado!',
+          icon: 'success',
+          html:
+            'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          showConfirmButton: true,
+        });
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Oops!',
+          icon: 'error',
+          html:
+            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          showConfirmButton: true,
+        });
+      }
+    );
+    this.clientService.postFormInterested(body2).subscribe(
+      (response) => {
+        console.log('Agregado a InteresadosCompra');
+      },
+      (error) => {
+        console.log('Error en agregar a InteresadosCompra');
+      }
+    );
+  }
+
+  addCarToSponsored(): void {
+    const body: SponsoredCar = {
+      autoSemiNuevo: this.auto,
+    };
+    this.adminService.addCarToSponsored(body).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Agregado!',
+          icon: 'success',
+          html: 'Carro agregado a patrocinados.',
+          showConfirmButton: true,
+        });
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status == 400) {
+          Swal.fire({
+            title: 'Oops!',
+            icon: 'error',
+            html: 'El carro ya se encuentra dentro de los carros patrocinados.',
+            showConfirmButton: true,
+          });
+        } else {
+          Swal.fire({
+            title: 'Oops!',
+            icon: 'error',
+            html:
+              'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+            showConfirmButton: true,
+          });
+        }
+      }
+    );
+  }
 
   denunciar(descripcion: string): void {
     console.log('denunciar auto. descripcion: ', descripcion);
@@ -104,12 +251,12 @@ export class AutoSemiNuevoComponent implements OnInit {
 
     const body: Denuncia = {
       autoSemiNuevo: {
-        id: this.auto.id!
+        id: this.auto.id!,
       },
       usuario: {
-        correo: this.storageService.getEmailLocalStorage()
+        correo: this.storageService.getEmailLocalStorage(),
       },
-      descripcion: descripcion
+      descripcion: descripcion,
     };
 
     Swal.fire({
@@ -129,7 +276,7 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.error('denunciando: ', error);
             Swal.fire('No se puede denunciar un carro dos veces', '', 'error');
           }
-        ); 
+        );
       }
     });
   }

@@ -57,6 +57,7 @@ export class ParticularComponent implements OnInit {
           this.router.navigateByUrl('/home');
         });
       },
+      // TODO: Gabriel -> Pasar a espaniol y checkear los errores (usuario ya registrado, internal error, etc)
       (error: any) => {
         console.log(`[ERROR]: Register Particular, ${error}`);
         Swal.fire({
