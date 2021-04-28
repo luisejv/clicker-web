@@ -1,0 +1,28 @@
+.borderRight {
+  border-right: 1px solid #ddd;
+}
+
+.registerBtn {
+  border: 1.5px solid #000;
+  border-radius: 40px;
+  outline: none;
+  margin-left: 10px;
+}
+
+.loginBtn {
+  background-color: #29abe2;
+  border-radius: 40px;
+  outline: none;
+  color: white;
+}
+
+.registerBtn,
+.loginBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+}

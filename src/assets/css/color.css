@@ -2,7 +2,6 @@
 /* COLOR CSS 1*/
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
-
 a,
 .text-primary,
 .list > li > a:hover,
@@ -19,13 +18,15 @@ a,
 .b-main-filter__cat-item:hover,
 .b-goods-other:hover .b-goods-other__link,
 .b-reviews__footer:before,
-.btns-switch__item.active, .btns-switch__item:hover,
+.btns-switch__item.active,
+.btns-switch__item:hover,
 .b-steps__info,
 .btn-arr-wrap:hover,
 .entry-blockquote:before,
 .header-soc__link:hover,
-.navbar-nav .nav-link:hover {color: #22abc3;}
-
+.navbar-nav .nav-link:hover {
+  color: #29abe2;
+}
 
 .bg-primary,
 .btn-primary,
@@ -34,7 +35,6 @@ a,
 .noUi-connect,
 .ui-accordion__link[aria-expanded="true"] .ui-accordion__number,
 .ui-accordion__link:hover .ui-accordion__number,
-
 .b-main-slider__label:after,
 .b-main-filter-nav__link,
 .b-services-nav__title,
@@ -47,8 +47,10 @@ a,
 .b-post-soc__link:hover,
 .b-booking-main__cat-item.active,
 .b-booking-main__cat-item:hover,
-.b-title-page__label:after , html .b-goods__img:before {background-color: #22abc3;}
-
+.b-title-page__label:after,
+html .b-goods__img:before {
+  background-color: #29abe2;
+}
 
 .btn-primary,
 .btn-default:hover,
@@ -59,16 +61,24 @@ a,
 .flip-btn span,
 .b-booking-total,
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before,
-.b-semicircle_primary .b-semicircle__inner {border-color: #22abc3;}
+.b-semicircle_primary .b-semicircle__inner {
+  border-color: #29abe2;
+}
 
 .nav-link.active:after,
 #page-preloader .spinner:before,
-.widget-title-2:after {border-top-color: #22abc3;}
+.widget-title-2:after {
+  border-top-color: #29abe2;
+}
 
-.nav-link.active:after {border-left-color: #22abc3;}
+.nav-link.active:after {
+  border-left-color: #29abe2;
+}
 
 .widget-title-2:after,
-.b-booking-nav__main {border-right-color: #22abc3;}
+.b-booking-nav__main {
+  border-right-color: #29abe2;
+}
 
 .table_primary > thead > tr > th,
 .collapse.in,
@@ -77,8 +87,9 @@ a,
 .nav-link:focus,
 .nav-link:hover,
 .b-isotope-filter > li.current a,
-.b-isotope-filter > li:hover a {border-bottom-color: #22abc3;}
-
+.b-isotope-filter > li:hover a {
+  border-bottom-color: #29abe2;
+}
 
 /*////////////////////////////////*/
 /* Secondary */
@@ -112,7 +123,7 @@ a,
 .b-post-2 .btn:hover,
 .btn-arr_secondary:after,
 .b-booking-nav__item.active .b-booking-nav__main {
-  background-color: #E2B71C;
+  background-color: #29abe2;
 }
 
 .slick-dots li button:hover,
@@ -122,16 +133,17 @@ a,
 .b-goods-other:hover .btn,
 .page-item.active .page-link,
 .btn-arr_secondary:before,
-.ui-slider-nav .slick-slide.slick-current:after, .ui-slider-nav .slick-slide:hover:after,
+.ui-slider-nav .slick-slide.slick-current:after,
+.ui-slider-nav .slick-slide:hover:after,
 .b-semicircle_secondary .b-semicircle__inner {
-  border-color: #E2B71C;
+  border-color: #e2b71c;
 }
 
 .widget-title:after {
-  border-top-color: #E2B71C;
+  border-top-color: #e2b71c;
 }
 
 .widget-title:after,
 .b-booking-nav__item.active .b-booking-nav__main:before {
-  border-left-color: #E2B71C;
+  border-left-color: #e2b71c;
 }

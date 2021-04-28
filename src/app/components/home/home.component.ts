@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     slidesToScroll: 1,
     dots: true,
     arrows: false,
-    autoplay: true,
+    autoplay: false,
     infinite: true,
     responsive: [
       {
@@ -143,7 +143,9 @@ export class HomeComponent implements OnInit {
           .map((elem) => NormalizePipe.prototype.transform(elem.marca))
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias = response
-          .map((elem: Filter) => NormalizePipe.prototype.transform(elem.tipoCarroceria))
+          .map((elem: Filter) =>
+            NormalizePipe.prototype.transform(elem.tipoCarroceria)
+          )
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
@@ -162,7 +164,7 @@ export class HomeComponent implements OnInit {
 
     this.clientService.getRecentCars().subscribe(
       (response: AutoSemiNuevo[]) => {
-        console.log({recentCars: response});
+        console.log({ recentCars: response });
         this.recentCars = response;
         this.loaderService.setIsLoading(false);
       },

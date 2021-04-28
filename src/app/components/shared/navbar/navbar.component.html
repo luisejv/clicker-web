@@ -81,14 +81,16 @@
       <div class="row justify-content-between align-items-center">
         <div class="col-auto">
           <div class="top-bar__item">
-            <i class="ic fas fa-map-marker-alt text-primary"></i> Llámanos:
-            24/7!<a class="top-bar__link" href="tel:+17553028549">
+            <i class="ic fas fa-map-marker-alt"></i> Llámanos: 24/7!<a
+              class="top-bar__link"
+              href="tel:+17553028549"
+            >
               +1 755 302 8549</a
             >
             <!-- TODO: net2phone -->
           </div>
           <div class="top-bar__item">
-            <i class="ic fas fa-envelope text-primary"></i> Email:<a
+            <i class="ic fas fa-envelope"></i> Email:<a
               class="top-bar__link"
               href="mailto:hola@clicker.pe"
             >
@@ -96,7 +98,7 @@
             >
           </div>
           <div class="top-bar__item">
-            <i class="ic fas fa-clock text-primary"></i> Horario de atención:
+            <i class="ic fas fa-clock"></i> Horario de atención:
 
             <span class="top-bar__link"
               >Lun - Vie : 9am a 6:30pm y Sab: 9am a 1:30pm</span
@@ -108,12 +110,12 @@
           <ul class="header-soc list-unstyled">
             <li class="header-soc__item">
               <a class="header-soc__link" href="#" target="_blank"
-                ><i class="ic fab fa-facebook-f"></i
+                ><i class="ic fab fa-facebook-f text-white"></i
               ></a>
             </li>
             <li class="header-soc__item">
               <a class="header-soc__link" href="#" target="_blank"
-                ><i class="ic fab fa-instagram"></i
+                ><i class="ic fab fa-instagram text-white"></i
               ></a>
             </li>
           </ul>
@@ -126,18 +128,16 @@
       <div class="row align-items-center justify-content-between">
         <div class="col-auto">
           <a class="navbar-brand navbar-brand_light scroll" href="home.html">
-            <!-- assets/media/general/logo-light.png -->
             <img
               class="normal-logo img-fluid"
-              src="assets/media/general/logo-light.png"
+              src="assets/media/general/V_B2_Logo-horizontal.svg"
               alt="logo"
             />
           </a>
           <a class="navbar-brand navbar-brand_dark scroll" href="home.html">
-            <!-- assets/media/general/logo-dark.png -->
             <img
-              class="normal-logo img-fluid"
-              src="assets/media/general/logo-dark.png"
+              class="normal-logo img-fluid w-100"
+              src="assets/media/general/V_B2_Logo-horizontal.svg"
               alt="logo"
             />
           </a>
@@ -158,18 +158,6 @@
           <nav class="navbar navbar-expand-lg justify-content-end" id="nav">
             <ul class="yamm main-menu navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/home']">Inicio</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/contact']"
-                  >Sobre Nosotros</a
-                >
-              </li>
-
-              <!-- TODO: no sé si lo de abajo sea la mejor solucion -->
-              <!-- TODO: ponerle routerlink y ademas meterle un navigate (click) -->
-              <li class="nav-item">
                 <a
                   class="nav-link"
                   [routerLink]="['/inventory-listings']"
@@ -183,26 +171,28 @@
                   class="nav-link"
                   [routerLink]="['/inventory-listings']"
                   (click)="goToCarsSubset('USED')"
-                  >Autos Usados</a
+                  >Autos Seminuevos</a
                 >
               </li>
-              <!-- TODO: anidar al login/register con formulario -->
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="ruta"
-                  >Vende Tu Vehículo</a
+
+              <li class="nav-item borderRight">
+                <a class="nav-link" [routerLink]="ruta">Vende Tu Auto</a>
+              </li>
+
+              <li
+                *ngIf="!isLoggedIn()"
+                class="nav-item d-flex flex-column justify-content-center"
+              >
+                <a class="registerBtn" [routerLink]="['/registro']"
+                  >Regístrate</a
                 >
               </li>
-              <!-- ? No hay info sobre el Foro aún -->
-              <li class="nav-item">
-                <a class="nav-link">Foro</a>
-              </li>
 
-              <li *ngIf="!isLoggedIn()" class="nav-item">
-                <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
-              </li>
-
-              <li *ngIf="!isLoggedIn()" class="nav-item">
-                <a class="nav-link" [routerLink]="['/login']">Ingresa</a>
+              <li
+                *ngIf="!isLoggedIn()"
+                class="nav-item d-flex flex-column justify-content-center"
+              >
+                <a class="loginBtn" [routerLink]="['/login']">Ingresa</a>
               </li>
 
               <li *ngIf="isLoggedIn()" class="nav-item">

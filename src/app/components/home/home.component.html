@@ -1,21 +1,21 @@
 <!-- Section-1 Buscador & filtros por carrocería, marca, modelo, precio y año -->
 <!-- TODO: ponerle una imagen de un carro de fondo -->
 <section class="b-main-filter find-your-dream-car">
-  <div class="ui-decor ui-decor_mirror bg-primary"></div>
+  <!-- <div class="ui-decor ui-decor_mirror bg-primary"></div> -->
   <div class="container">
     <div class="b-main-filter__wrap text-center">
-      <div class="b-main-filter__logo">
+      <!-- <div class="b-main-filter__logo">
         <img
           class="img-fluid"
           src="assets/media/general/logo-sm.png"
           alt="decor"
         />
-      </div>
-      <span class="b-main-filter__decor"></span>
+      </div> -->
+      <!-- <span class="b-main-filter__decor"></span> -->
       <h2 class="ui-title ui-title_lg ui-title_light text-uppercase">
         Encuentra el carro de tus sueños
       </h2>
-      <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
+      <!-- <div class="ui-title-logo ui-title-logo_dark">CLICKER</div> -->
       <form class="b-main-filter__form" [formGroup]="filterFormGroup">
         <div class="b-main-filter__cat btn-group-toggle" data-toggle="buttons">
           <label
@@ -38,8 +38,12 @@
                 'flaticon-cabrio-car': carType == 'CONVERTIBLE',
                 'flaticon-sedan-car-model': carType == 'SEDAN',
                 'flaticon-car':
-                  carType == 'CITYCAR' || carType == 'VAN' || carType == 'OTRO' ||
-                  carType == 'HATCHBACK' || carType == 'CAMION' || carType == 'PANEL'
+                  carType == 'CITYCAR' ||
+                  carType == 'VAN' ||
+                  carType == 'OTRO' ||
+                  carType == 'HATCHBACK' ||
+                  carType == 'CAMION' ||
+                  carType == 'PANEL'
               }"
             ></span>
             {{ carType }}
@@ -182,7 +186,7 @@
                 <button
                   type="button"
                   (click)="goToListings()"
-                  class="b-main-filter__btn btn btn-secondary"
+                  class="b-main-filter__btn searchBtn"
                 >
                   Buscar
                 </button>
@@ -198,11 +202,11 @@
 <!-- Section-5 Carros patrocinados -->
 <section class="section-goods-slider bg-dark b-services">
   <div class="section-goods-slider__inner">
-    <div class="ui-decor ui-decor_center bg-primary"></div>
+    <!-- <div class="ui-decor ui-decor_center bg-primary"></div> -->
     <div class="container">
       <div class="text-center">
-        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
-        <h2 class="ui-title ui-title_light">Ofertas de la semana</h2>
+        <!-- <div class="ui-title-logo ui-title-logo_dark">CLICKER</div> -->
+        <h2 class="ui-title ui-title_light">OFERTAS DE LA SEMANA</h2>
         <ngx-slick-carousel
           class="b-goods-slider-2"
           #slickModal="slick-carousel"
@@ -223,31 +227,27 @@
                 <img
                   [src]="sponsored.fotoPrincipal"
                   [alt]="sponsored.modelo"
-                  class="img-fluid"
+                  class="img-fluid w-100 h-100"
                 />
               </div>
               <div class="b-goods-2__main">
                 <div class="row justify-content-between align-items-center">
-                  <div class="col-9">
-                    <div class="b-goods-2__title text-primary">
-                      {{
-                        sponsored.marca +
-                          " " +
-                          sponsored.modelo +
-                          " " +
-                          sponsored.anoFabricacion
-                      }}
+                  <div class="col-9 text-left">
+                    <div class="b-goods-2__title text-white">
+                      <b>{{ sponsored.marca + " " + sponsored.modelo }}</b>
+                      <br />
+                      {{ sponsored.anoFabricacion }}
                     </div>
                   </div>
                   <div class="col-3">
                     <div class="b-goods-2__price">
-                      US$
-                      <span class="b-goods-2__price-inner text-secondary">{{
-                        sponsored.precioVenta
-                      }}</span>
+                      <span class="b-goods-2__price-inner text-primary"
+                        >US$ {{ sponsored.precioVenta | number }}</span
+                      >
                     </div>
                   </div>
                 </div>
+                <hr style="border-top: 1px solid #fff" />
                 <div class="b-goods-2-descrip">
                   <div class="b-goods-2-descrip__item">
                     <div class="b-goods-2-descrip__inner">
@@ -294,10 +294,10 @@
 <!-- Section-3 Recién Llegados -->
 <section *ngIf="recentCars.length > 0" class="section-goods">
   <div class="section-default section-goods__inner bg-dark">
-    <div class="ui-decor ui-decor_mirror ui-decor_center"></div>
+    <!-- <div class="ui-decor ui-decor_mirror ui-decor_center"></div> -->
     <div class="container">
       <div class="text-center">
-        <div class="ui-title-logo ui-title-logo_dark">CLICKER</div>
+        <!-- <div class="ui-title-logo ui-title-logo_dark">CLICKER</div> -->
         <h2 class="ui-title ui-title_light text-uppercase">
           Seminuevos recién llegados
         </h2>
@@ -316,14 +316,16 @@
     <div class="section-goods__list">
       <div class="row">
         <div class="col-xl-3 col-md-6" *ngFor="let seminuevo of recentCars">
-          <app-published-car [normalView]="true" [auto]="seminuevo" [mode]="false">
+          <app-published-car
+            [normalView]="true"
+            [auto]="seminuevo"
+            [mode]="false"
+          >
           </app-published-car>
         </div>
       </div>
-      <div class="text-center mt-3">
-        <a class="btn btn-secondary" (click)="goToCarSearch('USED')"
-          >show more</a
-        >
+      <div class="text-center mt-3 row justify-content-center">
+        <a class="showMoreBtn" (click)="goToCarSearch('USED')">ver más</a>
       </div>
     </div>
   </div>
@@ -333,8 +335,9 @@
 <section class="section-area mt-5">
   <div class="container">
     <div class="text-center">
-      <div class="ui-title-logo">CLICKER</div>
+      <!-- <div class="ui-title-logo">CLICKER</div> -->
       <h2 class="ui-title">¿Cómo funciona?</h2>
+      <p>Compra o vende tu auto con nosotros</p>
     </div>
   </div>
   <div class="container-fluid">
@@ -342,39 +345,37 @@
       <div class="row no-gutters align-items-start">
         <div class="b-stages__item col-lg-3">
           <span class="b-stages__number">01</span>
-          <div class="b-stages__title text-primary">Usa el buscador</div>
+          <div class="b-stages__title text-primary">Encuentra tu auto</div>
           <div class="b-stages__info">
-            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-            laboris aut aliquip ex consequat.
+            Usa el buscador para filtrar el auto nuevo o seminuevo que estés
+            buscando.
           </div>
         </div>
         <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
           <span class="b-stages__number">02</span>
           <div class="b-stages__inner">
-            <div class="b-stages__title text-primary">
-              Elige tu auto favorito
-            </div>
+            <div class="b-stages__title text-primary">Envía tu solicitud</div>
             <div class="b-stages__info">
-              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-              laboris aut aliquip ex consequat.
+              Si te gustó un auto nuevo o seminuevo, envía tu solicitud y
+              nuestros asesores se pondrán en contacto contigo.
             </div>
           </div>
         </div>
         <div class="b-stages__item col-lg-3">
           <span class="b-stages__number">03</span>
-          <div class="b-stages__title text-primary">Elige tu auto favorito</div>
+          <div class="b-stages__title text-primary">¿Quieres vender?</div>
           <div class="b-stages__info">
-            Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-            laboris aut aliquip ex consequat.
+            Crea tu cuenta, publica tu auto, espera la aprobación y Clicker se
+            encarga.
           </div>
         </div>
         <div class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse">
           <span class="b-stages__number">04</span>
           <div class="b-stages__inner">
-            <div class="b-stages__title text-primary">Get Approved & Drive</div>
+            <div class="b-stages__title text-primary">No más trámites</div>
             <div class="b-stages__info">
-              Magna aliqua enim aduas dui veniam quis nostrud exercitation ullam
-              laboris aut aliquip ex consequat.
+              En Clicker estamos para ayudarte. Disfruta de tu auto nuevo o
+              seminuevo y evítate trámites al vender tu auto con nosotros.
             </div>
           </div>
         </div>
@@ -387,15 +388,10 @@
 <section class="section-bnr-2">
   <div class="row no-gutters justify-content-center">
     <div class="col-lg-6">
-      <a
-        (click)="goToCarSearch('ALL')"
-        style="cursor: pointer;"
-      >
+      <a (click)="goToCarSearch('ALL')" style="cursor: pointer">
         <section class="b-bnr-2 b-bnr-2_first">
           <div class="b-bnr-2__inner bg-primary">
-            <span
-              class="btn-arr btn-arr_left"
-            ></span>
+            <span class="btn-arr btn-arr_left"></span>
             <h2 class="b-bnr-2__title">¿Quieres un auto<br />nuevo o usado?</h2>
             <div class="b-bnr-2__info">
               ¡Empecemos con la búsqueda de tu próximo auto!
@@ -410,15 +406,10 @@
       </a>
     </div>
     <div class="col-lg-6">
-      <a
-        (click)="goToCarRegistration()"
-        style="cursor: pointer;"
-      >
+      <a (click)="goToCarRegistration()" style="cursor: pointer">
         <section class="b-bnr-2 b-bnr-2_last">
           <div class="b-bnr-2__inner bg-dark-2">
-            <span
-              class="btn-arr btn-arr_right"
-            ></span>
+            <span class="btn-arr btn-arr_right"></span>
             <h2 class="b-bnr-2__title">¿Quieres vender<br />tu auto?</h2>
             <div class="b-bnr-2__info">
               Tu auto pasará por una verificación y si cumple con los requisitos
@@ -443,7 +434,7 @@
       <div class="section-progress__img">
         <img
           class="img-scale"
-          src="assets/media/content/b-progress/fig-1.png"
+          src="assets/media/content/b-progress/Imagen-1.png"
           alt="photo"
         />
       </div>
@@ -474,7 +465,7 @@
       <div class="section-progress__img ml-4">
         <img
           class="img-scale"
-          src="assets/media/content/b-progress/fig-2.png"
+          src="assets/media/content/b-progress/Imagen-2.png"
           alt="photo"
         />
       </div>
@@ -484,7 +475,7 @@
 
 <!-- Section-2 Servicios Ofrecidos -->
 <section class="b-services">
-  <div class="ui-decor bg-primary"></div>
+  <!-- <div class="ui-decor bg-primary"></div> -->
   <div class="container">
     <div class="row flex-lg-row-reverse">
       <div class="col-lg-6">

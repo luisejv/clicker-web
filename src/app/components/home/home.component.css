@@ -3,8 +3,53 @@
 }
 
 .find-your-dream-car {
-  background-image: url("https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?cs=srgb&dl=pexels-albin-berlin-919073.jpg&fm=jpg");
+  /* background-image: url("https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?cs=srgb&dl=pexels-albin-berlin-919073.jpg&fm=jpg"); */
+  background-image: url("/assets/media/content/b-main-filter/banner.png");
   background-size: cover;
+  position: relative;
+  width: 100%;
+}
+
+.find-your-dream-car:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.searchBtn {
+  padding: 10px 40px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.showMoreBtn {
+  padding: 15px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: 200px;
+}
+
+.searchBtn,
+.showMoreBtn {
+  border-radius: 50px;
+  background-color: #29abe2;
+  color: white !important;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.searchBtn:hover,
+.showMoreBtn:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 672px) {
