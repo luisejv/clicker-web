@@ -63,14 +63,7 @@ export class LoginComponent implements OnInit {
           showConfirmButton: true,
         }).then(() => {
           console.log('AAAAAAA');
-          console.log(this.storageService.getGoingToCarRegistration());
-          if (this.storageService.getGoingToCarRegistration()) {
-            console.log('SSSSSSS');
-            this.storageService.removeGoingToCarRegistration();
-            this.router.navigateByUrl('/dashboard/registrar-carro');
-          } else {
-            this.router.navigateByUrl('/dashboard');
-          }
+          this.router.navigateByUrl('/dashboard');
         });
       },
       (error: any) => {

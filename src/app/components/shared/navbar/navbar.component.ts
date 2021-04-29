@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit {
     if (this.storageService.isLoggedIn()) {
      this.ruta = '/dashboard/registrar-carro';
     } else {
-      this.storageService.setGoingToCarRegistration('yes');
       this.ruta = '/registro/particular';
     }
   }
@@ -53,6 +52,5 @@ export class NavbarComponent implements OnInit {
     this.storageService.removeRoleFromLocalStorage();
     this.storageService.removeTokenLocalStorage();
     this.storageService.removeValidatedLocalStorage();
-    this.storageService.removeGoingToCarRegistration();
   }
 }

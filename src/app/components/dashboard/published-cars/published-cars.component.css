@@ -13,3 +13,7 @@
 ::ng-deep .ngx-slider .ngx-slider-pointer.ngx-slider-active:after {
   background-color: white !important;
 }
+
+.mat-spinner::ng-deep circle {
+  stroke: #29abe2;
+}

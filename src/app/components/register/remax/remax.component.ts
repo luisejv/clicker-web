@@ -55,14 +55,7 @@ export class RemaxComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          //TODO: este if no será necesario cuando implementemos la verificación por mail, solo tendra q estar en el login
-          if (this.storageService.getGoingToCarRegistration()) {
-            this.storageService.removeGoingToCarRegistration();
-            this.router.navigateByUrl('/dashboard/registrar-carro');
-          } else {
-            //! a /home porq tiene q esperar a ser verificado
-            this.router.navigateByUrl('/home');
-          }
+          this.router.navigateByUrl('/home');
         });
       },
       (error: any) => {

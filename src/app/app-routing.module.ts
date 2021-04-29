@@ -12,6 +12,7 @@ import { BalanceComponent } from './components/dashboard/balance/balance.compone
 import { CarEditingComponent } from './components/dashboard/car-editing/car-editing.component';
 import { CarPublishedComponent } from './components/dashboard/car-published/car-published.component';
 import { CarRegistrationComponent } from './components/dashboard/car-registration/car-registration.component';
+import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
@@ -43,6 +44,11 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
+      {
+        path: 'cuenta',
+        component: CuentaComponent,
+        canActivate: [ValidatedGuard],
+      },
       {
         path: 'registrar-carro',
         component: CarRegistrationComponent,

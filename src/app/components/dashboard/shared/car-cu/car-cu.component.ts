@@ -151,9 +151,6 @@ export class CarCuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.storageService.getGoingToCarRegistration()) {
-      this.storageService.removeGoingToCarRegistration();
-    }
     this.loaderService.setIsLoading(true);
     if (this.update || this.role === RolesEnum.ADMIN) {
       this.route.params.subscribe((params) => {

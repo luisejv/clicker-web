@@ -39,11 +39,7 @@ export class ValidationComponent implements OnInit {
             showConfirmButton: true,
           }).then(() => {
             this.storageService.setValidatedLocalStorage('true');
-            if (this.storageService.getGoingToCarRegistration()) {
-              this.router.navigate(['/dashboard/car-registration']);
-            } else {
-              this.router.navigateByUrl('/dashboard');
-            }
+            this.router.navigateByUrl('/dashboard');
           });
         },
         (error: any) => {
