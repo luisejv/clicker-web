@@ -79,9 +79,11 @@ a {
 }
 
 .ui-title-logo {
-  margin-bottom: -40px;
-  font: 700 90px/1 Montserrat;
-  color: #f2f6f7;
+  /* margin-bottom: -40px; */
+  /* font: 700 90px/1 Montserrat; */
+  /* color: #f2f6f7; */
+  font: 700 40px/1 Montserrat;
+  color: #1a1a1a;
   text-transform: uppercase;
 }
 
@@ -726,6 +728,10 @@ blockquote cite {
   background-color: #f1f1f1;
 }
 
+.area-bg__grey:after {
+  background-color: #eff2f9;
+}
+
 .area-bg_op_25:after {
   opacity: 0.25;
 }
@@ -863,7 +869,8 @@ blockquote cite {
 }
 
 .bg-dark-2 {
-  background-color: #0c4852;
+  /* background-color: #0c4852; */
+  background-color: #0071bc;
 }
 
 .bg-light {
@@ -1037,7 +1044,7 @@ body {
   font-size: 30px;
   line-height: 1.2;
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .b-bnr-2__info {
@@ -1072,9 +1079,13 @@ body {
 }
 
 .b-bnr-2_first:before {
+  background: url("/assets/media/content/b-bnr/figure-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 40%;
   left: 0;
-  -webkit-clip-path: polygon(77% 0, 100% 38%, 74% 100%, 0 100%, 0 0);
-  clip-path: polygon(77% 0, 100% 38%, 74% 100%, 0 100%, 0 0);
+  /* -webkit-clip-path: polygon(77% 0, 100% 38%, 74% 100%, 0 100%, 0 0);
+  clip-path: polygon(77% 0, 100% 38%, 74% 100%, 0 100%, 0 0); */
 }
 
 .b-bnr-2_first .b-bnr-2__figure {
@@ -1082,15 +1093,21 @@ body {
 }
 
 .b-bnr-2_first .b-bnr-2__inner {
-  background-image: url("/assets/media/content/b-bnr/bg-1.png");
+  /* background-image: url("/assets/media/content/b-bnr/bg-1.png");
   -webkit-clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 65%, 26% 0);
-  clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 65%, 26% 0);
+  clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 65%, 26% 0); */
+  -webkit-clip-path: ellipse(100% 95% at right);
+  clip-path: ellipse(100% 95% at right);
 }
 
 .b-bnr-2_last:before {
+  background: url("/assets/media/content/b-bnr/figure-2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 100%;
   right: 0;
-  -webkit-clip-path: polygon(100% 0, 100% 100%, 26% 100%, 0 38%, 23% 0);
-  clip-path: polygon(100% 0, 100% 100%, 26% 100%, 0 38%, 23% 0);
+  /* -webkit-clip-path: polygon(100% 0, 100% 100%, 26% 100%, 0 38%, 23% 0);
+  clip-path: polygon(100% 0, 100% 100%, 26% 100%, 0 38%, 23% 0); */
 }
 
 .b-bnr-2_last .b-bnr-2__figure {
@@ -1098,9 +1115,11 @@ body {
 }
 
 .b-bnr-2_last .b-bnr-2__inner {
-  background-image: url("/assets/media/content/b-bnr/bg-1_mirror.png");
+  /* background-image: url("/assets/media/content/b-bnr/bg-1_mirror.png");
   -webkit-clip-path: polygon(74% 0, 100% 65%, 76% 100%, 0 100%, 0 0);
-  clip-path: polygon(74% 0, 100% 65%, 76% 100%, 0 100%, 0 0);
+  clip-path: polygon(74% 0, 100% 65%, 76% 100%, 0 100%, 0 0); */
+  -webkit-clip-path: ellipse(100% 95% at left);
+  clip-path: ellipse(100% 95% at left);
 }
 
 .b-booking-group {
@@ -3582,7 +3601,7 @@ html .b-goods-slider .slick-list {
 
 .section-progress {
   padding-top: 115px;
-  padding-bottom: 65px;
+  padding-bottom: 185px;
   /* background: url("/assets/media/content/b-progress/bg.jpg"); */
   background-color: #eff2f9;
   background-size: cover;
@@ -3645,12 +3664,13 @@ html .b-goods-slider .slick-list {
 .b-reviews {
   padding-right: 15px;
   padding-left: 15px;
-  color: #fff;
+  color: #1a1a1a;
   text-align: center;
 }
 
 .b-reviews__text {
   font-size: 18px;
+  font-weight: 600;
   line-height: 1.89;
 }
 
@@ -3668,6 +3688,7 @@ html .b-goods-slider .slick-list {
   margin-top: -30px;
   font: 18px Montserrat;
   letter-spacing: 0.45px;
+  font-weight: 700;
 }
 
 .b-reviews__category {
@@ -3919,8 +3940,9 @@ html .b-goods-slider .slick-list {
 
 .b-services {
   position: relative;
-  padding-top: 100px;
-  /* padding-bottom: 100px; */
+  /* padding-top: 100px; */
+  margin-top: -100px;
+  padding-bottom: 50px;
 }
 
 .b-services-content__section {
@@ -3951,11 +3973,48 @@ html .b-goods-slider .slick-list {
   content: "";
 }
 
-.b-services-nav__inner {
+.b-services-nav__inner1 {
+  background: url("/assets/media/content/b-services/Imagen_1.png");
+}
+
+.b-services-nav__inner2 {
+  background: url("/assets/media/content/b-services/Imagen_2.png");
+}
+
+.b-services-nav__inner3 {
+  background: url("/assets/media/content/b-services/Imagen_3.png");
+}
+
+.b-services-nav__inner4 {
+  background: url("/assets/media/content/b-services/Imagen_4.png");
+}
+
+.b-services-nav__inner1,
+.b-services-nav__inner2,
+.b-services-nav__inner3,
+.b-services-nav__inner4 {
   position: relative;
   margin-left: 40px;
-  background: url("/assets/media/content/b-services/bg-1.jpg");
-  background-size: cover;
+  /* background: url("/assets/media/content/b-services/bg-1.jpg"); */
+  background-size: 100% 65%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  -moz-box-shadow: 5px 5px 10px 0px #aaa;
+  -webkit-box-shadow: 5px 5px 10px 0px #aaa;
+  box-shadow: 5px 5px 10px 0px #aaa;
+}
+
+.b-services-nav__inner1:before,
+.b-services-nav__inner2:before,
+.b-services-nav__inner3:before,
+.b-services-nav__inner4:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(70, 155, 191, 0.8);
 }
 
 .b-services-nav__inner:after {
@@ -3984,20 +4043,35 @@ html .b-goods-slider .slick-list {
   font-size: 90px;
   position: relative;
   line-height: 175px;
-  color: #222;
+  color: #fff;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   top: 8px;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.b-services-nav__link svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
 }
 
 .b-services-nav__link.active,
 .b-services-nav__link:hover {
-  color: #fff;
+  color: #222;
 }
 
-.b-services-nav__link.active .ic,
-.b-services-nav__link:hover .ic {
-  color: #fff;
+.b-services-nav__link.active .ic path,
+.b-services-nav__link:hover .ic path,
+.b-services-nav__link.active .ic rect,
+.b-services-nav__link:hover .ic rect {
+  color: #222;
+  fill: #222;
 }
 
 .b-services-nav__link.active .b-services-nav__title,
@@ -4009,14 +4083,19 @@ html .b-goods-slider .slick-list {
 .b-services-nav__title {
   position: relative;
   z-index: 2;
-  padding: 50px 30px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  padding: 0 30px;
+  /* padding: 50px 30px 22px; */
   font: 600 16px/1.4 Montserrat;
   color: #fff;
   width: 100.5%;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  -webkit-clip-path: polygon(0% 10%, 0 100%, 100% 100%, 100% 0, 28% 24%);
-  clip-path: polygon(0% 10%, 0 100%, 100% 100%, 100% 0, 28% 24%);
+  /* -webkit-clip-path: polygon(0% 10%, 0 100%, 100% 100%, 100% 0, 28% 24%);
+  clip-path: polygon(0% 10%, 0 100%, 100% 100%, 100% 0, 28% 24%); */
 }
 
 .section-special {
