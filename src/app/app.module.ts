@@ -63,6 +63,7 @@ import { ParticularCarsComponent } from './components/dashboard/shared/particula
 import { CarPublishedComponent } from './components/dashboard/car-published/car-published.component';
 import { UploadService } from './core/services/upload.service';
 import { NormalizePipe } from './core/pipes/normalize.pipe';
+import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { NormalizePipe } from './core/pipes/normalize.pipe';
     ParticularCarsComponent,
     CarPublishedComponent,
     NormalizePipe,
+    CuentaComponent,
   ],
   imports: [
     BrowserModule,

@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
     );
     this.clientService.getUserCount().subscribe(
       (res: number) => {
-        this.userCount.nativeElement.setAttribute('data-percent', res);
+        this.userCount?.nativeElement.setAttribute('data-percent', res);
       },
       (error: any) => {
         console.error('error when fetching user count');
@@ -315,8 +315,6 @@ export class HomeComponent implements OnInit {
       console.log('redirect to car-registration');
       this.router.navigateByUrl('/dashboard/registrar-carro');
     } else {
-      console.log('register to login/register, then to car-registration');
-      this.storageService.setGoingToCarRegistration('yes');
       this.router.navigateByUrl('/registro');
     }
   }

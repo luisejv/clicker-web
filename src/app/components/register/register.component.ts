@@ -14,8 +14,5 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.storageService.getGoingToCarRegistration()) {
-      this.router.navigate(['/registro/particular']);
-    }
   }
 }

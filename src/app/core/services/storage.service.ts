@@ -52,18 +52,6 @@ export class StorageService {
     localStorage.removeItem('email');
   }
 
-  setGoingToCarRegistration(yesOrNo: string): void {
-    localStorage.setItem('goingToCarRegistration', yesOrNo);
-  }
-
-  getGoingToCarRegistration(): boolean {
-    return localStorage.getItem('goingToCarRegistration') === 'yes';
-  }
-
-  removeGoingToCarRegistration(): void {
-    localStorage.removeItem('goingToCarRegistration');
-  }
-
   setTokenLocalStorage(token: string): void {
     localStorage.setItem('token', token);
   }
