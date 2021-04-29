@@ -3940,8 +3940,8 @@ html .b-goods-slider .slick-list {
 
 .b-services {
   position: relative;
-  /* padding-top: 100px; */
-  margin-top: -100px;
+  padding-top: 100px;
+  /* margin-top: -100px; */
   padding-bottom: 50px;
 }
 
@@ -4623,7 +4623,8 @@ html .b-goods-slider .slick-list {
   padding-top: 155px;
   padding-bottom: 40px;
   color: #999;
-  background: url(/assets/media/content/footer/bg.jpg) 50% 0;
+  background-color: #1a1a1a;
+  /* background: url(/assets/media/content/footer/bg.jpg) 50% 0; */
   background-size: cover;
 }
 
@@ -4640,7 +4641,7 @@ html .b-goods-slider .slick-list {
 .footer__figure {
   position: absolute;
   z-index: 1;
-  top: -180px;
+  top: -140px;
   left: 0;
 }
 
