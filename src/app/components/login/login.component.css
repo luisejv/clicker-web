@@ -31,3 +31,31 @@
   .mat-form-field-underline::before {
   background-color: #fff !important;
 }
+
+.login {
+  margin-top: 150px;
+  height: calc(100vh - 150px);
+  background-color: #29abe2;
+}
+
+.loginSection {
+  background-color: #fff;
+  border-top-right-radius: 10%;
+  border-bottom-right-radius: 10%;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.registerSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginSection__p {
+  font-size: 18px;
+}
