@@ -53,7 +53,7 @@ export class UserService {
   // }
 
   public getAutosNuevos(): Observable<any> {
-    return this.http.get(this.commonService.getAutosNuevosUrl);
+    return this.http.get(this.commonService.autoNuevoUrl);
   }
 
   public getAutosInteresantes(correo: string): Observable<any> {
@@ -76,6 +76,10 @@ export class UserService {
     return this.http.get(
       this.commonService.getAutosSemiNuevosValidadosUserUrl + `?id=${correo}`
     );
+  }
+
+  public getAutoNuevoById(id: number): Observable<any> {
+    return this.http.get(this.commonService.autoNuevoUrl + `/${id}`);
   }
 
   public getAutoSemiNuevoById(id: number): Observable<any> {

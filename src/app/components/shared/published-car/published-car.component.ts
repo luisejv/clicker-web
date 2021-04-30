@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
+import { AutoNuevo } from 'src/app/core/interfaces/auto-nuevo';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
 import {
   AutoSemiNuevo,
@@ -21,7 +22,7 @@ import {
   styleUrls: ['./published-car.component.css'],
 })
 export class PublishedCarComponent implements OnInit, OnChanges {
-  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado | SponsoredCar;
+  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado | SponsoredCar | AutoNuevo;
 
   @Input() mode: boolean = true;
 
@@ -32,6 +33,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   @Input() sponsorView: boolean = false;
   @Input() normalView: boolean = false;
   @Input() particularPublishedView: boolean = false;
+  @Input() newCarView: boolean = false;
 
   @Output() validated = new EventEmitter<number>();
 
@@ -95,11 +97,20 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   goToVehicleDetails(): void {
-    this.router.navigate(['/auto-semi-nuevo'], {
-      queryParams: {
-        id: this.autoCasteado.id,
-      },
-    });
+    console.log('clicked on new car');
+    if (this.newCarView) {
+      this.router.navigate(['/auto-nuevo'], {
+        queryParams: {
+          id: +((this.auto as AutoNuevo).id),
+        },
+      });
+    } else {
+      this.router.navigate(['/auto-semi-nuevo'], {
+        queryParams: {
+          id: this.autoCasteado.id,
+        },
+      });
+    }
   }
 
   goToCarEditView(): void {
@@ -113,15 +124,15 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   emitValidationEvent(): void {
-    this.validated.emit(this.autoCasteado.id!);
+    this.validated.emit(+this.autoCasteado.id!);
   }
 
   emitMarkAsValidEvent(): void {
-    this.reportedIsValid.emit(this.autoCasteado.id!);
+    this.reportedIsValid.emit(+this.autoCasteado.id!);
   }
 
   emitRemoveEvent(): void {
-    this.removed.emit(this.autoCasteado.id!);
+    this.removed.emit(+this.autoCasteado.id!);
   }
 
   emitSaleEvent(): void {

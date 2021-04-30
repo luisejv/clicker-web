@@ -59,7 +59,7 @@
       </div>
       <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-          <div class="b-goods-descrip__wrap">
+          <div *ngIf="!newCarView" class="b-goods-descrip__wrap">
             <i class="ic flaticon-fuel-station-pump"></i
             ><span class="b-goods-descrip__info">
               {{ autoCasteado?.tipoCombustible }}</span
@@ -75,7 +75,7 @@
       </div>
       <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-          <div class="b-goods-descrip__wrap">
+          <div *ngIf="!newCarView" class="b-goods-descrip__wrap">
             <i class="ic flaticon-gearshift"></i
             ><span class="b-goods-descrip__info">
               {{ autoCasteado?.tipoCambios }}</span

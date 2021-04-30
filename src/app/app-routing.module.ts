@@ -16,6 +16,7 @@ import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component'
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
+import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.component';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { HomeComponent } from './components/home/home.component';
 import { Home2Component } from './components/home2/home2.component';
@@ -119,6 +120,14 @@ export const routes: Routes = [
   {
     path: 'auto-semi-nuevo/:id',
     component: AutoSemiNuevoComponent,
+  },
+  {
+    path: 'auto-nuevo',
+    component: AutoNuevoComponent,
+  },
+  {
+    path: 'auto-nuevo/:id',
+    component: AutoNuevoComponent,
   },
   {
     path: 'registro',

@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
 
     this.clientService.getAvailableVehiclesCount().subscribe(
       (res: number) => {
-        this.availableVehicles.nativeElement.setAttribute('data-percent', res);
+        this.availableVehicles?.nativeElement.setAttribute('data-percent', res);
       },
       (error: any) => {
         console.error('error when fetching available cars');
@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit {
     );
     this.clientService.getBrandCount().subscribe(
       (res: number) => {
-        this.brandCount.nativeElement.setAttribute('data-percent', res);
+        this.brandCount?.nativeElement.setAttribute('data-percent', res);
       },
       (error: any) => {
         console.error('error when fetching brand count');
@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
     );
     this.clientService.getSoldVehiclesCount().subscribe(
       (res: number) => {
-        this.soldVehicles.nativeElement.setAttribute('data-percent', res);
+        this.soldVehicles?.nativeElement.setAttribute('data-percent', res);
       },
       (error: any) => {
         console.error('error when fetching vehicle count');
@@ -229,8 +229,7 @@ export class HomeComponent implements OnInit {
       'Car Subset: ',
       this.filterFormGroup.controls['carSubset'].value
     );
-    this.filteredBrands = this.filters
-      .filter((elem) =>
+    this.filteredBrands = this.filters?.filter((elem) =>
         this.carType != 'OTRO'
           ? this.carType === elem.tipoCarroceria &&
             (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)

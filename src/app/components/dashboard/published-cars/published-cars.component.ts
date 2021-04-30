@@ -39,7 +39,6 @@ export class PublishedCarsComponent implements OnInit {
   filteredBrands!: string[];
   filteredModels!: string[];
   carFilters!: Filter[];
-  ordenarPor: number = 0;
 
   // * cars
   carros: AutoSemiNuevo[] = [];
@@ -123,10 +122,6 @@ export class PublishedCarsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    setTimeout(() => {
-      this.ordenarPor = 3;
-    }, 3000);
-
     this.loaderService.setIsLoading(true);
     this.loadingCars = true;
 
@@ -190,25 +185,27 @@ export class PublishedCarsComponent implements OnInit {
       }
     );
 
-    console.group('Filters');
+    console.group('AAAAAAAFiltersAAAAAA');
     console.log(this.filters);
     console.groupEnd();
 
     if (this.filters?.carMaxPrice) {
-      this.minPrice = 0;
       this.maxPrice = this.filters.carMaxPrice!;
     } else {
-      //TODO: agarrar min y max precio del backend
-      this.minPrice = 0;
-      this.maxPrice = 50000;
+      this.maxPrice = 50000; //TODO: maxKilometraje del backend
     }
+    this.minPrice = 0;
 
-    //TODO: agarrar minKilometraje y maxKilometraje del backend
+    //TODO: maxKilometraje del backend
     this.minKilometraje = 0;
     this.maxKilometraje = 500000; // 500 000 km
 
-    //TODO: esto depende del cliente
-    this.minYear = 2000;
+    if (this.filters?.carMinYear) {
+      this.minYear = this.filters?.carMinYear;
+    } else {
+      this.minYear = 2000;
+    }
+
     this.maxYear = 2021;
 
     this.updatePriceSliderOptions();
@@ -231,21 +228,20 @@ export class PublishedCarsComponent implements OnInit {
 
     this.updateSelects();
 
-    console.group('USER_SEARCH');
     switch (this.filters?.carSubset) {
       case 'ALL': {
         console.log('ALL');
-        this.getAllCars();
+        this.getAllCars(true);
         break;
       }
       case 'NEW': {
         console.log('NEW');
-        this.getNewCars();
+        this.getNewCars(true);
         break;
       }
       case 'USED': {
         console.log('USED');
-        this.getUsedcars();
+        this.getUsedcars(true);
         break;
       }
       default: {
@@ -414,8 +410,7 @@ export class PublishedCarsComponent implements OnInit {
     console.log(this.filterFormGroup.get('carBrand')?.value);
 
     console.warn('carType: ', this.carType?.value);
-    this.filteredModels = this.carFilters
-      .filter((elem: Filter) => {
+    this.filteredModels = this.carFilters?.filter((elem: Filter) => {
         if (this.carType?.value !== '') {
           if (this.carSubset?.value !== '') {
             return this.carType?.value != 'OTRO'
@@ -463,8 +458,8 @@ export class PublishedCarsComponent implements OnInit {
     if (this.carType?.value !== '') {
       this.carFilters.forEach((filter: Filter) => {
         if (
-          filter.tipoCarroceria === this.carType?.value &&
-          filter.modelo === model
+          filter.modelo === model &&
+          filter.tipoCarroceria === this.carType?.value
         ) {
           resetType = false;
         }
@@ -701,13 +696,10 @@ export class PublishedCarsComponent implements OnInit {
     this.carMinYear?.setValue('');
     this.carTransmission?.setValue('');
     this.carFuelType?.setValue('');
-    if (!brand) {
-      this.carSubset?.setValue('');
-    }
+    this.carSubset?.setValue('');
     this.carType?.setValue('');
 
-    this.filteredCarros = this.originalFilteredCarros;
-
+    this.filteredCarros = this.carros;
     this.auxFilteredCarros = this.filteredCarros;
     this.backupFilteredCarros = this.filteredCarros;
 
@@ -727,10 +719,9 @@ export class PublishedCarsComponent implements OnInit {
     this.updateYearSliderOptions();
 
     this.filteredModels = [];
-    this.ordenarPor = 0;
 
     const updateFlags: Update = {
-      subset: false,
+      subset: true,
       brands: brand,
       models: true,
       type: true,
@@ -965,7 +956,6 @@ export class PublishedCarsComponent implements OnInit {
     this.pages = Array(this.pgCnt)
       .fill(this.pgCnt)
       .map((x: any, i: any) => i);
-    this.ordenarPor = 0;
   }
 
   updatePriceSliderOptions(): void {

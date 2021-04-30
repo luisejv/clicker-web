@@ -16,9 +16,16 @@
   </div>
 </div>
 
-<div class="l-main-content" *ngIf="!loading">
+<div class="l-main-content">
+  <div *ngIf="loading" class="d-flex justify-content-center align-items-center my-5">
+    <mat-spinner
+      style="cursor: progress;"
+      diameter="50"
+    >
+    </mat-spinner>
+  </div>
   <div class="ui-decor ui-decor_sm-h ui-decor_mirror bg-primary"></div>
-  <div class="container">
+  <div class="container" *ngIf="!loading">
     <section class="b-goods-f">
       <div class="row">
         <div class="col-lg-8">

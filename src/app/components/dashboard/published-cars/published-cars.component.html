@@ -47,7 +47,7 @@
                   <button
                     class="b-filter__reset btn btn-secondary w-100 mb-3"
                     type="reset"
-                    (click)="resetFilters(true)"
+                    (click)="resetFilters()"
                   >
                     Limpiar Filtros
                   </button>
@@ -454,11 +454,10 @@
                     data-max-options="1"
                     data-style="ui-select"
                     (change)="sortBy($event)"
-                    [(ngModel)]="ordenarPor"
-                    [ngModelOptions]="{ standalone: true }"
                   >
                     <option
-                      value="0"
+                      disabled
+                      selected
                     >
                       Ordenar Por
                     </option>
@@ -523,7 +522,11 @@
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <app-published-car [normalView]="true" [auto]="carro" [mode]="list">
+            <app-published-car
+              [newCarView]="carro.documentacion !== undefined"    
+              [normalView]="true"
+              [auto]="carro"
+              [mode]="list">
             </app-published-car>
           </div>
           <div *ngIf="filteredCarros.length === 0 && !loadingCars" class="col text-center">
@@ -531,7 +534,7 @@
             clic
             <span
               class="reset-filters-button font-weight-bold"
-              (click)="resetFilters(true)"
+              (click)="resetFilters()"
               >aquí</span
             >
             o en <span class="font-weight-bold">Limpiar Filtros</span> para

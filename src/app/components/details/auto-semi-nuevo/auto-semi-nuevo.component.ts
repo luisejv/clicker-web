@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import {
   AutoSemiNuevo,
@@ -52,7 +52,8 @@ export class AutoSemiNuevoComponent implements OnInit {
     private route: ActivatedRoute,
     private loaderService: LoaderService,
     public storageService: StorageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
   ) {
     this.logged = this.storageService.isLoggedIn();
     this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
@@ -84,18 +85,18 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.groupEnd();
             this.auto = response;
             this.auto.fotos?.unshift({ foto: this.auto.fotoPrincipal });
-            this.loading = false;
           },
           (error: any) => {
             console.group('Error fetching autoSemiNuevo por ID');
             console.error(error);
             console.groupEnd();
+          },
+          () => {
+            setTimeout(() => { this.loading = false; }, 3000);
           }
         );
       } else {
-        console.group('Entering detail view with no ID');
-        //TODO: redirect user to home or make a guard
-        console.groupEnd();
+        this.router.navigate(['/home']);
       }
       this.loaderService.setIsLoading(false);
     });

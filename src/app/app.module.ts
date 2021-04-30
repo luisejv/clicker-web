@@ -64,6 +64,7 @@ import { CarPublishedComponent } from './components/dashboard/car-published/car-
 import { UploadService } from './core/services/upload.service';
 import { NormalizePipe } from './core/pipes/normalize.pipe';
 import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component';
+import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component'
     CarPublishedComponent,
     NormalizePipe,
     CuentaComponent,
+    AutoNuevoComponent,
   ],
   imports: [
     BrowserModule,

@@ -42,7 +42,7 @@ export class CommonService {
   getAutosNoValidadosUrl: string = this.autoSemiNuevoUrl + '/novalidados';
   getAutosReportadosUrl: string = this.adminUrl + '/reported';
   getAutosInteresantesUrl: string = this.userUrl + '/interesadoVenta';
-  getAutosNuevosUrl: string = this.autoSemiNuevoUrl + '/nuevo';
+  autoNuevoUrl: string = this.autoSemiNuevoUrl + '/nuevo';
   getAllCarsUrl: string = this.autoSemiNuevoUrl + '/all';
 
   // * Car Put
