@@ -209,7 +209,7 @@ html [data-off-canvas*="bottom"] ul {
 [data-off-canvas*="left"] {
   top: 0;
   left: 0;
-  width: 255px;
+  width: 265px;
   height: 100%;
 }
 [data-off-canvas*="slidebar-panel-left"] {
@@ -628,7 +628,7 @@ header-main__link:hover {
 
 .header.navbar-scrolling {
   position: fixed;
-  z-index: 9999;
+  z-index: 9998;
   opacity: 0.9;
   background-color: #fff;
   min-height: 1px;

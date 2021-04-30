@@ -2,6 +2,14 @@
 /* COLOR CSS 1*/
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
+:root {
+  --primary: #29abe2;
+  --grey: #333333;
+  --black: #1a1a1a1a;
+  --blue: #0071bc;
+  --lightgrey: #eff2f9;
+}
+
 a,
 .text-primary,
 .list > li > a:hover,

@@ -7,9 +7,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a [routerLink]="['..']">Home</a></li>
           <!-- <li class="breadcrumb-item"><a href="inventory-grid.html">Inventory</a></li> -->
-          <li class="breadcrumb-item active" aria-current="page">
-            Auto Nuevo
-          </li>
+          <li class="breadcrumb-item active" aria-current="page">Auto Nuevo</li>
         </ol>
       </nav>
     </div>
@@ -17,12 +15,11 @@
 </div>
 
 <div class="l-main-content">
-  <div *ngIf="loading" class="d-flex justify-content-center align-items-center my-5">
-    <mat-spinner
-      style="cursor: progress;"
-      diameter="50"
-    >
-    </mat-spinner>
+  <div
+    *ngIf="loading"
+    class="d-flex justify-content-center align-items-center my-5"
+  >
+    <mat-spinner style="cursor: progress" diameter="50"> </mat-spinner>
   </div>
   <div class="ui-decor ui-decor_sm-h ui-decor_mirror bg-primary"></div>
   <div class="container" *ngIf="!loading">
@@ -44,12 +41,8 @@
               <img
                 ngxSlickItem
                 class="img-scale mx-2"
-                [src]="auto.foto"
-                [alt]="
-                  auto.marca +
-                  auto.modelo +
-                  auto.anoFabricacion
-                "
+                [src]="auto.fotoPrincipal"
+                [alt]="auto.marca + auto.modelo + auto.anoFabricacion"
               />
             </ngx-slick-carousel>
             <!-- <br />
@@ -245,16 +238,11 @@
               role="tabpanel"
               aria-labelledby="overview-tab"
             >
-              
               <p *ngIf="!auto.documentacion">
                 Este auto no cuenta con una descripción.
               </p>
               Puedes encontrar la descripción de este carro
-              <a 
-                [href]="auto.documentacion" target="_blank"
-              >
-                aquí.
-              </a>
+              <a [href]="auto.documentacion" target="_blank"> aquí. </a>
             </div>
             <div
               class="tab-pane fade mb-5"
@@ -432,17 +420,7 @@
                     </form>
                   </div>
                   <ng-template #enviar>
-                    <button
-                      class="btn btn-secondary w-100"
-                      *ngIf="isAdmin"
-                      (click)="addCarToSponsored()"
-                    >
-                      Patrocinar
-                    </button>
-                    <button
-                      class="btn btn-secondary w-100"
-                      (click)="contact()"
-                    >
+                    <button class="btn btn-secondary w-100" (click)="contact()">
                       Contactar
                     </button>
                   </ng-template>
@@ -457,7 +435,7 @@
                   alt="photo"
                 /><span class="widget-title__inner"
                   >Calculadora Financiera</span
-                  >
+                >
               </h3>
               <div class="widget-content">
                 <div class="widget-inner">

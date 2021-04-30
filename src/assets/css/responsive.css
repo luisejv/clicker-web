@@ -40,7 +40,7 @@
     max-width: 27vw;
   }
   .footer__figure {
-    max-width: 22vw;
+    max-width: 50vw;
   }
 }
 
@@ -677,7 +677,7 @@
   }
   .ui-title-logo {
     font-size: 40px;
-    margin-bottom: -20px;
+    /* margin-bottom: -20px; */
   }
   .ui-title_lg {
     font-size: 30px;

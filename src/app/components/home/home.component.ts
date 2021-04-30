@@ -229,7 +229,8 @@ export class HomeComponent implements OnInit {
       'Car Subset: ',
       this.filterFormGroup.controls['carSubset'].value
     );
-    this.filteredBrands = this.filters?.filter((elem) =>
+    this.filteredBrands = this.filters
+      ?.filter((elem) =>
         this.carType != 'OTRO'
           ? this.carType === elem.tipoCarroceria &&
             (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)

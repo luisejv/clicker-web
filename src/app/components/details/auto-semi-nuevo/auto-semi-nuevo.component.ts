@@ -53,7 +53,7 @@ export class AutoSemiNuevoComponent implements OnInit {
     private loaderService: LoaderService,
     public storageService: StorageService,
     private fb: FormBuilder,
-    private router: Router,
+    private router: Router
   ) {
     this.logged = this.storageService.isLoggedIn();
     this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
@@ -92,7 +92,7 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.groupEnd();
           },
           () => {
-            setTimeout(() => { this.loading = false; }, 3000);
+            this.loading = false;
           }
         );
       } else {
@@ -101,10 +101,6 @@ export class AutoSemiNuevoComponent implements OnInit {
       this.loaderService.setIsLoading(false);
     });
   }
-
-  // TODO: Conectar con BD de produccion
-  // ? Los dos requests de abajo tienen el mismo body y hacen la consulta al mismo lugar,
-  // ? pero obtienen la data de lugares distintos.
 
   submitForm(): void {
     const body: Lead = {

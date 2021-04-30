@@ -2564,13 +2564,19 @@ html .b-goods-slider .slick-list {
 }
 
 .b-main-filter {
-  margin-top: 156px;
+  margin-top: 145px;
   /* margin-top: 180px; */
   position: relative;
   z-index: 1;
   padding: 70px 60px 0;
   background: url("/assets/media/content/b-main-filter/bg-1.jpg") 50%;
   background-size: cover;
+}
+
+@media screen and (max-width: 1200px) {
+  .b-main-filter {
+    margin-top: 85px;
+  }
 }
 
 .b-main-filter__wrap {
@@ -3940,8 +3946,8 @@ html .b-goods-slider .slick-list {
 
 .b-services {
   position: relative;
-  padding-top: 100px;
-  /* margin-top: -100px; */
+  /* padding-top: 100px; */
+  margin-top: -100px;
   padding-bottom: 50px;
 }
 
@@ -3994,7 +4000,7 @@ html .b-goods-slider .slick-list {
 .b-services-nav__inner3,
 .b-services-nav__inner4 {
   position: relative;
-  margin-left: 40px;
+  /* margin-left: 40px; */
   /* background: url("/assets/media/content/b-services/bg-1.jpg"); */
   background-size: 100% 65%;
   background-position: top center;
@@ -4414,7 +4420,7 @@ html .b-goods-slider .slick-list {
 
 .section-title-page {
   position: relative;
-  margin-top: 170px;
+  margin-top: 160px;
   padding-top: 95px;
   padding-bottom: 75px;
   background-image: url("/assets/media/content/b-title-page/bg-1.jpg");

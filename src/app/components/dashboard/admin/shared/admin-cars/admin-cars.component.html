@@ -33,14 +33,19 @@
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
-                Showing results<strong>
+                Mostrando resultados del
+                <strong>
                   {{ len === 0 ? 0 : currPage * carsPerPage + 1 }}
-                  to
+                </strong>
+                al
+                <strong>
                   {{
-                    currPage * carsPerPage + carsPerPage > len ? len : currPage * carsPerPage + carsPerPage
-                  }}</strong
-                >
-                of total {{ len }}
+                    currPage * carsPerPage + carsPerPage > len
+                      ? len
+                      : currPage * carsPerPage + carsPerPage
+                  }}
+                </strong>
+                de {{ len }} en total
               </div>
             </div>
             <div class="col-md-auto">
@@ -54,7 +59,9 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                    <option selected disabled>Ordenar por</option>
+                    <option selected disabled class="d-none">
+                      Ordenar por
+                    </option>
                     <option value="1">Precio ascendiente</option>
                     <option value="2">Precio descendiente</option>
                     <option value="3">Año ascendiente</option>
@@ -97,7 +104,9 @@
           <div
             *ngFor="
               let carro of sponsoredCars
-                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
+                | slice
+                  : currPage * carsPerPage
+                  : currPage * carsPerPage + carsPerPage
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
@@ -116,7 +125,9 @@
           <div
             *ngFor="
               let carro of notValidatedFilteredCarros
-                | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
+                | slice
+                  : currPage * carsPerPage
+                  : currPage * carsPerPage + carsPerPage
             "
             [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
