@@ -522,6 +522,9 @@ html [data-off-canvas*="open"] {
   z-index: 1;
   /* padding: 27px 45px; */
   padding: 15px 45px;
+  -moz-box-shadow: 5px 3px 5px 0px #ddd;
+  -webkit-box-shadow: 5px 3px 5px 0px #ddd;
+  box-shadow: 5px 3px 5px 0px #aaa;
 }
 .header-main__link {
   font-size: 22px;
