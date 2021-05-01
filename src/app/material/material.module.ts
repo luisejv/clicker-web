@@ -12,6 +12,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const AngularMaterial = [
   MatButtonModule,
@@ -23,6 +24,7 @@ const AngularMaterial = [
   MatAutocompleteModule,
   MatDialogModule,
   MatTableModule,
+  MatCheckboxModule,
   MatProgressSpinnerModule,
 ];
 

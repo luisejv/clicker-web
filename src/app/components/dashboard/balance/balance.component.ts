@@ -24,7 +24,7 @@ export class BalanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService
-      .getRegistroBalance(this.storageService.getEmailLocalStorage()!)
+      .getRegistroBalance(this.storageService.getIdLocalStorage()!)
       .subscribe(
         (response: Balance[]) => {
           this.dataSource = new MatTableDataSource(response);

@@ -13,7 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  formGroup!: FormGroup;
+  loginForm: FormGroup;
+  registerParticularForm: FormGroup;
+  loading: boolean = false;
+  registerOption: string = 'particular';
 
   constructor(
     private userService: UserService,
@@ -21,19 +24,44 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
-    this.formGroup = this.fb.group({
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern('\\w{2,}')]],
+      terms: [false],
+    });
+    this.registerParticularForm = this.fb.group({
+      dni: ['', [Validators.required, Validators.pattern('[0-9]{8}')]],
+      correo: ['', [Validators.required, Validators.email]],
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      terms: [false, [Validators.required]],
+      rol: null,
     });
   }
 
   ngOnInit(): void {}
 
+  toJSON(): User {
+    return {
+      correo: this.registerParticularForm.value.correo,
+      password: this.registerParticularForm.value.password,
+      rol: 'PARTICULAR',
+      form: {
+        estado: false,
+      },
+    };
+  }
+
+  changeRegisterOption(option: string): void {
+    this.registerOption = option;
+  }
+
   logIn(): void {
     //TODO: añadir spinner
     const body: User = {
-      correo: this.formGroup.value.email,
-      password: this.formGroup.value.password,
+      correo: this.loginForm.value.email,
+      password: this.loginForm.value.password,
     };
     console.log(`BODY: ${body}`);
     this.userService.login(body).subscribe(
@@ -52,8 +80,9 @@ export class LoginComponent implements OnInit {
           this.storageService.setRoleLocalStorage(RolesEnum.PARTICULAR);
           this.storageService.setTokenLocalStorage(response.secret);
           this.storageService.setValidatedLocalStorage(response.validated);
+          this.storageService.setIdLocalStorage(response.id);
         }
-        this.storageService.setEmailLocalStorage(this.formGroup.value.email);
+        this.storageService.setEmailLocalStorage(this.loginForm.value.email);
 
         Swal.fire({
           titleText: 'Logged In!',
@@ -62,7 +91,6 @@ export class LoginComponent implements OnInit {
           icon: 'success',
           showConfirmButton: true,
         }).then(() => {
-          console.log('AAAAAAA');
           this.router.navigateByUrl('/dashboard');
         });
       },
@@ -71,6 +99,35 @@ export class LoginComponent implements OnInit {
         Swal.fire({
           titleText: 'Incorrect Username or Password!',
           html: 'Try again please.',
+          allowOutsideClick: true,
+          icon: 'error',
+          showConfirmButton: true,
+        });
+      }
+    );
+  }
+
+  registerParticular(): void {
+    //TODO: añadir spinner
+    const body: User = this.toJSON();
+    this.userService.register(body).subscribe(
+      (response: User) => {
+        Swal.fire({
+          titleText: '¡Registrado!',
+          html:
+            'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
+          allowOutsideClick: true,
+          icon: 'success',
+          showConfirmButton: true,
+        }).then(() => {
+          this.router.navigateByUrl('/home');
+        });
+      },
+      (error: any) => {
+        console.log(`[ERROR]: Register Particular, ${error}`);
+        Swal.fire({
+          titleText: 'Oops!',
+          html: 'Hubo un error. Intenta nuevamente, por favor.',
           allowOutsideClick: true,
           icon: 'error',
           showConfirmButton: true,

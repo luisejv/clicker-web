@@ -1,3 +1,5 @@
+@import url(../../../assets/css/color.css);
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
@@ -45,17 +47,98 @@
   height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 .registerSection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  color: white;
+}
+
+.registerSection h2 {
+  color: white;
+}
+
+.loginSection .row,
+.registerSection .row {
+  width: 100%;
 }
 
 .loginSection__p {
   font-size: 18px;
+}
+
+.inputClicker {
+  background-color: var(--lightgrey);
+  border: 1px solid #aaa;
+  outline: var(--primary);
+  border-radius: 25px;
+  padding: 15px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.inputClicker:focus {
+  border: 2px solid var(--primary);
+}
+
+.links {
+  color: var(--primary);
+}
+
+.loginButton {
+  width: 100%;
+  background-color: var(--primary);
+  border-radius: 25px;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  opacity: 0.8;
+}
+
+.text-blue {
+  color: var(--primary);
+}
+
+.registerOption {
+  font-size: 20px;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  width: 100%;
+  background-color: white;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.active {
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.registerButton {
+  width: 100%;
+  background-color: white;
+  border-radius: 25px;
+  padding: 10px;
+  border: none;
+  color: var(--primary);
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+}
+.registerButton:hover {
+  opacity: 0.8;
 }

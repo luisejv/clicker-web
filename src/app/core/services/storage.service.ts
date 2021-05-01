@@ -83,5 +83,16 @@ export class StorageService {
   isValidated(): boolean {
     return this.getValidatedLocalStorage() == 'true';
   }
-  
+
+  setIdLocalStorage(id: number): void {
+    localStorage.setItem('id', id.toString());
+  }
+
+  getIdLocalStorage(): number | null {
+    return Number(localStorage.getItem('id'));
+  }
+
+  removeIdLocalStorage(): void {
+    localStorage.removeItem('id');
+  }
 }

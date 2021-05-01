@@ -1,4 +1,4 @@
-<section class="section-special">
+<!-- <section class="section-special">
   <div class="row no-gutters">
     <div class="col-xl-6">
       <div class="section-special__inner bg-primary">
@@ -45,11 +45,12 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <section class="login">
   <div class="container-fluid px-0 h-100">
     <div class="row no-gutters">
+      <!-- Login -->
       <div class="col-6 loginSection">
         <div class="row">
           <div class="col text-center">
@@ -57,8 +58,209 @@
             <p class="loginSection__p">Inicia sesión para continuar</p>
           </div>
         </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+              <div class="row no-gutters">
+                <div class="col">
+                  <input
+                    type="email"
+                    class="inputClicker"
+                    placeholder="Correo electrónico"
+                    formControlName="email"
+                  />
+                </div>
+              </div>
+              <div class="row no-gutters">
+                <div class="col">
+                  <input
+                    type="password"
+                    class="inputClicker"
+                    placeholder="Contraseña"
+                    formControlName="password"
+                  />
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <mat-checkbox formControlName="terms" color="primary"
+                  >Acepto los
+                  <a href="" class="links">términos y condiciones</a> y
+                  <a href="" class="links"
+                    >políticas de privacidad</a
+                  ></mat-checkbox
+                >
+              </div>
+              <br />
+              <div class="row justify-content-center">
+                <div class="col-6">
+                  <button type="submit" class="loginButton">Ingresar</button>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <a href="" class="links"> ¿Olvidaste tu contraseña? </a>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-10">
+            <hr />
+            <div class="row justify-content-center">
+              <small
+                >Clicker nunca compartirá tu información con terceros; se
+                utilizará para brindar acceso a la plataforma.</small
+              >
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-4 text-center">
+                <div class="row justify-content-center align-items-center">
+                  <i class="ic fas fa-envelope text-blue mr-2"></i>
+                  <small>Escríbenos a hola@clicker.pe</small>
+                </div>
+              </div>
+              <div class="col-4 text-center">
+                <div class="row justify-content-center align-items-center">
+                  <i class="ic fas fa-phone text-blue mr-2"></i>
+                  <small>Llámanos: (01) 000 000</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-6 registerSection"></div>
+
+      <!-- Register -->
+      <div class="col-6 registerSection">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col text-center">
+                <h2>Crea una cuenta ahora</h2>
+                <p>Selecciona tu perfil</p>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-8">
+                <div class="row no-gutters justify-content-around">
+                  <div class="col-5">
+                    <div class="row no-gutters">
+                      <button
+                        type="button"
+                        class="registerOption text-center"
+                        [ngClass]="{ active: registerOption === 'particular' }"
+                        (click)="changeRegisterOption('particular')"
+                      >
+                        <i class="ic fas fa-user mr-2"></i>
+                        Usuario nuevo
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="row no-gutters">
+                      <button
+                        type="button"
+                        class="registerOption text-center"
+                        [ngClass]="{ active: registerOption === 'franquicia' }"
+                        (click)="changeRegisterOption('franquicia')"
+                      >
+                        <i class="ic fas fa-store mr-2"></i>
+                        Franquiciado
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <ng-template [ngIf]="registerOption === 'particular'">
+              <div class="row">
+                <div class="col text-center">
+                  <p>Crea una cuenta para comprar o vender un auto</p>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template [ngIf]="registerOption === 'franquicia'">
+              <div class="row">
+                <div class="col text-center"></div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="row w-100">
+          <ng-template [ngIf]="registerOption === 'particular'">
+            <form
+              [formGroup]="registerParticularForm"
+              (ngOnSubmit)="registerParticular()"
+              class="container"
+            >
+              <div class="row mx-0">
+                <div class="col-6 text-center">
+                  <input
+                    type="text"
+                    class="inputClicker"
+                    placeholder="DNI"
+                    formControlName="dni"
+                    [OnlyNumber]="true"
+                  />
+                  <input
+                    type="text"
+                    class="inputClicker"
+                    placeholder="Nombre/s"
+                    formControlName="nombres"
+                  />
+                  <input
+                    type="password"
+                    class="inputClicker"
+                    placeholder="Contraseña"
+                    formControlName="password"
+                  />
+                </div>
+                <div class="col-6 text-center">
+                  <input
+                    type="email"
+                    class="inputClicker"
+                    placeholder="Correo electrónico"
+                    formControlName="correo"
+                  />
+                  <input
+                    type="text"
+                    class="inputClicker"
+                    placeholder="Apellido/s"
+                    formControlName="apellidos"
+                  />
+                </div>
+              </div>
+            </form>
+          </ng-template>
+          <ng-template [ngIf]="registerOption === 'franquicia'">
+            <div class="row">
+              <div class="col text-center">
+                <p>
+                  Sé el dueño de tu propio negocio con la franquicia vehicular
+                  de Clicker
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col text-center">
+            <hr style="border-top: 1px solid white" />
+            <mat-checkbox color="primary"
+              >Acepto los
+              <a href="" class="text-white">términos y condiciones</a> y
+              <a href="" class="text-white"
+                >políticas de privacidad</a
+              ></mat-checkbox
+            >
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <button type="submit" class="registerButton">Crear Cuenta</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -1,8 +1,9 @@
 import { AutoSemiNuevo } from './auto-semi-nuevo';
 
 export interface User {
+  id?: number;
   correo: string;
-  password?: string; //TODO: quitarlo cuando cesar lo quite
+  password?: string;
   rol?: string;
   fbId?: string;
   nombre?: string;

@@ -105,7 +105,7 @@ export class UserService {
     return this.http.post(this.commonService.getPlacaDetailsUrl, body);
   }
 
-  public getRegistroBalance(id: string): Observable<any> {
+  public getRegistroBalance(id: number): Observable<any> {
     return this.http.get(
       this.commonService.getRegistroBalanceUrl + `?id=${id}`
     );
