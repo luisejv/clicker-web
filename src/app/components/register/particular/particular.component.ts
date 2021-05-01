@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -57,15 +58,26 @@ export class ParticularComponent implements OnInit {
           this.router.navigateByUrl('/home');
         });
       },
-      (error: any) => {
-        console.log(`[ERROR]: Register Particular, ${error}`);
-        Swal.fire({
-          titleText: 'Oops!',
-          html: 'Hubo un error. Intenta nuevamente, por favor.',
-          allowOutsideClick: true,
-          icon: 'error',
-          showConfirmButton: true,
-        });
+      (error: HttpErrorResponse) => {
+        console.log('[ERROR]: Register Particular:', error);
+        if (error.status === 400) {
+          Swal.fire({
+            titleText: 'Oops!',
+            html:
+              'Ya existe un usuario con ese correo. Intentalo con otro, por favor.',
+            allowOutsideClick: true,
+            icon: 'error',
+            showConfirmButton: true,
+          });
+        } else {
+          Swal.fire({
+            titleText: 'Oops!',
+            html: 'Hubo un error. Intenta nuevamente, por favor.',
+            allowOutsideClick: true,
+            icon: 'error',
+            showConfirmButton: true,
+          });
+        }
       }
     );
   }

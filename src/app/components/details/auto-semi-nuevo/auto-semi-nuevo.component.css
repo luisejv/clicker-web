@@ -1,3 +1,5 @@
+@import url("../../../../styles.css");
+
 .mat-spinner::ng-deep circle {
-  stroke: #29abe2;
+  stroke: var(--lightgrey);
 }

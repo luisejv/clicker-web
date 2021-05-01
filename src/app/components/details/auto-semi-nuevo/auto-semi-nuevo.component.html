@@ -381,6 +381,18 @@
                           formControlName="dni"
                           placeholder="DNI"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('dni')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
+                        <mat-error
+                          *ngIf="contactFormGroup.get('dni')?.errors?.pattern"
+                        >
+                          Debe ingresar un DNI válido.
+                        </mat-error>
                       </div>
                       <div class="form-group">
                         <input
@@ -389,6 +401,13 @@
                           formControlName="nombres"
                           placeholder="Nombres"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('nombres')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
                       </div>
                       <div class="form-group">
                         <input
@@ -397,14 +416,35 @@
                           formControlName="apellidos"
                           placeholder="Apellidos"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('apellidos')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
                       </div>
                       <div class="form-group">
                         <input
                           class="form-control"
                           type="text"
                           formControlName="telefono"
-                          placeholder="Teléfono"
+                          placeholder="Celular"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('telefono')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.get('telefono')?.errors?.pattern
+                          "
+                        >
+                          Debe ingresar un celular válido.
+                        </mat-error>
                       </div>
                       <div class="form-group">
                         <input
@@ -413,6 +453,18 @@
                           formControlName="correo"
                           placeholder="Email"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('correo')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
+                        <mat-error
+                          *ngIf="contactFormGroup.get('correo')?.errors?.email"
+                        >
+                          Debe ingresar un email válido.
+                        </mat-error>
                       </div>
                       <div class="form-group">
                         <textarea
@@ -421,12 +473,27 @@
                           placeholder="Consulta"
                           rows="5"
                         ></textarea>
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('descripcion')?.errors
+                              ?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
                       </div>
                       <button
                         class="btn btn-secondary w-100"
+                        [disabled]="contactFormGroup.invalid"
                         (click)="submitForm()"
                       >
-                        Contactar
+                        <span *ngIf="!sendingContactForm">Contactar</span>
+                        <div
+                          *ngIf="sendingContactForm"
+                          class="d-flex justify-content-center align-items-center"
+                        >
+                          <mat-spinner diameter="22"></mat-spinner>
+                        </div>
                       </button>
                     </form>
                   </div>

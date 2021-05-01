@@ -1,7 +1,4 @@
-:root {
-  --primary-color: #272727;
-  --theme-color: #29abe2;
-}
+@import url("../../../styles.css");
 
 .find-your-dream-car {
   /* background-image: url("https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?cs=srgb&dl=pexels-albin-berlin-919073.jpg&fm=jpg"); */

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -11,12 +12,17 @@ import Swal from 'sweetalert2';
 })
 export class ValidationComponent implements OnInit {
   encryptedId!: string;
+  correo: string;
   validated: boolean = false;
+
   constructor(
     private userService: UserService,
     private router: Router,
-    private storageService: StorageService
-  ) {}
+    private storageService: StorageService,
+    private location: Location
+  ) {
+    this.correo = this.storageService.getEmailLocalStorage()!;
+  }
 
   ngOnInit(): void {
     // if (this.encryptedId != this.storageService.getTokenLocalStorage()) {
@@ -47,5 +53,9 @@ export class ValidationComponent implements OnInit {
         }
       );
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

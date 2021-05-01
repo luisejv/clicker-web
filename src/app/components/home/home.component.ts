@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   carrocerias: string[] = [];
   recentCars: AutoSemiNuevo[] = [];
   sponsoredCars: AutoSemiNuevo[] = [];
+  fetchingCarrocerias: boolean = true;
 
   filters!: Filter[];
   filteredBrands!: string[];
@@ -153,6 +154,7 @@ export class HomeComponent implements OnInit {
         setTimeout(() => {
           $('#marcas').selectpicker('refresh');
           $('#modelos').selectpicker('refresh');
+          this.fetchingCarrocerias = false;
         }, 500);
       },
       (error) => {

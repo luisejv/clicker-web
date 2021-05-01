@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import {
@@ -30,6 +30,8 @@ export class AutoSemiNuevoComponent implements OnInit {
   isRemax: boolean = false;
   isAdmin: boolean = false;
 
+  sendingContactForm: boolean = false;
+
   contactFormGroup: FormGroup;
 
   slideConfig = {
@@ -56,17 +58,18 @@ export class AutoSemiNuevoComponent implements OnInit {
     private router: Router
   ) {
     this.logged = this.storageService.isLoggedIn();
+    console.log('logged', this.logged);
     this.isRemax = this.storageService.getRoleLocalStorage() == RolesEnum.REMAX;
     this.isAdmin =
       this.storageService.getRoleLocalStorage() == RolesEnum.ADMIN ||
       this.storageService.getRoleLocalStorage() == RolesEnum.SUPERADMIN;
     this.contactFormGroup = this.fb.group({
-      dni: '',
-      nombres: '',
-      apellidos: '',
-      telefono: '',
-      correo: '',
-      descripcion: '',
+      dni: ['', [Validators.required, Validators.pattern('[0-9]{8,8}')]],
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern('9[0-9]{8,8}')]],
+      correo: ['', [Validators.required, Validators.email]],
+      descripcion: ['', [Validators.required]],
     });
   }
 
@@ -103,7 +106,8 @@ export class AutoSemiNuevoComponent implements OnInit {
     });
   }
 
-  submitForm(): void {
+  submitForm() {
+    this.sendingContactForm = true;
     const body: Lead = {
       tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
       carroceria: this.auto.tipoCarroceria,
@@ -124,6 +128,7 @@ export class AutoSemiNuevoComponent implements OnInit {
       numTelefono: this.contactFormGroup.value.telefono,
       descripcion: this.contactFormGroup.value.descripcion,
     };
+
     this.clientService.postPilot(body).subscribe(
       (response) => {
         Swal.fire({
@@ -142,8 +147,13 @@ export class AutoSemiNuevoComponent implements OnInit {
             'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
+      },
+      () => {
+        this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       }
     );
+
     this.clientService.postFormInterested(body2).subscribe(
       (response) => {
         console.log('Agregado a InteresadosCompra');
@@ -155,25 +165,26 @@ export class AutoSemiNuevoComponent implements OnInit {
   }
 
   contact(): void {
+    this.sendingContactForm = true;
     // TODO: recoger datos de LocalStorage cuando tengamos nombres, dni, etc.
     const body: Lead = {
       tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
       carroceria: this.auto.tipoCarroceria,
-      dni: this.contactFormGroup.value.dni,
-      nombre: this.contactFormGroup.value.nombres,
-      apellidos: this.contactFormGroup.value.apellidos,
-      correo: this.contactFormGroup.value.correo,
-      numTelefono: this.contactFormGroup.value.telefono,
+      dni: this.storageService.getDniLocalStorage()!,
+      nombre: this.storageService.getNombreLocalStorage()!,
+      apellidos: this.storageService.getApellidosLocalStorage()!,
+      correo: this.storageService.getEmailLocalStorage()!,
+      numTelefono: this.storageService.getPhoneLocalStorage()!,
     };
     const body2 = {
       autoSemiNuevo: {
         id: this.auto.id,
       },
-      dni: this.contactFormGroup.value.dni,
-      nombres: this.contactFormGroup.value.nombres,
-      apellidos: this.contactFormGroup.value.apellidos,
-      correo: this.contactFormGroup.value.correo,
-      numTelefono: this.contactFormGroup.value.telefono,
+      dni: this.storageService.getDniLocalStorage()!,
+      nombre: this.storageService.getNombreLocalStorage()!,
+      apellidos: this.storageService.getApellidosLocalStorage()!,
+      correo: this.storageService.getEmailLocalStorage()!,
+      numTelefono: this.storageService.getPhoneLocalStorage()!,
     };
     this.clientService.postPilot(body).subscribe(
       (response) => {
@@ -193,6 +204,10 @@ export class AutoSemiNuevoComponent implements OnInit {
             'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
+      },
+      () => {
+        this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       }
     );
     this.clientService.postFormInterested(body2).subscribe(

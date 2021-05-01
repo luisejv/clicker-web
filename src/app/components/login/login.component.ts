@@ -102,7 +102,12 @@ export class LoginComponent implements OnInit {
           this.storageService.setValidatedLocalStorage(response.validated);
           this.storageService.setIdLocalStorage(response.id);
         }
+        this.storageService.setIdLocalStorage(response.id);
         this.storageService.setEmailLocalStorage(this.loginForm.value.email);
+        this.storageService.setDniLocalStorage(response.numDocumento);
+        this.storageService.setNombreLocalStorage(response.nombre);
+        this.storageService.setApellidosLocalStorage(response.apellidos); //NOTE: no hay apellidos
+        this.storageService.setPhoneLocalStorage(response.numTelefono);
 
         Swal.fire({
           titleText: 'Logged In!',
