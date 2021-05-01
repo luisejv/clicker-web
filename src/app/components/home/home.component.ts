@@ -315,7 +315,7 @@ export class HomeComponent implements OnInit {
       console.log('redirect to car-registration');
       this.router.navigateByUrl('/dashboard/registrar-carro');
     } else {
-      this.router.navigateByUrl('/registro');
+      this.router.navigateByUrl('/auth');
     }
   }
 

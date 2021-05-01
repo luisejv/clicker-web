@@ -12,7 +12,7 @@
     <span class="spinner border-t_second_b border-t_prim_a"> </span>
   </div>
   <!-- Loader end-->
-  <app-navbar class="app-navbar" *ngIf="!inDashboard()"></app-navbar>
+  <app-navbar class="app-navbar"></app-navbar>
   <div class="router-outlet">
     <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>

@@ -44,4 +44,7 @@ export class ClientService {
   public getAllCars(): Observable<any> {
     return this.http.get(this.commonService.getAllCarsUrl);
   }
+  public getDNIDetails(dni: string): Observable<any> {
+    return this.http.get(this.commonService.getDNIDetailsUrl + `/${dni}`);
+  }
 }

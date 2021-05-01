@@ -87,6 +87,7 @@ export class AutoSemiNuevoComponent implements OnInit {
             this.auto.fotos?.unshift({ foto: this.auto.fotoPrincipal });
           },
           (error: any) => {
+            // this.router.navigate(['/home']);
             console.group('Error fetching autoSemiNuevo por ID');
             console.error(error);
             console.groupEnd();

@@ -22,7 +22,12 @@ import {
   styleUrls: ['./published-car.component.css'],
 })
 export class PublishedCarComponent implements OnInit, OnChanges {
-  @Input() auto!: AutoSemiNuevo | AutoReportado | AutoInteresado | SponsoredCar | AutoNuevo;
+  @Input() auto!:
+    | AutoSemiNuevo
+    | AutoReportado
+    | AutoInteresado
+    | SponsoredCar
+    | AutoNuevo;
 
   @Input() mode: boolean = true;
 
@@ -98,18 +103,20 @@ export class PublishedCarComponent implements OnInit, OnChanges {
 
   goToVehicleDetails(): void {
     console.log('clicked on new car');
-    if (this.newCarView) {
-      this.router.navigate(['/auto-nuevo'], {
-        queryParams: {
-          id: +((this.auto as AutoNuevo).id),
-        },
-      });
-    } else {
-      this.router.navigate(['/auto-semi-nuevo'], {
-        queryParams: {
-          id: this.autoCasteado.id,
-        },
-      });
+    if (!this.validationView) {
+      if (this.newCarView) {
+        this.router.navigate(['/auto-nuevo'], {
+          queryParams: {
+            id: +(this.auto as AutoNuevo).id,
+          },
+        });
+      } else {
+        this.router.navigate(['/auto-semi-nuevo'], {
+          queryParams: {
+            id: this.autoCasteado.id,
+          },
+        });
+      }
     }
   }
 

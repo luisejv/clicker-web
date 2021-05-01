@@ -112,7 +112,7 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'login', component: LoginComponent },
+  { path: 'auth', component: LoginComponent },
   {
     path: 'auto-semi-nuevo',
     component: AutoSemiNuevoComponent,

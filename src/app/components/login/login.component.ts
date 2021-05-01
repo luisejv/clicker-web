@@ -6,6 +6,7 @@ import { User } from 'src/app/core/interfaces/user';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ClientService } from 'src/app/core/services/client.service';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,11 @@ export class LoginComponent implements OnInit {
   registerParticularForm: FormGroup;
   loading: boolean = false;
   registerOption: string = 'particular';
+  fetchingDNI: boolean = false;
 
   constructor(
     private userService: UserService,
+    private clientService: ClientService,
     private storageService: StorageService,
     private router: Router,
     private fb: FormBuilder
@@ -51,6 +54,23 @@ export class LoginComponent implements OnInit {
         estado: false,
       },
     };
+  }
+
+  checkDNI() {
+    if (this.registerParticularForm.value.dni.length == 8) {
+      this.fetchingDNI = true;
+      this.clientService
+        .getDNIDetails(this.registerParticularForm.value.dni)
+        .subscribe((response) => {
+          this.registerParticularForm.controls['nombres'].setValue(
+            response.nombres
+          );
+          this.registerParticularForm.controls['apellidos'].setValue(
+            response.apellido_p + ' ' + response.apellido_m
+          );
+          this.fetchingDNI = false;
+        });
+    }
   }
 
   changeRegisterOption(option: string): void {

@@ -8,8 +8,7 @@ import { StorageService } from './storage.service';
 })
 export class CommonService {
   private baseUrl: string = environment.baseUrl;
-  private consultaPlacaUrl: string =
-    'https://ws-consultas.herokuapp.com/api/placa';
+  private consultaPlacaUrl: string = 'https://ws-consultas.herokuapp.com/api';
   changeLayoutEvent = new EventEmitter<void>();
 
   screenHeight: number = 0;
@@ -73,8 +72,9 @@ export class CommonService {
   // * Denuncia
   denunciaUrl: string = this.baseUrl + '/denuncia';
 
-  // * Placa Service
-  getPlacaDetailsUrl: string = this.consultaPlacaUrl;
+  // * Servicios Externos
+  getPlacaDetailsUrl: string = this.consultaPlacaUrl + '/placa';
+  getDNIDetailsUrl: string = this.consultaPlacaUrl + '/dni';
 
   // * Balance & Retiros
   getRegistroBalanceUrl: string = this.userUrl + '/registroBalance';

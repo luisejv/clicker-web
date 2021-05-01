@@ -1,7 +1,7 @@
 <div
   class="b-goods published-car-container"
   [ngClass]="{ 'b-goods_list': mode }"
-  style="cursor: pointer"
+  [ngStyle]="{ cursor: !validationView ? 'pointer' : 'default' }"
 >
   <a class="b-goods__img" (click)="goToVehicleDetails()">
     <!-- style="max-width: 100%; height: auto;" -->
@@ -140,16 +140,7 @@
       <!-- TODO: mejorar el API de este componente porq no es flexible -->
       <button
         class="m-2"
-        *ngIf="validationView"
-        mat-raised-button
-        color="primary"
-        (click)="goToCarEditView()"
-      >
-        Editar
-      </button>
-      <button
-        class="m-2"
-        *ngIf="particularPublishedView"
+        *ngIf="validationView || particularPublishedView"
         mat-raised-button
         color="primary"
         (click)="goToCarEditView()"

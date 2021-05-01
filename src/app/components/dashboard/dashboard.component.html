@@ -1,5 +1,5 @@
 <div>
-  <div>
+  <div style="margin-top: 155px">
     <app-sidebar
       [ngClass]="{
         sidebar: commonService.screenWidth > 672,
@@ -7,7 +7,8 @@
         sidebar_desk: commonService.screenWidth > 672
       }"
       [ngStyle]="{
-        display: commonService.screenWidth <= 672 ? 'none' : 'block'
+        display: commonService.screenWidth <= 672 ? 'none' : 'block',
+        top: scrolled ? '70px' : '158px'
       }"
       [isAdmin]="isAdmin"
       [isRemax]="isRemax"
@@ -155,22 +156,98 @@
   >
     <div
       class="pill-container"
-      [ngStyle]="{
-        'min-height':
-          commonService.screenWidth <= 672
-            ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
-            : 'calc(' + commonService.screenHeight + 'px - 2vw)'
-      }"
       [ngClass]="{
         rightWrapper: true,
         'bg-form': true,
         'wrapper-lg': commonService.screenWidth > 672
       }"
     >
+      <!-- [ngStyle]="{
+        'min-height':
+          commonService.screenWidth <= 672
+            ? 'calc(' + commonService.screenHeight + 'px - 2vw - 50px)'
+            : 'calc(' + commonService.screenHeight + 'px - 2vw)'
+      }" -->
       <div class="pill text-white" *ngIf="isRemax && user">
         Balance: $ {{ user.balance }}
       </div>
-      <router-outlet></router-outlet>
+      <ng-template [ngIf]="isUser && isDashboard">
+        <div class="container pt-5">
+          <div class="row">
+            <div class="col text-center">
+              <h1 class="welcome">¡BIENVENIDO A CLICKER!</h1>
+              <section class="section-area mt-5">
+                <div class="container">
+                  <div class="text-center">
+                    <!-- <div class="ui-title-logo">CLICKER</div> -->
+                    <h2 class="ui-title">¿Cómo funciona?</h2>
+                    <p>Compra o vende tu auto con nosotros</p>
+                  </div>
+                </div>
+                <div class="container-fluid">
+                  <div class="b-stages">
+                    <div class="row no-gutters align-items-start">
+                      <div class="b-stages__item col-lg-3">
+                        <span class="b-stages__number">01</span>
+                        <div class="b-stages__title text-primary">
+                          Encuentra tu auto
+                        </div>
+                        <div class="b-stages__info">
+                          Usa el buscador para filtrar el auto nuevo o seminuevo
+                          que estés buscando.
+                        </div>
+                      </div>
+                      <div
+                        class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse"
+                      >
+                        <span class="b-stages__number">02</span>
+                        <div class="b-stages__inner">
+                          <div class="b-stages__title text-primary">
+                            Envía tu solicitud
+                          </div>
+                          <div class="b-stages__info">
+                            Si te gustó un auto nuevo o seminuevo, envía tu
+                            solicitud y nuestros asesores se pondrán en contacto
+                            contigo.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="b-stages__item col-lg-3">
+                        <span class="b-stages__number">03</span>
+                        <div class="b-stages__title text-primary">
+                          ¿Quieres vender?
+                        </div>
+                        <div class="b-stages__info">
+                          Crea tu cuenta, publica tu auto, espera la aprobación
+                          y Clicker se encarga.
+                        </div>
+                      </div>
+                      <div
+                        class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse"
+                      >
+                        <span class="b-stages__number">04</span>
+                        <div class="b-stages__inner">
+                          <div class="b-stages__title text-primary">
+                            No más trámites
+                          </div>
+                          <div class="b-stages__info">
+                            En Clicker estamos para ayudarte. Disfruta de tu
+                            auto nuevo o seminuevo y evítate trámites al vender
+                            tu auto con nosotros.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template [ngIf]="isUser && !isDashboard">
+        <router-outlet></router-outlet>
+      </ng-template>
     </div>
   </div>
 </div>

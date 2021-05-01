@@ -190,18 +190,33 @@
           <ng-template [ngIf]="registerOption === 'particular'">
             <form
               [formGroup]="registerParticularForm"
-              (ngOnSubmit)="registerParticular()"
+              (ngSubmit)="registerParticular()"
               class="container"
             >
               <div class="row mx-0">
                 <div class="col-6 text-center">
-                  <input
-                    type="text"
-                    class="inputClicker"
-                    placeholder="DNI"
-                    formControlName="dni"
-                    [OnlyNumber]="true"
-                  />
+                  <div class="row align-items-center">
+                    <div class="col-11">
+                      <input
+                        type="text"
+                        class="inputClicker"
+                        placeholder="DNI"
+                        formControlName="dni"
+                        [OnlyNumber]="true"
+                      />
+                    </div>
+                    <div class="col-1">
+                      <mat-icon (click)="checkDNI()" *ngIf="!fetchingDNI">
+                        search
+                      </mat-icon>
+                      <mat-spinner
+                        style="cursor: progress"
+                        *ngIf="fetchingDNI"
+                        diameter="24"
+                      >
+                      </mat-spinner>
+                    </div>
+                  </div>
                   <input
                     type="text"
                     class="inputClicker"
@@ -230,6 +245,25 @@
                   />
                 </div>
               </div>
+              <div class="row justify-content-center">
+                <div class="col text-center">
+                  <hr style="border-top: 1px solid white" />
+                  <mat-checkbox color="primary"
+                    >Acepto los
+                    <a href="" class="text-white">términos y condiciones</a> y
+                    <a href="" class="text-white"
+                      >políticas de privacidad</a
+                    ></mat-checkbox
+                  >
+                </div>
+              </div>
+              <div class="row justify-content-center mt-5">
+                <div class="col-4">
+                  <button type="submit" class="registerButton">
+                    Crear Cuenta
+                  </button>
+                </div>
+              </div>
             </form>
           </ng-template>
           <ng-template [ngIf]="registerOption === 'franquicia'">
@@ -243,7 +277,7 @@
             </div>
           </ng-template>
         </div>
-        <div class="row justify-content-center">
+        <!-- <div class="row justify-content-center">
           <div class="col text-center">
             <hr style="border-top: 1px solid white" />
             <mat-checkbox color="primary"
@@ -259,7 +293,7 @@
           <div class="col-4">
             <button type="submit" class="registerButton">Crear Cuenta</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

@@ -138,7 +138,7 @@
       *ngIf="!isLoggedIn()"
       class="nav-item d-flex flex-column justify-content-center"
     >
-      <a class="registerBtn" [routerLink]="['/registro']" (click)="toggle()"
+      <a class="registerBtn" [routerLink]="['/auth']" (click)="toggle()"
         >Regístrate</a
       >
     </li>
@@ -147,7 +147,7 @@
       *ngIf="!isLoggedIn()"
       class="nav-item d-flex flex-column justify-content-center"
     >
-      <a class="loginBtn" [routerLink]="['/login']" (click)="toggle()"
+      <a class="loginBtn" [routerLink]="['/auth']" (click)="toggle()"
         >Ingresa</a
       >
     </li>
@@ -293,16 +293,14 @@
                 *ngIf="!isLoggedIn()"
                 class="nav-item d-flex flex-column justify-content-center"
               >
-                <a class="registerBtn" [routerLink]="['/registro']"
-                  >Regístrate</a
-                >
+                <a class="registerBtn" [routerLink]="['/auth']">Regístrate</a>
               </li>
 
               <li
                 *ngIf="!isLoggedIn()"
                 class="nav-item d-flex flex-column justify-content-center"
               >
-                <a class="loginBtn" [routerLink]="['/login']">Ingresa</a>
+                <a class="loginBtn" [routerLink]="['/auth']">Ingresa</a>
               </li>
 
               <li *ngIf="isLoggedIn()" class="nav-item">
