@@ -245,7 +245,7 @@
           </div>
         </div>
       </ng-template>
-      <ng-template [ngIf]="isUser && !isDashboard">
+      <ng-template [ngIf]="(isUser && !isDashboard) || !isUser">
         <router-outlet></router-outlet>
       </ng-template>
     </div>

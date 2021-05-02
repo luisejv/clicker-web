@@ -43,6 +43,11 @@ export class CarCuComponent implements OnInit {
   correo: string | null;
   fetchingPlaca: boolean = false;
   date: Date;
+  step1: boolean = true;
+  step2: boolean = false;
+  step3: boolean = false;
+  step4: boolean = false;
+  step5: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +69,7 @@ export class CarCuComponent implements OnInit {
     // BJX356
     this.formGroup = this.fb.group({
       id: '',
+      dniDueno: ['', [Validators.required, Validators.pattern(/[0-9]{8}/)]],
       correoDueno: [this.correo, [Validators.required, Validators.email]],
       nombreDueno: ['Gabriel Spranger', [Validators.required]],
       telefonoDueno: ['965776360', [Validators.required]],
@@ -101,6 +107,14 @@ export class CarCuComponent implements OnInit {
       precioVenta: ['69420', Validators.required],
       video: '',
     });
+  }
+
+  changeStep(id: number) {
+    this.step1 = id === 1;
+    this.step2 = id === 2;
+    this.step3 = id === 3;
+    this.step4 = id === 4;
+    this.step5 = id === 5;
   }
 
   checkPlaca(): void {
@@ -317,4 +331,42 @@ export class CarCuComponent implements OnInit {
   createActionWrapper(): void {
     this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
   }
+
+  owner = {
+    nombres: {
+      type: 'text',
+      validations: {},
+      errors: {},
+      placeholder: 'Nombres',
+    },
+    apellidos: {
+      type: 'text',
+      validations: {},
+      errors: {},
+      placeholder: 'Apellidos',
+    },
+    dni: {
+      type: 'number',
+      validations: {
+        pattern: /[0-9]{8}/,
+      },
+      errors: {
+        pattern: 'Por favor, ingresa un DNI válido.',
+      },
+      placeholder: 'DNI/CE',
+    },
+    celular: {
+      type: 'number',
+      validations: {
+        pattern: /[0-9]{9}/,
+      },
+      errors: {
+        pattern: 'Por favor, ingresa un número teléfono celular válido.',
+      },
+      placeholder: 'Celular',
+    },
+    correo: {
+      type: 'email',
+    },
+  };
 }
