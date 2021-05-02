@@ -1,3 +1,51 @@
+@import url("../../../assets/css/color.css");
+
 .container {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.email {
+  color: var(--primary);
+  font-weight: 350;
+}
+
+.confirm-button {
+  cursor: pointer;
+  width: 15%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 16px;
+  background-color: var(--primary);
+  transition: filter 200ms;
+}
+
+.confirm-button:hover {
+  filter: brightness(1.1);
+}
+
+.confirm-button span {
+  color: white;
+}
+
+.regresar {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: filter 200ms;
+}
+
+.regresar:hover {
+  filter: brightness(1.5);
+}
+
+.regresar > * {
+  color: gray;
 }

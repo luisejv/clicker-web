@@ -74,5 +74,8 @@ export class NavbarComponent implements OnInit {
     this.storageService.removeTokenLocalStorage();
     this.storageService.removeValidatedLocalStorage();
     this.storageService.removeIdLocalStorage();
+    this.storageService.removeDniLocalStorage();
+    this.storageService.removeNombreLocalStorage();
+    this.storageService.removeApellidosLocalStorage();
   }
 }

@@ -1,4 +1,4 @@
-@import url(../../../../../assets/css/color.css);
+@import url("../../../../../assets/css/color.css");
 
 .sidebar-container,
 .sidebar-container-admin {
@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
 .sidebar-container {
   /* background-color: rgb(82, 169, 192); */

@@ -17,7 +17,14 @@
       <!-- <div class="ui-title-logo ui-title-logo_dark">CLICKER</div> -->
       <form class="b-main-filter__form" [formGroup]="filterFormGroup">
         <div class="b-main-filter__cat btn-group-toggle" data-toggle="buttons">
+          <div class="d-flex justify-content-center align-items-center">
+            <mat-spinner *ngIf="fetchingCarrocerias" diameter="30">
+            </mat-spinner>
+          </div>
           <label
+            [ngStyle]="{
+              display: !fetchingCarrocerias ? 'inline-block' : 'none'
+            }"
             class="btn b-main-filter__cat-item"
             *ngFor="let carType of carrocerias; let i = index"
             (click)="changeCarType(carType)"

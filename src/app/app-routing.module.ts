@@ -29,6 +29,7 @@ import { ValidationComponent } from './components/validation/validation.componen
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
+import { NotLoggedInGuard } from './core/guards/not-logged-in.guard';
 import { ValidatedGuard } from './core/guards/validated.guard';
 
 export const routes: Routes = [
@@ -112,7 +113,7 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'auth', component: LoginComponent },
+  { path: 'auth', component: LoginComponent, canActivate: [NotLoggedInGuard] },
   {
     path: 'auto-semi-nuevo',
     component: AutoSemiNuevoComponent,
@@ -132,6 +133,7 @@ export const routes: Routes = [
   {
     path: 'registro',
     component: RegisterComponent,
+    canActivate: [NotLoggedInGuard],
     children: [
       {
         path: 'particular',
