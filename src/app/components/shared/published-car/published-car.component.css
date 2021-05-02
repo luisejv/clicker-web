@@ -1,3 +1,23 @@
 .published-car-container {
   /* border: 2px solid black; */
 }
+
+.full-height {
+  height: 100%;
+}
+
+.por-validar {
+  background-color: orange;
+}
+
+.por-vender {
+  background-color: rgb(156, 156, 32);
+}
+
+.vendido {
+  background-color: royalblue;
+}
+
+.eliminado {
+  background-color: red;
+}

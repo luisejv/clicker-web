@@ -38,6 +38,40 @@
         </div>
       </div>
     </div>
+    <!-- TODO: *ngIf's -->
+    <!-- NOTE: estos tags son para el admin, car-published -->
+    <div class="row">
+      <!-- NOTE: POR VALIDAR -->
+      <div *ngIf="!autoCasteado.validado" class="col-auto pr-3">
+        <div class="full-height por-validar row b-goods__price text-primary">
+          <span class="b-goods__price-title">POR<br />VALIDAR</span>
+        </div>
+      </div>
+      <!-- NOTE: POR VENDER -->
+      <div
+        *ngIf="autoCasteado.validado && !autoCasteado.comprado"
+        class="col-auto pr-3"
+      >
+        <div class="full-height por-vender row b-goods__price text-primary">
+          <span class="b-goods__price-title">POR<br />VENDER</span>
+        </div>
+      </div>
+      <!-- NOTE: VENDIDO -->
+      <div
+        *ngIf="autoCasteado.validado && autoCasteado.comprado"
+        class="col-auto pr-3"
+      >
+        <div class="full-height vendido row b-goods__price text-primary">
+          <span class="b-goods__price-title">VENDIDO</span>
+        </div>
+      </div>
+      <!-- NOTE: VENDIDO -->
+      <div *ngIf="!autoCasteado.enabled" class="col-auto pr-3">
+        <div class="full-height eliminado row b-goods__price text-primary">
+          <span class="b-goods__price-title">ELIMINADO</span>
+        </div>
+      </div>
+    </div>
     <div class="b-goods-descrip row no-gutters">
       <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
@@ -140,7 +174,9 @@
       <!-- TODO: mejorar el API de este componente porq no es flexible -->
       <button
         class="m-2"
-        *ngIf="validationView || particularPublishedView"
+        *ngIf="
+          autoCasteado.enabled && (validationView || particularPublishedView)
+        "
         mat-raised-button
         color="primary"
         (click)="goToCarEditView()"
