@@ -1193,6 +1193,7 @@ body {
   padding: 28px 20px 35px 60px;
   border-right: 10px solid;
   background-color: #444;
+  height: 105px;
 }
 
 .b-booking-nav__main:after {

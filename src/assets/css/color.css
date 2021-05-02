@@ -153,5 +153,5 @@ html .b-goods__img:before {
 
 .widget-title:after,
 .b-booking-nav__item.active .b-booking-nav__main:before {
-  border-left-color: #e2b71c;
+  border-left-color: var(--primary);
 }
