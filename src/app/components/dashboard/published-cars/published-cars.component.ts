@@ -7,6 +7,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client.service';
+import { CommonService } from 'src/app/core/services/common.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
@@ -88,8 +89,19 @@ export class PublishedCarsComponent implements OnInit {
     private dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private fb: FormBuilder,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private commonService: CommonService
   ) {
+    if (this.commonService.screenWidth <= 1060) {
+      this.list = false;
+    } else {
+      this.list = true;
+    }
+
+    this.commonService.changeLayoutEvent.subscribe(() => {
+      this.changeGridView('grid');
+    });
+
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
     this.tiposTracciones = this.dataService.tiposTracciones;
     this.anos = this.dataService.anos;
@@ -121,7 +133,6 @@ export class PublishedCarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.loaderService.setIsLoading(true);
     this.loadingCars = true;
 
@@ -257,7 +268,6 @@ export class PublishedCarsComponent implements OnInit {
             this.filteredCarros = response;
 
             this.updatePagination();
-
           },
           (error: any) => {
             console.error(
@@ -410,7 +420,8 @@ export class PublishedCarsComponent implements OnInit {
     console.log(this.filterFormGroup.get('carBrand')?.value);
 
     console.warn('carType: ', this.carType?.value);
-    this.filteredModels = this.carFilters?.filter((elem: Filter) => {
+    this.filteredModels = this.carFilters
+      ?.filter((elem: Filter) => {
         if (this.carType?.value !== '') {
           if (this.carSubset?.value !== '') {
             return this.carType?.value != 'OTRO'
@@ -536,7 +547,7 @@ export class PublishedCarsComponent implements OnInit {
         })
         .map((elem) => elem.modelo)
         .filter((v, i, a) => a.indexOf(v) == i);
-      
+
       if (this.filteredModels.includes(this.carModel?.value)) {
         setTimeout(() => {
           let aux = this.carBrand?.value;
@@ -545,7 +556,7 @@ export class PublishedCarsComponent implements OnInit {
           $('#modelos').selectpicker('refresh');
           this.carBrand?.setValue(aux);
           this.carModel?.setValue(tmp);
-        }, 250);  
+        }, 250);
       } else {
         this.filteredCarros = this.filteredCarros.filter(
           (carro: AutoSemiNuevo) => {
@@ -699,9 +710,9 @@ export class PublishedCarsComponent implements OnInit {
     this.carSubset?.setValue('');
     this.carType?.setValue('');
 
-    this.filteredCarros = this.carros;
-    this.auxFilteredCarros = this.filteredCarros;
-    this.backupFilteredCarros = this.filteredCarros;
+    this.filteredCarros = [];
+    this.auxFilteredCarros = [];
+    this.backupFilteredCarros = [];
 
     //TODO: get min and max car price from request
     this.minPrice = 0;
@@ -956,6 +967,9 @@ export class PublishedCarsComponent implements OnInit {
     this.pages = Array(this.pgCnt)
       .fill(this.pgCnt)
       .map((x: any, i: any) => i);
+    this.minPage = 0;
+    this.maxPage = this.pgCnt > 10 ? 10 : this.pgCnt;
+    this.currPage = this.minPage;
   }
 
   updatePriceSliderOptions(): void {

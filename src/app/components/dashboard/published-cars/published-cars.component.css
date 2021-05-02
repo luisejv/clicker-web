@@ -17,3 +17,20 @@
 .mat-spinner::ng-deep circle {
   stroke: #29abe2;
 }
+
+.slider-container {
+  width: 100%;
+}
+
+@media screen and (max-width: 1199px) {
+  .sliders-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slider-container {
+    width: 70%;
+  }
+}

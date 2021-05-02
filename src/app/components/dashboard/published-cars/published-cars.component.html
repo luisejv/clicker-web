@@ -177,30 +177,6 @@
                             </option>
                           </select>
                         </div>
-                        <!-- <div class="b-filter__item col-md-6">
-                          <select
-                            class="selectpicker"
-                            data-width="100%"
-                            title="Hasta"
-                             
-                            data-max-options="1"
-                            data-style="ui-select"
-                            fromControlName="carMaxYear"
-                            (change)="changeAnoTo($event)"
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected
-                              style="display: none"
-                            >
-                              Hasta
-                            </option>
-                            <option *ngFor="let ano of anos">
-                              {{ ano }}
-                            </option>
-                          </select>
-                        </div> -->
                       </div>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
@@ -309,111 +285,110 @@
                       </select>
                     </div>
                   </div>
-                  <div class="b-filter-slider ui-filter-slider">
-                    <div class="b-filter-slider__title">Año</div>
-                    <div class="b-filter-slider__main">
-                      <ngx-slider
-                        [(value)]="minYear"
-                        [(highValue)]="maxYear"
-                        [options]="optionsYear"
-                      >
-                      </ngx-slider>
+                  <div class="sliders-container">
+                    <div
+                      class="b-filter-slider ui-filter-slider slider-container"
+                    >
+                      <div class="b-filter-slider__title">Año</div>
+                      <div class="b-filter-slider__main">
+                        <ngx-slider
+                          [(value)]="minYear"
+                          [(highValue)]="maxYear"
+                          [options]="optionsYear"
+                        >
+                        </ngx-slider>
 
-                      <div class="b-filter__row row">
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="minYear"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="minYear"
-                          />
-                        </div>
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="maxYear"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="maxYear"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-filter-slider ui-filter-slider">
-                    <div class="b-filter-slider__title">Kilometraje</div>
-                    <div class="b-filter-slider__main">
-                      <ngx-slider
-                        [(value)]="minKilometraje"
-                        [(highValue)]="maxKilometraje"
-                        [options]="optionsKilometraje"
-                      >
-                      </ngx-slider>
-
-                      <div class="b-filter__row row">
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="minKilometraje"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="minKilometraje"
-                          />
-                        </div>
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="maxKilometraje"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="maxKilometraje"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="b-filter-slider ui-filter-slider">
-                    <div class="b-filter-slider__title">Precio</div>
-                    <div class="b-filter-slider__main">
-                      <ngx-slider
-                        [(value)]="minPrice"
-                        [(highValue)]="maxPrice"
-                        [options]="options"
-                      >
-                      </ngx-slider>
-
-                      <div class="b-filter__row row">
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="'$' + minPrice"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="input-with-keypress-0"
-                          />
-                        </div>
-                        <div class="b-filter__item col-md-6">
-                          <input
-                            disabled
-                            class="ui-select"
-                            [(ngModel)]="'$' + maxPrice"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="input-with-keypress-1"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- <div class="b-filter-slider ui-filter-slider">
-                        <div class="b-filter-slider__title">Search radius</div>
-                        <div class="b-filter-slider__main">
-                          <div id="sliderRange"></div>
-                          <div class="b-filter__row">
-                            <input class="ui-select" id="input-range"/>
+                        <div class="b-filter__row row">
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="minYear"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="minYear"
+                            />
+                          </div>
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="maxYear"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="maxYear"
+                            />
                           </div>
                         </div>
-                      </div> -->
+                      </div>
+                    </div>
+                    <div
+                      class="b-filter-slider ui-filter-slider slider-container"
+                    >
+                      <div class="b-filter-slider__title">Kilometraje</div>
+                      <div class="b-filter-slider__main">
+                        <ngx-slider
+                          [(value)]="minKilometraje"
+                          [(highValue)]="maxKilometraje"
+                          [options]="optionsKilometraje"
+                        >
+                        </ngx-slider>
+
+                        <div class="b-filter__row row">
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="minKilometraje"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="minKilometraje"
+                            />
+                          </div>
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="maxKilometraje"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="maxKilometraje"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="b-filter-slider ui-filter-slider slider-container"
+                    >
+                      <div class="b-filter-slider__title">Precio</div>
+                      <div class="b-filter-slider__main">
+                        <ngx-slider
+                          [(value)]="minPrice"
+                          [(highValue)]="maxPrice"
+                          [options]="options"
+                        >
+                        </ngx-slider>
+
+                        <div class="b-filter__row row">
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="'$' + minPrice"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="input-with-keypress-0"
+                            />
+                          </div>
+                          <div class="b-filter__item col-md-6">
+                            <input
+                              disabled
+                              class="ui-select"
+                              [(ngModel)]="'$' + maxPrice"
+                              [ngModelOptions]="{ standalone: true }"
+                              id="input-with-keypress-1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -535,7 +510,7 @@
           class="mt-3"
           aria-label="Page navigation example"
         >
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center flex-wrap">
             <li class="page-item">
               <a class="page-link" (click)="rewind()"> &lt;&lt; </a>
             </li>
