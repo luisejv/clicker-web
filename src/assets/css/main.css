@@ -4424,8 +4424,10 @@ html .b-goods-slider .slick-list {
   margin-top: 160px;
   padding-top: 95px;
   padding-bottom: 75px;
-  background-image: url("/assets/media/content/b-title-page/bg-1.jpg");
+  background-image: url("/assets/media/general/Imagen-2.png");
   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .section-title-page__decor {

@@ -50,10 +50,10 @@ export class CarRegistrationComponent implements OnInit {
       uploadedPhotos.subscribe(
         (response) => {
           console.log('contador', cont);
-          body.fotoPrincipal = fotos[0].url;
+          body.fotoPrincipal = fotos[0].url!;
           body.fotos = fotos.slice(1).map((foto) => {
             return {
-              foto: foto.url,
+              foto: foto.url!,
             };
           });
           console.group('SemiNuevo JSON');

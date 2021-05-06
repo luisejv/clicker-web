@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row justify-content-center h-100">
+    <div class="col-8 d-flex flex-column justify-content-center">
+      <h2 class="text-center">Equipo de soporte</h2>
+      <form [formGroup]="incidenceFormGroup" (ngSubmit)="uploadIncidence()">
+        <div class="row">
+          <div class="col">
+            <label for="asunto">Asunto:</label>
+            <input
+              type="text"
+              class="inputClicker"
+              formControlName="asunto"
+              id="asunto"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="descripcion">Descripción:</label>
+            <textarea
+              type="text"
+              class="inputClicker"
+              formControlName="descripcion"
+              id="descripcion"
+              rows="5"
+              cols="50"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="tipo">Tipo:</label>
+            <!-- Todo: Cambiar a select -->
+            <input
+              type="text"
+              class="inputClicker"
+              formControlName="tipo"
+              id="tipo"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="adjunto">Adjunto:</label>
+            <input
+              type="file"
+              class="inputClicker"
+              formControlName="adjunto"
+              id="adjunto"
+            />
+          </div>
+        </div>
+        <div class="row mt-5 justify-content-center">
+          <div class="col-4">
+            <button class="saveBtn" type="submit">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

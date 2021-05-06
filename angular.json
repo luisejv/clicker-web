@@ -49,7 +49,6 @@
               "./src/assets/plugins/headers/slidebar.js",
               "./src/assets/plugins/headers/header.js",
               "./src/assets/plugins/jqBootstrapValidation.js",
-              "./src/assets/plugins/contact_me.js",
               "./src/assets/plugins/rendro-easy-pie-chart/jquery.easypiechart.min.js",
               "./src/assets/plugins/rendro-easy-pie-chart/jquery.waypoints.min.js",
               "./src/assets/plugins/scrollreveal/scrollreveal.min.js",

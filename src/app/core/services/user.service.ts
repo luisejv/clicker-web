@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
 import { Denuncia } from '../interfaces/denuncia';
+import { Incidence } from '../interfaces/incidence';
 import { User } from '../interfaces/user';
 import { CommonService } from './common.service';
 import { StorageService } from './storage.service';
@@ -32,6 +33,10 @@ export class UserService {
 
   public getUser(correo: string): Observable<any> {
     return this.http.get(this.commonService.getUserUrl + `?id=${correo}`);
+  }
+
+  public putUser(body: User): Observable<any> {
+    return this.http.put(this.commonService.userUrl, body);
   }
 
   // * Registro de Carros
@@ -129,5 +134,9 @@ export class UserService {
 
   public denunciar(body: Denuncia): Observable<any> {
     return this.http.post(this.commonService.denunciaUrl, body);
+  }
+
+  public postIncidence(body: Incidence): Observable<any> {
+    return this.http.post(this.commonService.postIncidenceUrl, body);
   }
 }

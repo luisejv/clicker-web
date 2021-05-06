@@ -9,11 +9,12 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 export interface Fotos {
-  isPrincipal: boolean;
-  foto: FileList;
-  url: string;
+  foto?: FileList;
+  src?: string;
+  url?: string;
 }
 
 @Component({
@@ -36,7 +37,7 @@ export class CarCuComponent implements OnInit {
   formGroup: FormGroup;
   carId: number = -1;
   fotoPrincipal!: File;
-  fotos: Fotos[] = [];
+  fotos: Fotos[] = [{}];
   uploadedPhotos = new EventEmitter<string>();
   validatedPlaca: boolean = false;
   role: string | null;
@@ -48,6 +49,11 @@ export class CarCuComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   step5: boolean = false;
+  imgFile!: string;
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.fotos, event.previousIndex, event.currentIndex);
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -70,9 +76,9 @@ export class CarCuComponent implements OnInit {
     this.formGroup = this.fb.group({
       id: '',
       dniDueno: ['', [Validators.required, Validators.pattern(/[0-9]{8}/)]],
-      correoDueno: [this.correo, [Validators.required, Validators.email]],
-      nombreDueno: ['Gabriel Spranger', [Validators.required]],
-      telefonoDueno: ['965776360', [Validators.required]],
+      correoDueno: ['', [Validators.required, Validators.email]],
+      nombreDueno: ['', [Validators.required]],
+      telefonoDueno: ['', [Validators.required]],
       placa: [
         'BBB222',
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
@@ -105,8 +111,24 @@ export class CarCuComponent implements OnInit {
         [Validators.required, Validators.min(1), Validators.max(16)],
       ],
       precioVenta: ['69420', Validators.required],
+      descripcion: [''],
       video: '',
+      terms: '',
     });
+  }
+
+  onImageChange(e: any, idx: number) {
+    const reader = new FileReader();
+
+    if (e.target.files && e.target.files.length) {
+      const [file] = e.target.files;
+      this.fotos[idx].foto = e.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.fotos[idx].src = reader.result as string;
+      };
+    }
   }
 
   changeStep(id: number) {
@@ -257,6 +279,17 @@ export class CarCuComponent implements OnInit {
         console.log(this.formGroup);
         console.groupEnd();
       });
+    } else {
+      this.userService
+        .getUser(this.storageService.getEmailLocalStorage()!)
+        .subscribe((response) => {
+          this.formGroup.controls['dniDueno'].setValue(response.numDocumento);
+          this.formGroup.controls['correoDueno'].setValue(response.correo);
+          this.formGroup.controls['nombreDueno'].setValue(response.nombre);
+          this.formGroup.controls['telefonoDueno'].setValue(
+            response.numTelefono
+          );
+        });
     }
   }
 
@@ -298,22 +331,21 @@ export class CarCuComponent implements OnInit {
     return body;
   }
 
-  addPhoto(event: any): void {
-    this.fotos.push({
-      isPrincipal: false,
-      foto: event.target.files,
-      url: '',
-    });
+  addPhoto(): void {
+    if (this.fotos.length < 15) {
+      this.fotos.push({});
+    }
   }
 
   submitActionWrapper(): void {
-    if (this.formGroup.invalid) {
-      Swal.fire({
-        icon: 'error',
-        title: '¡Llena el formulario bien!',
-      });
-      return;
-    }
+    // if (this.formGroup.invalid) {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title:
+    //       'Algunos campos fueron ingresados incorrectamente. Por favor, corrígelos.',
+    //   });
+    //   return;
+    // }
     if (this.create) {
       this.createActionWrapper();
       return;
@@ -324,49 +356,18 @@ export class CarCuComponent implements OnInit {
     }
   }
 
+  removePhoto(i: number) {
+    this.fotos.splice(i, 1);
+  }
+
   updateActionWrapper(): void {
     this.updateAction(this.toJSON());
   }
 
   createActionWrapper(): void {
+    this.fotos = this.fotos.filter((foto, idx) => {
+      return foto.foto;
+    });
     this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
   }
-
-  owner = {
-    nombres: {
-      type: 'text',
-      validations: {},
-      errors: {},
-      placeholder: 'Nombres',
-    },
-    apellidos: {
-      type: 'text',
-      validations: {},
-      errors: {},
-      placeholder: 'Apellidos',
-    },
-    dni: {
-      type: 'number',
-      validations: {
-        pattern: /[0-9]{8}/,
-      },
-      errors: {
-        pattern: 'Por favor, ingresa un DNI válido.',
-      },
-      placeholder: 'DNI/CE',
-    },
-    celular: {
-      type: 'number',
-      validations: {
-        pattern: /[0-9]{9}/,
-      },
-      errors: {
-        pattern: 'Por favor, ingresa un número teléfono celular válido.',
-      },
-      placeholder: 'Celular',
-    },
-    correo: {
-      type: 'email',
-    },
-  };
 }

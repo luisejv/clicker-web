@@ -71,6 +71,7 @@ export class CommonService {
 
   // * Denuncia
   denunciaUrl: string = this.baseUrl + '/denuncia';
+  postIncidenceUrl: string = this.baseUrl + '/incidencias';
 
   // * Servicios Externos
   getPlacaDetailsUrl: string = this.consultaPlacaUrl + '/placa';

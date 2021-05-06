@@ -83,7 +83,8 @@
 }
 
 .inputClicker:focus {
-  border: 2px solid var(--primary);
+  border: 1px solid white;
+  box-shadow: 0px 0px 0px 2px var(--primary);
 }
 
 .links {

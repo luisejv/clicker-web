@@ -16,6 +16,7 @@ import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component'
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InterestedCarsComponent } from './components/dashboard/interested-cars/interested-cars.component';
 import { PublishedCarsComponent } from './components/dashboard/published-cars/published-cars.component';
+import { ReportIncidenceComponent } from './components/dashboard/report-incidence/report-incidence.component';
 import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.component';
 import { AutoSemiNuevoComponent } from './components/details/auto-semi-nuevo/auto-semi-nuevo.component';
 import { HomeComponent } from './components/home/home.component';
@@ -79,6 +80,11 @@ export const routes: Routes = [
       {
         path: 'carros-interesantes',
         component: InterestedCarsComponent,
+        canActivate: [ValidatedGuard],
+      },
+      {
+        path: 'reportar-incidencia',
+        component: ReportIncidenceComponent,
         canActivate: [ValidatedGuard],
       },
       {

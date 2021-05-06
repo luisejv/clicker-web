@@ -65,6 +65,12 @@ import { UploadService } from './core/services/upload.service';
 import { NormalizePipe } from './core/pipes/normalize.pipe';
 import { CuentaComponent } from './components/dashboard/cuenta/cuenta.component';
 import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { ReportIncidenceComponent } from './components/dashboard/report-incidence/report-incidence.component';
+import { PasswordDirective } from './core/directives/password.directive';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
 
 @NgModule({
   declarations: [
@@ -117,6 +123,8 @@ import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.c
     NormalizePipe,
     CuentaComponent,
     AutoNuevoComponent,
+    ReportIncidenceComponent,
+    PasswordDirective,
   ],
   imports: [
     BrowserModule,
@@ -132,6 +140,8 @@ import { AutoNuevoComponent } from './components/details/auto-nuevo/auto-nuevo.c
     NgxMatFileInputModule,
     NgsRevealModule,
     SlickCarouselModule,
+    DragDropModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     {
