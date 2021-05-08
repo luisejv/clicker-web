@@ -10,6 +10,7 @@ import { UploadService } from 'src/app/core/services/upload.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ClientService } from 'src/app/core/services/client.service';
 
 export interface Fotos {
   foto?: FileList;
@@ -43,6 +44,7 @@ export class CarCuComponent implements OnInit {
   role: string | null;
   correo: string | null;
   fetchingPlaca: boolean = false;
+  fetchingDNI: boolean = false;
   date: Date;
   step1: boolean = true;
   step2: boolean = false;
@@ -50,6 +52,8 @@ export class CarCuComponent implements OnInit {
   step4: boolean = false;
   step5: boolean = false;
   imgFile!: string;
+  dniTries: number = 0;
+  placaTries: number = 0;
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.fotos, event.previousIndex, event.currentIndex);
@@ -63,7 +67,8 @@ export class CarCuComponent implements OnInit {
     private route: ActivatedRoute,
     private loaderService: LoaderService,
     public dataService: DataService,
-    public uploadService: UploadService
+    public uploadService: UploadService,
+    private clientService: ClientService
   ) {
     this.date = new Date();
     this.role = this.storageService.getRoleLocalStorage();
@@ -83,7 +88,7 @@ export class CarCuComponent implements OnInit {
         'BBB222',
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
-      serie: ['', [Validators.required]],
+      serie: [''],
       marca: ['', [Validators.required]],
       modelo: ['', [Validators.required]],
       anoFabricacion: [
@@ -115,75 +120,10 @@ export class CarCuComponent implements OnInit {
       video: '',
       terms: '',
     });
-  }
-
-  onImageChange(e: any, idx: number) {
-    const reader = new FileReader();
-
-    if (e.target.files && e.target.files.length) {
-      const [file] = e.target.files;
-      this.fotos[idx].foto = e.target.files;
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        this.fotos[idx].src = reader.result as string;
-      };
-    }
-  }
-
-  changeStep(id: number) {
-    this.step1 = id === 1;
-    this.step2 = id === 2;
-    this.step3 = id === 3;
-    this.step4 = id === 4;
-    this.step5 = id === 5;
-  }
-
-  checkPlaca(): void {
-    this.fetchingPlaca = true;
-    let body = {
-      placa: this.formGroup.controls['placa'].value,
-      token: 'fe6ae5a7928cd90ea30f7c3767c9c25bb2a4d0ea',
-    };
-    this.userService.getPlacaDetails(body).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (
-          response.success &&
-          (response.encontrado === undefined || response.encontrado)
-        ) {
-          this.formGroup.controls['serie'].setValue(response.data.serie);
-          this.formGroup.controls['marca'].setValue(response.data.marca);
-          this.formGroup.controls['modelo'].setValue(response.data.modelo);
-          console.log(this.formGroup);
-          this.validatedPlaca = true;
-        } else {
-          Swal.fire({
-            titleText: 'Oops!',
-            html:
-              'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
-            allowOutsideClick: true,
-            icon: 'error',
-            showConfirmButton: true,
-          });
-          this.formGroup.controls['placa'].setValue('');
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          titleText: 'Oops!',
-          html:
-            'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
-          allowOutsideClick: true,
-          icon: 'error',
-          showConfirmButton: true,
-        });
-        console.error(error);
-      },
-      () => {
-        this.fetchingPlaca = false;
-      }
-    );
+    this.formGroup.controls['nombreDueno'].disable();
+    this.formGroup.controls['serie'].disable();
+    this.formGroup.controls['marca'].disable();
+    this.formGroup.controls['modelo'].disable();
   }
 
   ngOnInit(): void {
@@ -290,6 +230,115 @@ export class CarCuComponent implements OnInit {
             response.numTelefono
           );
         });
+    }
+  }
+
+  onImageChange(e: any, idx: number) {
+    const reader = new FileReader();
+
+    if (e.target.files && e.target.files.length) {
+      const [file] = e.target.files;
+      this.fotos[idx].foto = e.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.fotos[idx].src = reader.result as string;
+      };
+    }
+  }
+
+  changeStep(id: number) {
+    this.step1 = id === 1;
+    this.step2 = id === 2;
+    this.step3 = id === 3;
+    this.step4 = id === 4;
+    this.step5 = id === 5;
+  }
+
+  checkPlaca(): void {
+    this.fetchingPlaca = true;
+    let body = {
+      placa: this.formGroup.controls['placa'].value,
+      token: 'fe6ae5a7928cd90ea30f7c3767c9c25bb2a4d0ea',
+    };
+    this.userService.getPlacaDetails(body).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (
+          response.success &&
+          (response.encontrado === undefined || response.encontrado)
+        ) {
+          this.formGroup.controls['serie'].setValue(response.data.serie);
+          this.formGroup.controls['marca'].setValue(response.data.marca);
+          this.formGroup.controls['modelo'].setValue(response.data.modelo);
+          this.fetchingPlaca = false;
+          this.validatedPlaca = true;
+          console.log(this.formGroup);
+        } else {
+          Swal.fire({
+            titleText: 'Oops!',
+            html:
+              'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+            allowOutsideClick: true,
+            icon: 'error',
+            showConfirmButton: true,
+          });
+          this.formGroup.controls['placa'].setValue('');
+        }
+      },
+      (error: any) => {
+        this.fetchingPlaca = false;
+        Swal.fire({
+          titleText: 'Oops!',
+          html:
+            'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+          allowOutsideClick: true,
+          icon: 'error',
+          showConfirmButton: true,
+        });
+        console.error(error);
+        this.placaTries = this.placaTries + 1;
+        if (this.placaTries == 2) {
+          this.formGroup.controls['serie'].enable();
+          this.formGroup.controls['marca'].enable();
+          this.formGroup.controls['modelo'].enable();
+        }
+      }
+    );
+  }
+
+  checkDNI() {
+    if (this.formGroup.controls['dniDueno'].value) {
+      this.fetchingDNI = true;
+      this.clientService
+        .getDNIDetails(this.formGroup.controls['dniDueno'].value)
+        .subscribe(
+          (response) => {
+            this.fetchingDNI = false;
+            this.formGroup.controls['nombreDueno'].setValue(
+              response.nombres +
+                ' ' +
+                response.apellido_p +
+                ' ' +
+                response.apellido_m
+            );
+          },
+          (error) => {
+            this.fetchingDNI = false;
+            console.log(`[ERROR]: Check DNI, ${error}`);
+            Swal.fire({
+              titleText: 'DNI incorrecto, por favor intente de nuevo.',
+              html: 'Try again please.',
+              allowOutsideClick: true,
+              icon: 'error',
+              showConfirmButton: true,
+            });
+            this.dniTries = this.dniTries + 1;
+            if (this.dniTries == 2) {
+              this.formGroup.controls['nombreDueno'].enable();
+            }
+          }
+        );
     }
   }
 

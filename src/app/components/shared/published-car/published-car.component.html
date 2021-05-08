@@ -40,7 +40,7 @@
     </div>
     <!-- TODO: *ngIf's -->
     <!-- NOTE: estos tags son para el admin, car-published -->
-    <div class="row">
+    <div class="row" *ngIf="includesDashboard()">
       <!-- NOTE: POR VALIDAR -->
       <div *ngIf="!autoCasteado.validado" class="col-auto pr-3">
         <div class="full-height por-validar row b-goods__price text-primary">

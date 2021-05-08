@@ -82,13 +82,18 @@
                 </div>
               </div>
               <div class="row justify-content-center">
-                <mat-checkbox formControlName="terms" color="primary"
+                <!-- <mat-checkbox formControlName="terms" color="primary"
                   >Acepto los
                   <a href="" class="links">términos y condiciones</a> y
                   <a href="" class="links"
                     >políticas de privacidad</a
                   ></mat-checkbox
-                >
+                > -->
+                <div>
+                  Al iniciar sesion acepto los
+                  <a href="" class="links">términos y condiciones</a> y
+                  <a href="" class="links">políticas de privacidad</a>
+                </div>
               </div>
               <br />
               <div class="row justify-content-center">
@@ -205,17 +210,21 @@
                         [OnlyNumber]="true"
                       />
                     </div>
-                    <div class="col-1">
-                      <mat-icon (click)="checkDNI()" *ngIf="!fetchingDNI">
-                        search
-                      </mat-icon>
+                    <button
+                      type="button"
+                      style="outline: none"
+                      mat-icon-button
+                      (click)="checkDNI()"
+                      class="col-1"
+                    >
+                      <mat-icon *ngIf="!fetchingDNI"> search </mat-icon>
                       <mat-spinner
                         style="cursor: progress"
                         *ngIf="fetchingDNI"
                         diameter="24"
                       >
                       </mat-spinner>
-                    </div>
+                    </button>
                   </div>
                   <input
                     type="text"

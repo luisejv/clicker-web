@@ -65,5 +65,20 @@ export class ReportIncidenceComponent implements OnInit {
     );
   }
 
+  onFileChange(event: any) {
+    const reader = new FileReader();
+
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.incidenceFormGroup.patchValue({
+          file: reader.result,
+        });
+      };
+    }
+  }
+
   ngOnInit(): void {}
 }

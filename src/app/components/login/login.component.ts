@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   registerOption: string = 'particular';
   fetchingDNI: boolean = false;
+  dniTries: number = 0;
 
   constructor(
     private userService: UserService,
@@ -41,6 +42,8 @@ export class LoginComponent implements OnInit {
       terms: [false, [Validators.required]],
       rol: null,
     });
+    this.registerParticularForm.controls['nombres'].disable();
+    this.registerParticularForm.controls['apellidos'].disable();
   }
 
   ngOnInit(): void {}
@@ -61,15 +64,41 @@ export class LoginComponent implements OnInit {
       this.fetchingDNI = true;
       this.clientService
         .getDNIDetails(this.registerParticularForm.value.dni)
-        .subscribe((response) => {
-          this.registerParticularForm.controls['nombres'].setValue(
-            response.nombres
-          );
-          this.registerParticularForm.controls['apellidos'].setValue(
-            response.apellido_p + ' ' + response.apellido_m
-          );
-          this.fetchingDNI = false;
-        });
+        .subscribe(
+          (response) => {
+            this.fetchingDNI = false;
+            this.registerParticularForm.controls['nombres'].setValue(
+              response.nombres
+            );
+            this.registerParticularForm.controls['apellidos'].setValue(
+              response.apellido_p + ' ' + response.apellido_m
+            );
+          },
+          (error) => {
+            console.log(`[ERROR]: Check DNI, ${error}`);
+            Swal.fire({
+              titleText: 'DNI incorrecto, por favor intente de nuevo.',
+              html: 'Try again please.',
+              allowOutsideClick: true,
+              icon: 'error',
+              showConfirmButton: true,
+            });
+            this.fetchingDNI = false;
+            this.dniTries = this.dniTries + 1;
+            if (this.dniTries == 2) {
+              this.registerParticularForm.controls['nombres'].enable();
+              this.registerParticularForm.controls['apellidos'].enable();
+            }
+          }
+        );
+    } else {
+      Swal.fire({
+        titleText: 'Error!',
+        html: 'Primero debes ingresar un DNI.',
+        allowOutsideClick: true,
+        icon: 'warning',
+        showConfirmButton: true,
+      });
     }
   }
 
@@ -134,30 +163,40 @@ export class LoginComponent implements OnInit {
 
   registerParticular(): void {
     //TODO: añadir spinner
-    const body: User = this.toJSON();
-    this.userService.register(body).subscribe(
-      (response: User) => {
-        Swal.fire({
-          titleText: '¡Registrado!',
-          html:
-            'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
-          allowOutsideClick: true,
-          icon: 'success',
-          showConfirmButton: true,
-        }).then(() => {
-          this.router.navigateByUrl('/home');
-        });
-      },
-      (error: any) => {
-        console.log(`[ERROR]: Register Particular, ${error}`);
-        Swal.fire({
-          titleText: 'Oops!',
-          html: 'Hubo un error. Intenta nuevamente, por favor.',
-          allowOutsideClick: true,
-          icon: 'error',
-          showConfirmButton: true,
-        });
-      }
-    );
+    if (this.registerParticularForm.value.terms === true) {
+      const body: User = this.toJSON();
+      this.userService.register(body).subscribe(
+        (response: User) => {
+          Swal.fire({
+            titleText: '¡Registrado!',
+            html:
+              'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
+            allowOutsideClick: true,
+            icon: 'success',
+            showConfirmButton: true,
+          }).then(() => {
+            this.router.navigateByUrl('/home');
+          });
+        },
+        (error: any) => {
+          console.log(`[ERROR]: Register Particular, ${error}`);
+          Swal.fire({
+            titleText: 'Oops!',
+            html: 'Hubo un error. Intenta nuevamente, por favor.',
+            allowOutsideClick: true,
+            icon: 'error',
+            showConfirmButton: true,
+          });
+        }
+      );
+    } else {
+      Swal.fire({
+        titleText: 'Oops!',
+        html: 'Primero debes aceptar los términos y condiciones.',
+        allowOutsideClick: true,
+        icon: 'warning',
+        showConfirmButton: true,
+      });
+    }
   }
 }

@@ -64,6 +64,10 @@ export class PublishedCarComponent implements OnInit, OnChanges {
     console.log('interesting view: ', this.interestingView);
   }
 
+  includesDashboard(): boolean {
+    return this.router.url.includes('dashboard');
+  }
+
   get sponsorCar(): SponsoredCar {
     return this.auto as SponsoredCar;
   }

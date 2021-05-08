@@ -2520,13 +2520,13 @@ html .b-goods-slider .slick-list {
 }
 
 .b-goods-2-descrip__item:nth-child(odd) {
-  background-image: -webkit-linear-gradient(bottom, #002f37 0%, #1f1f1f 100%);
-  background-image: linear-gradient(to top, #002f37 0%, #1f1f1f 100%);
+  /* background-image: -webkit-linear-gradient(bottom, #002f37 0%, #1f1f1f 100%);
+  background-image: linear-gradient(to top, #002f37 0%, #1f1f1f 100%); */
 }
 
 .b-goods-2-descrip__item:nth-child(even) {
-  background-image: -webkit-linear-gradient(bottom, #1f1f1f 0%, #382c00 100%);
-  background-image: linear-gradient(to top, #1f1f1f 0%, #382c00 100%);
+  /* background-image: -webkit-linear-gradient(bottom, #1f1f1f 0%, #382c00 100%);
+  background-image: linear-gradient(to top, #1f1f1f 0%, #382c00 100%); */
 }
 
 .b-goods-2-descrip__inner {
@@ -2540,11 +2540,11 @@ html .b-goods-slider .slick-list {
 }
 
 .b-goods-2-descrip__wrap {
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
 
 .b-goods-2-descrip .ic {
@@ -4221,7 +4221,7 @@ html .b-goods-slider .slick-list {
 
 .b-stages__info {
   overflow: hidden;
-  height: 72px;
+  height: 100%;
   padding-right: 50px;
   padding-left: 50px;
 }

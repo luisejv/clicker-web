@@ -1,10 +1,13 @@
 <div class="container" *ngIf="!validated">
-  <img alt="Imagen que falta poner" />
+  <img
+    src="assets/media/general/V_M_mail.svg"
+    class="img-fluid h-25 w-25 my-5 pt-5"
+  />
   <h1>Revisa tu correo</h1>
   <p>Hazle click al link que ha llegado a tu bandeja de entrada:</p>
   <h2 class="email">{{ correo }}</h2>
   <p>para verificar tu cuenta.</p>
-  <button class="confirm-button"><span>OK</span></button>
+  <button class="confirm-button" (click)="goBack()"><span>OK</span></button>
   <div class="regresar" (click)="goBack()">
     <mat-icon>keyboard_arrow_up</mat-icon>
     <p>Regresar</p>
