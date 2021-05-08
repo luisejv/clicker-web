@@ -539,7 +539,7 @@
                 <div class="col">
                   <hr />
                   <div class="row justify-content-center">
-                    <mat-checkbox color="primary"
+                    <mat-checkbox formControlName="privacy" color="primary"
                       >Acepto las
                       <a href="" class="text-blue"
                         >políticas de privacidad</a
@@ -548,6 +548,9 @@
                   </div>
                 </div>
               </div>
+              <!-- <pre>
+                {{ formGroup.value | json }}
+              </pre> -->
               <div class="row justify-content-around">
                 <button
                   mat-raised-button

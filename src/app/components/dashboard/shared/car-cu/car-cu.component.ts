@@ -117,8 +117,8 @@ export class CarCuComponent implements OnInit {
       ],
       precioVenta: ['69420', Validators.required],
       descripcion: [''],
-      video: '',
       terms: '',
+      privacy: '',
     });
     this.formGroup.controls['nombreDueno'].disable();
     this.formGroup.controls['serie'].disable();
@@ -192,7 +192,6 @@ export class CarCuComponent implements OnInit {
                   [Validators.required, Validators.min(1), Validators.max(16)],
                 ],
                 precioVenta: res.precioVenta,
-                video: '',
               });
 
               this.title = 'Actualiza tu Carro';
@@ -366,7 +365,6 @@ export class CarCuComponent implements OnInit {
       color: this.formGroup.value.color,
       numeroCilindros: this.formGroup.value.numeroCilindros,
       precioVenta: this.formGroup.value.precioVenta,
-      video: this.formGroup.value.video,
       fotoPrincipal: '',
       fotos: [],
       accesorios: [],
@@ -414,9 +412,23 @@ export class CarCuComponent implements OnInit {
   }
 
   createActionWrapper(): void {
-    this.fotos = this.fotos.filter((foto, idx) => {
-      return foto.foto;
-    });
-    this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
+    if (
+      this.formGroup.value.terms === true &&
+      this.formGroup.value.privacy === true
+    ) {
+      this.fotos = this.fotos.filter((foto, idx) => {
+        return foto.foto;
+      });
+      this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
+    } else {
+      Swal.fire({
+        titleText: 'Oops!',
+        html:
+          'Si no aceptas los términos y condiciones y la política de privacidad no podrás subir tu carro a la aplicación.',
+        allowOutsideClick: true,
+        icon: 'warning',
+        showConfirmButton: true,
+      });
+    }
   }
 }
