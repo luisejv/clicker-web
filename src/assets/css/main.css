@@ -2545,11 +2545,13 @@ html .b-goods-slider .slick-list {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); */
+  font-size: 18px;
 }
 
 .b-goods-2-descrip .ic {
   display: block;
-  font-size: 17px;
+  /* font-size: 17px; */
+  font-size: 25px;
   font-weight: normal;
   color: #29abe2;
 }

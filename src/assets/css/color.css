@@ -131,7 +131,7 @@ html .b-goods__img:before {
 .b-post-2 .btn:hover,
 .btn-arr_secondary:after,
 .b-booking-nav__item.active .b-booking-nav__main {
-  background-color: #29abe2;
+  background-color: #29abe2 !important;
 }
 
 .slick-dots li button:hover,

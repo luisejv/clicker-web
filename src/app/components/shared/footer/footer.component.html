@@ -76,14 +76,13 @@
             </svg>
           </a>
           <div class="footer-info">
-            Ceipisicing elit sed do eiusmod tempor laboe dolore magna aliqa Ut
-            enim ad minim veniam quis nostrud exercitation ullam co laboris nis
-            aliquip comsecd sed ipsum.
+            Clicker es la primera plataforma digital peruana que redifine la
+            compra de autos nuevos y usados.
           </div>
         </div>
         <section class="footer-section">
           <h3 class="footer-section__title footer-section__title_sm">
-            Subscribe Newsletter
+            Sucríbete al boletín mensual
           </h3>
           <form class="footer-form">
             <div class="form-group">
@@ -98,11 +97,12 @@
       </div>
       <div class="col-lg-3 col-md-6">
         <section class="footer-section pl-4">
-          <h3 class="footer-section__title">Información</h3>
+          <h3 class="footer-section__title">Canales Digitales</h3>
           <div class="footer-hours">
-            <div class="footer-hours__title">Asistente Virtual (Chatbot)</div>
+            <div class="footer-hours__title">Asistente Virtual (nuevos)</div>
             <div class="footer-hours__info">
-              Disponible las 24 horas del día, los 7 días de la semana
+              Ingresa a nuestra página de Facebook e interactúa con nuestro
+              chatbot las 24 horas del día, los 7 días de la semana.
             </div>
           </div>
           <div class="footer-hours">
@@ -114,18 +114,33 @@
       </div>
       <div class="col-lg-3 col-md-6">
         <section class="footer-section footer-section_link pl-4">
-          <h3 class="footer-section__title">Acerca de nosotros</h3>
+          <h3 class="footer-section__title">Sobre nosotros</h3>
           <ul class="footer-list list-unstyled">
             <!-- TODO: router links -->
             <!-- TODO: agreagar link a página para dealers que se quieran sumar -->
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Inventory</a></li>
-            <li><a href="#">Parts Shop</a></li>
-            <li><a href="#">Contact us</a></li>
-            <li><a href="#">Buy or Sell Cars</a></li>
-            <li><a href="#">Featured Vehicles</a></li>
+            <li><a [routerLink]="['/auth']">Regístrate o Ingresa</a></li>
+            <li>
+              <a
+                [routerLink]="['/inventory-listings']"
+                (click)="goToCarsSubset('USED')"
+                >Inventario</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="['/inventory-listings']"
+                (click)="goToCarsSubset('NEW')"
+                >Autos Nuevos</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="['/inventory-listings']"
+                (click)="goToCarsSubset('USED')"
+                >Autos Seminuevos</a
+              >
+            </li>
+            <li><a [routerLink]="ruta">Vende tu auto</a></li>
           </ul>
         </section>
       </div>
@@ -152,12 +167,18 @@
           <ul class="footer-soc list-unstyled" style="text-align: center">
             <!-- TODO: linkear redes -->
             <li class="footer-soc__item">
-              <a class="footer-soc__link" href="#" target="_blank"
+              <a
+                class="footer-soc__link"
+                href="https://www.facebook.com/clickerseminuevos"
+                target="_blank"
                 ><i class="ic fab fa-facebook-f"></i
               ></a>
             </li>
             <li class="footer-soc__item">
-              <a class="footer-soc__link" href="#" target="_blank"
+              <a
+                class="footer-soc__link"
+                href="https://www.instagram.com/clicker.seminuevos"
+                target="_blank"
                 ><i class="ic fab fa-instagram"></i
               ></a>
             </li>
@@ -169,7 +190,14 @@
   </div>
   <div class="footer-copyright">
     <div class="container">
-      &copy; 2021 CLICKER - Auto Dealer. All rights reserved.
+      &copy; 2021 CLICKER. Todos los derechos reservados. ·
+      <a class="text-white" href="">Políticas de Privacidad</a> ·
+      <a class="text-white" href="">Términos y Condiciones</a> ·
+      <a
+        class="text-white"
+        href="http://www.librodereclamacionesperu.com/472411513.html"
+        >Libro de Reclamaciones</a
+      >
     </div>
   </div>
 </footer>

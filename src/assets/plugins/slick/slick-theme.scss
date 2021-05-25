@@ -155,7 +155,7 @@ $slick-opacity-not-active: 0.25 !default;
     cursor: pointer;
     button {
       border: 0;
-      background: transparent;
+      background: white;
       display: block;
       height: 20px;
       width: 20px;
@@ -169,7 +169,8 @@ $slick-opacity-not-active: 0.25 !default;
       &:focus {
         outline: none;
         &:before {
-          opacity: $slick-opacity-on-hover;
+          // opacity: $slick-opacity-on-hover;
+          opacity: 1;
         }
       }
       &:before {
