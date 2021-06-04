@@ -50,6 +50,9 @@ export class LoginComponent implements OnInit {
 
   toJSON(): User {
     return {
+      numDocumento: this.registerParticularForm.value.dni,
+      nombre: this.registerParticularForm.value.nombres,
+      apellidos: this.registerParticularForm.value.apellidos,
       correo: this.registerParticularForm.value.correo,
       password: this.registerParticularForm.value.password,
       rol: 'PARTICULAR',
@@ -73,6 +76,9 @@ export class LoginComponent implements OnInit {
             this.registerParticularForm.controls['apellidos'].setValue(
               response.apellido_p + ' ' + response.apellido_m
             );
+            this.registerParticularForm.controls['correo'].setValue('');
+            this.registerParticularForm.controls['password'].setValue('');
+            this.registerParticularForm.controls['terms'].setValue(false);
           },
           (error) => {
             console.log(`[ERROR]: Check DNI, ${error}`);
@@ -169,8 +175,7 @@ export class LoginComponent implements OnInit {
         (response: User) => {
           Swal.fire({
             titleText: '¡Registrado!',
-            html:
-              'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
+            html: 'El registro fue exitoso. Por favor verifique su cuenta a través del email que le hemos enviado a su bandeja de entrada. <b>No olvide revisar SPAM</b>',
             allowOutsideClick: true,
             icon: 'success',
             showConfirmButton: true,

@@ -218,7 +218,7 @@
                       <input
                         type="text"
                         class="inputClicker"
-                        placeholder="DNI"
+                        placeholder="Primero busca tu DNI"
                         formControlName="dni"
                         [OnlyNumber]="true"
                       />
@@ -239,6 +239,12 @@
                       </mat-spinner>
                     </button>
                   </div>
+                  <!-- <small
+                    class="text-white"
+                    *ngIf="registerParticularForm.controls['dni'].value == ''"
+                    >Busca tu DNI para completar tus datos
+                    automáticamente</small
+                  > -->
                   <input
                     type="text"
                     class="inputClicker"

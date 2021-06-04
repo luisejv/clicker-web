@@ -257,7 +257,7 @@ export class CarCuComponent implements OnInit {
   checkPlaca(): void {
     this.fetchingPlaca = true;
     let body = {
-      placa: this.formGroup.controls['placa'].value,
+      placa: this.formGroup.controls['placa'].value.split('-').join(''),
       token: 'fe6ae5a7928cd90ea30f7c3767c9c25bb2a4d0ea',
     };
     this.userService.getPlacaDetails(body).subscribe(
@@ -282,6 +282,7 @@ export class CarCuComponent implements OnInit {
             showConfirmButton: true,
           });
           this.formGroup.controls['placa'].setValue('');
+          this.fetchingPlaca = false;
         }
       },
       (error: any) => {
