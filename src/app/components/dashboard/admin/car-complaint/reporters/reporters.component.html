@@ -1,40 +1,44 @@
 <div class="container">
-    <div class="row justify-content-center">
-        <h1 class="text-center" mat-dialog-title>Denuncias</h1>    
-    </div>
-    <hr>
-    <div class="row container" mat-dialog-content>
-        <div class="my-3 row" *ngFor="let denuncia of data.denuncias">
-            <div class="justify-content-center card w-100 pt-2 card-border">
-                <div class="card-body horizontal-wrap">
-                  <h5 class="card-title">Denunciante: {{ denuncia.usuario!.correo }}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Descripción de la denuncia</h6>
-                  <p class="card-text">{{ denuncia.descripcion }}</p>
-                  <a 
-                    (click)="goToReporterDetail(denuncia)"
-                    [ngClass]="{ 
-                        'link-carta': commonService.screenWidth > 672,
-                        'link-carta-sm': commonService.screenWidth <= 672
-                    }" 
-                  >
-                    Ver Perfil del Denunciante
-                  </a>
-                  <br [ngClass]="{ 'line-break': commonService.screenWidth > 672 }">
-                  <a 
-                    (click)="goToCarDetail()"
-                    [ngClass]="{ 
-                        'link-carta': commonService.screenWidth > 672,
-                        'link-carta-sm': commonService.screenWidth <= 672
-                    }" 
-                  >
-                    Ver Carro Reportado
-                  </a>
-                </div>
-              </div>
+  <div class="row justify-content-center">
+    <h1 class="text-center" mat-dialog-title>Denuncias</h1>
+  </div>
+  <hr />
+  <div class="row container" mat-dialog-content>
+    <div class="my-3 row" *ngFor="let denuncia of data.denuncias">
+      <div class="justify-content-center card w-100 pt-2 card-border">
+        <div class="card-body horizontal-wrap">
+          <h5 class="card-title">
+            Denunciante: {{ denuncia.usuario!.correo }}
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            Descripción de la denuncia
+          </h6>
+          <p class="card-text">{{ denuncia.descripcion }}</p>
+          <a
+            (click)="goToReporterDetail(denuncia)"
+            [ngClass]="{
+              'link-carta': commonService.screenWidth > 672,
+              'link-carta-sm': commonService.screenWidth <= 672
+            }"
+          >
+            Ver Perfil del Denunciante
+          </a>
+          <br [ngClass]="{ 'line-break': commonService.screenWidth > 672 }" />
+          <a
+            (click)="goToCarDetail()"
+            [ngClass]="{
+              'link-carta': commonService.screenWidth > 672,
+              'link-carta-sm': commonService.screenWidth <= 672
+            }"
+          >
+            Ver Auto Reportado
+          </a>
         </div>
+      </div>
     </div>
-    <div class="row justify-content-center" mat-dialog-actions>
-        <button mat-raised-button (click)="closeDialog()">Cerrar</button>
+  </div>
+  <div class="row justify-content-center" mat-dialog-actions>
+    <button mat-raised-button (click)="closeDialog()">Cerrar</button>
     <!-- <button mat-button [mat-dialog-close]="data.algo" cdkFocusInitial>Ok</button> -->
-    </div>
+  </div>
 </div>

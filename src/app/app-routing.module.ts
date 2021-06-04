@@ -26,6 +26,8 @@ import { LoginComponent } from './components/login/login.component';
 import { ParticularComponent } from './components/register/particular/particular.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RemaxComponent } from './components/register/remax/remax.component';
+import { PrivacyComponent } from './components/shared/privacy/privacy.component';
+import { TermsComponent } from './components/shared/terms/terms.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './core/guards/admin.guard';
@@ -41,6 +43,8 @@ export const routes: Routes = [
   },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'terminos-y-condiciones', component: TermsComponent },
+  { path: 'politicas-de-privacidad', component: PrivacyComponent },
   { path: 'home2', component: Home2Component },
   { path: 'vehicle-details', component: VehicleDetailsComponent },
   {
@@ -53,22 +57,22 @@ export const routes: Routes = [
         canActivate: [ValidatedGuard],
       },
       {
-        path: 'registrar-carro',
+        path: 'registrar-auto',
         component: CarRegistrationComponent,
         canActivate: [ValidatedGuard],
       },
       {
-        path: 'editar-carro/:id',
+        path: 'editar-auto/:id',
         component: CarEditingComponent,
         canActivate: [LoggedInGuard],
       },
       {
-        path: 'carros-publicados',
+        path: 'autos-publicados',
         component: PublishedCarsComponent,
         canActivate: [ValidatedGuard],
       },
       {
-        path: 'publicados-carros',
+        path: 'publicados-autos',
         component: CarPublishedComponent,
         canActivate: [ValidatedGuard],
       },
@@ -78,7 +82,7 @@ export const routes: Routes = [
         canActivate: [ValidatedGuard],
       },
       {
-        path: 'carros-interesantes',
+        path: 'autos-interesantes',
         component: InterestedCarsComponent,
         canActivate: [ValidatedGuard],
       },
@@ -113,7 +117,7 @@ export const routes: Routes = [
         canActivate: [AdminGuard],
       },
       {
-        path: 'carros-patrocinados',
+        path: 'autos-patrocinados',
         component: CarSponsorComponent,
         canActivate: [AdminGuard],
       },

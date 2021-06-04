@@ -91,8 +91,19 @@
                 > -->
                 <div>
                   Al iniciar sesion acepto los
-                  <a href="" class="links">términos y condiciones</a> y
-                  <a href="" class="links">políticas de privacidad</a>
+                  <a
+                    routerLink="/terminos-y-condiciones"
+                    target="_blank"
+                    class="links"
+                    >términos y condiciones</a
+                  >
+                  y
+                  <a
+                    routerLink="/politicas-de-privacidad"
+                    target="_blank"
+                    class="links"
+                    >políticas de privacidad</a
+                  >
                 </div>
               </div>
               <br />
@@ -138,7 +149,7 @@
       <div class="col-6 registerSection">
         <div class="row">
           <div class="col">
-            <div class="row">
+            <div class="row pt-5 mt-2">
               <div class="col text-center">
                 <h2>Crea una cuenta ahora</h2>
                 <p>Selecciona tu perfil</p>
@@ -186,7 +197,9 @@
             </ng-template>
             <ng-template [ngIf]="registerOption === 'franquicia'">
               <div class="row">
-                <div class="col text-center"></div>
+                <div class="col text-center">
+                  <p>Sección en construcción</p>
+                </div>
               </div>
             </ng-template>
           </div>
@@ -254,19 +267,28 @@
                   />
                 </div>
               </div>
-              <div class="row justify-content-center">
+              <div class="row justify-content-center mt-2">
                 <div class="col text-center">
                   <hr style="border-top: 1px solid white" />
                   <mat-checkbox formControlName="terms" color="primary"
                     >Acepto los
-                    <a href="" class="text-white">términos y condiciones</a> y
-                    <a href="" class="text-white"
+                    <a
+                      routerLink="/terminos-y-condiciones"
+                      target="_blank"
+                      class="text-white"
+                      >términos y condiciones</a
+                    >
+                    y
+                    <a
+                      routerLink="/politicas-de-privacidad"
+                      target="_blank"
+                      class="text-white"
                       >políticas de privacidad</a
                     ></mat-checkbox
                   >
                 </div>
               </div>
-              <div class="row justify-content-center mt-5">
+              <div class="row justify-content-center mt-3">
                 <div class="col-4">
                   <button type="submit" class="registerButton">
                     Crear Cuenta
@@ -282,6 +304,12 @@
                   Sé el dueño de tu propio negocio con la franquicia vehicular
                   de Clicker
                 </p>
+                <img
+                  src="assets/media/general/Valla-de-construccion-41.svg"
+                  alt="En Construcción"
+                  width="200"
+                  height="200"
+                />
               </div>
             </div>
           </ng-template>

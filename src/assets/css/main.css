@@ -1145,6 +1145,7 @@ body {
   margin-bottom: 0;
   padding-bottom: 0;
   background-color: #f2f6f7;
+  cursor: pointer;
 }
 
 .b-booking-nav__item:hover {

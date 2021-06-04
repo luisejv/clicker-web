@@ -125,9 +125,7 @@ export class PublishedCarComponent implements OnInit, OnChanges {
   }
 
   goToCarEditView(): void {
-    this.router.navigateByUrl(
-      `/dashboard/editar-carro/${this.autoCasteado.id}`
-    );
+    this.router.navigateByUrl(`/dashboard/editar-auto/${this.autoCasteado.id}`);
   }
 
   emitSeeReporters(): void {

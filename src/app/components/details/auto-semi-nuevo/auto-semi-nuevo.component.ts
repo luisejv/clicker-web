@@ -134,8 +134,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
-          html:
-            'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
       },
@@ -143,8 +142,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Oops!',
           icon: 'error',
-          html:
-            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
       },
@@ -191,8 +189,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
-          html:
-            'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
       },
@@ -200,8 +197,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Oops!',
           icon: 'error',
-          html:
-            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
       },
@@ -229,7 +225,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Agregado!',
           icon: 'success',
-          html: 'Carro agregado a patrocinados.',
+          html: 'Auto agregado a patrocinados.',
           showConfirmButton: true,
         });
       },
@@ -238,15 +234,14 @@ export class AutoSemiNuevoComponent implements OnInit {
           Swal.fire({
             title: 'Oops!',
             icon: 'error',
-            html: 'El carro ya se encuentra dentro de los carros patrocinados.',
+            html: 'El auto ya se encuentra dentro de los autos patrocinados.',
             showConfirmButton: true,
           });
         } else {
           Swal.fire({
             title: 'Oops!',
             icon: 'error',
-            html:
-              'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+            html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
             showConfirmButton: true,
           });
         }
@@ -273,7 +268,7 @@ export class AutoSemiNuevoComponent implements OnInit {
     };
 
     Swal.fire({
-      title: '¿Denunciar este carro?',
+      title: '¿Denunciar este auto?',
       showCancelButton: true,
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
@@ -287,7 +282,7 @@ export class AutoSemiNuevoComponent implements OnInit {
           },
           (error: any) => {
             console.error('denunciando: ', error);
-            Swal.fire('No se puede denunciar un carro dos veces', '', 'error');
+            Swal.fire('No se puede denunciar un auto dos veces', '', 'error');
           }
         );
       }
@@ -311,8 +306,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Agregado!',
           icon: 'success',
-          html:
-            'Carro agregado a interesados por vender. Ya puedes empezar a ofrecerlo entre tus contactos!',
+          html: 'Auto agregado a interesados por vender. Ya puedes empezar a ofrecerlo entre tus contactos!',
           showConfirmButton: true,
         });
       },
@@ -320,8 +314,7 @@ export class AutoSemiNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Oops!',
           icon: 'error',
-          html:
-            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
         console.log('Error processing request: ', error);

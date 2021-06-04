@@ -194,7 +194,7 @@ export class CarCuComponent implements OnInit {
                 precioVenta: res.precioVenta,
               });
 
-              this.title = 'Actualiza tu Carro';
+              this.title = 'Actualiza tu Auto';
               this.carId = params['id'];
             },
             (error: any) => {
@@ -276,8 +276,7 @@ export class CarCuComponent implements OnInit {
         } else {
           Swal.fire({
             titleText: 'Oops!',
-            html:
-              'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+            html: 'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
             allowOutsideClick: true,
             icon: 'error',
             showConfirmButton: true,
@@ -289,8 +288,7 @@ export class CarCuComponent implements OnInit {
         this.fetchingPlaca = false;
         Swal.fire({
           titleText: 'Oops!',
-          html:
-            'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+          html: 'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
           allowOutsideClick: true,
           icon: 'error',
           showConfirmButton: true,
@@ -423,8 +421,7 @@ export class CarCuComponent implements OnInit {
     } else {
       Swal.fire({
         titleText: 'Oops!',
-        html:
-          'Si no aceptas los términos y condiciones y la política de privacidad no podrás subir tu carro a la aplicación.',
+        html: 'Si no aceptas los términos y condiciones y la política de privacidad no podrás subir tu auto a la aplicación.',
         allowOutsideClick: true,
         icon: 'warning',
         showConfirmButton: true,

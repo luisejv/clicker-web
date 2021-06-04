@@ -1,14 +1,14 @@
 <div class="section-title-page area-bg area-bg_dark area-bg_op_60">
   <div class="area-bg__inner">
     <div class="container text-center">
-      <h1 class="b-title-page">Carros Disponibles</h1>
+      <h1 class="b-title-page">Autos Disponibles</h1>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a routerLink="home">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            Carros Disponibles
+            Autos Disponibles
           </li>
         </ol>
       </nav>
@@ -22,7 +22,7 @@
     <div class="row">
       <div class="offset-lg-3 justify-content-center col-xl-9">
         <mat-form-field appearance="fill" class="w-100 pr-2">
-          <mat-label>Buscar carro...</mat-label>
+          <mat-label>Buscar auto...</mat-label>
           <input matInput type="text" (keyup)="filterByName($event)" />
         </mat-form-field>
       </div>
@@ -32,7 +32,13 @@
         <aside class="l-sidebar l-sidebar_top_minus">
           <div class="widget section-sidebar bg-gray">
             <h3
-              class="widget-title row justify-content-between align-items-center no-gutters"
+              class="
+                widget-title
+                row
+                justify-content-between
+                align-items-center
+                no-gutters
+              "
             >
               <span class="widget-title__inner col">Opciones de busqueda</span
               ><i class="ic flaticon-car-repair col-auto"></i>
@@ -494,8 +500,7 @@
             *ngIf="filteredCarros.length === 0 && !loadingCars"
             class="col text-center"
           >
-            Oops. No se encontró ningún carro con esas especificaciones. Haz
-            clic
+            Oops. No se encontró ningún auto con esas especificaciones. Haz clic
             <span
               class="reset-filters-button font-weight-bold"
               (click)="resetFilters()"

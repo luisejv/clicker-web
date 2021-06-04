@@ -92,7 +92,7 @@ export class CarComplaintComponent implements OnInit {
   removeCar(id: number): void {
     console.log('remover carro denunciado con id: ', id);
     Swal.fire({
-      title: '¿Eliminar carro de Clicker?',
+      title: '¿Eliminar auto de Clicker?',
       showDenyButton: true,
       confirmButtonText: 'Sí',
       denyButtonText: 'No',
@@ -130,7 +130,7 @@ export class CarComplaintComponent implements OnInit {
   markAsValid(id: number): void {
     console.log('marcar carro reportado como válido con id: ', id);
     Swal.fire({
-      title: '¿Eliminar carro de la lista de carros reportados?',
+      title: '¿Eliminar auto de la lista de autos reportados?',
       showDenyButton: true,
       confirmButtonText: 'Sí',
       denyButtonText: 'No',

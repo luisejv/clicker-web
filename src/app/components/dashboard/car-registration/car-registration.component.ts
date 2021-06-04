@@ -116,7 +116,7 @@ export class CarRegistrationComponent implements OnInit {
             icon: 'success',
             showConfirmButton: true,
           }).then(() => {
-            this.router.navigateByUrl('/dashboard/publicados-carros');
+            this.router.navigateByUrl('/dashboard/publicados-autos');
           });
         },
         (error: any) => {

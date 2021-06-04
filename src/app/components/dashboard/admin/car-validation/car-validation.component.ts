@@ -55,7 +55,7 @@ export class CarValidationComponent implements OnInit {
     //TODO: mandar el evento a car-validation, no se debería manejar acá
 
     Swal.fire({
-      title: '¿Quieres validar este carro?',
+      title: '¿Quieres validar este auto?',
       showDenyButton: true,
       confirmButtonText: 'Sí',
       denyButtonText: 'No',

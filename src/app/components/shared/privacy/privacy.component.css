@@ -1,0 +1,20 @@
+.marginNav {
+  margin-top: 180px;
+}
+p {
+  text-align: justify;
+}
+.newol {
+  counter-reset: item;
+}
+.newol > li {
+  display: block;
+}
+.newol > li:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item;
+  font-weight: bold;
+}
+ul {
+  margin-bottom: 1.5rem;
+}

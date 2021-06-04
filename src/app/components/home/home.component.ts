@@ -315,7 +315,7 @@ export class HomeComponent implements OnInit {
   goToCarRegistration(): void {
     if (this.storageService.isLoggedIn()) {
       console.log('redirect to car-registration');
-      this.router.navigateByUrl('/dashboard/registrar-carro');
+      this.router.navigateByUrl('/dashboard/registrar-auto');
     } else {
       this.router.navigateByUrl('/auth');
     }

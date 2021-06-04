@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private storageService: StorageService, private router: Router) {
     if (this.storageService.isLoggedIn()) {
-      this.ruta = '/dashboard/registrar-carro';
+      this.ruta = '/dashboard/registrar-auto';
     } else {
       this.ruta = '/auth';
     }

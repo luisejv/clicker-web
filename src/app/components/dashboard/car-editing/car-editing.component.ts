@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-car-editing',
   templateUrl: './car-editing.component.html',
-  styleUrls: ['./car-editing.component.css']
+  styleUrls: ['./car-editing.component.css'],
 })
 export class CarEditingComponent implements OnInit {
   role: string;
@@ -17,41 +17,39 @@ export class CarEditingComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {
     this.role = this.storageService.getRoleLocalStorage()!;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   editCar(auto: AutoSemiNuevo): void {
-    console.log('editCar: ', {auto});
+    console.log('editCar: ', { auto });
     this.userService.putAutoSemiNuevo(auto).subscribe(
       (res: any) => {
-        console.log('edit car response: ', {res});
+        console.log('edit car response: ', { res });
         Swal.fire({
           icon: 'success',
-          title: '¡El carro ha sido actualizado!',
+          title: '¡El auto ha sido actualizado!',
           showConfirmButton: true,
         }).then(() => {
           if (this.role === RolesEnum.ADMIN) {
             this.router.navigateByUrl('/dashboard/autos-por-validar');
           } else {
-            this.router.navigateByUrl('/dashboard/publicados-carros');
+            this.router.navigateByUrl('/dashboard/publicados-autos');
           }
         });
       },
       (err: any) => {
-        console.log('when editing car: ', {err});
+        console.log('when editing car: ', { err });
         Swal.fire({
           icon: 'error',
           title: '¡Ocurrió un error!',
           text: 'Inténtalo nuevamente.',
           showConfirmButton: true,
-        })
+        });
       }
     );
   }
-
 }

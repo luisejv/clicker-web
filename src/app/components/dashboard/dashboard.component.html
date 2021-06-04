@@ -45,7 +45,13 @@
           *ngIf="isRemax || isUser; else admin"
         >
           <li
-            class="d-flex flex-column align-items-center justify-content-between sidebar-item"
+            class="
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
             routerLink="cuenta"
           >
             <mat-icon class="mt-xs-1">account_circle</mat-icon>
@@ -53,7 +59,14 @@
           </li>
           <li
             *ngIf="isRemax"
-            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
             routerLink="balance"
           >
             <mat-icon>account_balance</mat-icon>
@@ -61,28 +74,56 @@
           </li>
           <li
             *ngIf="isRemax"
-            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
-            routerLink="carros-interesantes"
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
+            routerLink="autos-interesantes"
           >
             <mat-icon>stars</mat-icon>
-            <a>Carros Interesantes</a>
+            <a>Autos Interesantes</a>
           </li>
           <li
-            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
-            routerLink="registrar-carro"
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
+            routerLink="registrar-auto"
           >
             <mat-icon>directions_car</mat-icon>
-            <a>Registrar Carro</a>
+            <a>Registrar auto</a>
           </li>
           <li
-            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
-            routerLink="publicados-carros"
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
+            routerLink="publicados-autos"
           >
             <mat-icon>work</mat-icon>
-            <a>Carros Publicados</a>
+            <a>Autos Publicados</a>
           </li>
           <li
-            class="my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
             routerLink="home"
           >
             <mat-icon>exit_to_app</mat-icon>
@@ -92,52 +133,115 @@
         <!-- Admin options -->
         <ng-template #admin>
           <ul
-            class="sideops-container d-flex flex-column align-items-between justify-content-center pl-0"
+            class="
+              sideops-container
+              d-flex
+              flex-column
+              align-items-between
+              justify-content-center
+              pl-0
+            "
           >
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="autos-por-validar"
             >
               <mat-icon>car_repair</mat-icon>
               <a>Autos por Validar</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="solicitudes-franquicia"
             >
               <mat-icon>how_to_reg</mat-icon>
               <a>Solicitudes Remax</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="autos-reportados"
             >
               <mat-icon>local_car_wash</mat-icon>
               <a>Autos Reportados</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="registrar-venta"
             >
               <mat-icon>attach_money</mat-icon>
               <a>Registrar una Venta</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="solicitudes-de-pago"
             >
               <mat-icon>request_quote</mat-icon>
               <a>Solicitudes de Pago</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
-              routerLink="carros-patrocinados"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="autos-patrocinados"
             >
               <mat-icon>electric_car</mat-icon>
-              <a>Carros Patrocinados</a>
+              <a>Autos Patrocinados</a>
             </li>
             <li
-              class="img-thumbnail my-2 d-flex flex-column align-items-center justify-content-between sidebar-item"
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="home"
             >
               <mat-icon>exit_to_app</mat-icon>
@@ -198,7 +302,12 @@
                         </div>
                       </div>
                       <div
-                        class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse"
+                        class="
+                          b-stages__item
+                          col-lg-3
+                          d-flex-lg
+                          flex-lg-column-reverse
+                        "
                       >
                         <span class="b-stages__number">02</span>
                         <div class="b-stages__inner">
@@ -223,7 +332,12 @@
                         </div>
                       </div>
                       <div
-                        class="b-stages__item col-lg-3 d-flex-lg flex-lg-column-reverse"
+                        class="
+                          b-stages__item
+                          col-lg-3
+                          d-flex-lg
+                          flex-lg-column-reverse
+                        "
                       >
                         <span class="b-stages__number">04</span>
                         <div class="b-stages__inner">

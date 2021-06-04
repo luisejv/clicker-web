@@ -76,7 +76,13 @@
                   Año de Fabricación
                 </dt>
                 <dd
-                  class="b-goods-f__descr-info col-md-7 d-flex flex-column justify-content-center"
+                  class="
+                    b-goods-f__descr-info
+                    col-md-7
+                    d-flex
+                    flex-column
+                    justify-content-center
+                  "
                 >
                   <div>
                     {{ auto.anoFabricacion }}
@@ -84,7 +90,13 @@
                 </dd>
                 <dt class="b-goods-f__descr-title col-md-5">Marca / Modelo</dt>
                 <dd
-                  class="b-goods-f__descr-info col-md-7 d-flex flex-column justify-content-center"
+                  class="
+                    b-goods-f__descr-info
+                    col-md-7
+                    d-flex
+                    flex-column
+                    justify-content-center
+                  "
                 >
                   {{ auto.marca }} / {{ auto.modelo }}
                 </dd>
@@ -92,7 +104,13 @@
                   Tipo de Carrocería
                 </dt>
                 <dd
-                  class="b-goods-f__descr-info col-md-7 d-flex flex-column justify-content-center"
+                  class="
+                    b-goods-f__descr-info
+                    col-md-7
+                    d-flex
+                    flex-column
+                    justify-content-center
+                  "
                 >
                   {{ auto.tipoCarroceria | titlecase }}
                 </dd>
@@ -112,7 +130,13 @@
                 <!-- ? poner rpm -->
                 <dt class="b-goods-f__descr-title col-md-5">Motor</dt>
                 <dd
-                  class="b-goods-f__descr-info col-md-7 d-flex flex-column justify-content-center"
+                  class="
+                    b-goods-f__descr-info
+                    col-md-7
+                    d-flex
+                    flex-column
+                    justify-content-center
+                  "
                 >
                   {{ auto.version }}
                 </dd>
@@ -206,7 +230,7 @@
                 >Denunciar</a
               >
             </li> -->
-            <!--             <li class="nav-item">
+            <!-- <li class="nav-item">
               <a
                 class="nav-link"
                 id="location-tab"
@@ -241,7 +265,7 @@
               <p *ngIf="!auto.documentacion">
                 Este auto no cuenta con una descripción.
               </p>
-              Puedes encontrar la descripción de este carro
+              Puedes encontrar la descripción de este auto
               <a [href]="auto.documentacion" target="_blank"> aquí. </a>
             </div>
             <div
@@ -265,7 +289,7 @@
               role="tabpanel"
               aria-labelledby="denunciar-tab"
             >
-              <h2>Denunciar Carro</h2>
+              <h2>Denunciar Auto</h2>
               <div class="form-group">
                 <input
                   class="form-control"

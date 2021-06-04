@@ -22,7 +22,7 @@
     <div class="row justify-content-center">
       <div class="justify-content-center col-xl-9">
         <mat-form-field appearance="fill" class="w-100 pr-2">
-          <mat-label>Buscar carro...</mat-label>
+          <mat-label>Buscar auto...</mat-label>
           <input matInput type="text" (keyup)="filterByName($event)" />
         </mat-form-field>
       </div>
@@ -37,7 +37,9 @@
                   {{ len === 0 ? 0 : currPage * carsPerPage + 1 }}
                   to
                   {{
-                    currPage * carsPerPage + carsPerPage > len ? len : currPage * carsPerPage + carsPerPage
+                    currPage * carsPerPage + carsPerPage > len
+                      ? len
+                      : currPage * carsPerPage + carsPerPage
                   }}</strong
                 >
                 of total {{ len }}
@@ -54,11 +56,11 @@
                     data-style="ui-select"
                     (change)="sortBy($event)"
                   >
-                  <option selected disabled>Ordenar por</option>
-                  <option value="1">Precio ascendiente</option>
-                  <option value="2">Precio descendiente</option>
-                  <option value="3">Año ascendiente</option>
-                  <option value="4">Año descendiente</option>
+                    <option selected disabled>Ordenar por</option>
+                    <option value="1">Precio ascendiente</option>
+                    <option value="2">Precio descendiente</option>
+                    <option value="3">Año ascendiente</option>
+                    <option value="4">Año descendiente</option>
                   </select>
                 </div>
               </div>
@@ -92,23 +94,26 @@
           </div>
         </div>
         <!-- end .b-filter-goods-->
-      <div
-        *ngFor="
-          let carro of filteredCarros | slice: (currPage * carsPerPage) : (currPage * carsPerPage + carsPerPage)
-        "
-        [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-      >
-        <app-published-car
-          [auto]="carro"
-          [mode]="list"
-          [particularPublishedView]="true"
+        <div
+          *ngFor="
+            let carro of filteredCarros
+              | slice
+                : currPage * carsPerPage
+                : currPage * carsPerPage + carsPerPage
+          "
+          [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
         >
-        <!-- TODO: esto no es [normalView], hay que cambiarlo -->
-        </app-published-car>
-      </div>
-      <div *ngIf="len === 0" class="col text-center">
-          Oops. No se encontró ningún carro con esas especificaciones.
-      </div>
+          <app-published-car
+            [auto]="carro"
+            [mode]="list"
+            [particularPublishedView]="true"
+          >
+            <!-- TODO: esto no es [normalView], hay que cambiarlo -->
+          </app-published-car>
+        </div>
+        <div *ngIf="len === 0" class="col text-center">
+          Oops. No se encontró ningún auto con esas especificaciones.
+        </div>
         <nav class="mt-3" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li

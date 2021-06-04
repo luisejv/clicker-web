@@ -64,7 +64,7 @@ export class CarSponsorComponent implements OnInit {
         Swal.fire({
           title: '¡Éxito!',
           icon: 'success',
-          text: 'El carro ha sido quitado de los carros auspiciados.',
+          text: 'El auto ha sido removido de los autos auspiciados.',
         });
         this.reloadComponent();
       },

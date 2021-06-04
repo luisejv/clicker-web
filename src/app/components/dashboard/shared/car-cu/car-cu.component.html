@@ -170,6 +170,7 @@
                 matInput
                 type="text"
                 formControlName="placa"
+                mask="AAA-AAA"
               />
               <button
                 mat-icon-button
@@ -229,7 +230,7 @@
                 Este campo es obligatorio.
               </mat-error>
               <mat-error *ngIf="formGroup.get('anoFabricacion')?.errors?.min">
-                No pueden venderse carros fabricados antes de 1999.
+                No pueden venderse autos fabricados antes de 1999.
               </mat-error>
               <mat-error
                 *ngIf="
@@ -541,7 +542,10 @@
                   <div class="row justify-content-center">
                     <mat-checkbox formControlName="privacy" color="primary"
                       >Acepto las
-                      <a href="" class="text-blue"
+                      <a
+                        routerLink="/politicas-de-privacidad"
+                        target="_blank"
+                        class="text-blue"
                         >políticas de privacidad</a
                       ></mat-checkbox
                     >

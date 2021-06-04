@@ -210,8 +210,8 @@ export class VentaDetailsComponent implements OnInit {
 
   showSuccess(): void {
     Swal.fire({
-      title: 'Carro registrado',
-      html: 'El carro se registró con éxito',
+      title: 'Auto registrado',
+      html: 'El auto se registró con éxito',
       icon: 'success',
     });
   }
@@ -219,8 +219,7 @@ export class VentaDetailsComponent implements OnInit {
   showFailure(): void {
     Swal.fire({
       title: 'Ocurrió un error',
-      html:
-        'No se pudo registrar la venta. Inténtalo más tarde o contacta al administrador',
+      html: 'No se pudo registrar la venta. Inténtalo más tarde o contacta al administrador',
       icon: 'error',
     });
   }

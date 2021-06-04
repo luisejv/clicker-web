@@ -69,6 +69,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ReportIncidenceComponent } from './components/dashboard/report-incidence/report-incidence.component';
 import { PasswordDirective } from './core/directives/password.directive';
+import { TermsComponent } from './components/shared/terms/terms.component';
+import { PrivacyComponent } from './components/shared/privacy/privacy.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
 
@@ -125,6 +127,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
     AutoNuevoComponent,
     ReportIncidenceComponent,
     PasswordDirective,
+    TermsComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule,

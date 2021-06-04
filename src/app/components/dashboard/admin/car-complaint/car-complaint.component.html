@@ -1,10 +1,10 @@
-<app-admin-cars 
-    *ngIf="hasLoaded"
-    [name]="'Carros Reportados'"
-    [reportedView]="true"
-    [reportedCars]="carros"
-    (remove)="removeCar($event)"
-    (reportedIsValid)="markAsValid($event)"
-    (mostrarReportadores)="showReporters($event)"
+<app-admin-cars
+  *ngIf="hasLoaded"
+  [name]="'Autos Reportados'"
+  [reportedView]="true"
+  [reportedCars]="carros"
+  (remove)="removeCar($event)"
+  (reportedIsValid)="markAsValid($event)"
+  (mostrarReportadores)="showReporters($event)"
 >
 </app-admin-cars>
