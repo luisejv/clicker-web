@@ -87,7 +87,7 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.dir(response);
             console.groupEnd();
             this.auto = response;
-            this.auto.fotos?.unshift({ foto: this.auto.fotoPrincipal });
+            this.auto.fotos?.unshift(this.auto.fotoPrincipal);
           },
           (error: any) => {
             // this.router.navigate(['/home']);
@@ -109,13 +109,16 @@ export class AutoSemiNuevoComponent implements OnInit {
   submitForm() {
     this.sendingContactForm = true;
     const body: Lead = {
-      tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-      carroceria: this.auto.tipoCarroceria,
-      dni: this.contactFormGroup.value.dni,
-      nombre: this.contactFormGroup.value.nombres,
-      apellidos: this.contactFormGroup.value.apellidos,
-      correo: this.contactFormGroup.value.correo,
-      numTelefono: this.contactFormGroup.value.telefono,
+      DNI: this.contactFormGroup.value.dni,
+      First_Name: this.contactFormGroup.value.nombres,
+      Last_Name: this.contactFormGroup.value.apellidos,
+      Phone_Number: this.contactFormGroup.value.telefono,
+      Email: this.contactFormGroup.value.correo,
+      Carroceria_Vehiculo: this.auto.tipoCarroceria,
+      Nuevo: false,
+      DatosSemiNuevo:
+        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+      ID_Auto: 424,
     };
     const body2 = {
       autoSemiNuevo: {
@@ -164,15 +167,17 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   contact(): void {
     this.sendingContactForm = true;
-    // TODO: recoger datos de LocalStorage cuando tengamos nombres, dni, etc.
     const body: Lead = {
-      tipouso: this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-      carroceria: this.auto.tipoCarroceria,
-      dni: this.storageService.getDniLocalStorage()!,
-      nombre: this.storageService.getNombreLocalStorage()!,
-      apellidos: this.storageService.getApellidosLocalStorage()!,
-      correo: this.storageService.getEmailLocalStorage()!,
-      numTelefono: this.storageService.getPhoneLocalStorage()!,
+      DNI: this.storageService.getDniLocalStorage()!,
+      First_Name: this.storageService.getNombreLocalStorage()!,
+      Last_Name: this.storageService.getApellidosLocalStorage()!,
+      Phone_Number: this.storageService.getPhoneLocalStorage()!,
+      Email: this.storageService.getEmailLocalStorage()!,
+      Carroceria_Vehiculo: this.auto.tipoCarroceria,
+      Nuevo: false,
+      DatosSemiNuevo:
+        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+      ID_Auto: 424,
     };
     const body2 = {
       autoSemiNuevo: {

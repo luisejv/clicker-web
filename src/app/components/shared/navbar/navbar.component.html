@@ -162,6 +162,123 @@
       >
     </li>
 
+    <li class="nav-item" *ngIf="isAdmin">
+      <a
+        class="nav-link"
+        [routerLink]="['/dashboard/autos-por-validar']"
+        (click)="toggle()"
+        >Autos por Validar</a
+      >
+    </li>
+
+    <!-- TODO: Agregar los siguientes links y los de Particular y desaparecer los anteriores, todo manejarlo con ngIf o ngTemplate -->
+    <!-- 
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="solicitudes-franquicia"
+            >
+              <mat-icon>how_to_reg</mat-icon>
+              <a>Solicitudes Remax</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="autos-reportados"
+            >
+              <mat-icon>local_car_wash</mat-icon>
+              <a>Autos Reportados</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="registrar-venta"
+            >
+              <mat-icon>attach_money</mat-icon>
+              <a>Registrar una Venta</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="solicitudes-de-pago"
+            >
+              <mat-icon>request_quote</mat-icon>
+              <a>Solicitudes de Pago</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="autos-patrocinados"
+            >
+              <mat-icon>electric_car</mat-icon>
+              <a>Autos Patrocinados</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="cambiar-banner"
+            >
+              <mat-icon>collections</mat-icon>
+              <a>Imagen Banner</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
+              routerLink="home"
+            >
+              <mat-icon>exit_to_app</mat-icon>
+              <a>Regresar</a>
+            </li> -->
+
     <!-- <li class="nav-item">
       <a class="nav-link">Sobre Nosotros</a>
       <ul class="mobile-sub-menu">
@@ -189,15 +306,14 @@
     <div class="container-fluid">
       <div class="row justify-content-between align-items-center">
         <div class="col-auto">
-          <div class="top-bar__item">
+          <!-- <div class="top-bar__item">
             <i class="ic fas fa-map-marker-alt"></i> Llámanos:<a
               class="top-bar__link"
               href="tel:+17553028549"
             >
               +1 755 302 8549</a
             >
-            <!-- TODO: net2phone -->
-          </div>
+          </div> -->
           <div class="top-bar__item">
             <i class="ic fas fa-envelope"></i> Email:<a
               class="top-bar__link"

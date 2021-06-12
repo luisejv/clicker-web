@@ -630,8 +630,7 @@ export class PublishedCarsComponent implements OnInit {
       let johnathanPrieto: boolean = false;
       this.carDepartamentos?.value.forEach((departamento: string) => {
         johnathanPrieto =
-          johnathanPrieto ||
-          carro.locacion!.departamento!.includes(departamento);
+          johnathanPrieto || carro.locacion!.includes(departamento);
       });
       return johnathanPrieto;
     });

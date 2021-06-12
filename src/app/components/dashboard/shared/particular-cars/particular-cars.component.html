@@ -33,16 +33,17 @@
           <div class="row align-items-center justify-content-between">
             <div class="col-md-auto">
               <div class="b-filter-goods__info">
-                Showing results<strong>
+                Mostrando resultados del
+                <strong>
                   {{ len === 0 ? 0 : currPage * carsPerPage + 1 }}
-                  to
+                  al
                   {{
                     currPage * carsPerPage + carsPerPage > len
                       ? len
                       : currPage * carsPerPage + carsPerPage
                   }}</strong
                 >
-                of total {{ len }}
+                de un total de {{ len }}
               </div>
             </div>
             <div class="col-md-auto">

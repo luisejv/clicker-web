@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { User } from 'src/app/core/interfaces/user';
 import { CommonService } from 'src/app/core/services/common.service';
@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   isDashboard: boolean;
   user!: User;
   scrolled: boolean = false;
+  registerCarUrl: boolean = false;
 
   constructor(
     public commonService: CommonService,
@@ -45,9 +46,22 @@ export class DashboardComponent implements OnInit {
         }
       );
     const arrayUrl = this.router.url.split('/');
+    this.registerCarUrl = arrayUrl[arrayUrl.length - 1] == 'registrar-auto';
     this.isDashboard = arrayUrl[arrayUrl.length - 1] === 'dashboard';
     this.router.events.subscribe((route) => {
       this.inDashboard();
+    });
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        // trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // if you need to scroll back to top, here is the right place
+        window.scrollTo(0, 0);
+      }
     });
   }
 

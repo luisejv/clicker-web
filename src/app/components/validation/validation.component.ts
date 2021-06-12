@@ -44,8 +44,12 @@ export class ValidationComponent implements OnInit {
             icon: 'success',
             showConfirmButton: true,
           }).then(() => {
-            this.storageService.setValidatedLocalStorage('true');
-            this.router.navigateByUrl('/dashboard');
+            if (this.storageService.isLoggedIn()) {
+              this.storageService.setValidatedLocalStorage('true');
+              this.router.navigateByUrl('/dashboard');
+            } else {
+              this.router.navigateByUrl('/login');
+            }
           });
         },
         (error: any) => {

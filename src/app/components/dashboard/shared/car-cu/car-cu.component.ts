@@ -73,9 +73,7 @@ export class CarCuComponent implements OnInit {
     this.date = new Date();
     this.role = this.storageService.getRoleLocalStorage();
     this.correo = this.storageService.getEmailLocalStorage();
-    // TODO: validators
     // TODO: validator cuando entra a editar, ningun campo que ya esté, debe cambiar a vacío, o sí puede?
-    //NOTE: sería paja autocompletar la info del usuario particular para ahorrarle chamba
     // F3W642
     // BJX356
     this.formGroup = this.fb.group({
@@ -153,6 +151,8 @@ export class CarCuComponent implements OnInit {
 
               this.formGroup = this.fb.group({
                 id: res.id,
+                //TODO: devolver dniDueno desde el back
+                // dniDueno: [res., [Validators.email]],
                 correoDueno: [res.correoDueno, [Validators.email]],
                 nombreDueno: res.nombreDueno,
                 telefonoDueno: res.telefonoDueno,
@@ -193,7 +193,9 @@ export class CarCuComponent implements OnInit {
                 ],
                 precioVenta: res.precioVenta,
               });
-
+              if ('fotos' in res) {
+                this.fotos = res.fotos!.map((foto) => ({ src: foto }));
+              }
               this.title = 'Actualiza tu Auto';
               this.carId = params['id'];
             },
@@ -222,10 +224,10 @@ export class CarCuComponent implements OnInit {
       this.userService
         .getUser(this.storageService.getEmailLocalStorage()!)
         .subscribe((response) => {
-          this.formGroup.controls['dniDueno'].setValue(response.numDocumento);
-          this.formGroup.controls['correoDueno'].setValue(response.correo);
-          this.formGroup.controls['nombreDueno'].setValue(response.nombre);
-          this.formGroup.controls['telefonoDueno'].setValue(
+          this.formGroup.controls['dniDueno'].patchValue(response.numDocumento);
+          this.formGroup.controls['correoDueno'].patchValue(response.correo);
+          this.formGroup.controls['nombreDueno'].patchValue(response.nombre);
+          this.formGroup.controls['telefonoDueno'].patchValue(
             response.numTelefono
           );
         });
@@ -243,6 +245,15 @@ export class CarCuComponent implements OnInit {
       reader.onload = () => {
         this.fotos[idx].src = reader.result as string;
       };
+      let newPhoto = true;
+      this.fotos.forEach((foto) => {
+        if (!foto.foto) {
+          newPhoto = false;
+        }
+      });
+      if (newPhoto) {
+        this.addPhoto();
+      }
     }
   }
 
@@ -267,35 +278,48 @@ export class CarCuComponent implements OnInit {
           response.success &&
           (response.encontrado === undefined || response.encontrado)
         ) {
-          this.formGroup.controls['serie'].setValue(response.data.serie);
-          this.formGroup.controls['marca'].setValue(response.data.marca);
-          this.formGroup.controls['modelo'].setValue(response.data.modelo);
+          this.formGroup.controls['serie'].patchValue(response.data.serie);
+          this.formGroup.controls['marca'].patchValue(response.data.marca);
+          this.formGroup.controls['modelo'].patchValue(response.data.modelo);
           this.fetchingPlaca = false;
           this.validatedPlaca = true;
           console.log(this.formGroup);
         } else {
+          this.fetchingPlaca = false;
+          this.placaTries = this.placaTries + 1;
           Swal.fire({
             titleText: 'Oops!',
-            html: 'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+            html: `No se encontró el auto con esa placa. ${
+              this.placaTries == 2
+                ? 'Registre sus datos en las casillas correspondientes.'
+                : 'Por favor, revise que sea correcto.'
+            } `,
             allowOutsideClick: true,
             icon: 'error',
             showConfirmButton: true,
           });
-          this.formGroup.controls['placa'].setValue('');
-          this.fetchingPlaca = false;
+          if (this.placaTries == 2) {
+            this.formGroup.controls['serie'].enable();
+            this.formGroup.controls['marca'].enable();
+            this.formGroup.controls['modelo'].enable();
+          }
         }
       },
       (error: any) => {
         this.fetchingPlaca = false;
+        this.placaTries = this.placaTries + 1;
         Swal.fire({
           titleText: 'Oops!',
-          html: 'No se encontró el auto con esa placa. Por favor, revise que sea correcto.',
+          html: `No se encontró el auto con esa placa. ${
+            this.placaTries == 2
+              ? 'Registre sus datos en las casillas correspondientes.'
+              : 'Por favor, revise que sea correcto.'
+          } `,
           allowOutsideClick: true,
           icon: 'error',
           showConfirmButton: true,
         });
         console.error(error);
-        this.placaTries = this.placaTries + 1;
         if (this.placaTries == 2) {
           this.formGroup.controls['serie'].enable();
           this.formGroup.controls['marca'].enable();
@@ -313,7 +337,7 @@ export class CarCuComponent implements OnInit {
         .subscribe(
           (response) => {
             this.fetchingDNI = false;
-            this.formGroup.controls['nombreDueno'].setValue(
+            this.formGroup.controls['nombreDueno'].patchValue(
               response.nombres +
                 ' ' +
                 response.apellido_p +
@@ -324,14 +348,18 @@ export class CarCuComponent implements OnInit {
           (error) => {
             this.fetchingDNI = false;
             console.log(`[ERROR]: Check DNI, ${error}`);
+            this.dniTries = this.dniTries + 1;
             Swal.fire({
-              titleText: 'DNI incorrecto, por favor intente de nuevo.',
+              titleText: `DNI no encontrado, ${
+                this.dniTries == 2
+                  ? 'digite sus datos a continuación'
+                  : 'por favor intente de nuevo'
+              }.`,
               html: 'Try again please.',
               allowOutsideClick: true,
               icon: 'error',
               showConfirmButton: true,
             });
-            this.dniTries = this.dniTries + 1;
             if (this.dniTries == 2) {
               this.formGroup.controls['nombreDueno'].enable();
             }
@@ -341,6 +369,10 @@ export class CarCuComponent implements OnInit {
   }
 
   toJSON(): AutoSemiNuevo {
+    this.formGroup.controls['serie'].enable();
+    this.formGroup.controls['marca'].enable();
+    this.formGroup.controls['modelo'].enable();
+    this.formGroup.controls['nombreDueno'].enable();
     const body: AutoSemiNuevo = {
       id: this.formGroup.value.id,
       usuario: {
@@ -367,13 +399,12 @@ export class CarCuComponent implements OnInit {
       fotoPrincipal: '',
       fotos: [],
       accesorios: [],
-      locacion: {
-        id: '000000',
-      },
+      locacion: 'Lima',
     };
     if (this.create) {
       delete body.id;
     }
+    console.log(body);
     return body;
   }
 
@@ -398,7 +429,6 @@ export class CarCuComponent implements OnInit {
     }
     if (this.update) {
       this.updateActionWrapper();
-      return;
     }
   }
 

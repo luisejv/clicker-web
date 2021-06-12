@@ -1,6 +1,7 @@
 <div>
   <div style="margin-top: 155px">
     <app-sidebar
+      *ngIf="!registerCarUrl"
       [ngClass]="{
         sidebar: commonService.screenWidth > 672,
         sidebar_phone: commonService.screenWidth <= 672,
@@ -14,6 +15,7 @@
       [isRemax]="isRemax"
       [isUser]="isUser"
     ></app-sidebar>
+    <!-- TODO: Quitar esto y terminarlo en el navbar -->
     <div *ngIf="commonService.screenWidth <= 672">
       <mat-icon
         class="position-relative fixed-top my-3 ml-3"
@@ -124,6 +126,20 @@
               justify-content-between
               sidebar-item
             "
+            routerLink="reportar-incidencia"
+          >
+            <mat-icon>warning</mat-icon>
+            <a>Reportar Incidencia</a>
+          </li>
+          <li
+            class="
+              my-2
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-between
+              sidebar-item
+            "
             routerLink="home"
           >
             <mat-icon>exit_to_app</mat-icon>
@@ -131,7 +147,7 @@
           </li>
         </ul>
         <!-- Admin options -->
-        <ng-template #admin>
+        <!-- <ng-template #admin>
           <ul
             class="
               sideops-container
@@ -242,13 +258,28 @@
                 justify-content-between
                 sidebar-item
               "
+              routerLink="cambiar-banner"
+            >
+              <mat-icon>collections</mat-icon>
+              <a>Imagen Banner</a>
+            </li>
+            <li
+              class="
+                img-thumbnail
+                my-2
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-between
+                sidebar-item
+              "
               routerLink="home"
             >
               <mat-icon>exit_to_app</mat-icon>
               <a>Regresar</a>
             </li>
           </ul>
-        </ng-template>
+        </ng-template> -->
       </div>
       <!-- <h1 class="mt-5 text-center">Dashboard</h1> -->
     </div>
@@ -263,7 +294,7 @@
       [ngClass]="{
         rightWrapper: true,
         'bg-form': true,
-        'wrapper-lg': commonService.screenWidth > 672
+        'wrapper-lg': commonService.screenWidth > 672 && !registerCarUrl
       }"
     >
       <!-- [ngStyle]="{

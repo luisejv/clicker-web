@@ -18,7 +18,11 @@
   <div class="b-goods__main">
     <div class="row no-gutters">
       <div class="col">
-        <a class="b-goods__title">
+        <a class="b-goods__title" *ngIf="!mode">
+          {{ autoCasteado?.marca + " " + autoCasteado?.modelo }} <br />
+          {{ autoCasteado?.anoFabricacion }}</a
+        >
+        <a class="b-goods__title" *ngIf="mode">
           {{
             autoCasteado?.marca +
               " " +
@@ -29,7 +33,7 @@
         >
         <!-- <div class="b-goods__info">Stock#: 45098ES - 4 door, White, 2.5L, FWD, Automatic 6-Speed, 2.5L 5 cyls, Florida CA</div> -->
       </div>
-      <div class="col-auto pr-3">
+      <div class="col-auto pr-3 pt-1">
         <div class="row b-goods__price text-primary">
           <span class="b-goods__price-title">PRECIO<br />VENDEDOR</span
           ><span class="b-goods__price-number"

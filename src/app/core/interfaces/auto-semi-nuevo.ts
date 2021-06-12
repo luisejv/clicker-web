@@ -32,9 +32,9 @@ export interface AutoSemiNuevo {
   fechaPublicacion?: string;
   video?: string;
   fotoPrincipal: string;
-  fotos?: Foto[];
+  fotos?: string[];
   accesorios?: string[];
-  locacion?: Locacion;
+  locacion?: string;
   descripcion?: string;
   denuncias?: Denuncia[];
   solicitudRemocionAuto?: boolean; //TODO: esto es una clase

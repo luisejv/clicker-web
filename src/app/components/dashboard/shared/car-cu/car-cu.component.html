@@ -33,7 +33,14 @@
           >
             <div class="b-booking-nav__header">Paso 1</div>
             <div class="b-booking-nav__main">
-              <i class="ic fas fa-car-side"></i>
+              <img
+                src="assets/media/general/register/propietario.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic fas fa-car-side"></i> -->
               <span class="b-booking-nav__title">Datos del propietario</span>
             </div></a
           ><a
@@ -43,7 +50,14 @@
           >
             <div class="b-booking-nav__header">Paso 2</div>
             <div class="b-booking-nav__main">
-              <i class="ic fas fa-cubes"></i>
+              <img
+                src="assets/media/general/register/datos.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic fas fa-cubes"></i> -->
               <span class="b-booking-nav__title">Datos Generales</span>
             </div></a
           ><a
@@ -53,7 +67,14 @@
           >
             <div class="b-booking-nav__header">Paso 3</div>
             <div class="b-booking-nav__main">
-              <i class="ic fas fa-cog"></i>
+              <img
+                src="assets/media/general/register/tecnicos.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic fas fa-cog"></i> -->
               <span class="b-booking-nav__title">Datos Técnicos</span>
             </div></a
           ><a
@@ -63,7 +84,14 @@
           >
             <div class="b-booking-nav__header">Paso 4</div>
             <div class="b-booking-nav__main">
-              <i class="ic far fa-calendar"></i>
+              <img
+                src="assets/media/general/register/fotos.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic far fa-calendar"></i> -->
               <span class="b-booking-nav__title">Cargar imágenes</span>
             </div></a
           ><a
@@ -73,17 +101,37 @@
           >
             <div class="b-booking-nav__header">Paso 5</div>
             <div class="b-booking-nav__main">
-              <i class="ic fas fa-edit"></i>
+              <img
+                src="assets/media/general/register/tyc.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic fas fa-edit"></i> -->
               <span class="b-booking-nav__title">Términos y Condiciones</span>
             </div></a
           >
         </div>
       </div>
       <div class="col-6 pt-5">
+        <nav aria-label="breadcrumb" class="newBreadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a routerLink="/dashboard">Dashboard</a>
+            </li>
+            <li
+              class="breadcrumb-item active text-secondary"
+              aria-current="page"
+            >
+              {{ title }}
+            </li>
+          </ol>
+        </nav>
         <form [formGroup]="formGroup">
           <div [hidden]="!step1">
             <h2>Datos del propietario del vehículo</h2>
-            <mat-form-field appearance="fill" class="w-100 mt-5">
+            <mat-form-field appearance="outline" class="w-100 mt-5">
               <mat-label>DNI Dueño</mat-label>
               <input matInput type="text" formControlName="dniDueno" />
               <button
@@ -106,7 +154,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Nombres Dueño</mat-label>
               <input matInput type="text" formControlName="nombreDueno" />
               <!-- <mat-error *ngIf="formGroup.get('nombreDueno')?.errors?.required">
@@ -116,14 +164,14 @@
                 Primero, debes buscar el dni.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Correo Dueño</mat-label>
               <input matInput type="text" formControlName="correoDueno" />
               <mat-error *ngIf="formGroup.get('correoDueno')?.errors?.required">
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Teléfono Dueño</mat-label>
               <input matInput type="text" formControlName="telefonoDueno" />
               <mat-error
@@ -147,7 +195,7 @@
           </div>
           <div [hidden]="!step2">
             <h2>Datos generales de tu vehículo</h2>
-            <mat-form-field appearance="fill" class="w-100 mt-5">
+            <mat-form-field appearance="outline" class="w-100 mt-5">
               <mat-label>Carrocería</mat-label>
               <mat-select formControlName="tipoCarroceria">
                 <mat-option
@@ -163,7 +211,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Placa</mat-label>
               <input
                 maxlength="7"
@@ -200,28 +248,28 @@
                 Debe ingresar una placa válida.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Serie</mat-label>
               <input readonly matInput type="text" formControlName="serie" />
               <mat-error *ngIf="formGroup.get('serie')?.errors?.required">
                 Primero, debes buscar la placa ingresada.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Marca</mat-label>
               <input readonly matInput type="text" formControlName="marca" />
               <mat-error *ngIf="formGroup.get('marca')?.errors?.required">
                 Primero, debes buscar la placa ingresada.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Modelo</mat-label>
               <input readonly matInput type="text" formControlName="modelo" />
               <mat-error *ngIf="formGroup.get('modelo')?.errors?.required">
                 Primero, debes buscar la placa ingresada.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Año Fabricación</mat-label>
               <input matInput type="number" formControlName="anoFabricacion" />
               <mat-error
@@ -241,7 +289,7 @@
                 Debe ingresar un año válido.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Color</mat-label>
               <input matInput type="text" formControlName="color" />
               <mat-error *ngIf="formGroup.get('color')?.errors?.required">
@@ -271,7 +319,7 @@
           </div>
           <div [hidden]="!step3">
             <h2>Características técnicas de tu vehículo</h2>
-            <mat-form-field appearance="fill" class="w-100 mt-5">
+            <mat-form-field appearance="outline" class="w-100 mt-5">
               <mat-label>Tipo de Transmisión</mat-label>
               <mat-select formControlName="tipoCambios">
                 <mat-option
@@ -285,7 +333,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Combustible</mat-label>
               <mat-select formControlName="tipoCombustible">
                 <mat-option
@@ -302,7 +350,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Motor (CC)</mat-label>
               <input
                 matInput
@@ -322,7 +370,7 @@
                 Debes ingresar un número válido de clindrada válido.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Kilometraje</mat-label>
               <input
                 matInput
@@ -334,7 +382,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Nº Puertas</mat-label>
               <input matInput type="number" formControlName="numeroPuertas" />
               <mat-error
@@ -343,7 +391,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Tracción</mat-label>
               <mat-select formControlName="tipoTraccion">
                 <mat-option
@@ -359,7 +407,7 @@
                 Este campo es obligatorio.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Nº Cilindros</mat-label>
               <input matInput type="number" formControlName="numeroCilindros" />
               <mat-error
@@ -376,7 +424,7 @@
                 Debes ingresar un número válido de cilindros.
               </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Precio Venta (US$)</mat-label>
               <input
                 matInput
@@ -413,9 +461,9 @@
             <h2>Sube las fotos de tu vehículo</h2>
             <p>
               Agrega tus fotos aquí,
-              <b
+              <strong
                 >la primera será la que aparecerá en toda la aplicación como
-                principal</b
+                principal</strong
               >. Puedes reordenar las fotos que has subido a tu gusto jalándolas
               y soltándolas. Está permitido un máximo de 15 fotos.
             </p>
@@ -440,6 +488,7 @@
                             : 'assets/media/general/upload.jpg'
                         "
                         class="img-fluid"
+                        alt=""
                       />
                     </label>
                     <input
@@ -458,7 +507,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="example-box" *ngIf="fotos.length < 15">
+                <div class="example-box" *ngIf="fotos.length < 15 && update">
                   <button
                     mat-fab
                     color="none"
@@ -471,7 +520,7 @@
               </div>
             </div>
             <div class="row">
-              <mat-form-field appearance="fill" class="w-100 mt-3">
+              <mat-form-field appearance="outline" class="w-100 mt-3">
                 <mat-label>Descripción</mat-label>
                 <textarea matInput formControlName="descripcion"></textarea>
               </mat-form-field>

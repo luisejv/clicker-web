@@ -107,3 +107,13 @@
 .text-blue {
   color: var(--primary);
 }
+
+.newBreadcrumb {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #333333;
+}

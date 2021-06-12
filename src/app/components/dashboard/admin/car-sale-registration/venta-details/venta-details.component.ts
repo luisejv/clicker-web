@@ -253,7 +253,7 @@ export class VentaDetailsComponent implements OnInit {
           vendedor: form.vendidoPorRevendedor
             ? { correo: form.vendedor.usuario.correo }
             : null,
-          ciudadCompra: this.data.auto.locacion!.departamento!,
+          ciudadCompra: this.data.auto.locacion!,
           foto: this.constanciaUrl,
           comisionGeneral: form.comisionGeneral,
           precioFinalVenta: form.precioFinalVenta,

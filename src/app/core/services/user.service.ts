@@ -41,7 +41,7 @@ export class UserService {
 
   // * Registro de Carros
 
-  public postAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
+  public postAutoSemiNuevo(body: FormData): Observable<any> {
     return this.http.post(this.commonService.autoSemiNuevoUrl, body);
   }
 

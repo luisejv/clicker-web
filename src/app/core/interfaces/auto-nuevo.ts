@@ -9,7 +9,7 @@ export interface AutoNuevo {
   documentacion: string;
   precioVenta: number;
   moneda: string;
-  locaciones: Locacion[];
+  locaciones: string[];
   tipoCarroceria: string;
   usoAuto: string[];
   marca: string;

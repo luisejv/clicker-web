@@ -9,6 +9,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { RolesEnum } from 'src/app/core/enums/roles.enum';
 declare var $: any;
 @Component({
   selector: 'app-navbar',
@@ -30,6 +31,7 @@ declare var $: any;
 export class NavbarComponent implements OnInit {
   ruta: string;
   showSidebar = false;
+  isAdmin: boolean = false;
 
   constructor(private storageService: StorageService, private router: Router) {
     if (this.storageService.isLoggedIn()) {
@@ -37,6 +39,8 @@ export class NavbarComponent implements OnInit {
     } else {
       this.ruta = '/auth';
     }
+    this.isAdmin =
+      this.storageService.getRoleLocalStorage() === RolesEnum.ADMIN;
   }
 
   ngOnInit(): void {

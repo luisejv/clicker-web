@@ -71,6 +71,7 @@ import { ReportIncidenceComponent } from './components/dashboard/report-incidenc
 import { PasswordDirective } from './core/directives/password.directive';
 import { TermsComponent } from './components/shared/terms/terms.component';
 import { PrivacyComponent } from './components/shared/privacy/privacy.component';
+import { ChangeBannerComponent } from './components/dashboard/admin/change-banner/change-banner.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
 
@@ -129,6 +130,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
     PasswordDirective,
     TermsComponent,
     PrivacyComponent,
+    ChangeBannerComponent,
   ],
   imports: [
     BrowserModule,

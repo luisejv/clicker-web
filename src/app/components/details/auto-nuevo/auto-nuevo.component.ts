@@ -20,6 +20,7 @@ export class AutoNuevoComponent implements OnInit {
   contactFormGroup!: FormGroup;
   logged: boolean;
   isAdmin: boolean;
+  sendingContactForm: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -85,33 +86,23 @@ export class AutoNuevoComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.sendingContactForm = true;
     const body: Lead = {
-      tipouso: this.auto.marca + '-' + this.auto.modelo + '-NUEVO',
-      carroceria: this.auto.tipoCarroceria,
-      dni: this.contactFormGroup.value.dni,
-      nombre: this.contactFormGroup.value.nombres,
-      apellidos: this.contactFormGroup.value.apellidos,
-      correo: this.contactFormGroup.value.correo,
-      numTelefono: this.contactFormGroup.value.telefono,
-    };
-    const body2 = {
-      autoSemiNuevo: {
-        id: this.auto.id,
-      },
-      dni: this.contactFormGroup.value.dni,
-      nombres: this.contactFormGroup.value.nombres,
-      apellidos: this.contactFormGroup.value.apellidos,
-      correo: this.contactFormGroup.value.correo,
-      numTelefono: this.contactFormGroup.value.telefono,
-      descripcion: this.contactFormGroup.value.descripcion,
+      DNI: this.contactFormGroup.value.dni,
+      First_Name: this.contactFormGroup.value.nombres,
+      Last_Name: this.contactFormGroup.value.apellidos,
+      Phone_Number: this.contactFormGroup.value.telefono,
+      Email: this.contactFormGroup.value.correo,
+      Carroceria_Vehiculo: this.auto.tipoCarroceria,
+      Nuevo: false,
+      ID_Auto: Number(this.auto.id),
     };
     this.clientService.postPilot(body).subscribe(
       (response) => {
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
-          html:
-            'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
       },
@@ -119,69 +110,49 @@ export class AutoNuevoComponent implements OnInit {
         Swal.fire({
           title: 'Oops!',
           icon: 'error',
-          html:
-            'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
-      }
-    );
-    this.clientService.postFormInterested(body2).subscribe(
-      (response) => {
-        console.log('Agregado a InteresadosCompra');
       },
-      (error) => {
-        console.log('Error en agregar a InteresadosCompra');
+      () => {
+        this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       }
     );
   }
 
   contact(): void {
-    // const body: Lead = {
-    //   tipouso: this.auto.marca + '-' + this.auto.modelo + '-NUEVO',
-    //   carroceria: this.auto.tipoCarroceria,
-    //   dni: this.contactFormGroup.value.dni,
-    //   nombre: this.contactFormGroup.value.nombres,
-    //   apellidos: this.contactFormGroup.value.apellidos,
-    //   correo: this.contactFormGroup.value.correo,
-    //   numTelefono: this.contactFormGroup.value.telefono,
-    // };
-    // const body2 = {
-    //   autoSemiNuevo: {
-    //     id: this.auto.id,
-    //   },
-    //   dni: this.contactFormGroup.value.dni,
-    //   nombres: this.contactFormGroup.value.nombres,
-    //   apellidos: this.contactFormGroup.value.apellidos,
-    //   correo: this.contactFormGroup.value.correo,
-    //   numTelefono: this.contactFormGroup.value.telefono,
-    // };
-    // this.clientService.postPilot(body).subscribe(
-    //   (response) => {
-    //     Swal.fire({
-    //       title: 'Enviado!',
-    //       icon: 'success',
-    //       html:
-    //         'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
-    //       showConfirmButton: true,
-    //     });
-    //   },
-    //   (error) => {
-    //     Swal.fire({
-    //       title: 'Oops!',
-    //       icon: 'error',
-    //       html:
-    //         'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
-    //       showConfirmButton: true,
-    //     });
-    //   }
-    // );
-    // this.clientService.postFormInterested(body2).subscribe(
-    //   (response) => {
-    //     console.log('Agregado a InteresadosCompra');
-    //   },
-    //   (error) => {
-    //     console.log('Error en agregar a InteresadosCompra');
-    //   }
-    // );
+    this.sendingContactForm = true;
+    const body: Lead = {
+      DNI: this.storageService.getDniLocalStorage()!,
+      First_Name: this.storageService.getNombreLocalStorage()!,
+      Last_Name: this.storageService.getApellidosLocalStorage()!,
+      Phone_Number: this.storageService.getPhoneLocalStorage()!,
+      Email: this.storageService.getEmailLocalStorage()!,
+      Carroceria_Vehiculo: this.auto.tipoCarroceria,
+      Nuevo: true,
+      ID_Auto: Number(this.auto.id),
+    };
+    this.clientService.postPilot(body).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Enviado!',
+          icon: 'success',
+          html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          showConfirmButton: true,
+        });
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Oops!',
+          icon: 'error',
+          html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
+          showConfirmButton: true,
+        });
+      },
+      () => {
+        this.sendingContactForm = false;
+      }
+    );
   }
 }

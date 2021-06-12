@@ -1154,7 +1154,7 @@ body {
 
 .b-booking-nav__item .ic {
   position: absolute;
-  top: 34px;
+  top: 30px;
   left: 28px;
   font-size: 18px;
   color: #999;
@@ -1184,14 +1184,18 @@ body {
 
 .b-booking-nav__header {
   padding: 26px 27px 14px;
-  font-size: 18px;
-  color: #94b9c1;
+  font-size: 17px;
+  /* color: #94b9c1; */
+  color: black;
   text-transform: uppercase;
+  font-weight: bolder;
 }
 
 .b-booking-nav__main {
   position: relative;
-  padding: 28px 20px 35px 60px;
+  display: flex;
+  align-items: center;
+  padding: 28px 20px 35px 90px;
   border-right: 10px solid;
   background-color: #444;
   height: 105px;

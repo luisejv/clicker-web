@@ -64,7 +64,9 @@ export class CommonService {
   // * Interested in Car
   postFormInterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoCompra';
   addCarToInsterestedUrl: string = this.autoSemiNuevoUrl + '/interesadoVenta';
-  leadPilotUrl: string = this.autoSemiNuevoUrl + '/pilot';
+  // leadPilotUrl: string = this.autoSemiNuevoUrl + '/pilot';
+  leadPilotUrl: string =
+    'https://hook.integromat.com/9ceyv9q9ek3zjhz8f6hs7n7zy1tuj4gt';
 
   // * Ubigeos
   ubigeosUrl: string = this.baseUrl + '/locaciones';

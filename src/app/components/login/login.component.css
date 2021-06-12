@@ -143,3 +143,9 @@
 .registerButton:hover {
   opacity: 0.8;
 }
+
+.inlineButton {
+  position: absolute;
+  right: 10px;
+  top: 17px;
+}

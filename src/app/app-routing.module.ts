@@ -6,6 +6,7 @@ import { CarComplaintComponent } from './components/dashboard/admin/car-complain
 import { CarSaleRegistrationComponent } from './components/dashboard/admin/car-sale-registration/car-sale-registration.component';
 import { CarSponsorComponent } from './components/dashboard/admin/car-sponsor/car-sponsor.component';
 import { CarValidationComponent } from './components/dashboard/admin/car-validation/car-validation.component';
+import { ChangeBannerComponent } from './components/dashboard/admin/change-banner/change-banner.component';
 import { UserValidationComponent } from './components/dashboard/admin/user-validation/user-validation.component';
 import { WithdrawalRequestsComponent } from './components/dashboard/admin/withdrawal-requests/withdrawal-requests.component';
 import { BalanceComponent } from './components/dashboard/balance/balance.component';
@@ -119,6 +120,11 @@ export const routes: Routes = [
       {
         path: 'autos-patrocinados',
         component: CarSponsorComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'cambiar-banner',
+        component: ChangeBannerComponent,
         canActivate: [AdminGuard],
       },
     ],

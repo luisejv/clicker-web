@@ -198,7 +198,7 @@
             <ng-template [ngIf]="registerOption === 'franquicia'">
               <div class="row">
                 <div class="col text-center">
-                  <p>Sección en construcción</p>
+                  <!-- <p>Sección en construcción</p> -->
                 </div>
               </div>
             </ng-template>
@@ -213,26 +213,26 @@
             >
               <div class="row mx-0">
                 <div class="col-6 text-center">
-                  <div class="row align-items-center">
-                    <div class="col-11">
-                      <input
-                        type="text"
-                        class="inputClicker"
-                        placeholder="Primero busca tu DNI"
-                        formControlName="dni"
-                        [OnlyNumber]="true"
-                      />
-                    </div>
+                  <div style="position: relative">
+                    <input
+                      type="text"
+                      class="inputClicker"
+                      placeholder="Primero busca tu DNI"
+                      formControlName="dni"
+                      [OnlyNumber]="true"
+                    />
                     <button
                       type="button"
                       style="outline: none"
+                      class="inlineButton"
                       mat-icon-button
                       (click)="checkDNI()"
-                      class="col-1"
                     >
-                      <mat-icon *ngIf="!fetchingDNI"> search </mat-icon>
+                      <mat-icon *ngIf="!fetchingDNI" style="color: #29abe2">
+                        search
+                      </mat-icon>
                       <mat-spinner
-                        style="cursor: progress"
+                        style="cursor: progress; color: #29abe2"
                         *ngIf="fetchingDNI"
                         diameter="24"
                       >
@@ -315,7 +315,9 @@
                   alt="En Construcción"
                   width="200"
                   height="200"
+                  class="mt-4"
                 />
+                <h2 class="mt-4">Sección en construcción</h2>
               </div>
             </div>
           </ng-template>

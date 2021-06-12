@@ -49,10 +49,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   toJSON(): User {
+    this.registerParticularForm.controls['nombres'].enable();
+    this.registerParticularForm.controls['apellidos'].enable();
     return {
       numDocumento: this.registerParticularForm.value.dni,
-      nombre: this.registerParticularForm.value.nombres,
-      apellidos: this.registerParticularForm.value.apellidos,
+      nombre:
+        this.registerParticularForm.value.nombres +
+        ' ' +
+        this.registerParticularForm.value.apellidos,
       correo: this.registerParticularForm.value.correo,
       password: this.registerParticularForm.value.password,
       rol: 'PARTICULAR',
@@ -70,15 +74,15 @@ export class LoginComponent implements OnInit {
         .subscribe(
           (response) => {
             this.fetchingDNI = false;
-            this.registerParticularForm.controls['nombres'].setValue(
+            this.registerParticularForm.controls['nombres'].patchValue(
               response.nombres
             );
-            this.registerParticularForm.controls['apellidos'].setValue(
+            this.registerParticularForm.controls['apellidos'].patchValue(
               response.apellido_p + ' ' + response.apellido_m
             );
-            this.registerParticularForm.controls['correo'].setValue('');
-            this.registerParticularForm.controls['password'].setValue('');
-            this.registerParticularForm.controls['terms'].setValue(false);
+            this.registerParticularForm.controls['correo'].patchValue('');
+            this.registerParticularForm.controls['password'].patchValue('');
+            this.registerParticularForm.controls['terms'].patchValue(false);
           },
           (error) => {
             console.log(`[ERROR]: Check DNI, ${error}`);
@@ -171,6 +175,7 @@ export class LoginComponent implements OnInit {
     //TODO: añadir spinner
     if (this.registerParticularForm.value.terms === true) {
       const body: User = this.toJSON();
+      console.log(body);
       this.userService.register(body).subscribe(
         (response: User) => {
           Swal.fire({
@@ -187,7 +192,11 @@ export class LoginComponent implements OnInit {
           console.log(`[ERROR]: Register Particular, ${error}`);
           Swal.fire({
             titleText: 'Oops!',
-            html: 'Hubo un error. Intenta nuevamente, por favor.',
+            html: `${
+              error.status == 302
+                ? '¡Ya existe un usuario con esa cuenta!'
+                : 'Hubo un error. Intenta nuevamente, por favor.'
+            }`,
             allowOutsideClick: true,
             icon: 'error',
             showConfirmButton: true,

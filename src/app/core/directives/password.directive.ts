@@ -14,10 +14,10 @@ export class PasswordDirective {
     this._shown = !this._shown;
     if (this._shown) {
       this.el.nativeElement.setAttribute('type', 'text');
-      span.innerHTML = 'Hide password';
+      span.innerHTML = 'Ocultar contraseña';
     } else {
       this.el.nativeElement.setAttribute('type', 'password');
-      span.innerHTML = 'Show password';
+      span.innerHTML = 'Mostrar contraseña';
     }
   }
 
@@ -25,7 +25,7 @@ export class PasswordDirective {
     const parent = this.el.nativeElement.parentNode;
     const span = document.createElement('span');
     span.setAttribute('class', 'password-toggle');
-    span.innerHTML = `Show password`;
+    span.innerHTML = `Mostrar contraseña`;
     span.addEventListener('click', (event) => {
       this.toggle(span);
     });

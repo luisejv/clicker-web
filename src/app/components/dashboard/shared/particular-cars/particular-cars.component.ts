@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CommonService } from 'src/app/core/services/common.service';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
@@ -6,14 +12,13 @@ import { SortType } from 'src/app/core/enums/sort-type.enum';
 @Component({
   selector: 'app-particular-cars',
   templateUrl: './particular-cars.component.html',
-  styleUrls: ['./particular-cars.component.css']
+  styleUrls: ['./particular-cars.component.css'],
 })
 export class ParticularCarsComponent implements OnInit, OnChanges {
-
   @Input() particularPublishedView!: boolean;
   @Input() name!: string;
   @Input() carros!: AutoSemiNuevo[];
-  filteredCarros: AutoSemiNuevo[] = []; 
+  filteredCarros: AutoSemiNuevo[] = [];
 
   // * pages
   pgCnt: number = 0;
@@ -25,34 +30,28 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
   list: boolean;
   len: number = 0;
 
-  constructor(
-    private commonService: CommonService,
-  ) {
+  constructor(private commonService: CommonService) {
     if (this.commonService.screenWidth <= 1060) {
-      this.list = false
+      this.list = false;
     } else {
       this.list = true;
     }
 
-    this.commonService.changeLayoutEvent.subscribe(
-      () => {
-        this.changeGridView('grid');
-      }
-    );
+    this.commonService.changeLayoutEvent.subscribe(() => {
+      this.changeGridView('grid');
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes occureed: ', changes);
     console.log(this.carros);
     if (changes.carros && this.carros && this.carros.length > 0) {
-      console.log('carajo');
       this.filteredCarros = this.carros;
       this.len = this.filteredCarros.length;
     }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   changeGridView(type: string): void {
     this.list = type == 'list';
@@ -86,31 +85,23 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
   private filterCars(byPrice: boolean, ascending: boolean) {
     if (byPrice) {
       if (ascending) {
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return a.precioVenta - b.precioVenta;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return a.precioVenta - b.precioVenta;
+        });
       } else {
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return b.precioVenta - a.precioVenta;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return b.precioVenta - a.precioVenta;
+        });
       }
     } else {
       if (ascending) {
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return a.anoFabricacion - b.anoFabricacion;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return a.anoFabricacion - b.anoFabricacion;
+        });
       } else {
-        this.filteredCarros.sort(
-          (a: AutoSemiNuevo, b: AutoSemiNuevo) => {
-            return b.anoFabricacion - a.anoFabricacion;
-          }
-        );
+        this.filteredCarros.sort((a: AutoSemiNuevo, b: AutoSemiNuevo) => {
+          return b.anoFabricacion - a.anoFabricacion;
+        });
       }
     }
   }
@@ -143,7 +134,6 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
         console.warn('unknown sort type');
       }
     }
-
   }
 
   goToPage(pageId: number): void {
@@ -151,5 +141,4 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
     //FIXME: este scrollTo da chongos en la vista de iPad
     window.scrollTo(0, 0);
   }
-
 }

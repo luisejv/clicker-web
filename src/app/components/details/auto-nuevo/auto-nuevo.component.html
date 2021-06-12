@@ -377,9 +377,9 @@
                   <span class="widget-title__inner" *ngIf="!isAdmin"
                     >¿Deseas este auto?</span
                   >
-                  <span class="widget-title__inner" *ngIf="isAdmin"
+                  <!-- <span class="widget-title__inner" *ngIf="isAdmin"
                     >¿Patrocinar este auto?</span
-                  >
+                  > -->
                 </ng-template>
               </h3>
               <div class="widget-content">
@@ -395,6 +395,18 @@
                           placeholder="DNI"
                         />
                       </div>
+                      <mat-error
+                        *ngIf="
+                          contactFormGroup.touched &&
+                          contactFormGroup.get('dni')?.errors?.required
+                        "
+                        >Este campo es obligatorio.</mat-error
+                      >
+                      <mat-error
+                        *ngIf="contactFormGroup.get('dni')?.errors?.pattern"
+                      >
+                        Debe ingresar un DNI válido.
+                      </mat-error>
                       <div class="form-group">
                         <input
                           class="form-control"
@@ -402,6 +414,13 @@
                           formControlName="nombres"
                           placeholder="Nombres"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('nombres')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
                       </div>
                       <div class="form-group">
                         <input
@@ -410,6 +429,13 @@
                           formControlName="apellidos"
                           placeholder="Apellidos"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('apellidos')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
                       </div>
                       <div class="form-group">
                         <input
@@ -418,6 +444,20 @@
                           formControlName="telefono"
                           placeholder="Teléfono"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('telefono')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.get('telefono')?.errors?.pattern
+                          "
+                        >
+                          Debe ingresar un celular válido.
+                        </mat-error>
                       </div>
                       <div class="form-group">
                         <input
@@ -426,6 +466,18 @@
                           formControlName="correo"
                           placeholder="Email"
                         />
+                        <mat-error
+                          *ngIf="
+                            contactFormGroup.touched &&
+                            contactFormGroup.get('correo')?.errors?.required
+                          "
+                          >Este campo es obligatorio.</mat-error
+                        >
+                        <mat-error
+                          *ngIf="contactFormGroup.get('correo')?.errors?.email"
+                        >
+                          Debe ingresar un email válido.
+                        </mat-error>
                       </div>
                       <div class="form-group">
                         <textarea
@@ -437,15 +489,32 @@
                       </div>
                       <button
                         class="btn btn-secondary w-100"
+                        [disabled]="contactFormGroup.invalid"
                         (click)="submitForm()"
                       >
-                        Contactar
+                        <span *ngIf="!sendingContactForm">Contactar</span>
+                        <div
+                          *ngIf="sendingContactForm"
+                          class="
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                          "
+                        >
+                          <mat-spinner diameter="22"></mat-spinner>
+                        </div>
                       </button>
                     </form>
                   </div>
                   <ng-template #enviar>
                     <button class="btn btn-secondary w-100" (click)="contact()">
-                      Contactar
+                      <span *ngIf="!sendingContactForm">Contactar</span>
+                      <div
+                        *ngIf="sendingContactForm"
+                        class="d-flex justify-content-center align-items-center"
+                      >
+                        <mat-spinner diameter="22"></mat-spinner>
+                      </div>
                     </button>
                   </ng-template>
                 </div>
