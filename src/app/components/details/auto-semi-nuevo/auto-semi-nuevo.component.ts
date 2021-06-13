@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
+import { Accesorio } from 'src/app/core/interfaces/accesorio';
 import {
   AutoSemiNuevo,
   SponsoredCar,
@@ -25,6 +26,7 @@ export class AutoSemiNuevoComponent implements OnInit {
   @ViewChild('') slide1!: ElementRef;
   @ViewChild('') slide2!: ElementRef;
   auto!: AutoSemiNuevo;
+  tiposAccesorios!: string[];
   loading: boolean = true;
   logged: boolean = false;
   isRemax: boolean = false;
@@ -73,6 +75,14 @@ export class AutoSemiNuevoComponent implements OnInit {
     });
   }
 
+  getAccesoriosOfTipo(tipo: string): Accesorio[] {
+    return this.auto.accesorios!.filter((a: Accesorio) => a.tipo === tipo);
+  }
+
+  unique(value: string, idx: number, self: any) {
+    return self.indexOf(value) === idx;
+  }
+
   ngOnInit(): void {
     this.loading = true;
     this.loaderService.setIsLoading(true);
@@ -87,6 +97,9 @@ export class AutoSemiNuevoComponent implements OnInit {
             console.dir(response);
             console.groupEnd();
             this.auto = response;
+            this.tiposAccesorios = this.auto
+              .accesorios!.map((a: Accesorio) => a.tipo)
+              .filter(this.unique);
             this.auto.fotos?.unshift(this.auto.fotoPrincipal);
           },
           (error: any) => {

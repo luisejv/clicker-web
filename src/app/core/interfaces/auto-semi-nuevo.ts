@@ -1,3 +1,4 @@
+import { Accesorio } from './accesorio';
 import { Denuncia } from './denuncia';
 import { User } from './user';
 
@@ -33,7 +34,7 @@ export interface AutoSemiNuevo {
   video?: string;
   fotoPrincipal: string;
   fotos?: string[];
-  accesorios?: string[];
+  accesorios?: Accesorio[];
   locacion?: string;
   descripcion?: string;
   denuncias?: Denuncia[];

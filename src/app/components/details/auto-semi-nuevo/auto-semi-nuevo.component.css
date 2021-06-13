@@ -3,3 +3,11 @@
 .mat-spinner::ng-deep circle {
   stroke: var(--lightgrey);
 }
+
+.check-icon {
+  color: var(--primary);
+}
+
+li {
+  list-style: none;
+}

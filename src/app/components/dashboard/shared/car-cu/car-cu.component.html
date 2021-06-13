@@ -85,6 +85,23 @@
             <div class="b-booking-nav__header">Paso 4</div>
             <div class="b-booking-nav__main">
               <img
+                src="assets/media/general/register/tecnicos.svg"
+                height="40"
+                width="40"
+                alt=""
+                class="ic"
+              />
+              <!-- <i class="ic far fa-calendar"></i> -->
+              <span class="b-booking-nav__title">Accesorios</span>
+            </div></a
+          ><a
+            class="b-booking-nav__item"
+            (click)="changeStep(5)"
+            [ngClass]="{ active: step5 }"
+          >
+            <div class="b-booking-nav__header">Paso 5</div>
+            <div class="b-booking-nav__main">
+              <img
                 src="assets/media/general/register/fotos.svg"
                 height="40"
                 width="40"
@@ -96,10 +113,10 @@
             </div></a
           ><a
             class="b-booking-nav__item"
-            (click)="changeStep(5)"
-            [ngClass]="{ active: step5 }"
+            (click)="changeStep(6)"
+            [ngClass]="{ active: step6 }"
           >
-            <div class="b-booking-nav__header">Paso 5</div>
+            <div class="b-booking-nav__header">Paso 6</div>
             <div class="b-booking-nav__main">
               <img
                 src="assets/media/general/register/tyc.svg"
@@ -458,6 +475,59 @@
             </div>
           </div>
           <div [hidden]="!step4">
+            <h2>Agrega los accesorios de tu vehículo</h2>
+            <div class="container my-3">
+              <!-- {{ accesorios | json }}
+              <hr />
+              {{ formGroup.value | json }}
+              <hr /> -->
+              <div class="container">
+                <div class="row">
+                  <div
+                    *ngFor="let tipo of tiposAccesorios"
+                    class="col-lg-4 col-md-6 col-sm-12"
+                  >
+                    <h3>{{ tipo }}</h3>
+                    <ul>
+                      <li *ngFor="let accesorio of getAccesoriosOfTipo(tipo)">
+                        <mat-checkbox
+                          color="primary"
+                          [(ngModel)]="accesorio.selected"
+                          [ngModelOptions]="{ standalone: true }"
+                        >
+                          {{ accesorio.nombre }}
+                        </mat-checkbox>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-error *ngIf="formGroup.get('accesorios')?.errors?.required">
+                Este campo es obligatorio.
+              </mat-error>
+            </div>
+            <div class="container mt-2 py-3">
+              <div class="row justify-content-around">
+                <button
+                  mat-raised-button
+                  color="none"
+                  type="button"
+                  (click)="changeStep(3)"
+                >
+                  Anterior
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="changeStep(5)"
+                >
+                  Continuar
+                </button>
+              </div>
+            </div>
+          </div>
+          <div [hidden]="!step5">
             <h2>Sube las fotos de tu vehículo</h2>
             <p>
               Agrega tus fotos aquí,
@@ -531,7 +601,7 @@
                   mat-raised-button
                   color="none"
                   type="button"
-                  (click)="changeStep(3)"
+                  (click)="changeStep(4)"
                 >
                   Anterior
                 </button>
@@ -539,14 +609,14 @@
                   mat-raised-button
                   color="primary"
                   type="button"
-                  (click)="changeStep(5)"
+                  (click)="changeStep(6)"
                 >
                   Continuar
                 </button>
               </div>
             </div>
           </div>
-          <div [hidden]="!step5">
+          <div [hidden]="!step6">
             <div class="container mt-2 py-3">
               <div class="row">
                 <h2>Términos y Condiciones del servicio</h2>

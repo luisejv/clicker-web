@@ -139,4 +139,10 @@ export class UserService {
   public postIncidence(body: Incidence): Observable<any> {
     return this.http.post(this.commonService.postIncidenceUrl, body);
   }
+
+  // * Accesorios
+
+  public getAccesorios(): Observable<any> {
+    return this.http.get(this.commonService.accesoriosUrl);
+  }
 }

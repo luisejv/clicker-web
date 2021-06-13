@@ -1,4 +1,8 @@
-@import url(../../../../../assets/css/color.css);
+@import url("../../../../../assets/css/color.css");
+
+li {
+  list-style: none;
+}
 
 .example-list {
   /* width: 1002px; */

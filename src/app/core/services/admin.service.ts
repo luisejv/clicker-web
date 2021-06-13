@@ -65,4 +65,12 @@ export class AdminService {
   public addCarToSponsored(body: SponsoredCar): Observable<any> {
     return this.http.post(this.commonService.sponsoredCarsUrl, body);
   }
+
+  public getBanner(): Observable<any> {
+    return this.http.get(this.commonService.bannerUrl);
+  }
+
+  public postBanner(formData: FormData): Observable<any> {
+    return this.http.post(this.commonService.bannerUrl, formData);
+  }
 }

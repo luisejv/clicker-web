@@ -85,6 +85,12 @@ export class CommonService {
   getSolicitudesRetiroUrl: string = this.adminUrl + '/Retiros';
   putSolicitudesRetiroUrl: string = this.adminUrl + '/Retiros';
 
+  // * Banner
+  bannerUrl: string = this.baseUrl + '/fotoBanner';
+
+  // * Accesorio
+  accesoriosUrl: string = this.baseUrl + '/accesorio';
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;

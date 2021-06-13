@@ -273,7 +273,7 @@
                 >Accesorios</a
               >
             </li>
-            <!-- TODO: habilitar solo para remax -->
+            <!-- TODO: manos a la obra -->
             <!-- isLoggedIn && !isAdmin -->
             <!-- <li *ngIf="isRemax" class="nav-item">
               <a
@@ -333,13 +333,39 @@
               role="tabpanel"
               aria-labelledby="features-tab"
             >
-              <p>
-                Edipisicing eiusmod tempor incididunt labore sed dolore magna
-                aliqa enim ipsum ad minim veniams quis nostrud citation ullam
-                laboris nisi ut aliquip laboris nisi ut aliquip ex ea commodo.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
+              <div class="container">
+                <div class="row">
+                  <div
+                    *ngFor="let tipo of tiposAccesorios"
+                    class="col-lg-4 col-md-6 col-sm-12"
+                  >
+                    <h3>{{ tipo }}</h3>
+                    <ul>
+                      <li *ngFor="let accesorio of getAccesoriosOfTipo(tipo)">
+                        <div
+                          class="
+                            d-flex
+                            justify-content-start
+                            align-items-center
+                          "
+                        >
+                          <mat-icon class="my-1 mr-2 check-icon"
+                            >check_circle</mat-icon
+                          >
+                          <span class="my-1">{{ accesorio.nombre }}</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <li *ngFor="let accesorio of auto.accesorios">
+                <div class="d-flex justify-content-start align-items-center">
+                  <mat-icon class="my-1 mr-2 check-icon">check_circle</mat-icon>
+                  <span class="my-1">{{ accesorio.nombre }}</span>
+                </div>
+              </li> -->
             </div>
             <div
               *ngIf="isRemax"

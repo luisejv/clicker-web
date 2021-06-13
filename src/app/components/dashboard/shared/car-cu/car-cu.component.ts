@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
@@ -11,6 +16,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClientService } from 'src/app/core/services/client.service';
+import { Accesorio } from 'src/app/core/interfaces/accesorio';
 
 export interface Fotos {
   foto?: FileList;
@@ -36,6 +42,8 @@ export class CarCuComponent implements OnInit {
   ) => void;
 
   formGroup: FormGroup;
+  accesorios!: Accesorio[];
+  tiposAccesorios!: string[];
   carId: number = -1;
   fotoPrincipal!: File;
   fotos: Fotos[] = [{}];
@@ -51,6 +59,7 @@ export class CarCuComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   step5: boolean = false;
+  step6: boolean = false;
   imgFile!: string;
   dniTries: number = 0;
   placaTries: number = 0;
@@ -124,9 +133,14 @@ export class CarCuComponent implements OnInit {
     this.formGroup.controls['modelo'].disable();
   }
 
+  unique(value: string, idx: number, self: any) {
+    return self.indexOf(value) === idx;
+  }
+
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
     if (this.update || this.role === RolesEnum.ADMIN) {
+      // TODO: get de accesorios
       this.route.params.subscribe((params) => {
         if (params['id']) {
           this.userService.getAutoSemiNuevoById(params['id']).subscribe(
@@ -198,6 +212,42 @@ export class CarCuComponent implements OnInit {
               }
               this.title = 'Actualiza tu Auto';
               this.carId = params['id'];
+
+              this.userService.getAccesorios().subscribe(
+                (accesorios: Accesorio[]) => {
+                  console.group('Accesorios');
+
+                  this.tiposAccesorios = accesorios
+                    .map((a: Accesorio) => a.tipo)
+                    .filter(this.unique);
+
+                  console.log(this.tiposAccesorios);
+
+                  this.accesorios = accesorios.map((accesorio: Accesorio) => {
+                    res.accesorios?.forEach((a: Accesorio) => {
+                      if (accesorio.nombre === a.nombre) {
+                        accesorio.selected = true;
+                      }
+                    });
+
+                    if (accesorio.selected === true) {
+                      return accesorio;
+                    } else {
+                      accesorio.selected = false;
+                      return accesorio;
+                    }
+                  });
+                  this.formGroup.addControl(
+                    'accesorios',
+                    new FormControl(this.accesorios, Validators.required)
+                  );
+                  console.log(this.accesorios);
+                  console.groupEnd();
+                },
+                (err: any) => {
+                  console.error('fetching accesorios: ', { err });
+                }
+              );
             },
             (error: any) => {
               console.group('error fetching autoseminuevo por id');
@@ -231,6 +281,31 @@ export class CarCuComponent implements OnInit {
             response.numTelefono
           );
         });
+      this.userService.getAccesorios().subscribe(
+        (accesorios: Accesorio[]) => {
+          console.group('Accesorios');
+          this.accesorios = accesorios.map((accesorio: Accesorio) => {
+            accesorio.selected = false;
+            return accesorio;
+          });
+
+          this.tiposAccesorios = accesorios
+            .map((a: Accesorio) => a.tipo)
+            .filter(this.unique);
+
+          console.log(this.tiposAccesorios);
+
+          this.formGroup.addControl(
+            'accesorios',
+            new FormControl(this.accesorios, Validators.required)
+          );
+          console.log(this.accesorios);
+          console.groupEnd();
+        },
+        (err: any) => {
+          console.error('fetching accesorios: ', { err });
+        }
+      );
     }
   }
 
@@ -257,12 +332,17 @@ export class CarCuComponent implements OnInit {
     }
   }
 
+  getAccesoriosOfTipo(tipo: string): Accesorio[] {
+    return this.accesorios.filter((a: Accesorio) => a.tipo === tipo);
+  }
+
   changeStep(id: number) {
     this.step1 = id === 1;
     this.step2 = id === 2;
     this.step3 = id === 3;
     this.step4 = id === 4;
     this.step5 = id === 5;
+    this.step6 = id === 6;
   }
 
   checkPlaca(): void {
@@ -398,7 +478,13 @@ export class CarCuComponent implements OnInit {
       precioVenta: this.formGroup.value.precioVenta,
       fotoPrincipal: '',
       fotos: [],
-      accesorios: [],
+      accesorios: this.formGroup.value.accesorios
+        .filter((a: Accesorio) => a.selected)
+        .map((a: Accesorio) => {
+          return {
+            id: a.id,
+          };
+        }),
       locacion: 'Lima',
     };
     if (this.create) {

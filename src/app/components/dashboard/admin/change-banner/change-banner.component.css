@@ -1,0 +1,98 @@
+@import url("../../../../../assets/css/color.css");
+
+.total-container {
+  overflow: scroll;
+}
+
+.banner-container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 2fr 1fr;
+  padding: 15px;
+}
+
+@media screen and (max-width: 1000px) {
+  .banner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .banner-grid-item-1 {
+    display: flex;
+    order: 2;
+    justify-content: center;
+    align-items: center;
+  }
+  .banner-grid-item-2 {
+    margin-top: 10px;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .banner-img {
+    max-width: 100%;
+  }
+}
+
+input[type="file"] {
+  background-color: var(--lightgrey);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.banner-button {
+  margin-top: 20px;
+  outline: none;
+  width: 100%;
+  max-width: 25%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-input {
+  margin-top: 10px;
+}
+
+.banner-button:hover {
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--lightgrey);
+  color: gray;
+}
+
+.banner-grid-item-1 {
+  grid-column: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-grid-item-2 {
+  margin-top: 45px;
+  grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.banner-img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  max-width: 80%;
+}

@@ -1,1 +1,42 @@
-<p>change-banner works!</p>
+<div class="total-container">
+  <div class="section-title-page area-bg area-bg_dark area-bg_op_60 mt-0">
+    <div class="area-bg__inner">
+      <div class="container text-center">
+        <h1 class="b-title-page">Banner</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a routerLink="dashboard">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Banner</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="banner-container">
+    <div class="banner-grid-item-1">
+      <img class="banner-img" [src]="bannerUrl" alt="Banner Foto" />
+    </div>
+    <div class="banner-grid-item-2">
+      <h2>Cambiar Banner</h2>
+
+      <input
+        #bannerInput
+        class="banner-input"
+        type="file"
+        (change)="selectBanner($event)"
+        accept="image/*"
+      />
+      <button
+        class="banner-button"
+        type="button"
+        [disabled]="!bannerSelected"
+        (click)="uploadBanner()"
+      >
+        <span *ngIf="!uploadingBanner">Subir</span>
+        <mat-spinner *ngIf="uploadingBanner" diameter="15"></mat-spinner>
+      </button>
+    </div>
+  </div>
+</div>

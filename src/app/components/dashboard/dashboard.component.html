@@ -42,9 +42,10 @@
           >
           </app-sidebar> -->
         <!-- Remax options -->
+        <!-- *ngIf="isRemax || isUser; else admin" -->
         <ul
           class="list-group py-5 sideops-container pl-0"
-          *ngIf="isRemax || isUser; else admin"
+          *ngIf="isRemax || isUser"
         >
           <li
             class="
