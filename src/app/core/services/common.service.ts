@@ -91,6 +91,9 @@ export class CommonService {
   // * Accesorio
   accesoriosUrl: string = this.baseUrl + '/accesorio';
 
+  // * Revalidate email
+  revalidateEmailUrl: string = this.userUrl + '/revalidate';
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenHeight = window.innerHeight;

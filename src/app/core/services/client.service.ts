@@ -47,4 +47,7 @@ export class ClientService {
   public getDNIDetails(dni: string): Observable<any> {
     return this.http.get(this.commonService.getDNIDetailsUrl + `/${dni}`);
   }
+  public resendEmail(id: number): Observable<any> {
+    return this.http.get(this.commonService.revalidateEmailUrl + `/${id}`);
+  }
 }

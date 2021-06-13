@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!validated">
+<div class="container mt-4" *ngIf="!validated">
   <img
     src="assets/media/general/V_M_mail.svg"
     class="img-fluid h-25 w-25 my-5 pt-5"
@@ -7,6 +7,10 @@
   <p>Hazle click al link que ha llegado a tu bandeja de entrada:</p>
   <h2 class="email">{{ correo }}</h2>
   <p>para verificar tu cuenta.</p>
+  <p>
+    ¿No te llegó el correo? Haz click
+    <span class="resend-email" (click)="resendEmail()">aquí.</span>
+  </p>
   <button class="confirm-button" (click)="goBack()"><span>OK</span></button>
   <div class="regresar" (click)="goBack()">
     <mat-icon>keyboard_arrow_up</mat-icon>

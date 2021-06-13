@@ -60,7 +60,7 @@ export class CarRegistrationComponent implements OnInit {
       // console.log(body);
       // console.groupEnd();
       const formData = new FormData();
-      fotos.forEach((foto, idx) => {
+      fotos.forEach((foto: Fotos, idx: number) => {
         if (idx == 0) {
           formData.append('fotoPrincipal', foto.foto![0], foto.foto![0].name);
         } else {

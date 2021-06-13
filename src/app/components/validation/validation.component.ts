@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
@@ -11,17 +13,20 @@ import Swal from 'sweetalert2';
   styleUrls: ['./validation.component.css'],
 })
 export class ValidationComponent implements OnInit {
+  id!: number;
   encryptedId!: string;
   correo: string;
   validated: boolean = false;
 
   constructor(
     private userService: UserService,
+    private clientService: ClientService,
     private router: Router,
     private storageService: StorageService,
     private location: Location
   ) {
     this.correo = this.storageService.getEmailLocalStorage()!;
+    this.id = this.storageService.getIdLocalStorage()!;
   }
 
   ngOnInit(): void {
@@ -57,6 +62,33 @@ export class ValidationComponent implements OnInit {
         }
       );
     }
+  }
+
+  resendEmail(): void {
+    console.log('resend email');
+
+    this.clientService.resendEmail(this.id).subscribe(
+      (res: any) => {
+        console.group('Resend email response');
+        console.log(res);
+        console.groupEnd();
+        Swal.fire({
+          icon: 'success',
+          title: '¡Reenviado!',
+          html: 'Revisa tu correo y no olvides revisar SPAM.',
+        });
+      },
+      (err: HttpErrorResponse) => {
+        console.group('Resend email error');
+        console.log(err);
+        console.groupEnd();
+        Swal.fire({
+          icon: 'error',
+          title: 'Ocurió un error!',
+          html: 'Inténtalo de nuevo más tarde.',
+        });
+      }
+    );
   }
 
   goBack(): void {

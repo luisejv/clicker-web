@@ -9,9 +9,19 @@
   text-align: center;
 }
 
+.resend-email {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.resend-email:hover {
+  filter: brightness(1.3);
+}
+
 .email {
   color: var(--primary);
   font-weight: 350;
+  margin-bottom: 25px;
 }
 
 .confirm-button {

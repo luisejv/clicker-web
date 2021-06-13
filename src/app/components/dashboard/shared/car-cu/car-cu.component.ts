@@ -34,7 +34,7 @@ export class CarCuComponent implements OnInit {
   @Input() update: boolean = false;
   @Input() title!: string;
   @Input() submitButtonText!: string;
-  @Input() updateAction!: (auto: AutoSemiNuevo) => void;
+  @Input() updateAction!: (auto: AutoSemiNuevo, fotos: Fotos[]) => void;
   @Input() createAction!: (
     body: AutoSemiNuevo,
     fotos: Fotos[],
@@ -206,6 +206,10 @@ export class CarCuComponent implements OnInit {
                   [Validators.required, Validators.min(1), Validators.max(16)],
                 ],
                 precioVenta: res.precioVenta,
+                accesorios: [],
+                terms: '',
+                privacy: '',
+                descripcion: [''],
               });
               if ('fotos' in res) {
                 this.fotos = res.fotos!.map((foto) => ({ src: foto }));
@@ -237,10 +241,7 @@ export class CarCuComponent implements OnInit {
                       return accesorio;
                     }
                   });
-                  this.formGroup.addControl(
-                    'accesorios',
-                    new FormControl(this.accesorios, Validators.required)
-                  );
+                  this.formGroup.get('accesorios')?.setValue(this.accesorios);
                   console.log(this.accesorios);
                   console.groupEnd();
                 },
@@ -523,7 +524,11 @@ export class CarCuComponent implements OnInit {
   }
 
   updateActionWrapper(): void {
-    this.updateAction(this.toJSON());
+    this.fotos = this.fotos.filter((foto) => {
+      return foto.foto;
+    });
+    console.log('fotos: ', this.fotos);
+    this.updateAction(this.toJSON(), this.fotos);
   }
 
   createActionWrapper(): void {
@@ -531,7 +536,7 @@ export class CarCuComponent implements OnInit {
       this.formGroup.value.terms === true &&
       this.formGroup.value.privacy === true
     ) {
-      this.fotos = this.fotos.filter((foto, idx) => {
+      this.fotos = this.fotos.filter((foto) => {
         return foto.foto;
       });
       this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);

@@ -47,8 +47,8 @@ export class UserService {
 
   // * Car Put
 
-  public putAutoSemiNuevo(body: AutoSemiNuevo): Observable<any> {
-    return this.http.put(this.commonService.autoSemiNuevoUrl, body);
+  public putAutoSemiNuevo(formData: FormData): Observable<any> {
+    return this.http.put(this.commonService.autoSemiNuevoUrl, formData);
   }
 
   // * Car Getters
