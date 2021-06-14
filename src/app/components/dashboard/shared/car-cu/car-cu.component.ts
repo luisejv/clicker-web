@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Accesorio } from 'src/app/core/interfaces/accesorio';
+import { String } from 'aws-sdk/clients/appstream';
 
 export interface Fotos {
   foto?: FileList;
@@ -34,7 +35,12 @@ export class CarCuComponent implements OnInit {
   @Input() update: boolean = false;
   @Input() title!: string;
   @Input() submitButtonText!: string;
-  @Input() updateAction!: (auto: AutoSemiNuevo, fotos: Fotos[]) => void;
+  @Input() updateAction!: (
+    auto: AutoSemiNuevo,
+    fotos: Fotos[],
+    shouldUpdateFotoPrincipal: boolean,
+    fotoPrincipal?: FileList
+  ) => void;
   @Input() createAction!: (
     body: AutoSemiNuevo,
     fotos: Fotos[],
@@ -44,9 +50,11 @@ export class CarCuComponent implements OnInit {
   formGroup: FormGroup;
   accesorios!: Accesorio[];
   tiposAccesorios!: string[];
+  fotoPrincipalChanged: boolean = false;
   carId: number = -1;
-  fotoPrincipal!: File;
-  fotos: Fotos[] = [{}];
+  fotoPrincipal!: FileList | string;
+  aux!: string;
+  fotos: Fotos[] = [];
   uploadedPhotos = new EventEmitter<string>();
   validatedPlaca: boolean = false;
   role: string | null;
@@ -96,8 +104,8 @@ export class CarCuComponent implements OnInit {
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
       serie: [''],
-      marca: ['', [Validators.required]],
-      modelo: ['', [Validators.required]],
+      marca: [null, [Validators.required]],
+      modelo: [null, [Validators.required]],
       anoFabricacion: [
         '2018',
         [
@@ -140,7 +148,6 @@ export class CarCuComponent implements OnInit {
   ngOnInit(): void {
     this.loaderService.setIsLoading(true);
     if (this.update || this.role === RolesEnum.ADMIN) {
-      // TODO: get de accesorios
       this.route.params.subscribe((params) => {
         if (params['id']) {
           this.userService.getAutoSemiNuevoById(params['id']).subscribe(
@@ -153,14 +160,14 @@ export class CarCuComponent implements OnInit {
                 // el sapaso (que no es admin ni superadmin) esta tratando de editar un carro que no es suyo
                 // this.router.navigate(['/sapos-al-agua']);
                 console.log(
-                  'sapaso, ese no es tu carro, porq lo quieres editar'
+                  'sapaso, ese no es tu carro, porq lo quieres editar?'
                 );
                 this.router.navigate(['/home']);
                 return;
               }
 
               console.group('autoseminuevo por id');
-              console.dir(res);
+              console.log(res);
               console.groupEnd();
 
               this.formGroup = this.fb.group({
@@ -211,8 +218,16 @@ export class CarCuComponent implements OnInit {
                 privacy: '',
                 descripcion: [''],
               });
-              if ('fotos' in res) {
-                this.fotos = res.fotos!.map((foto) => ({ src: foto }));
+              if (res.fotoPrincipal) {
+                this.fotoPrincipal = res.fotoPrincipal;
+                // @ts-ignore
+                this.aux = this.fotoPrincipal as string;
+                this.fotos.push({ src: res.fotoPrincipal });
+              }
+              if (res.fotos!.length > 0) {
+                res.fotos!.forEach((foto: string) => {
+                  this.fotos.push({ src: foto });
+                });
               }
               this.title = 'Actualiza tu Auto';
               this.carId = params['id'];
@@ -272,6 +287,7 @@ export class CarCuComponent implements OnInit {
         console.groupEnd();
       });
     } else {
+      this.fotos.push({});
       this.userService
         .getUser(this.storageService.getEmailLocalStorage()!)
         .subscribe((response) => {
@@ -298,7 +314,7 @@ export class CarCuComponent implements OnInit {
 
           this.formGroup.addControl(
             'accesorios',
-            new FormControl(this.accesorios, Validators.required)
+            new FormControl(this.accesorios)
           );
           console.log(this.accesorios);
           console.groupEnd();
@@ -318,6 +334,10 @@ export class CarCuComponent implements OnInit {
       this.fotos[idx].foto = e.target.files;
       reader.readAsDataURL(file);
 
+      if (idx === 0) {
+        this.fotoPrincipalChanged = true;
+      }
+
       reader.onload = () => {
         this.fotos[idx].src = reader.result as string;
       };
@@ -331,6 +351,7 @@ export class CarCuComponent implements OnInit {
         this.addPhoto();
       }
     }
+    console.log(this.fotos);
   }
 
   getAccesoriosOfTipo(tipo: string): Accesorio[] {
@@ -454,6 +475,26 @@ export class CarCuComponent implements OnInit {
     this.formGroup.controls['marca'].enable();
     this.formGroup.controls['modelo'].enable();
     this.formGroup.controls['nombreDueno'].enable();
+
+    // las fotos que sobran (sin la primera que es la principal)
+    // tmb las que tengan solo 'src' serán los strings de DO
+    let carFotos: string[] = this.fotos
+      .slice(1)
+      .filter((foto: Fotos) => foto.src && foto.foto === undefined)
+      .map((foto: Fotos) => foto.src) as string[];
+    console.group('Fotos Sin Cambios');
+    console.log(carFotos);
+    console.groupEnd();
+    console.group('Fotos Nuevas');
+    console.log(this.fotos.slice(1).filter((foto: Fotos) => foto.foto));
+    console.groupEnd();
+    console.group('Foto Principal Anterior');
+    console.log(this.aux);
+    console.groupEnd();
+    console.group('Foto Principal Actual');
+    console.log(typeof this.fotoPrincipal);
+    console.log(this.fotoPrincipal);
+    console.groupEnd();
     const body: AutoSemiNuevo = {
       id: this.formGroup.value.id,
       usuario: {
@@ -477,8 +518,12 @@ export class CarCuComponent implements OnInit {
       color: this.formGroup.value.color,
       numeroCilindros: this.formGroup.value.numeroCilindros,
       precioVenta: this.formGroup.value.precioVenta,
-      fotoPrincipal: '',
-      fotos: [],
+      fotoPrincipal: this.create
+        ? ''
+        : this.fotoPrincipalChanged && typeof this.fotoPrincipal === 'string'
+        ? this.fotoPrincipal
+        : (this.aux as string),
+      fotos: carFotos ? (carFotos as string[]) : [],
       accesorios: this.formGroup.value.accesorios
         .filter((a: Accesorio) => a.selected)
         .map((a: Accesorio) => {
@@ -491,7 +536,9 @@ export class CarCuComponent implements OnInit {
     if (this.create) {
       delete body.id;
     }
+    console.group('Auto Semi Nuevo');
     console.log(body);
+    console.groupEnd();
     return body;
   }
 
@@ -502,33 +549,68 @@ export class CarCuComponent implements OnInit {
   }
 
   submitActionWrapper(): void {
-    // if (this.formGroup.invalid) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title:
-    //       'Algunos campos fueron ingresados incorrectamente. Por favor, corrígelos.',
-    //   });
-    //   return;
-    // }
-    if (this.create) {
-      this.createActionWrapper();
-      return;
-    }
-    if (this.update) {
-      this.updateActionWrapper();
+    this.formGroup.controls['nombreDueno'].enable();
+    this.formGroup.controls['serie'].enable();
+    this.formGroup.controls['marca'].enable();
+    this.formGroup.controls['modelo'].enable();
+
+    if (this.formGroup.invalid || Object.keys(this.fotos[0]).length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: '¡Formulario inválido!',
+        html: `Revisa si faltan campos o llenaste uno mal. ${
+          Object.keys(this.fotos[0]).length === 0
+            ? 'Por ejemplo: debe haber al menos una foto.'
+            : ''
+        }`,
+      });
+    } else {
+      if (this.create) {
+        this.createActionWrapper();
+        return;
+      }
+      if (this.update) {
+        this.updateActionWrapper();
+      }
     }
   }
 
   removePhoto(i: number) {
+    if (i === 0) {
+      this.fotoPrincipalChanged = true;
+    }
     this.fotos.splice(i, 1);
   }
 
   updateActionWrapper(): void {
-    this.fotos = this.fotos.filter((foto) => {
-      return foto.foto;
-    });
-    console.log('fotos: ', this.fotos);
-    this.updateAction(this.toJSON(), this.fotos);
+    console.log('typeof foto principal: ', typeof this.fotoPrincipal);
+
+    // seteo la foto principal como la primera foto que se ha seleccionado
+    // ya sea una nueva que el usuario acaba de subir, o un string de DO
+    this.fotoPrincipal =
+      this.fotos.length > 0
+        ? this.fotos[0].foto
+          ? (this.fotos[0].foto as FileList)
+          : (this.fotos[0].src as string)
+        : String('');
+
+    // foto principal cambió pero es un archivo
+    if (this.fotoPrincipalChanged && typeof this.fotoPrincipal === 'object') {
+      console.log(this.fotoPrincipal);
+      this.updateAction(
+        this.toJSON(),
+        [...this.fotos.slice(1)],
+        true,
+        this.fotoPrincipal
+      );
+      // foto pricipal cambió o no, pero el caso de que sí, ya está manejado en el toJSON
+    } else {
+      if (this.fotoPrincipalChanged) {
+        this.updateAction(this.toJSON(), this.fotos.splice(1), false);
+      } else {
+        this.updateAction(this.toJSON(), [...this.fotos], false);
+      }
+    }
   }
 
   createActionWrapper(): void {
@@ -536,9 +618,6 @@ export class CarCuComponent implements OnInit {
       this.formGroup.value.terms === true &&
       this.formGroup.value.privacy === true
     ) {
-      this.fotos = this.fotos.filter((foto) => {
-        return foto.foto;
-      });
       this.createAction(this.toJSON(), this.fotos, this.uploadedPhotos);
     } else {
       Swal.fire({

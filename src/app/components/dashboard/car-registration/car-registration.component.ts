@@ -29,6 +29,11 @@ export class CarRegistrationComponent implements OnInit {
     uploadedPhotos: EventEmitter<string>
   ): void {
     let cont = 0;
+
+    fotos = fotos.filter((foto) => {
+      return foto.foto;
+    });
+
     if (fotos.length > 0) {
       // fotos.forEach((foto, index) => {
       //   console.log(foto);

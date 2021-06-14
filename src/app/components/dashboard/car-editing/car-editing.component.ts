@@ -25,19 +25,34 @@ export class CarEditingComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  editCar(auto: AutoSemiNuevo, fotos: Fotos[]): void {
+  editCar(
+    auto: AutoSemiNuevo,
+    fotos: Fotos[],
+    shouldUpdateFotoPrincipal: boolean,
+    fotoPrincipal?: FileList
+  ): void {
+    // agarrar las fotos que son archivos
+    fotos = fotos.filter((foto: Fotos) => foto.foto);
+
+    console.group('EDIT CAR ABOUT TO SEND REQ');
     console.log('editCar: ', { auto });
     console.log('fotos: ', { fotos });
+    console.log('foto principal: ', { fotoPrincipal });
+    console.groupEnd();
 
     if (fotos.length > 0) {
       const formData: FormData = new FormData();
 
+      if (shouldUpdateFotoPrincipal) {
+        formData.append(
+          'fotoPrincipal',
+          fotoPrincipal![0],
+          fotoPrincipal![0].name
+        );
+      }
+
       fotos.forEach((foto: Fotos, idx: number) => {
-        if (idx == 0) {
-          formData.append('fotoPrincipal', foto.foto![0], foto.foto![0].name);
-        } else {
-          formData.append(`files[${idx}]`, foto.foto![0], foto.foto![0].name);
-        }
+        formData.append(`files[${idx}]`, foto.foto![0], foto.foto![0].name);
       });
       formData.append('autoSemiNuevo', JSON.stringify(auto));
 
@@ -68,6 +83,13 @@ export class CarEditingComponent implements OnInit {
       );
     } else {
       const formData: FormData = new FormData();
+      if (shouldUpdateFotoPrincipal) {
+        formData.append(
+          'fotoPrincipal',
+          fotoPrincipal![0],
+          fotoPrincipal![0].name
+        );
+      }
       formData.append('files', '');
       formData.append('autoSemiNuevo', JSON.stringify(auto));
       this.userService.putAutoSemiNuevo(formData).subscribe(
