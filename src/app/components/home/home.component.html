@@ -35,7 +35,8 @@
               [id]="'option' + i"
               formControlName="carType"
               [value]="carType"
-            /><span
+            />
+            <!-- <span
               [ngClass]="{
                 ic: true,
                 'flaticon-pick-up': carType == 'PICKUP',
@@ -43,15 +44,14 @@
                 'flaticon-coupe-car': carType == 'COUPE',
                 'flaticon-cabrio-car': carType == 'CONVERTIBLE',
                 'flaticon-sedan-car-model': carType == 'SEDAN',
-                'flaticon-car':
-                  carType == 'CITYCAR' ||
-                  carType == 'VAN' ||
-                  carType == 'OTRO' ||
-                  carType == 'HATCHBACK' ||
-                  carType == 'CAMION' ||
-                  carType == 'PANEL'
+                'flaticon-car': carType == 'CITYCAR',
+                'flaticon-minivan-car': carType == 'VAN' || carType == 'PANEL',
+                'flaticon-car-of-hatchback-model': carType == 'HATCHBACK',
+                'flaticon-car': carType == 'OTRO',
+                'flaticon-jeep': carType == 'CAMION'
               }"
-            ></span>
+            ></span> -->
+            <img class="ic" [src]="getBannerImg(carType)" alt="" />
             {{ carType }}
           </label>
         </div>

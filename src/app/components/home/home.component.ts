@@ -344,4 +344,33 @@ export class HomeComponent implements OnInit {
   beforeChange(e: any) {
     console.log('beforeChange');
   }
+
+  getBannerImg(carType: string) {
+    switch (carType) {
+      case 'PICKUP': {
+        return '/assets/media/general/banner-images/V5_Pick-Up.png';
+      }
+      case 'SEDAN': {
+        return '/assets/media/general/banner-images/V1_Sedan.png';
+      }
+      case 'COUPE': {
+        return '/assets/media/general/banner-images/V2_Coupe.png';
+      }
+      case 'HATCHBACK': {
+        return '/assets/media/general/banner-images/V3_Hatchback.png';
+      }
+      case 'SUV': {
+        return '/assets/media/general/banner-images/V4_SUV.png';
+      }
+      case 'PANEL': {
+        return '/assets/media/general/banner-images/V7_Panel.png';
+      }
+      case 'VAN': {
+        return '/assets/media/general/banner-images/V6_Van.png';
+      }
+      default: {
+        return '/assets/media/general/banner-images/V7_Panel.png';
+      }
+    }
+  }
 }
