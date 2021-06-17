@@ -10,7 +10,6 @@ import {
   transition,
 } from '@angular/animations';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
-declare var $: any;
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -32,6 +31,8 @@ export class NavbarComponent implements OnInit {
   ruta: string;
   showSidebar = false;
   isAdmin: boolean = false;
+  isRemax: boolean;
+  isUser: boolean;
 
   constructor(private storageService: StorageService, private router: Router) {
     if (this.storageService.isLoggedIn()) {
@@ -40,17 +41,19 @@ export class NavbarComponent implements OnInit {
       this.ruta = '/auth';
     }
     this.isAdmin =
-      this.storageService.getRoleLocalStorage() === RolesEnum.ADMIN;
+      this.storageService.getRoleLocalStorage() === RolesEnum.ADMIN ||
+      this.storageService.getRoleLocalStorage() === RolesEnum.SUPERADMIN;
+    this.isUser =
+      this.storageService.getRoleLocalStorage() === RolesEnum.PARTICULAR;
+    this.isRemax =
+      this.storageService.getRoleLocalStorage() === RolesEnum.REMAX;
   }
 
-  ngOnInit(): void {
-    /* controller.init();
-    var controller = new slidebars();
-    $( '.js-toggle-mobile-slidebar' ).on( 'click',  ( event:any ) => {
-      event.stopPropagation();
-      controller.toggle( 'mobile-slidebar' );
-    } ); */
+  isDashboard(): boolean {
+    return this.router.url.includes('dashboard');
   }
+
+  ngOnInit(): void {}
 
   toggle(): void {
     this.showSidebar = !this.showSidebar;

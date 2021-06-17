@@ -72,6 +72,7 @@ import { PasswordDirective } from './core/directives/password.directive';
 import { TermsComponent } from './components/shared/terms/terms.component';
 import { PrivacyComponent } from './components/shared/privacy/privacy.component';
 import { ChangeBannerComponent } from './components/dashboard/admin/change-banner/change-banner.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
 
@@ -148,6 +149,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) | null = null;
     SlickCarouselModule,
     DragDropModule,
     NgxMaskModule.forRoot(),
+    MatStepperModule,
   ],
   providers: [
     {

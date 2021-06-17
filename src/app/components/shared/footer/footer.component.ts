@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { CarSearchFilter } from 'src/app/core/interfaces/car-search-filter';
 import { StorageService } from 'src/app/core/services/storage.service';
 
@@ -10,6 +11,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 })
 export class FooterComponent implements OnInit {
   ruta: string;
+  isAdmin: boolean;
 
   constructor(private storageService: StorageService, private router: Router) {
     if (this.storageService.isLoggedIn()) {
@@ -17,6 +19,8 @@ export class FooterComponent implements OnInit {
     } else {
       this.ruta = '/auth';
     }
+    this.isAdmin =
+      this.storageService.getRoleLocalStorage() === RolesEnum.ADMIN;
   }
 
   goToCarsSubset(subset: string): void {

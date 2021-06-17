@@ -37,7 +37,7 @@
 .login {
   margin-top: 150px;
   height: calc(100vh - 150px);
-  background-color: #29abe2;
+  background-color: var(--primary);
 }
 
 .loginSection {
@@ -49,9 +49,11 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  padding-top: 100px;
 }
 
 .registerSection {
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -108,7 +110,7 @@
 }
 
 .text-blue {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .registerOption {
@@ -148,4 +150,129 @@
   position: absolute;
   right: 10px;
   top: 17px;
+}
+
+.loginMobile {
+  margin-top: 150px;
+  height: calc(100vh - 150px);
+  max-height: 100%;
+}
+
+.small {
+  font-size: 80%;
+  text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.registerMobile {
+  margin-top: 150px;
+  max-height: 100%;
+  height: 100%;
+  padding-bottom: 50px;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1440px) {
+  .login {
+    margin-top: 145px;
+    height: calc(100vh - 145px);
+  }
+
+  .loginSection {
+    height: calc(100vh - 145px);
+  }
+
+  .registerOption {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (min-width: 1441px) {
+  .login {
+    margin-top: 150px;
+    height: calc(100vh - 150px);
+  }
+
+  .loginSection {
+    height: calc(100vh - 150px);
+  }
+
+  .registerOption {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .registerOption {
+    font-size: 20px;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid var(--grey);
+    border-radius: 25px;
+    width: 100%;
+    background-color: white;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  .active {
+    color: #fff;
+    font-weight: 900;
+    background-color: var(--primary);
+    border: none;
+  }
+
+  .registerButton {
+    background-color: var(--primary);
+    color: #fff;
+  }
+}
+
+@media screen and (max-width: 377px) {
+  .infoBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+
+@media screen and (max-width: 1546px) {
+  .infoBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+
+@media screen and (max-width: 494px) {
+  h1 {
+    font-size: 2rem;
+  }
+  ::ng-deep .mat-checkbox-layout {
+    display: inline-block !important;
+  }
+}
+
+@media screen and (max-width: 395px) {
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 617px) {
+  .registerOption {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }

@@ -140,7 +140,7 @@
                 >Autos Seminuevos</a
               >
             </li>
-            <li><a [routerLink]="ruta">Vende tu auto</a></li>
+            <li><a [routerLink]="ruta" *ngIf="!isAdmin">Vende tu auto</a></li>
           </ul>
         </section>
       </div>

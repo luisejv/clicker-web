@@ -121,3 +121,17 @@ li {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #333333;
 }
+
+::ng-deep .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: var(--primary) !important;
+}
+
+.formMobile h2 {
+  text-align: center;
+}
+
+.formMobile li {
+  list-style: circle;
+}

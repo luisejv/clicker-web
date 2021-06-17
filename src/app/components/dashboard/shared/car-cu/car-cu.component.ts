@@ -18,6 +18,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Accesorio } from 'src/app/core/interfaces/accesorio';
 import { String } from 'aws-sdk/clients/appstream';
+import { CommonService } from 'src/app/core/services/common.service';
 
 export interface Fotos {
   foto?: FileList;
@@ -85,7 +86,8 @@ export class CarCuComponent implements OnInit {
     private loaderService: LoaderService,
     public dataService: DataService,
     public uploadService: UploadService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    public commonService: CommonService
   ) {
     this.date = new Date();
     this.role = this.storageService.getRoleLocalStorage();
@@ -130,7 +132,7 @@ export class CarCuComponent implements OnInit {
         '4',
         [Validators.required, Validators.min(1), Validators.max(16)],
       ],
-      precioVenta: ['69420', Validators.required],
+      precioVenta: ['10000', Validators.required],
       descripcion: [''],
       terms: '',
       privacy: '',
@@ -452,12 +454,12 @@ export class CarCuComponent implements OnInit {
             console.log(`[ERROR]: Check DNI, ${error}`);
             this.dniTries = this.dniTries + 1;
             Swal.fire({
-              titleText: `DNI no encontrado, ${
+              titleText: `DNI no encontrado`,
+              html: `${
                 this.dniTries == 2
                   ? 'digite sus datos a continuación'
                   : 'por favor intente de nuevo'
               }.`,
-              html: 'Try again please.',
               allowOutsideClick: true,
               icon: 'error',
               showConfirmButton: true,

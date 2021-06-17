@@ -35,8 +35,7 @@
               "src/styles.css",
               "src/assets/css/master.css",
               "./node_modules/slick-carousel/slick/slick.scss",
-              "./node_modules/slick-carousel/slick/slick-theme.scss",
-              "./node_modules/filepond/dist/filepond.min.css"
+              "./node_modules/slick-carousel/slick/slick-theme.scss"
             ],
             "scripts": [
               "./src/assets/libs/jquery-3.3.1.min.js",

@@ -33,7 +33,6 @@
 <!-- ==========================-->
 <!-- MOBILE MENU-->
 <!-- ==========================-->
-<!-- TODO: meterle un .collapse de bootstrap -->
 <div
   data-off-canvas="mobile-slidebar left overlay"
   *ngIf="showSidebar"
@@ -109,48 +108,187 @@
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['/home']" (click)="toggle()">Inicio</a>
     </li>
+    <ng-template [ngIf]="!isDashboard()">
+      <li class="nav-item" *ngIf="isLoggedIn()">
+        <a class="nav-link" [routerLink]="['/dashboard']" (click)="toggle()"
+          >Dashboard</a
+        >
+      </li>
 
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [routerLink]="['/inventory-listings']"
-        (click)="toggle(); goToCarsSubset('NEW')"
-        >Autos Nuevos</a
-      >
-    </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/inventory-listings']"
+          (click)="toggle(); goToCarsSubset('NEW')"
+          >Autos Nuevos</a
+        >
+      </li>
 
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [routerLink]="['/inventory-listings']"
-        (click)="toggle(); goToCarsSubset('USED')"
-        >Autos Seminuevos</a
-      >
-    </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/inventory-listings']"
+          (click)="toggle(); goToCarsSubset('USED')"
+          >Autos Seminuevos</a
+        >
+      </li>
 
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="ruta" (click)="toggle()"
-        >Vende Tu Auto</a
-      >
-    </li>
+      <li class="nav-item" *ngIf="!isAdmin">
+        <a class="nav-link" [routerLink]="ruta" (click)="toggle()"
+          >Vende Tu Auto</a
+        >
+      </li>
 
-    <li
-      *ngIf="!isLoggedIn()"
-      class="nav-item d-flex flex-column justify-content-center"
-    >
-      <a class="registerBtn" [routerLink]="['/auth']" (click)="toggle()"
-        >Regístrate</a
+      <li
+        *ngIf="!isLoggedIn()"
+        class="nav-item d-flex flex-column justify-content-center"
       >
-    </li>
+        <!-- <a class="registerBtn" [routerLink]="['/auth']" (click)="toggle()">Registrate</a> -->
+        <a class="nav-link" [routerLink]="['/auth']" (click)="toggle()"
+          >Regístrate</a
+        >
+      </li>
 
-    <li
-      *ngIf="!isLoggedIn()"
-      class="nav-item d-flex flex-column justify-content-center"
-    >
-      <a class="loginBtn" [routerLink]="['/auth']" (click)="toggle()"
-        >Ingresa</a
+      <li
+        *ngIf="!isLoggedIn()"
+        class="nav-item d-flex flex-column justify-content-center"
       >
-    </li>
+        <a class="nav-link" [routerLink]="['/auth']" (click)="toggle()"
+          >Ingresa</a
+        >
+      </li>
+    </ng-template>
+    <ng-template [ngIf]="isDashboard()">
+      <li class="nav-item" *ngIf="!isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/cuenta']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">account_circle</mat-icon>Mi Cuenta</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isRemax">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/balance']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">account_balance</mat-icon>Balance</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isRemax">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/autos-interesantes']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">stars</mat-icon>Autos Interesantes</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="!isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/registrar-auto']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">directions_car</mat-icon>Ingresar Auto</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="!isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/publicados-autos']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">car_rental</mat-icon>Mis Autos Publicados</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="!isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/reportar-incidencia']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">warning</mat-icon>Reportar Incidencia</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/autos-por-validar']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">car_repair</mat-icon>Autos por Validar</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/solicitudes-franquicia']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">how_to_reg</mat-icon>Solicitudes Remax</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/autos-reportados']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">local_car_wash</mat-icon> Autos Reportados</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/registrar-venta']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">attach_money</mat-icon> Registrar una Venta</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/solicitudes-de-pago']"
+          (click)="toggle()"
+          ><mat-icon class="mr-2">request_quote</mat-icon> Solicitudes de
+          Pago</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/autos-patrocinados']"
+          (click)="toggle()"
+        >
+          <mat-icon class="mr-2">electric_car</mat-icon>Autos Patrocinados</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/dashboard/cambiar-banner']"
+          (click)="toggle()"
+        >
+          <mat-icon class="mr-2">collections</mat-icon>Imagen Banner</a
+        >
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/home']"
+          (click)="toggle()"
+        >
+          <mat-icon class="mr-2">exit_to_app</mat-icon>Regresar</a
+        >
+      </li>
+    </ng-template>
 
     <li *ngIf="isLoggedIn()" class="nav-item">
       <a
@@ -161,123 +299,6 @@
         >Logout</a
       >
     </li>
-
-    <li class="nav-item" *ngIf="isAdmin">
-      <a
-        class="nav-link"
-        [routerLink]="['/dashboard/autos-por-validar']"
-        (click)="toggle()"
-        >Autos por Validar</a
-      >
-    </li>
-
-    <!-- TODO: Agregar los siguientes links y los de Particular y desaparecer los anteriores, todo manejarlo con ngIf o ngTemplate -->
-    <!-- 
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="solicitudes-franquicia"
-            >
-              <mat-icon>how_to_reg</mat-icon>
-              <a>Solicitudes Remax</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="autos-reportados"
-            >
-              <mat-icon>local_car_wash</mat-icon>
-              <a>Autos Reportados</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="registrar-venta"
-            >
-              <mat-icon>attach_money</mat-icon>
-              <a>Registrar una Venta</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="solicitudes-de-pago"
-            >
-              <mat-icon>request_quote</mat-icon>
-              <a>Solicitudes de Pago</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="autos-patrocinados"
-            >
-              <mat-icon>electric_car</mat-icon>
-              <a>Autos Patrocinados</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="cambiar-banner"
-            >
-              <mat-icon>collections</mat-icon>
-              <a>Imagen Banner</a>
-            </li>
-            <li
-              class="
-                img-thumbnail
-                my-2
-                d-flex
-                flex-column
-                align-items-center
-                justify-content-between
-                sidebar-item
-              "
-              routerLink="home"
-            >
-              <mat-icon>exit_to_app</mat-icon>
-              <a>Regresar</a>
-            </li> -->
 
     <!-- <li class="nav-item">
       <a class="nav-link">Sobre Nosotros</a>
@@ -383,9 +404,13 @@
             "
             (click)="toggle()"
           >
-            <i class="toggle-menu-button-icon"
-              ><span></span><span></span><span></span><span></span><span></span
-              ><span></span
+            <i class="toggle-menu-button-icon" style="color: #29abe2"
+              ><span style="background-color: #29abe2"></span
+              ><span style="background-color: #29abe2"></span
+              ><span style="background-color: #29abe2"></span
+              ><span style="background-color: #29abe2"></span
+              ><span style="background-color: #29abe2"></span
+              ><span style="background-color: #29abe2"></span
             ></i>
           </button>
           <!-- Mobile Trigger End-->
@@ -411,7 +436,7 @@
                 >
               </li>
 
-              <li class="nav-item borderRight">
+              <li class="nav-item borderRight" *ngIf="!isAdmin">
                 <a class="nav-link" [routerLink]="ruta">Vende Tu Auto</a>
               </li>
 

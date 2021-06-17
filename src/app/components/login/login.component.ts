@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client.service';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,13 @@ export class LoginComponent implements OnInit {
   registerOption: string = 'particular';
   fetchingDNI: boolean = false;
   dniTries: number = 0;
+  isLogin: boolean = true;
 
   constructor(
     private userService: UserService,
     private clientService: ClientService,
     private storageService: StorageService,
+    public commonService: CommonService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -64,6 +67,10 @@ export class LoginComponent implements OnInit {
         estado: false,
       },
     };
+  }
+
+  handleKeyupEnter(event: Event) {
+    event.preventDefault();
   }
 
   checkDNI() {
@@ -212,5 +219,9 @@ export class LoginComponent implements OnInit {
         showConfirmButton: true,
       });
     }
+  }
+
+  changeView(login: boolean): void {
+    this.isLogin = login;
   }
 }
