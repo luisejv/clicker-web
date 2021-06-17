@@ -1,7 +1,12 @@
 <div>
   <div
     [ngStyle]="{
-      'margin-top': commonService.screenWidth >= 1200 ? '155px' : '85px'
+      'margin-top':
+        commonService.screenWidth >= 1200
+          ? '155px'
+          : commonService.screenWidth < 768
+          ? '75px'
+          : '85px'
     }"
   >
     <app-sidebar
