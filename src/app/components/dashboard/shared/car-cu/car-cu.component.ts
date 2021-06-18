@@ -17,7 +17,6 @@ import Swal from 'sweetalert2';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClientService } from 'src/app/core/services/client.service';
 import { Accesorio } from 'src/app/core/interfaces/accesorio';
-import { String } from 'aws-sdk/clients/appstream';
 import { CommonService } from 'src/app/core/services/common.service';
 
 export interface Fotos {
@@ -145,6 +144,16 @@ export class CarCuComponent implements OnInit {
 
   unique(value: string, idx: number, self: any) {
     return self.indexOf(value) === idx;
+  }
+
+  resetDNI(): void {
+    this.formGroup.controls['nombreDueno'].patchValue('');
+  }
+
+  resetPlaca(): void {
+    this.formGroup.controls['marca'].patchValue('');
+    this.formGroup.controls['modelo'].patchValue('');
+    this.formGroup.controls['serie'].patchValue('');
   }
 
   ngOnInit(): void {
@@ -520,6 +529,7 @@ export class CarCuComponent implements OnInit {
       color: this.formGroup.value.color,
       numeroCilindros: this.formGroup.value.numeroCilindros,
       precioVenta: this.formGroup.value.precioVenta,
+      descripcion: this.formGroup.value.descripcion,
       fotoPrincipal: this.create
         ? ''
         : this.fotoPrincipalChanged && typeof this.fotoPrincipal === 'string'

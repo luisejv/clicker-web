@@ -168,8 +168,8 @@ export class LoginComponent implements OnInit {
       (error: any) => {
         console.log(`[ERROR]: Login, ${error}`);
         Swal.fire({
-          titleText: 'Incorrect Username or Password!',
-          html: 'Try again please.',
+          titleText: '¡Usuario o contraseña incorrectos!',
+          html: 'Intenta de nuevo, por favor.',
           allowOutsideClick: true,
           icon: 'error',
           showConfirmButton: true,

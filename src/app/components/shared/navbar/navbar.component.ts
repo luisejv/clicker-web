@@ -28,18 +28,13 @@ import { RolesEnum } from 'src/app/core/enums/roles.enum';
   ],
 })
 export class NavbarComponent implements OnInit {
-  ruta: string;
+  ruta!: string;
   showSidebar = false;
   isAdmin: boolean = false;
   isRemax: boolean;
   isUser: boolean;
 
   constructor(private storageService: StorageService, private router: Router) {
-    if (this.storageService.isLoggedIn()) {
-      this.ruta = '/dashboard/registrar-auto';
-    } else {
-      this.ruta = '/auth';
-    }
     this.isAdmin =
       this.storageService.getRoleLocalStorage() === RolesEnum.ADMIN ||
       this.storageService.getRoleLocalStorage() === RolesEnum.SUPERADMIN;
@@ -51,6 +46,12 @@ export class NavbarComponent implements OnInit {
 
   isDashboard(): boolean {
     return this.router.url.includes('dashboard');
+  }
+
+  getRuta(): string {
+    return this.storageService.isLoggedIn()
+      ? '/dashboard/registrar-auto'
+      : '/auth';
   }
 
   ngOnInit(): void {}

@@ -5,7 +5,13 @@
   }"
 >
   <!-- Remax options -->
-  <ul class="m-auto sideops-container" *ngIf="isRemax || isUser; else admin">
+  <ul
+    class="m-auto sideops-container"
+    [ngStyle]="{
+      height: scrolled ? 'calc(100vh - 70px)' : 'calc(100vh - 150px)'
+    }"
+    *ngIf="isRemax || isUser; else admin"
+  >
     <li
       class="
         d-flex
@@ -102,7 +108,13 @@
   </ul>
   <!-- Admin options -->
   <ng-template #admin>
-    <ul class="py-5 sideops-container">
+    <ul
+      class="py-5 sideops-container"
+      [ngStyle]="{
+        height: scrolled ? 'calc(100vh - 70px)' : 'calc(100vh - 150px)'
+      }"
+    >
+      <!-- [@fold]="state" -->
       <li
         *ngIf="isAdmin"
         class="

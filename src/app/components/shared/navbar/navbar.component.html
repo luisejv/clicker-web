@@ -134,7 +134,7 @@
       </li>
 
       <li class="nav-item" *ngIf="!isAdmin">
-        <a class="nav-link" [routerLink]="ruta" (click)="toggle()"
+        <a class="nav-link" [routerLink]="getRuta()" (click)="toggle()"
           >Vende Tu Auto</a
         >
       </li>
@@ -437,7 +437,7 @@
               </li>
 
               <li class="nav-item borderRight" *ngIf="!isAdmin">
-                <a class="nav-link" [routerLink]="ruta">Vende Tu Auto</a>
+                <a class="nav-link" [routerLink]="getRuta()">Vende Tu Auto</a>
               </li>
 
               <li

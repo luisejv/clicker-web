@@ -128,10 +128,25 @@ li {
   background-color: var(--primary) !important;
 }
 
+::ng-deep .mat-step-icon .mat-step-icon-selected,
+.mat-step-icon .mat-step-icon-state-done,
+.mat-step-icon .mat-step-icon-state-edit {
+  background-color: var(--primary) !important;
+}
+
 .formMobile h2 {
   text-align: center;
 }
 
-.formMobile li {
+/* .formMobile li {
   list-style: circle;
+} */
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+  display: inline-block !important;
 }
+
+/* ::ng-deep .mat-primary {
+  color: var(--primary) !important;
+} */

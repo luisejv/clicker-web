@@ -174,6 +174,7 @@
                     type="text"
                     formControlName="dniDueno"
                     (keyup.enter)="checkDNI()"
+                    (change)="resetDNI()"
                   />
                   <button
                     mat-icon-button
@@ -260,6 +261,7 @@
                     formControlName="placa"
                     mask="AAA-AAA"
                     (keyup.enter)="checkPlaca()"
+                    (change)="resetPlaca()"
                   />
                   <button
                     mat-icon-button
@@ -427,9 +429,11 @@
                   <mat-label>Kilometraje</mat-label>
                   <input
                     matInput
-                    type="number"
+                    type="text"
                     formControlName="kilometraje"
                     [OnlyNumber]="true"
+                    mask="separator.2"
+                    thousandSeparator=","
                   />
                   <mat-error
                     *ngIf="formGroup.get('kilometraje')?.errors?.required"
@@ -491,9 +495,11 @@
                   <mat-label>Precio Venta (US$)</mat-label>
                   <input
                     matInput
-                    type="number"
+                    type="text"
                     formControlName="precioVenta"
                     [OnlyNumber]="true"
+                    mask="separator.2"
+                    thousandSeparator=","
                   />
                   <mat-error
                     *ngIf="formGroup.get('precioVenta')?.errors?.required"
@@ -521,7 +527,7 @@
                     <div class="row">
                       <div
                         *ngFor="let tipo of tiposAccesorios"
-                        class="col-lg-4 col-md-6 col-sm-12"
+                        class="col-xl-6 col-lg-12 col-md-12"
                       >
                         <h3>{{ tipo }}</h3>
                         <ul>
@@ -720,6 +726,7 @@
                   type="text"
                   formControlName="dniDueno"
                   (keyup.enter)="checkDNI()"
+                  (change)="resetDNI()"
                 />
                 <button
                   mat-icon-button
@@ -811,6 +818,7 @@
                   formControlName="placa"
                   mask="AAA-AAA"
                   (keyup.enter)="checkPlaca()"
+                  (change)="resetPlaca()"
                 />
                 <button
                   mat-icon-button
@@ -973,8 +981,10 @@
                 <mat-label>Kilometraje</mat-label>
                 <input
                   matInput
-                  type="number"
+                  type="text"
                   formControlName="kilometraje"
+                  mask="separator.2"
+                  thousandSeparator=","
                   [OnlyNumber]="true"
                 />
                 <mat-error
@@ -1033,9 +1043,11 @@
                 <mat-label>Precio Venta (US$)</mat-label>
                 <input
                   matInput
-                  type="number"
+                  type="text"
                   formControlName="precioVenta"
                   [OnlyNumber]="true"
+                  mask="separator.2"
+                  thousandSeparator=","
                 />
                 <mat-error
                   *ngIf="formGroup.get('precioVenta')?.errors?.required"
@@ -1075,7 +1087,7 @@
                   <div class="row">
                     <div
                       *ngFor="let tipo of tiposAccesorios"
-                      class="col-lg-4 col-md-6 col-sm-12"
+                      class="col-xl-6 col-lg-12 col-md-12"
                     >
                       <h3>{{ tipo }}</h3>
                       <ul>
