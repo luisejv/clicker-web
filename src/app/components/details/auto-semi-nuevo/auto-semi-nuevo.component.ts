@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -121,18 +121,34 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   submitForm() {
     this.sendingContactForm = true;
-    const body: Lead = {
-      DNI: this.contactFormGroup.value.dni,
-      First_Name: this.contactFormGroup.value.nombres,
-      Last_Name: this.contactFormGroup.value.apellidos,
-      Phone_Number: this.contactFormGroup.value.telefono,
-      Email: this.contactFormGroup.value.correo,
-      Carroceria_Vehiculo: this.auto.tipoCarroceria,
-      Nuevo: false,
-      DatosSemiNuevo:
-        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-      ID_Auto: 424,
-    };
+    const bodyForm = new HttpParams();
+    bodyForm.set('DNI', this.contactFormGroup.value.dni);
+    bodyForm.set('First_Name', this.contactFormGroup.value.nombres);
+    bodyForm.set('Last_Name', this.contactFormGroup.value.apellidos);
+    bodyForm.set('Phone_Number', this.contactFormGroup.value.telefono);
+    bodyForm.set('Email', this.contactFormGroup.value.correo);
+    bodyForm.set(
+      'Carroceria_Vehiculo',
+      this.contactFormGroup.value.tipoCarroceria
+    );
+    bodyForm.set('Nuevo', 'false');
+    bodyForm.set(
+      'DatosSemiNuevo',
+      this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
+    );
+    bodyForm.set('ID_Auto', '424');
+    // const body: Lead = {
+    //   DNI: this.contactFormGroup.value.dni,
+    //   First_Name: this.contactFormGroup.value.nombres,
+    //   Last_Name: this.contactFormGroup.value.apellidos,
+    //   Phone_Number: this.contactFormGroup.value.telefono,
+    //   Email: this.contactFormGroup.value.correo,
+    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
+    //   Nuevo: false,
+    //   DatosSemiNuevo:
+    //     this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+    //   ID_Auto: 424,
+    // };
     const body2 = {
       autoSemiNuevo: {
         id: this.auto.id,
@@ -145,14 +161,15 @@ export class AutoSemiNuevoComponent implements OnInit {
       descripcion: this.contactFormGroup.value.descripcion,
     };
 
-    this.clientService.postPilot(body).subscribe(
+    this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
-          html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
+          html: 'Solicitud generada! Le llamarán por teléfono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
+        this.sendingContactForm = false;
       },
       (error) => {
         Swal.fire({
@@ -161,10 +178,7 @@ export class AutoSemiNuevoComponent implements OnInit {
           html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
-      },
-      () => {
         this.sendingContactForm = false;
-        this.contactFormGroup.reset();
       }
     );
 
@@ -180,18 +194,31 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   contact(): void {
     this.sendingContactForm = true;
-    const body: Lead = {
-      DNI: this.storageService.getDniLocalStorage()!,
-      First_Name: this.storageService.getNombreLocalStorage()!,
-      Last_Name: this.storageService.getApellidosLocalStorage()!,
-      Phone_Number: this.storageService.getPhoneLocalStorage()!,
-      Email: this.storageService.getEmailLocalStorage()!,
-      Carroceria_Vehiculo: this.auto.tipoCarroceria,
-      Nuevo: false,
-      DatosSemiNuevo:
-        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-      ID_Auto: 424,
-    };
+    // const body: Lead = {
+    //   DNI: this.storageService.getDniLocalStorage()!,
+    //   First_Name: this.storageService.getNombreLocalStorage()!,
+    //   Last_Name: this.storageService.getApellidosLocalStorage()!,
+    //   Phone_Number: this.storageService.getPhoneLocalStorage()!,
+    //   Email: this.storageService.getEmailLocalStorage()!,
+    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
+    //   Nuevo: false,
+    //   DatosSemiNuevo:
+    //     this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
+    //   ID_Auto: 424,
+    // };
+    const bodyForm = new HttpParams();
+    bodyForm.set('DNI', this.storageService.getDniLocalStorage()!);
+    bodyForm.set('First_Name', this.storageService.getNombreLocalStorage()!);
+    bodyForm.set('Last_Name', this.storageService.getApellidosLocalStorage()!);
+    bodyForm.set('Phone_Number', this.storageService.getPhoneLocalStorage()!);
+    bodyForm.set('Email', this.storageService.getEmailLocalStorage()!);
+    bodyForm.set('Carroceria_Vehiculo', this.auto.tipoCarroceria);
+    bodyForm.set('Nuevo', 'false');
+    bodyForm.set(
+      'DatosSemiNuevo',
+      this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
+    );
+    bodyForm.set('ID_Auto', '424');
     const body2 = {
       autoSemiNuevo: {
         id: this.auto.id,
@@ -202,7 +229,7 @@ export class AutoSemiNuevoComponent implements OnInit {
       correo: this.storageService.getEmailLocalStorage()!,
       numTelefono: this.storageService.getPhoneLocalStorage()!,
     };
-    this.clientService.postPilot(body).subscribe(
+    this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
           title: 'Enviado!',

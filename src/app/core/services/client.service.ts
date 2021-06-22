@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AutoSemiNuevo } from '../interfaces/auto-semi-nuevo';
@@ -38,8 +38,12 @@ export class ClientService {
   public getUbigeos(): Observable<any> {
     return this.http.get(this.commonService.ubigeosUrl);
   }
-  public postPilot(body: Lead): Observable<any> {
-    return this.http.post(this.commonService.leadPilotUrl, body);
+  public postPilot(body: HttpParams): Observable<any> {
+    return this.http.post(this.commonService.leadPilotUrl, body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }),
+    });
   }
   public getAllCars(): Observable<any> {
     return this.http.get(this.commonService.getAllCarsUrl);

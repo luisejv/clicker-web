@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -87,17 +88,29 @@ export class AutoNuevoComponent implements OnInit {
 
   submitForm(): void {
     this.sendingContactForm = true;
-    const body: Lead = {
-      DNI: this.contactFormGroup.value.dni,
-      First_Name: this.contactFormGroup.value.nombres,
-      Last_Name: this.contactFormGroup.value.apellidos,
-      Phone_Number: this.contactFormGroup.value.telefono,
-      Email: this.contactFormGroup.value.correo,
-      Carroceria_Vehiculo: this.auto.tipoCarroceria,
-      Nuevo: false,
-      ID_Auto: Number(this.auto.id),
-    };
-    this.clientService.postPilot(body).subscribe(
+    // const body: Lead = {
+    //   DNI: this.contactFormGroup.value.dni,
+    //   First_Name: this.contactFormGroup.value.nombres,
+    //   Last_Name: this.contactFormGroup.value.apellidos,
+    //   Phone_Number: this.contactFormGroup.value.telefono,
+    //   Email: this.contactFormGroup.value.correo,
+    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
+    //   Nuevo: false,
+    //   ID_Auto: Number(this.auto.id),
+    // };
+    const bodyForm = new HttpParams();
+    bodyForm.set('DNI', this.contactFormGroup.value.dni);
+    bodyForm.set('First_Name', this.contactFormGroup.value.nombres);
+    bodyForm.set('Last_Name', this.contactFormGroup.value.apellidos);
+    bodyForm.set('Phone_Number', this.contactFormGroup.value.telefono);
+    bodyForm.set('Email', this.contactFormGroup.value.correo);
+    bodyForm.set(
+      'Carroceria_Vehiculo',
+      this.contactFormGroup.value.tipoCarroceria
+    );
+    bodyForm.set('Nuevo', 'true');
+    bodyForm.set('ID_Auto', this.auto.id);
+    this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
           title: 'Enviado!',
@@ -105,6 +118,8 @@ export class AutoNuevoComponent implements OnInit {
           html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
+        this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       },
       (error) => {
         Swal.fire({
@@ -113,8 +128,6 @@ export class AutoNuevoComponent implements OnInit {
           html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
-      },
-      () => {
         this.sendingContactForm = false;
         this.contactFormGroup.reset();
       }
@@ -123,17 +136,26 @@ export class AutoNuevoComponent implements OnInit {
 
   contact(): void {
     this.sendingContactForm = true;
-    const body: Lead = {
-      DNI: this.storageService.getDniLocalStorage()!,
-      First_Name: this.storageService.getNombreLocalStorage()!,
-      Last_Name: this.storageService.getApellidosLocalStorage()!,
-      Phone_Number: this.storageService.getPhoneLocalStorage()!,
-      Email: this.storageService.getEmailLocalStorage()!,
-      Carroceria_Vehiculo: this.auto.tipoCarroceria,
-      Nuevo: true,
-      ID_Auto: Number(this.auto.id),
-    };
-    this.clientService.postPilot(body).subscribe(
+    // const body: Lead = {
+    //   DNI: this.storageService.getDniLocalStorage()!,
+    //   First_Name: this.storageService.getNombreLocalStorage()!,
+    //   Last_Name: this.storageService.getApellidosLocalStorage()!,
+    //   Phone_Number: this.storageService.getPhoneLocalStorage()!,
+    //   Email: this.storageService.getEmailLocalStorage()!,
+    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
+    //   Nuevo: true,
+    //   ID_Auto: Number(this.auto.id),
+    // };
+    const bodyForm = new HttpParams();
+    bodyForm.set('DNI', this.storageService.getDniLocalStorage()!);
+    bodyForm.set('First_Name', this.storageService.getNombreLocalStorage()!);
+    bodyForm.set('Last_Name', this.storageService.getApellidosLocalStorage()!);
+    bodyForm.set('Phone_Number', this.storageService.getPhoneLocalStorage()!);
+    bodyForm.set('Email', this.storageService.getEmailLocalStorage()!);
+    bodyForm.set('Carroceria_Vehiculo', this.auto.tipoCarroceria);
+    bodyForm.set('Nuevo', 'true');
+    bodyForm.set('ID_Auto', this.auto.id);
+    this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
           title: 'Enviado!',
@@ -141,6 +163,7 @@ export class AutoNuevoComponent implements OnInit {
           html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
+        this.sendingContactForm = false;
       },
       (error) => {
         Swal.fire({
@@ -149,8 +172,6 @@ export class AutoNuevoComponent implements OnInit {
           html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
-      },
-      () => {
         this.sendingContactForm = false;
       }
     );
