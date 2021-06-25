@@ -1216,7 +1216,7 @@ body {
   position: absolute;
   z-index: 10;
   top: 0;
-  left: 99%;
+  left: 99.3%;
   margin-left: 2px;
   opacity: 0;
   border-top: 53px solid transparent;
@@ -2474,8 +2474,8 @@ html .b-goods-slider .slick-list {
 .b-goods-2 {
   position: relative;
   margin-bottom: 130px;
-  padding-right: 120px;
-  padding-left: 120px;
+  padding-right: 150px;
+  padding-left: 150px;
 }
 
 .b-goods-2__img {

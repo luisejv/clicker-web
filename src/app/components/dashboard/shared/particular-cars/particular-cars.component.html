@@ -95,22 +95,24 @@
           </div>
         </div>
         <!-- end .b-filter-goods-->
-        <div
-          *ngFor="
-            let carro of filteredCarros
-              | slice
-                : currPage * carsPerPage
-                : currPage * carsPerPage + carsPerPage
-          "
-          [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
-        >
-          <app-published-car
-            [auto]="carro"
-            [mode]="list"
-            [particularPublishedView]="true"
+        <div class="row justify-content-center">
+          <div
+            *ngFor="
+              let carro of filteredCarros
+                | slice
+                  : currPage * carsPerPage
+                  : currPage * carsPerPage + carsPerPage
+            "
+            [ngClass]="{ 'col-lg-4': !list, 'col-md-6': !list, 'col-12': list }"
           >
-            <!-- TODO: esto no es [normalView], hay que cambiarlo -->
-          </app-published-car>
+            <app-published-car
+              [auto]="carro"
+              [mode]="list"
+              [particularPublishedView]="true"
+            >
+              <!-- TODO: esto no es [normalView], hay que cambiarlo -->
+            </app-published-car>
+          </div>
         </div>
         <div *ngIf="len === 0" class="col text-center">
           Oops. No se encontró ningún auto con esas especificaciones.
