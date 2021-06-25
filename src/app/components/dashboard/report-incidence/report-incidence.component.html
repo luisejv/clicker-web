@@ -30,13 +30,21 @@
         <div class="row">
           <div class="col">
             <label for="tipo">Tipo:</label>
-            <!-- Todo: Cambiar a select -->
-            <input
-              type="text"
-              class="inputClicker"
+            <select
+              class="inputClicker pr-4"
               formControlName="tipo"
+              name=""
               id="tipo"
-            />
+            >
+              <option value="Contraseña y Accesos">Contraseña y Accesos</option>
+              <option value="Carga de información del vehículo">
+                Carga de información del vehículo
+              </option>
+              <option value="No puedo dar de baja a un auto">
+                No puedo dar de baja a un auto
+              </option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
         </div>
         <div class="row">
