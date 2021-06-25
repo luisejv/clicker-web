@@ -183,8 +183,10 @@ export class CarCuComponent implements OnInit {
 
               this.formGroup = this.fb.group({
                 id: res.id,
-                //TODO: devolver dniDueno desde el back
-                // dniDueno: [res., [Validators.email]],
+                dniDueno: [
+                  res.usuario.numDocumento,
+                  [Validators.required, Validators.pattern(/[0-9]{8}/)],
+                ],
                 correoDueno: [res.correoDueno, [Validators.email]],
                 nombreDueno: res.nombreDueno,
                 telefonoDueno: res.telefonoDueno,
@@ -576,7 +578,6 @@ export class CarCuComponent implements OnInit {
     console.log(this.fotos);
 
     if (this.formGroup.invalid || this.fotos.length === 0) {
-      console.log('1ero');
       Swal.fire({
         icon: 'error',
         title: '¡Formulario inválido!',
@@ -588,12 +589,10 @@ export class CarCuComponent implements OnInit {
       });
     } else {
       if (this.create) {
-        console.log('2do');
         this.createActionWrapper();
         return;
       }
       if (this.update) {
-        console.log('3ero');
         this.updateActionWrapper();
       }
     }

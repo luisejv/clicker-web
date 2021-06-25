@@ -121,34 +121,20 @@ export class AutoSemiNuevoComponent implements OnInit {
 
   submitForm() {
     this.sendingContactForm = true;
-    const bodyForm = new HttpParams();
-    bodyForm.set('DNI', this.contactFormGroup.value.dni);
-    bodyForm.set('First_Name', this.contactFormGroup.value.nombres);
-    bodyForm.set('Last_Name', this.contactFormGroup.value.apellidos);
-    bodyForm.set('Phone_Number', this.contactFormGroup.value.telefono);
-    bodyForm.set('Email', this.contactFormGroup.value.correo);
-    bodyForm.set(
-      'Carroceria_Vehiculo',
-      this.contactFormGroup.value.tipoCarroceria
-    );
-    bodyForm.set('Nuevo', 'false');
-    bodyForm.set(
-      'DatosSemiNuevo',
-      this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
-    );
-    bodyForm.set('ID_Auto', '424');
-    // const body: Lead = {
-    //   DNI: this.contactFormGroup.value.dni,
-    //   First_Name: this.contactFormGroup.value.nombres,
-    //   Last_Name: this.contactFormGroup.value.apellidos,
-    //   Phone_Number: this.contactFormGroup.value.telefono,
-    //   Email: this.contactFormGroup.value.correo,
-    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
-    //   Nuevo: false,
-    //   DatosSemiNuevo:
-    //     this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-    //   ID_Auto: 424,
-    // };
+    const bodyForm = new HttpParams()
+      .set('DNI', this.contactFormGroup.value.dni)
+      .set('First_Name', this.contactFormGroup.value.nombres)
+      .set('Last_Name', this.contactFormGroup.value.apellidos)
+      .set('Phone_Number', this.contactFormGroup.value.telefono)
+      .set('Email', this.contactFormGroup.value.correo)
+      .set('Carroceria_Vehiculo', this.contactFormGroup.value.tipoCarroceria)
+      .set('Nuevo', 'false')
+      .set(
+        'DatosSemiNuevo',
+        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
+      )
+      .set('ID_Auto', '424');
+
     const body2 = {
       autoSemiNuevo: {
         id: this.auto.id,
@@ -163,15 +149,26 @@ export class AutoSemiNuevoComponent implements OnInit {
 
     this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
+        console.log(response);
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
           html: 'Solicitud generada! Le llamarán por teléfono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
+        this.clientService.postFormInterested(body2).subscribe(
+          (response) => {
+            console.log('Agregado a InteresadosCompra');
+          },
+          (error) => {
+            console.log('Error en agregar a InteresadosCompra');
+          }
+        );
         this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       },
       (error) => {
+        console.log(error);
         Swal.fire({
           title: 'Oops!',
           icon: 'error',
@@ -181,44 +178,23 @@ export class AutoSemiNuevoComponent implements OnInit {
         this.sendingContactForm = false;
       }
     );
-
-    this.clientService.postFormInterested(body2).subscribe(
-      (response) => {
-        console.log('Agregado a InteresadosCompra');
-      },
-      (error) => {
-        console.log('Error en agregar a InteresadosCompra');
-      }
-    );
   }
 
   contact(): void {
     this.sendingContactForm = true;
-    // const body: Lead = {
-    //   DNI: this.storageService.getDniLocalStorage()!,
-    //   First_Name: this.storageService.getNombreLocalStorage()!,
-    //   Last_Name: this.storageService.getApellidosLocalStorage()!,
-    //   Phone_Number: this.storageService.getPhoneLocalStorage()!,
-    //   Email: this.storageService.getEmailLocalStorage()!,
-    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
-    //   Nuevo: false,
-    //   DatosSemiNuevo:
-    //     this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa,
-    //   ID_Auto: 424,
-    // };
-    const bodyForm = new HttpParams();
-    bodyForm.set('DNI', this.storageService.getDniLocalStorage()!);
-    bodyForm.set('First_Name', this.storageService.getNombreLocalStorage()!);
-    bodyForm.set('Last_Name', this.storageService.getApellidosLocalStorage()!);
-    bodyForm.set('Phone_Number', this.storageService.getPhoneLocalStorage()!);
-    bodyForm.set('Email', this.storageService.getEmailLocalStorage()!);
-    bodyForm.set('Carroceria_Vehiculo', this.auto.tipoCarroceria);
-    bodyForm.set('Nuevo', 'false');
-    bodyForm.set(
-      'DatosSemiNuevo',
-      this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
-    );
-    bodyForm.set('ID_Auto', '424');
+    const bodyForm = new HttpParams()
+      .set('DNI', this.storageService.getDniLocalStorage()!)
+      .set('First_Name', this.storageService.getNombreLocalStorage()!)
+      .set('Last_Name', this.storageService.getApellidosLocalStorage()!)
+      .set('Phone_Number', this.storageService.getPhoneLocalStorage()!)
+      .set('Email', this.storageService.getEmailLocalStorage()!)
+      .set('Carroceria_Vehiculo', this.auto.tipoCarroceria)
+      .set('Nuevo', 'false')
+      .set(
+        'DatosSemiNuevo',
+        this.auto.marca + '-' + this.auto.modelo + '-' + this.auto.placa
+      )
+      .set('ID_Auto', '424');
     const body2 = {
       autoSemiNuevo: {
         id: this.auto.id,
@@ -231,12 +207,22 @@ export class AutoSemiNuevoComponent implements OnInit {
     };
     this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
+        console.log(response);
         Swal.fire({
           title: 'Enviado!',
           icon: 'success',
           html: 'Solicitud generada! Le llamaran por telefono para seguir con el proceso de compra.',
           showConfirmButton: true,
         });
+        this.clientService.postFormInterested(body2).subscribe(
+          (response) => {
+            console.log('Agregado a InteresadosCompra');
+          },
+          (error) => {
+            console.log('Error en agregar a InteresadosCompra');
+          }
+        );
+        this.sendingContactForm = false;
       },
       (error) => {
         Swal.fire({
@@ -245,18 +231,7 @@ export class AutoSemiNuevoComponent implements OnInit {
           html: 'Hubo un fallo en el servidor, por favor intenta más tarde. Si el problema persiste, contacta con un administrador.',
           showConfirmButton: true,
         });
-      },
-      () => {
         this.sendingContactForm = false;
-        this.contactFormGroup.reset();
-      }
-    );
-    this.clientService.postFormInterested(body2).subscribe(
-      (response) => {
-        console.log('Agregado a InteresadosCompra');
-      },
-      (error) => {
-        console.log('Error en agregar a InteresadosCompra');
       }
     );
   }

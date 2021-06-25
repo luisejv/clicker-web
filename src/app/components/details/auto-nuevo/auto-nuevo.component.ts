@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesEnum } from 'src/app/core/enums/roles.enum';
 import { AutoNuevo } from 'src/app/core/interfaces/auto-nuevo';
-import { Lead } from 'src/app/core/interfaces/lead';
 import { ClientService } from 'src/app/core/services/client.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -88,28 +87,15 @@ export class AutoNuevoComponent implements OnInit {
 
   submitForm(): void {
     this.sendingContactForm = true;
-    // const body: Lead = {
-    //   DNI: this.contactFormGroup.value.dni,
-    //   First_Name: this.contactFormGroup.value.nombres,
-    //   Last_Name: this.contactFormGroup.value.apellidos,
-    //   Phone_Number: this.contactFormGroup.value.telefono,
-    //   Email: this.contactFormGroup.value.correo,
-    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
-    //   Nuevo: false,
-    //   ID_Auto: Number(this.auto.id),
-    // };
-    const bodyForm = new HttpParams();
-    bodyForm.set('DNI', this.contactFormGroup.value.dni);
-    bodyForm.set('First_Name', this.contactFormGroup.value.nombres);
-    bodyForm.set('Last_Name', this.contactFormGroup.value.apellidos);
-    bodyForm.set('Phone_Number', this.contactFormGroup.value.telefono);
-    bodyForm.set('Email', this.contactFormGroup.value.correo);
-    bodyForm.set(
-      'Carroceria_Vehiculo',
-      this.contactFormGroup.value.tipoCarroceria
-    );
-    bodyForm.set('Nuevo', 'true');
-    bodyForm.set('ID_Auto', this.auto.id);
+    const bodyForm = new HttpParams()
+      .set('DNI', this.contactFormGroup.value.dni)
+      .set('First_Name', this.contactFormGroup.value.nombres)
+      .set('Last_Name', this.contactFormGroup.value.apellidos)
+      .set('Phone_Number', this.contactFormGroup.value.telefono)
+      .set('Email', this.contactFormGroup.value.correo)
+      .set('Carroceria_Vehiculo', this.contactFormGroup.value.tipoCarroceria)
+      .set('Nuevo', 'true')
+      .set('ID_Auto', this.auto.id);
     this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
@@ -136,25 +122,15 @@ export class AutoNuevoComponent implements OnInit {
 
   contact(): void {
     this.sendingContactForm = true;
-    // const body: Lead = {
-    //   DNI: this.storageService.getDniLocalStorage()!,
-    //   First_Name: this.storageService.getNombreLocalStorage()!,
-    //   Last_Name: this.storageService.getApellidosLocalStorage()!,
-    //   Phone_Number: this.storageService.getPhoneLocalStorage()!,
-    //   Email: this.storageService.getEmailLocalStorage()!,
-    //   Carroceria_Vehiculo: this.auto.tipoCarroceria,
-    //   Nuevo: true,
-    //   ID_Auto: Number(this.auto.id),
-    // };
-    const bodyForm = new HttpParams();
-    bodyForm.set('DNI', this.storageService.getDniLocalStorage()!);
-    bodyForm.set('First_Name', this.storageService.getNombreLocalStorage()!);
-    bodyForm.set('Last_Name', this.storageService.getApellidosLocalStorage()!);
-    bodyForm.set('Phone_Number', this.storageService.getPhoneLocalStorage()!);
-    bodyForm.set('Email', this.storageService.getEmailLocalStorage()!);
-    bodyForm.set('Carroceria_Vehiculo', this.auto.tipoCarroceria);
-    bodyForm.set('Nuevo', 'true');
-    bodyForm.set('ID_Auto', this.auto.id);
+    const bodyForm = new HttpParams()
+      .set('DNI', this.storageService.getDniLocalStorage()!)
+      .set('First_Name', this.storageService.getNombreLocalStorage()!)
+      .set('Last_Name', this.storageService.getApellidosLocalStorage()!)
+      .set('Phone_Number', this.storageService.getPhoneLocalStorage()!)
+      .set('Email', this.storageService.getEmailLocalStorage()!)
+      .set('Carroceria_Vehiculo', this.auto.tipoCarroceria)
+      .set('Nuevo', 'true')
+      .set('ID_Auto', this.auto.id);
     this.clientService.postPilot(bodyForm).subscribe(
       (response) => {
         Swal.fire({
@@ -164,6 +140,7 @@ export class AutoNuevoComponent implements OnInit {
           showConfirmButton: true,
         });
         this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       },
       (error) => {
         Swal.fire({
@@ -173,6 +150,7 @@ export class AutoNuevoComponent implements OnInit {
           showConfirmButton: true,
         });
         this.sendingContactForm = false;
+        this.contactFormGroup.reset();
       }
     );
   }
