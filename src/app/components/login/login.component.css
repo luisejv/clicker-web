@@ -90,7 +90,8 @@
 }
 
 .links {
-  color: var(--primary);
+  color: var(--primary) !important;
+  cursor: pointer;
 }
 
 .loginButton {
