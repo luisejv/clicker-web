@@ -396,35 +396,13 @@ export class CarCuComponent implements OnInit {
     this.userService.getPlacaDetails(body).subscribe(
       (response: any) => {
         console.log(response);
-        if (
-          response.success &&
-          (response.encontrado === undefined || response.encontrado)
-        ) {
+        if (response.success && response.encontrado) {
           this.formGroup.controls['serie'].patchValue(response.data.serie);
           this.formGroup.controls['marca'].patchValue(response.data.marca);
           this.formGroup.controls['modelo'].patchValue(response.data.modelo);
           this.fetchingPlaca = false;
           this.validatedPlaca = true;
           console.log(this.formGroup);
-        } else if (response.encontrado == false) {
-          this.fetchingPlaca = false;
-          this.placaTries = this.placaTries + 1;
-          Swal.fire({
-            titleText: 'Oops!',
-            html: `No se encontró el auto con esa placa. ${
-              this.placaTries == 2
-                ? 'Registre sus datos en las casillas correspondientes.'
-                : 'Por favor, revise que sea correcto.'
-            } `,
-            allowOutsideClick: true,
-            icon: 'error',
-            showConfirmButton: true,
-          });
-          if (this.placaTries == 2) {
-            this.formGroup.controls['serie'].enable();
-            this.formGroup.controls['marca'].enable();
-            this.formGroup.controls['modelo'].enable();
-          }
         } else {
           this.fetchingPlaca = false;
           this.placaTries = this.placaTries + 1;
