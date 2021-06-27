@@ -149,7 +149,9 @@ export class HomeComponent implements OnInit {
         //   )
         //   .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias = response
-          .map((elem: Filter) => elem.tipoCarroceria)
+          .map((elem: Filter) =>
+            NormalizePipe.prototype.transform(elem.tipoCarroceria)
+          )
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
@@ -350,26 +352,29 @@ export class HomeComponent implements OnInit {
 
   getBannerImg(carType: string) {
     switch (carType) {
-      case 'Pick up': {
+      case 'PICKUP': {
         return '/assets/media/general/banner-images/V5_Pick-Up.png';
       }
-      case 'Sedán': {
+      case 'SEDAN': {
         return '/assets/media/general/banner-images/V1_Sedan.png';
       }
-      case 'Coupé': {
+      case 'COUPE': {
         return '/assets/media/general/banner-images/V2_Coupe.png';
       }
-      case 'Hatchback': {
+      case 'HATCHBACK': {
         return '/assets/media/general/banner-images/V3_Hatchback.png';
       }
       case 'SUV': {
         return '/assets/media/general/banner-images/V4_SUV.png';
       }
-      case 'Panel': {
+      case 'PANEL': {
         return '/assets/media/general/banner-images/V7_Panel.png';
       }
-      case 'Van': {
+      case 'VAN': {
         return '/assets/media/general/banner-images/V6_Van.png';
+      }
+      case 'CAMION': {
+        return '/assets/media/general/banner-images/V_Carros-08.svg';
       }
       default: {
         return '/assets/media/general/banner-images/V7_Panel.png';
