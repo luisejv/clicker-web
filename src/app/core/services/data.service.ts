@@ -153,30 +153,35 @@ export class DataService {
     },
   ];
 
-  tiposTransmision: string[] = ['Mecánico', 'Automático'];
+  tiposTransmision: string[] = [
+    'Mecánico',
+    'Automático',
+    'Automático/Secuencial',
+  ];
 
-  tiposCombustible: string[] = ['Diesel', 'Gasolina', 'GLP', 'GNV', 'Eléctrico'];
+  tiposCombustible: string[] = [
+    'Diesel',
+    'Gasolina',
+    'GLP',
+    'GNV',
+    'Eléctrico',
+  ];
 
   tiposCarroceria: string[] = [
     'SUV',
-    'VAN',
-    'SEDAN',
-    'COUPE',
-    'PICKUP',
-    'CONVERTIBLE',
-    'CITYCAR',
-    'HATCHBACK',
-    'CAMION',
-    'PANEL',
+    'Van',
+    'Sedán',
+    'Coupé',
+    'Pick up',
+    'Convertible',
+    'Citycar',
+    'Hatchback',
+    'Camión',
+    'Panel',
     'OTRO',
   ];
 
-  tiposTracciones: string[] = [
-    'Delantera',
-    'Trasera',
-    'AWD',
-    //TODO: otros más?
-  ];
+  tiposTracciones: string[] = ['4x4', '4x2 Delantera', '4x2 Trasera', 'AWD'];
 
   anos: string[] = [
     '2000',
@@ -261,5 +266,5 @@ export class DataService {
     },
   ]; */
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 }

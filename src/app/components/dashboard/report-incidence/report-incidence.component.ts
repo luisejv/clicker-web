@@ -41,13 +41,13 @@ export class ReportIncidenceComponent implements OnInit {
       foto: this.incidenceFormGroup.value.adjunto,
       date: new Date(),
     };
+    console.log(body);
     this.userService.postIncidence(body).subscribe(
       (response) => {
         Swal.fire({
           icon: 'success',
           title: 'Enviado!',
-          text:
-            'Se envió la incidencia, un administrador la revisará y te contactará de ser necesario.',
+          text: 'Se envió la incidencia, un administrador la revisará y te contactará de ser necesario.',
           showConfirmButton: true,
         }).then(() => {
           this.router.navigateByUrl('/dashboard');
@@ -57,8 +57,7 @@ export class ReportIncidenceComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Oops!',
-          text:
-            'Hubo un error actualizando su información, por favor inténtelo más tarde.',
+          text: 'Hubo un error actualizando su información, por favor inténtelo más tarde.',
           showConfirmButton: true,
         });
       }

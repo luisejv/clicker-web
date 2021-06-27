@@ -104,7 +104,7 @@ export class CarCuComponent implements OnInit {
         'BBB222',
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
-      serie: [''],
+      serie: [null],
       marca: [null, [Validators.required]],
       modelo: [null, [Validators.required]],
       anoFabricacion: [
@@ -183,8 +183,10 @@ export class CarCuComponent implements OnInit {
 
               this.formGroup = this.fb.group({
                 id: res.id,
-                //TODO: devolver dniDueno desde el back
-                // dniDueno: [res., [Validators.email]],
+                dniDueno: [
+                  res.usuario.numDocumento,
+                  [Validators.required, Validators.pattern(/[0-9]{8}/)],
+                ],
                 correoDueno: [res.correoDueno, [Validators.email]],
                 nombreDueno: res.nombreDueno,
                 telefonoDueno: res.telefonoDueno,
@@ -244,29 +246,34 @@ export class CarCuComponent implements OnInit {
               this.carId = params['id'];
 
               this.userService.getAccesorios().subscribe(
-                (accesorios: Accesorio[]) => {
+                (accesorios: Accesorio[][]) => {
                   console.group('Accesorios');
-
-                  this.tiposAccesorios = accesorios
+                  let newAccesorios: Accesorio[] = [];
+                  accesorios.forEach((accesorio) =>
+                    newAccesorios.push(...accesorio)
+                  );
+                  this.tiposAccesorios = newAccesorios
                     .map((a: Accesorio) => a.tipo)
                     .filter(this.unique);
 
                   console.log(this.tiposAccesorios);
 
-                  this.accesorios = accesorios.map((accesorio: Accesorio) => {
-                    res.accesorios?.forEach((a: Accesorio) => {
-                      if (accesorio.nombre === a.nombre) {
-                        accesorio.selected = true;
-                      }
-                    });
+                  this.accesorios = newAccesorios.map(
+                    (accesorio: Accesorio) => {
+                      res.accesorios?.forEach((a: Accesorio) => {
+                        if (accesorio.nombre === a.nombre) {
+                          accesorio.selected = true;
+                        }
+                      });
 
-                    if (accesorio.selected === true) {
-                      return accesorio;
-                    } else {
-                      accesorio.selected = false;
-                      return accesorio;
+                      if (accesorio.selected === true) {
+                        return accesorio;
+                      } else {
+                        accesorio.selected = false;
+                        return accesorio;
+                      }
                     }
-                  });
+                  );
                   this.formGroup.get('accesorios')?.setValue(this.accesorios);
                   console.log(this.accesorios);
                   console.groupEnd();
@@ -310,14 +317,16 @@ export class CarCuComponent implements OnInit {
           );
         });
       this.userService.getAccesorios().subscribe(
-        (accesorios: Accesorio[]) => {
+        (accesorios: Accesorio[][]) => {
           console.group('Accesorios');
-          this.accesorios = accesorios.map((accesorio: Accesorio) => {
+          let newAccesorios: Accesorio[] = [];
+          accesorios.forEach((accesorio) => newAccesorios.push(...accesorio));
+          this.accesorios = newAccesorios.map((accesorio: Accesorio) => {
             accesorio.selected = false;
             return accesorio;
           });
 
-          this.tiposAccesorios = accesorios
+          this.tiposAccesorios = newAccesorios
             .map((a: Accesorio) => a.tipo)
             .filter(this.unique);
 
@@ -387,10 +396,7 @@ export class CarCuComponent implements OnInit {
     this.userService.getPlacaDetails(body).subscribe(
       (response: any) => {
         console.log(response);
-        if (
-          response.success &&
-          (response.encontrado === undefined || response.encontrado)
-        ) {
+        if (response.success && response.encontrado) {
           this.formGroup.controls['serie'].patchValue(response.data.serie);
           this.formGroup.controls['marca'].patchValue(response.data.marca);
           this.formGroup.controls['modelo'].patchValue(response.data.modelo);
@@ -567,12 +573,14 @@ export class CarCuComponent implements OnInit {
     this.formGroup.controls['marca'].enable();
     this.formGroup.controls['modelo'].enable();
 
-    if (this.formGroup.invalid || Object.keys(this.fotos[0]).length === 0) {
+    console.log(this.fotos);
+
+    if (this.formGroup.invalid || this.fotos.length === 0) {
       Swal.fire({
         icon: 'error',
         title: '¡Formulario inválido!',
         html: `Revisa si faltan campos o llenaste uno mal. ${
-          Object.keys(this.fotos[0]).length === 0
+          this.fotos.length === 0
             ? 'Por ejemplo: debe haber al menos una foto.'
             : ''
         }`,

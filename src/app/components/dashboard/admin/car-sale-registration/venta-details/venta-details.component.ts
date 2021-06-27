@@ -236,58 +236,58 @@ export class VentaDetailsComponent implements OnInit {
     );
     const form = this.formGroup.value;
     // TODO: Cambiar al request del back
-    // this.uploadService.uploadFile(this.constancia);
+    this.uploadService.uploadFile(this.constancia);
 
-    // this.uploadService.uploadedData.subscribe(
-    //   (response: any) => {
-    //     this.constanciaUrl = response.url;
+    this.uploadService.uploadedData.subscribe(
+      (response: any) => {
+        this.constanciaUrl = response.url;
 
-    //     const body: Venta = {
-    //       autoSemiNuevo: this.data.auto,
-    //       comprador: !form.vendidoPorRevendedor
-    //         ? {
-    //             correo: form.comprador.correo,
-    //             nombre: form.comprador.nombre,
-    //             telefono: form.comprador.numTelefono,
-    //           }
-    //         : null,
-    //       vendedor: form.vendidoPorRevendedor
-    //         ? { correo: form.vendedor.usuario.correo }
-    //         : null,
-    //       ciudadCompra: this.data.auto.locacion!,
-    //       foto: this.constanciaUrl,
-    //       comisionGeneral: form.comisionGeneral,
-    //       precioFinalVenta: form.precioFinalVenta,
-    //     };
+        const body: Venta = {
+          autoSemiNuevo: this.data.auto,
+          comprador: !form.vendidoPorRevendedor
+            ? {
+                correo: form.comprador.correo,
+                nombre: form.comprador.nombre,
+                telefono: form.comprador.numTelefono,
+              }
+            : null,
+          vendedor: form.vendidoPorRevendedor
+            ? { correo: form.vendedor.usuario.correo }
+            : null,
+          ciudadCompra: this.data.auto.locacion!,
+          foto: this.constanciaUrl,
+          comisionGeneral: form.comisionGeneral,
+          precioFinalVenta: form.precioFinalVenta,
+        };
 
-    //     console.group('Sale Registrarion JSON');
-    //     console.dir(body);
-    //     console.groupEnd();
+        console.group('Sale Registrarion JSON');
+        console.dir(body);
+        console.groupEnd();
 
-    //     this.adminService.registrarVenta(body).subscribe(
-    //       (res: any) => {
-    //         console.group('Car Registration Response');
-    //         console.dir(res);
-    //         console.groupEnd();
-    //         this.loaderService.setIsLoadingSWAL(false);
-    //         this.showSuccess();
-    //         this.closeDialog();
-    //       },
-    //       (err: any) => {
-    //         console.error('registering car sale: ', err);
-    //         this.loaderService.setIsLoadingSWAL(false);
-    //         this.showFailure();
-    //         this.closeDialog();
-    //       }
-    //     );
-    //   },
-    //   (error: any) => {
-    //     console.error('Error uploading constancia de pago', error);
-    //     this.loaderService.setIsLoadingSWAL(false);
-    //     this.showFailure();
-    //     this.closeDialog();
-    //   }
-    // );
+        this.adminService.registrarVenta(body).subscribe(
+          (res: any) => {
+            console.group('Car Registration Response');
+            console.dir(res);
+            console.groupEnd();
+            this.loaderService.setIsLoadingSWAL(false);
+            this.showSuccess();
+            this.closeDialog();
+          },
+          (err: any) => {
+            console.error('registering car sale: ', err);
+            this.loaderService.setIsLoadingSWAL(false);
+            this.showFailure();
+            this.closeDialog();
+          }
+        );
+      },
+      (error: any) => {
+        console.error('Error uploading constancia de pago', error);
+        this.loaderService.setIsLoadingSWAL(false);
+        this.showFailure();
+        this.closeDialog();
+      }
+    );
   }
 
   closeDialog(): void {

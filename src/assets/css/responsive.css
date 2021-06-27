@@ -51,6 +51,10 @@
 @media (min-width: 1440px) and (max-width: 1600px) {
 }
 @media (min-width: 1200px) and (max-width: 1439px) {
+  .b-goods-2-descrip__item {
+    width: 85px;
+    height: 85px;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -89,10 +93,10 @@
   .b-goods-2-descrip__item {
     font-size: 12px;
   }
-  .b-booking-nav__main:before {
+  /* .b-booking-nav__main:before {
     border-top-width: 75px;
     border-bottom-width: 75px;
-  }
+  } */
   .b-semicircle {
     width: 190px;
     height: 95px;

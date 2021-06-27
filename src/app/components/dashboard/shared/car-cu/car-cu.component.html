@@ -221,7 +221,12 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Teléfono Dueño</mat-label>
-                  <input matInput type="text" formControlName="telefonoDueno" />
+                  <input
+                    matInput
+                    type="text"
+                    mask="000 000 000"
+                    formControlName="telefonoDueno"
+                  />
                   <mat-error
                     *ngIf="formGroup.get('telefonoDueno')?.errors?.required"
                   >
@@ -293,36 +298,21 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Serie</mat-label>
-                  <input
-                    readonly
-                    matInput
-                    type="text"
-                    formControlName="serie"
-                  />
+                  <input matInput type="text" formControlName="serie" />
                   <mat-error *ngIf="formGroup.get('serie')?.errors?.required">
                     Primero, debes buscar la placa ingresada.
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Marca</mat-label>
-                  <input
-                    readonly
-                    matInput
-                    type="text"
-                    formControlName="marca"
-                  />
+                  <input matInput type="text" formControlName="marca" />
                   <mat-error *ngIf="formGroup.get('marca')?.errors?.required">
                     Primero, debes buscar la placa ingresada.
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Modelo</mat-label>
-                  <input
-                    readonly
-                    matInput
-                    type="text"
-                    formControlName="modelo"
-                  />
+                  <input matInput type="text" formControlName="modelo" />
                   <mat-error *ngIf="formGroup.get('modelo')?.errors?.required">
                     Primero, debes buscar la placa ingresada.
                   </mat-error>
@@ -422,7 +412,7 @@
                       formGroup.get('cilindrada')?.errors?.max
                     "
                   >
-                    Debes ingresar un número válido de clindrada válido.
+                    Debes ingresar un número de clindrada válido (100-32000).
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100">
@@ -771,7 +761,12 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Teléfono Dueño</mat-label>
-                <input matInput type="text" formControlName="telefonoDueno" />
+                <input
+                  matInput
+                  type="text"
+                  mask="000 000 000"
+                  formControlName="telefonoDueno"
+                />
                 <mat-error
                   *ngIf="formGroup.get('telefonoDueno')?.errors?.required"
                 >
@@ -850,21 +845,21 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Serie</mat-label>
-                <input readonly matInput type="text" formControlName="serie" />
+                <input matInput type="text" formControlName="serie" />
                 <mat-error *ngIf="formGroup.get('serie')?.errors?.required">
                   Primero, debes buscar la placa ingresada.
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Marca</mat-label>
-                <input readonly matInput type="text" formControlName="marca" />
+                <input matInput type="text" formControlName="marca" />
                 <mat-error *ngIf="formGroup.get('marca')?.errors?.required">
                   Primero, debes buscar la placa ingresada.
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Modelo</mat-label>
-                <input readonly matInput type="text" formControlName="modelo" />
+                <input matInput type="text" formControlName="modelo" />
                 <mat-error *ngIf="formGroup.get('modelo')?.errors?.required">
                   Primero, debes buscar la placa ingresada.
                 </mat-error>
@@ -974,7 +969,7 @@
                     formGroup.get('cilindrada')?.errors?.max
                   "
                 >
-                  Debes ingresar un número válido de clindrada válido.
+                  Debes ingresar un número de cilindrada válido (100 - 32000).
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-100">

@@ -3,9 +3,3 @@
     margin-top: 50px;
   }
 }
-
-@media screen and (max-width: 356px) {
-  .footer-margin {
-    margin-top: 110px;
-  }
-}

@@ -62,3 +62,15 @@
 .slick-dots li:not(.slick-active) button {
   background-color: white !important;
 }
+
+@media screen and (max-width: 399px) {
+  .b-main-filter__cat-item .ic {
+    width: 120px !important;
+  }
+}
+
+@media screen and (max-width: 358px) {
+  .b-main-filter__cat-item .ic {
+    width: 100px !important;
+  }
+}

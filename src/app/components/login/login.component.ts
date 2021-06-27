@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   fetchingDNI: boolean = false;
   dniTries: number = 0;
   isLogin: boolean = true;
+  forgotPassword: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -121,6 +122,11 @@ export class LoginComponent implements OnInit {
 
   changeRegisterOption(option: string): void {
     this.registerOption = option;
+  }
+
+  forgotPass(): void {
+    this.forgotPassword = !this.forgotPassword;
+    this.isLogin = !this.isLogin;
   }
 
   logIn(): void {

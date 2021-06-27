@@ -15,7 +15,7 @@
       alt="Foto del Auto"
     />
   </a>
-  <div class="b-goods__main">
+  <div class="b-goods__main" (click)="goToVehicleDetails()">
     <div class="row no-gutters">
       <div class="col">
         <a class="b-goods__title" *ngIf="!mode">
@@ -79,7 +79,7 @@
     <div class="b-goods-descrip row no-gutters">
       <div class="b-goods-descrip__item col">
         <div class="b-goods-descrip__inner">
-          <div class="b-goods-descrip__wrap">
+          <div *ngIf="!newCarView" class="b-goods-descrip__wrap">
             <i class="ic flaticon-speedometer"></i
             ><span class="b-goods-descrip__info">
               {{ autoCasteado?.kilometraje | number }} km</span
@@ -164,7 +164,7 @@
         sponsorView ||
         particularPublishedView
       "
-      class="ml-1 mt-3 row justify-content-center justify-content-lg-start"
+      class="mt-3 row justify-content-center justify-content-xl-start"
     >
       <button
         class="m-2"

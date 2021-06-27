@@ -12,6 +12,7 @@ import { Filter } from 'src/app/core/interfaces/client';
 import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
 import { Pagination } from 'src/app/core/superclasses/pagination';
+import { Filters } from 'src/app/core/enums/filters';
 
 declare var $: any;
 
@@ -41,6 +42,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
   filteredBrands!: string[];
   filteredModels!: string[];
   carFilters!: Filter[];
+  appliedFilters!: Filters[];
 
   // * cars
   carros: AutoSemiNuevo[] = [];
@@ -85,6 +87,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     private commonService: CommonService
   ) {
     super();
+
     if (this.commonService.screenWidth <= 1060) {
       this.list = false;
     } else {
@@ -96,6 +99,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     });
 
     // TODO: recargar la página cuando hace click en 'AUTOS USADOS'
+    this.appliedFilters = [];
     this.tiposTracciones = this.dataService.tiposTracciones;
     this.anos = this.dataService.anos;
     this.autos = this.dataService.autos;
@@ -119,10 +123,6 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
 
   ngAfterViewChecked() {
     this.cdRef.detectChanges();
-  }
-
-  carajo(e: any): void {
-    console.log(e);
   }
 
   ngOnInit(): void {
@@ -189,10 +189,6 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
       }
     );
 
-    console.group('AAAAAAAFiltersAAAAAA');
-    console.log(this.filters);
-    console.groupEnd();
-
     if (this.filters?.carMaxPrice) {
       this.maxPrice = this.filters.carMaxPrice!;
     } else {
@@ -210,7 +206,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
       this.minYear = 2000;
     }
 
-    this.maxYear = 2021;
+    this.maxYear = new Date().getFullYear() + 1;
 
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
@@ -258,6 +254,10 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
             console.dir(this.carros);
             console.groupEnd();
 
+            console.group('Carrocerías');
+            console.log(this.carros.map((carro) => carro.tipoCarroceria));
+            console.groupEnd();
+
             this.filteredCarros = response;
 
             super.updatePagination(this.filteredCarros.length);
@@ -285,9 +285,9 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
   filterResponse(response: AutoSemiNuevo[]): AutoSemiNuevo[] {
     //TODO: podría seter backup, filteres, aux y original acá mejor
     let filtered = response.filter((carro: AutoSemiNuevo) => {
-      console.log(carro);
-      console.log(this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1);
-      console.log('carroceria: ', carro.tipoCarroceria);
+      // console.log(carro);
+      // console.log(this.tiposCarroceria.indexOf(carro.tipoCarroceria) === -1);
+      // console.log('carroceria: ', carro.tipoCarroceria);
       return (
         (this.filters.carBrand
           ? carro.marca === this.filters.carBrand
@@ -360,216 +360,18 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.filteredModels = [];
     this.resetFilters(true);
     this.filterFormGroup.controls['carSubset'].setValue(subset);
+    this.appliedFilters = [];
     super.updatePagination(this.filteredCarros.length);
   }
 
-  changeBrand(e: any | string): void {
-    if (this.carType?.value === '') {
-      this.filteredCarros = this.carros;
-    }
-    const updateFlags: Update = {
-      models: true,
-      type: this.carType?.value !== '' ? false : true,
-      from: true,
-      transmission: true,
-      combustible: true,
-      traction: true,
-      departments: true,
-    };
-    this.updateSelects(updateFlags);
-    let brand: string;
-    if (typeof e === 'string') {
-      brand = e;
-    } else {
-      brand = e.target.value;
-    }
-    if (this.carType?.value === '') {
-      this.filteredCarros = this.filteredCarros.filter(
-        (carro: AutoSemiNuevo) => {
-          return carro.marca.includes(brand);
-        }
-      );
-      this.backupFilteredCarros = this.filteredCarros;
-    } else {
-      this.backupFilteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
-        return carro.marca.includes(brand);
-      });
-      this.filteredCarros = this.backupFilteredCarros.filter(
-        (carro: AutoSemiNuevo) => {
-          return carro.tipoCarroceria.includes(this.carType?.value);
-        }
-      );
-    }
-    this.auxFilteredCarros = this.filteredCarros;
-    console.group('Filtered carros after brand change');
-    console.log(this.filteredCarros);
-    console.groupEnd();
-    console.log('Change Car Brand Event: ', brand);
-    console.log(this.filterFormGroup.get('carBrand')?.value);
-
-    console.warn('carType: ', this.carType?.value);
-    this.filteredModels = this.carFilters
-      ?.filter((elem: Filter) => {
-        if (this.carType?.value !== '') {
-          if (this.carSubset?.value !== '') {
-            return this.carType?.value != 'OTRO'
-              ? elem.marca == brand &&
-                  elem.tipoCarroceria == this.carType?.value &&
-                  (this.carSubset?.value == 'ALL' ||
-                    elem.tipoCarro == this.carSubset?.value)
-              : elem.marca == brand &&
-                  (this.carSubset?.value == 'ALL' ||
-                    elem.tipoCarro == this.carSubset?.value);
-          } else {
-            return this.carType?.value != 'OTRO'
-              ? elem.marca == brand &&
-                  elem.tipoCarroceria == this.carType?.value
-              : elem.marca == brand;
-          }
-        } else {
-          if (this.carSubset?.value !== '') {
-            return (
-              elem.marca == brand &&
-              (this.carSubset?.value == 'ALL' ||
-                elem.tipoCarro == this.carSubset?.value)
-            );
-          } else {
-            return elem.marca == brand;
-          }
-        }
-      })
-      .map((elem) => elem.modelo)
-      .filter((v, i, a) => a.indexOf(v) == i);
-
-    console.log('filtered models');
-    console.log(this.filteredModels);
-    setTimeout(() => {
-      $('#modelos').selectpicker('refresh');
-      this.carModel?.setValue('');
-    }, 1000);
-    super.updatePagination(this.filteredCarros.length);
-  }
-
-  changeModel(e: any): void {
-    const model: string = e.target.value;
-    this.filteredCarros = this.backupFilteredCarros;
-    let resetType = true;
-    if (this.carType?.value !== '') {
-      this.carFilters.forEach((filter: Filter) => {
-        if (
-          filter.modelo === model &&
-          filter.tipoCarroceria === this.carType?.value
-        ) {
-          resetType = false;
-        }
-      });
-    }
-    const updateFlags: Update = {
-      type: resetType,
-      from: true,
-      transmission: true,
-      combustible: true,
-      traction: true,
-      departments: true,
-    };
-    this.updateSelects(updateFlags);
-
-    console.log('selected model: ', model);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.modelo.includes(model);
-    });
-    this.auxFilteredCarros = this.filteredCarros;
-    super.updatePagination(this.filteredCarros.length);
-  }
-
-  changeCarroceria(e: any): void {
-    const type: string = e.target.value;
-    this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
-    console.log(this.filterFormGroup.get('carType')?.value);
-    if (type.toLowerCase() != 'otro') {
-      // ! aca se estan camiando los brands
-      // entonces si seleccione un modelo de un brand q ya no esta acá, debo deshacer esa seleccion
-      this.filteredBrands = this.carFilters
-        .filter((elem: Filter) => {
-          return elem.tipoCarroceria.toLowerCase() == type.toLowerCase();
-        })
-        .map((elem) => elem.marca)
-        .filter((v, i, a) => a.indexOf(v) == i);
-    } else {
-      this.filteredBrands = this.carFilters
-        .map((elem: Filter) => elem.marca)
-        .filter((v, i, a) => a.indexOf(v) == i);
-    }
-
-    // * si la marca q he seleccionado no tiene esta carroceria, resetear Marca y Modelo
-    if (
-      this.carBrand?.value !== '' &&
-      this.filteredBrands.indexOf(this.carBrand?.value) === -1
-    ) {
-      if (this.filteredCarros.length !== 0) {
-        console.warn('deberia estar aca');
-        this.filteredCarros = this.carros;
-        this.filteredModels = [];
-        this.filterFormGroup.get('carBrand')?.setValue('');
-        this.filterFormGroup.get('carModel')?.setValue('');
-        setTimeout(() => {
-          $('#marcas').selectpicker('refresh');
-          $('#modelos').selectpicker('refresh');
-        }, 250);
-        if (type !== 'OTRO') {
-          this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
-            return carro.tipoCarroceria.includes(type);
-          });
-          this.auxFilteredCarros = this.filteredCarros;
-          super.updatePagination(this.filteredCarros.length);
-        }
-        //TODO: falta el 'else'
-      }
-    } else {
-      // * si la marca q he seleccionado si tiene esa carroceria, solo resetear Modelo
-      this.filteredModels = this.carFilters
-        .filter((elem: Filter) => {
-          return (
-            elem.marca === this.carBrand?.value && elem.tipoCarroceria === type
-          );
-        })
-        .map((elem) => elem.modelo)
-        .filter((v, i, a) => a.indexOf(v) == i);
-
-      if (this.filteredModels.includes(this.carModel?.value)) {
-        setTimeout(() => {
-          let aux = this.carBrand?.value;
-          let tmp = this.carModel?.value;
-          $('#marcas').selectpicker('refresh');
-          $('#modelos').selectpicker('refresh');
-          this.carBrand?.setValue(aux);
-          this.carModel?.setValue(tmp);
-        }, 250);
-      } else {
-        this.filteredCarros = this.filteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return carro.tipoCarroceria.includes(type);
-          }
-        );
-        console.log('modelo no tiene carroceria');
-        this.auxFilteredCarros = this.filteredCarros;
-      }
-
-      // if (type !== 'OTRO') {
-      //   this.filteredCarros = this.backupFilteredCarros.filter(
-      //     (carro: AutoSemiNuevo) => {
-      //       return carro.tipoCarroceria.includes(type);
-      //     }
-      //   );
-      //   this.auxFilteredCarros = this.filteredCarros;
-      //   this.updatePagination();
-      // }
-      //TODO: falta el 'else'
-    }
-
-    console.log(this.filteredBrands);
-
+  changeBrand(e: any): void {
+    this.filterCarsBy(Filters.CarBrand);
+    // if (this.carType?.value === '') {
+    //   this.filteredCarros = this.carros;
+    // }
     // const updateFlags: Update = {
+    //   models: true,
+    //   type: this.carType?.value !== '' ? false : true,
     //   from: true,
     //   transmission: true,
     //   combustible: true,
@@ -577,64 +379,378 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     //   departments: true,
     // };
     // this.updateSelects(updateFlags);
+    // let brand: string;
+    // if (typeof e === 'string') {
+    //   brand = e;
+    // } else {
+    //   brand = e.target.value;
+    // }
+    // if (this.carType?.value === '') {
+    //   this.filteredCarros = this.filteredCarros.filter(
+    //     (carro: AutoSemiNuevo) => {
+    //       return carro.marca.includes(brand);
+    //     }
+    //   );
+    //   this.backupFilteredCarros = this.filteredCarros;
+    // } else {
+    //   this.backupFilteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+    //     return carro.marca.includes(brand);
+    //   });
+    //   this.filteredCarros = this.backupFilteredCarros.filter(
+    //     (carro: AutoSemiNuevo) => {
+    //       return carro.tipoCarroceria.includes(this.carType?.value);
+    //     }
+    //   );
+    // }
+    // this.auxFilteredCarros = this.filteredCarros;
+    // console.group('Filtered carros after brand change');
+    // console.log(this.filteredCarros);
+    // console.groupEnd();
+    // console.log('Change Car Brand Event: ', brand);
+    // console.log(this.filterFormGroup.get('carBrand')?.value);
+
+    // console.warn('carType: ', this.carType?.value);
+    // this.filteredModels = this.carFilters
+    //   ?.filter((elem: Filter) => {
+    //     if (this.carType?.value !== '') {
+    //       if (this.carSubset?.value !== '') {
+    //         return this.carType?.value != 'OTRO'
+    //           ? elem.marca == brand &&
+    //               elem.tipoCarroceria == this.carType?.value &&
+    //               (this.carSubset?.value == 'ALL' ||
+    //                 elem.tipoCarro == this.carSubset?.value)
+    //           : elem.marca == brand &&
+    //               (this.carSubset?.value == 'ALL' ||
+    //                 elem.tipoCarro == this.carSubset?.value);
+    //       } else {
+    //         return this.carType?.value != 'OTRO'
+    //           ? elem.marca == brand &&
+    //               elem.tipoCarroceria == this.carType?.value
+    //           : elem.marca == brand;
+    //       }
+    //     } else {
+    //       if (this.carSubset?.value !== '') {
+    //         return (
+    //           elem.marca == brand &&
+    //           (this.carSubset?.value == 'ALL' ||
+    //             elem.tipoCarro == this.carSubset?.value)
+    //         );
+    //       } else {
+    //         return elem.marca == brand;
+    //       }
+    //     }
+    //   })
+    //   .map((elem) => elem.modelo)
+    //   .filter((v, i, a) => a.indexOf(v) == i);
+
+    // console.log('filtered models');
+    // console.log(this.filteredModels);
+    // setTimeout(() => {
+    //   $('#modelos').selectpicker('refresh');
+    //   this.carModel?.setValue('');
+    // }, 1000);
+    // super.updatePagination(this.filteredCarros.length);
+  }
+
+  changeModel(e: any): void {
+    this.filterCarsBy(Filters.CarModel);
+    // const model: string = e.target.value;
+    // this.filteredCarros = this.backupFilteredCarros;
+    // let resetType = true;
+    // if (this.carType?.value !== '') {
+    //   this.carFilters.forEach((filter: Filter) => {
+    //     if (
+    //       filter.modelo === model &&
+    //       filter.tipoCarroceria === this.carType?.value
+    //     ) {
+    //       resetType = false;
+    //     }
+    //   });
+    // }
+    // const updateFlags: Update = {
+    //   type: resetType,
+    //   from: true,
+    //   transmission: true,
+    //   combustible: true,
+    //   traction: true,
+    //   departments: true,
+    // };
+    // this.updateSelects(updateFlags);
+
+    // console.log('selected model: ', model);
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.modelo.includes(model);
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
+    // super.updatePagination(this.filteredCarros.length);
+  }
+
+  changeCarroceria(e: any): void {
+    this.filterCarsBy(Filters.CarType);
+    // const type: string = e.target.value;
+    // this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
+    // console.log(this.filterFormGroup.get('carType')?.value);
+    // if (type.toLowerCase() != 'otro') {
+    //   // ! aca se estan camiando los brands
+    //   // entonces si seleccione un modelo de un brand q ya no esta acá, debo deshacer esa seleccion
+    //   this.filteredBrands = this.carFilters
+    //     .filter((elem: Filter) => {
+    //       return elem.tipoCarroceria.toLowerCase() == type.toLowerCase();
+    //     })
+    //     .map((elem) => elem.marca)
+    //     .filter((v, i, a) => a.indexOf(v) == i);
+    // } else {
+    //   this.filteredBrands = this.carFilters
+    //     .map((elem: Filter) => elem.marca)
+    //     .filter((v, i, a) => a.indexOf(v) == i);
+    // }
+
+    // // * si la marca q he seleccionado no tiene esta carroceria, resetear Marca y Modelo
+    // if (
+    //   this.carBrand?.value !== '' &&
+    //   this.filteredBrands.indexOf(this.carBrand?.value) === -1
+    // ) {
+    //   if (this.filteredCarros.length !== 0) {
+    //     console.warn('deberia estar aca');
+    //     this.filteredCarros = this.carros;
+    //     this.filteredModels = [];
+    //     this.filterFormGroup.get('carBrand')?.setValue('');
+    //     this.filterFormGroup.get('carModel')?.setValue('');
+    //     setTimeout(() => {
+    //       $('#marcas').selectpicker('refresh');
+    //       $('#modelos').selectpicker('refresh');
+    //     }, 250);
+    //     if (type !== 'OTRO') {
+    //       this.filteredCarros = this.carros.filter((carro: AutoSemiNuevo) => {
+    //         return carro.tipoCarroceria.includes(type);
+    //       });
+    //       this.auxFilteredCarros = this.filteredCarros;
+    //       super.updatePagination(this.filteredCarros.length);
+    //     }
+    //     //TODO: falta el 'else'
+    //   }
+    // } else {
+    //   // * si la marca q he seleccionado si tiene esa carroceria, solo resetear Modelo
+    //   this.filteredModels = this.carFilters
+    //     .filter((elem: Filter) => {
+    //       return (
+    //         elem.marca === this.carBrand?.value && elem.tipoCarroceria === type
+    //       );
+    //     })
+    //     .map((elem) => elem.modelo)
+    //     .filter((v, i, a) => a.indexOf(v) == i);
+
+    //   if (this.filteredModels.includes(this.carModel?.value)) {
+    //     setTimeout(() => {
+    //       let aux = this.carBrand?.value;
+    //       let tmp = this.carModel?.value;
+    //       $('#marcas').selectpicker('refresh');
+    //       $('#modelos').selectpicker('refresh');
+    //       this.carBrand?.setValue(aux);
+    //       this.carModel?.setValue(tmp);
+    //     }, 250);
+    //   } else {
+    //     this.filteredCarros = this.filteredCarros.filter(
+    //       (carro: AutoSemiNuevo) => {
+    //         return carro.tipoCarroceria.includes(type);
+    //       }
+    //     );
+    //     console.log('modelo no tiene carroceria');
+    //     this.auxFilteredCarros = this.filteredCarros;
+    //   }
+
+    //   // if (type !== 'OTRO') {
+    //   //   this.filteredCarros = this.backupFilteredCarros.filter(
+    //   //     (carro: AutoSemiNuevo) => {
+    //   //       return carro.tipoCarroceria.includes(type);
+    //   //     }
+    //   //   );
+    //   //   this.auxFilteredCarros = this.filteredCarros;
+    //   //   this.updatePagination();
+    //   // }
+    //   //TODO: falta el 'else'
+    // }
+
+    // console.log(this.filteredBrands);
+
+    // // const updateFlags: Update = {
+    // //   from: true,
+    // //   transmission: true,
+    // //   combustible: true,
+    // //   traction: true,
+    // //   departments: true,
+    // // };
+    // // this.updateSelects(updateFlags);
+  }
+
+  filterCarsBy(type: Filters): void {
+    if (this.appliedFilters.indexOf(type) === -1) {
+      this.appliedFilters.push(type);
+      console.log('adding filter...: ', type);
+    }
+
+    console.log('Aplying filters: ', this.appliedFilters);
+    // TODO: quizas mostrar un loader mientras filtra
+
+    let aux: AutoSemiNuevo[] = this.carros;
+
+    this.appliedFilters.forEach((filtro: Filters) => {
+      switch (filtro) {
+        case Filters.CarBrand: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.marca.includes(this.carBrand?.value)
+          );
+          break;
+        }
+        case Filters.CarModel: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.modelo.includes(this.carModel?.value)
+          );
+          break;
+        }
+        case Filters.CarType: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.tipoCarroceria.includes(this.carType?.value)
+          );
+          break;
+        }
+        case Filters.CarYearFrom: {
+          aux = aux.filter(
+            (auto: AutoSemiNuevo) =>
+              auto.anoFabricacion >= this.carMinYear?.value
+          );
+          break;
+        }
+        case Filters.CarTransmission: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.tipoCambios
+              ? auto.tipoCambios.includes(this.carTransmission?.value)
+              : true
+          );
+          break;
+        }
+        case Filters.CarFuelType: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.tipoCombustible
+              ? auto.tipoCombustible.includes(this.carFuelType?.value)
+              : true
+          );
+          break;
+        }
+        case Filters.CarTraction: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.tipoTraccion
+              ? auto.tipoTraccion.includes(this.carTraction?.value)
+              : true
+          );
+          break;
+        }
+        case Filters.CarDepartments: {
+          aux = aux.filter((auto: AutoSemiNuevo) => {
+            let buleano: boolean = false;
+            this.carDepartamentos?.value.forEach((departamento: string) => {
+              buleano = buleano || auto.locacion!.includes(departamento);
+            });
+            return buleano;
+          });
+          break;
+        }
+        case Filters.SliderKilometraje: {
+          aux = aux.filter((auto: AutoSemiNuevo) =>
+            auto.kilometraje
+              ? auto.kilometraje >= this.minKilometraje &&
+                auto.kilometraje <= this.maxKilometraje
+              : true
+          );
+          break;
+        }
+        case Filters.SliderPrice: {
+          aux = aux.filter(
+            (auto: AutoSemiNuevo) =>
+              auto.precioVenta >= this.minPrice &&
+              auto.precioVenta <= this.maxPrice
+          );
+          break;
+        }
+        case Filters.SliderYear: {
+          aux = aux.filter(
+            (auto: AutoSemiNuevo) =>
+              auto.anoFabricacion >= this.minYear &&
+              auto.anoFabricacion <= this.maxYear
+          );
+          break;
+        }
+      }
+    });
+
+    this.filteredCarros = aux;
+    this.auxFilteredCarros = this.filteredCarros;
+    super.updatePagination(this.filteredCarros.length);
+
+    console.log('Done');
   }
 
   changeTransmision(e: any): void {
+    this.filterCarsBy(Filters.CarTransmission);
+
     const transmision: string = e.target.value;
     console.log('selected transmision: ', transmision);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.tipoCambios.includes(transmision);
-    });
-    this.auxFilteredCarros = this.filteredCarros;
-    super.updatePagination(this.filteredCarros.length);
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.tipoCambios.includes(transmision);
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
+    // super.updatePagination(this.filteredCarros.length);
   }
 
   changeCombustible(e: any): void {
-    const combustible: string = e.target.value;
-    console.log('selected combustible: ', combustible);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.tipoCombustible.includes(combustible);
-    });
-    this.auxFilteredCarros = this.filteredCarros;
-    super.updatePagination(this.filteredCarros.length);
+    this.filterCarsBy(Filters.CarFuelType);
+    // const combustible: string = e.target.value;
+    // console.log('selected combustible: ', combustible);
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.tipoCombustible.includes(combustible);
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
+    // super.updatePagination(this.filteredCarros.length);
   }
 
   changeTraccion(e: any): void {
-    const traccion: string = e.target.value;
-    console.log('selected traccion: ', traccion);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.tipoTraccion.includes(traccion);
-    });
-    this.auxFilteredCarros = this.filteredCarros;
-    super.updatePagination(this.filteredCarros.length);
+    this.filterCarsBy(Filters.CarTraction);
+    // const traccion: string = e.target.value;
+    // console.log('selected traccion: ', traccion);
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.tipoTraccion.includes(traccion);
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
+    // super.updatePagination(this.filteredCarros.length);
   }
 
   changeDepartamentos(e: any): void {
-    const departamento: string = e.target.value;
-    console.log('selected departamento: ', departamento);
-    console.log('selected departamentos form: ', this.carDepartamentos?.value);
+    this.filterCarsBy(Filters.CarDepartments);
+    // const departamento: string = e.target.value;
+    // console.log('selected departamento: ', departamento);
+    // console.log('selected departamentos form: ', this.carDepartamentos?.value);
 
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      let johnathanPrieto: boolean = false;
-      this.carDepartamentos?.value.forEach((departamento: string) => {
-        johnathanPrieto =
-          johnathanPrieto || carro.locacion!.includes(departamento);
-      });
-      return johnathanPrieto;
-    });
-    this.auxFilteredCarros = this.filteredCarros;
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   let buleano: boolean = false;
+    //   this.carDepartamentos?.value.forEach((departamento: string) => {
+    //     buleano = buleano || carro.locacion!.includes(departamento);
+    //   });
+    //   return buleano;
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
 
-    super.updatePagination(this.filteredCarros.length);
+    // super.updatePagination(this.filteredCarros.length);
   }
 
   changeAnoFrom(e: any): void {
-    const from: number = e.target.value;
-    console.log('selected from year: ', from);
-    this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
-      return carro.anoFabricacion >= from;
-    });
-    this.auxFilteredCarros = this.filteredCarros;
-    super.updatePagination(this.filteredCarros.length);
+    this.filterCarsBy(Filters.CarYearFrom);
+    // const from: number = e.target.value;
+    // console.log('selected from year: ', from);
+    // this.filteredCarros = this.filteredCarros.filter((carro: AutoSemiNuevo) => {
+    //   return carro.anoFabricacion >= from;
+    // });
+    // this.auxFilteredCarros = this.filteredCarros;
+    // super.updatePagination(this.filteredCarros.length);
   }
 
   sortBy(e: any): void {
@@ -710,7 +826,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
 
     //TODO: esto depende del cliente
     this.minYear = 2000;
-    this.maxYear = 2021;
+    this.maxYear = new Date().getFullYear() + 1;
 
     this.updatePriceSliderOptions();
     this.updateKilometrajeSliderOptions();
@@ -743,9 +859,9 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
         console.log(this.filters);
         console.groupEnd();
 
-        console.group('Autos Semi Nuevos');
-        console.dir(this.carros);
-        console.groupEnd();
+        // console.group('Autos Semi Nuevos');
+        // console.dir(this.carros);
+        // console.groupEnd();
 
         console.group('Filtrando Carros');
 
@@ -761,9 +877,9 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
 
         console.groupEnd();
 
-        console.group('Filtered Carros');
-        console.dir(this.filteredCarros);
-        console.groupEnd();
+        // console.group('Filtered Carros');
+        // console.dir(this.filteredCarros);
+        // console.groupEnd();
 
         super.updatePagination(this.filteredCarros.length);
       },
@@ -949,23 +1065,38 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     return this.filterFormGroup.get('carTraction');
   }
 
+  yearSliderChanged(e: any) {
+    console.log(e);
+    this.filterCarsBy(Filters.SliderYear);
+  }
+
+  kilometrajeSliderChanged(e: any) {
+    console.log(e);
+    this.filterCarsBy(Filters.SliderKilometraje);
+  }
+
+  priceSliderChanged(e: any): void {
+    console.log(e);
+    this.filterCarsBy(Filters.SliderPrice);
+  }
+
   updatePriceSliderOptions(): void {
     this.options = {
       floor: this.minPrice,
       ceil: this.maxPrice,
       step: 1000,
-      translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.auxFilteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return (
-              carro.precioVenta >= this.minPrice &&
-              carro.precioVenta <= this.maxPrice
-            );
-          }
-        );
-        super.updatePagination(this.filteredCarros.length);
-        return '';
-      },
+      // translate: (value: number, label: LabelType): string => {
+      //   // this.filteredCarros = this.auxFilteredCarros.filter(
+      //   //   (carro: AutoSemiNuevo) => {
+      //   //     return (
+      //   //       carro.precioVenta >= this.minPrice &&
+      //   //       carro.precioVenta <= this.maxPrice
+      //   //     );
+      //   //   }
+      //   // );
+      //   // super.updatePagination(this.filteredCarros.length);
+      //   return '';
+      // },
     };
   }
 
@@ -974,46 +1105,49 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
       floor: this.minYear,
       ceil: this.maxYear,
       step: 1,
-      translate: (value: number, label: LabelType): string => {
-        this.filteredCarros = this.auxFilteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            return (
-              carro.anoFabricacion >= this.minYear &&
-              carro.anoFabricacion <= this.maxYear
-            );
-          }
-        );
-        super.updatePagination(this.filteredCarros.length);
-        return '';
-      },
+      // translate: (value: number, label: LabelType): string => {
+      //   // FIXMEEEEEE -> apenas elija filtro normal despues de filtro aux, actualizar filtros noamrles a aux
+      //   // if (this.appliedFilters.indexOf(Filters.SliderYear) === -1) {
+      //   //   this.appliedFilters.push(Filters.SliderYear);
+      //   // }
+      //   // this.filteredCarros = this.auxFilteredCarros.filter(
+      //   //   (carro: AutoSemiNuevo) => {
+      //   //     return (
+      //   //       carro.anoFabricacion >= this.minYear &&
+      //   //       carro.anoFabricacion <= this.maxYear
+      //   //     );
+      //   //   }
+      //   // );
+      //   // super.updatePagination(this.filteredCarros.length);
+      //   return '';
+      // },
     };
   }
 
   updateKilometrajeSliderOptions(): void {
-    console.log('caaa');
-    console.log(this.maxKilometraje);
-    console.log(this.minKilometraje);
     this.optionsKilometraje = {
       floor: this.minKilometraje,
       ceil: this.maxKilometraje,
-      step: 5000, // TODO: depende de qué kilometrajes dejemos que el usuario ingrese
-      translate: (value: number, label: LabelType): string => {
-        console.log('max', this.maxKilometraje);
-        this.filteredCarros = this.auxFilteredCarros.filter(
-          (carro: AutoSemiNuevo) => {
-            if (carro.kilometraje) {
-              return (
-                carro.kilometraje >= this.minKilometraje &&
-                carro.kilometraje <= this.maxKilometraje
-              );
-            } else {
-              return true;
-            }
-          }
-        );
-        super.updatePagination(this.filteredCarros.length);
-        return '';
-      },
+      step: 10000, // TODO: depende de qué kilometrajes dejemos que el usuario ingrese
+      // translate: (value: number, label: LabelType): string => {
+      //   // if (this.appliedFilters.indexOf(Filters.SliderKilometraje) === -1) {
+      //   //   this.appliedFilters.push(Filters.SliderKilometraje);
+      //   // }
+      //   // this.filteredCarros = this.auxFilteredCarros.filter(
+      //   //   (carro: AutoSemiNuevo) => {
+      //   //     if (carro.kilometraje) {
+      //   //       return (
+      //   //         carro.kilometraje >= this.minKilometraje &&
+      //   //         carro.kilometraje <= this.maxKilometraje
+      //   //       );
+      //   //     } else {
+      //   //       return true;
+      //   //     }
+      //   //   }
+      //   // );
+      //   // super.updatePagination(this.filteredCarros.length);
+      //   return '';
+      // },
     };
   }
 
