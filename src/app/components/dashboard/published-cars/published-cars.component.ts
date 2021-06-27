@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { Filter } from 'src/app/core/interfaces/client';
 import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
+import { Pagination } from 'src/app/core/superclasses/pagination';
 
 declare var $: any;
 
@@ -31,7 +32,7 @@ interface Update {
   templateUrl: './published-cars.component.html',
   styleUrls: ['./published-cars.component.css'],
 })
-export class PublishedCarsComponent implements OnInit {
+export class PublishedCarsComponent extends Pagination implements OnInit {
   @Input() filters!: CarSearchFilter;
 
   // * filters
@@ -47,12 +48,6 @@ export class PublishedCarsComponent implements OnInit {
   auxFilteredCarros: AutoSemiNuevo[] = [];
   backupFilteredCarros: AutoSemiNuevo[] = [];
   originalFilteredCarros: AutoSemiNuevo[] = [];
-
-  // * pages
-  pgCnt: number = 0;
-  pages: number[] = [0];
-  currPage: number = 0;
-  carsPerPage: number = 9;
 
   // * datos
   autos: any[];
@@ -77,9 +72,6 @@ export class PublishedCarsComponent implements OnInit {
   // * Grid - Listings
   list: boolean = true;
 
-  minPage: number = 0;
-  maxPage: number = 10;
-
   // * booleans
   loadingCars: boolean = false;
 
@@ -92,6 +84,7 @@ export class PublishedCarsComponent implements OnInit {
     private clientService: ClientService,
     private commonService: CommonService
   ) {
+    super();
     if (this.commonService.screenWidth <= 1060) {
       this.list = false;
     } else {
@@ -267,7 +260,7 @@ export class PublishedCarsComponent implements OnInit {
 
             this.filteredCarros = response;
 
-            this.updatePagination();
+            super.updatePagination(this.filteredCarros.length);
           },
           (error: any) => {
             console.error(
@@ -332,12 +325,7 @@ export class PublishedCarsComponent implements OnInit {
         );
       }
     );
-    this.updatePagination();
-  }
-
-  goToPage(pageId: number): void {
-    this.currPage = pageId;
-    window.scrollTo(0, 0);
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeCarSubset(e: any): void {
@@ -372,7 +360,7 @@ export class PublishedCarsComponent implements OnInit {
     this.filteredModels = [];
     this.resetFilters(true);
     this.filterFormGroup.controls['carSubset'].setValue(subset);
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeBrand(e: any | string): void {
@@ -459,7 +447,7 @@ export class PublishedCarsComponent implements OnInit {
       $('#modelos').selectpicker('refresh');
       this.carModel?.setValue('');
     }, 1000);
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeModel(e: any): void {
@@ -491,7 +479,7 @@ export class PublishedCarsComponent implements OnInit {
       return carro.modelo.includes(model);
     });
     this.auxFilteredCarros = this.filteredCarros;
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeCarroceria(e: any): void {
@@ -533,7 +521,7 @@ export class PublishedCarsComponent implements OnInit {
             return carro.tipoCarroceria.includes(type);
           });
           this.auxFilteredCarros = this.filteredCarros;
-          this.updatePagination();
+          super.updatePagination(this.filteredCarros.length);
         }
         //TODO: falta el 'else'
       }
@@ -598,7 +586,7 @@ export class PublishedCarsComponent implements OnInit {
       return carro.tipoCambios.includes(transmision);
     });
     this.auxFilteredCarros = this.filteredCarros;
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeCombustible(e: any): void {
@@ -608,7 +596,7 @@ export class PublishedCarsComponent implements OnInit {
       return carro.tipoCombustible.includes(combustible);
     });
     this.auxFilteredCarros = this.filteredCarros;
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeTraccion(e: any): void {
@@ -618,7 +606,7 @@ export class PublishedCarsComponent implements OnInit {
       return carro.tipoTraccion.includes(traccion);
     });
     this.auxFilteredCarros = this.filteredCarros;
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeDepartamentos(e: any): void {
@@ -636,7 +624,7 @@ export class PublishedCarsComponent implements OnInit {
     });
     this.auxFilteredCarros = this.filteredCarros;
 
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   changeAnoFrom(e: any): void {
@@ -646,7 +634,7 @@ export class PublishedCarsComponent implements OnInit {
       return carro.anoFabricacion >= from;
     });
     this.auxFilteredCarros = this.filteredCarros;
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   sortBy(e: any): void {
@@ -696,7 +684,7 @@ export class PublishedCarsComponent implements OnInit {
 
     console.log('sorted carros: ', this.filteredCarros);
 
-    this.updatePagination();
+    super.updatePagination(this.filteredCarros.length);
   }
 
   resetFilters(brand: boolean = false): void {
@@ -777,7 +765,7 @@ export class PublishedCarsComponent implements OnInit {
         console.dir(this.filteredCarros);
         console.groupEnd();
 
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
       },
       (error: any) => {
         console.error(
@@ -819,7 +807,7 @@ export class PublishedCarsComponent implements OnInit {
         console.dir(this.filteredCarros);
         console.groupEnd();
 
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
       },
       (error: any) => {
         console.error(
@@ -865,7 +853,7 @@ export class PublishedCarsComponent implements OnInit {
         console.dir(this.filteredCarros);
         console.groupEnd();
 
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
       },
       (error: any) => {
         console.error(
@@ -960,16 +948,6 @@ export class PublishedCarsComponent implements OnInit {
   get carTraction() {
     return this.filterFormGroup.get('carTraction');
   }
-  updatePagination(): void {
-    this.currPage = 0;
-    this.pgCnt = Math.ceil(this.filteredCarros.length / this.carsPerPage);
-    this.pages = Array(this.pgCnt)
-      .fill(this.pgCnt)
-      .map((x: any, i: any) => i);
-    this.minPage = 0;
-    this.maxPage = this.pgCnt > 10 ? 10 : this.pgCnt;
-    this.currPage = this.minPage;
-  }
 
   updatePriceSliderOptions(): void {
     this.options = {
@@ -985,7 +963,7 @@ export class PublishedCarsComponent implements OnInit {
             );
           }
         );
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
         return '';
       },
     };
@@ -1005,7 +983,7 @@ export class PublishedCarsComponent implements OnInit {
             );
           }
         );
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
         return '';
       },
     };
@@ -1033,7 +1011,7 @@ export class PublishedCarsComponent implements OnInit {
             }
           }
         );
-        this.updatePagination();
+        super.updatePagination(this.filteredCarros.length);
         return '';
       },
     };
@@ -1087,41 +1065,5 @@ export class PublishedCarsComponent implements OnInit {
         $('#tracciones').selectpicker('refresh');
       }
     }, 500);
-  }
-
-  rewind(): void {
-    this.minPage = 0;
-    this.maxPage = 10;
-    this.goToPage(this.minPage);
-    // window.scrollTo(0, 0);
-  }
-
-  forward(): void {
-    this.minPage = this.pgCnt - 10;
-    this.maxPage = this.pgCnt;
-    this.goToPage(this.maxPage - 1);
-    // window.scrollTo(0, 0);
-  }
-
-  next(): void {
-    if (this.maxPage + 10 <= this.pgCnt) {
-      this.minPage = this.minPage + 10;
-      this.maxPage = this.maxPage + 10;
-    } else {
-      this.minPage = this.pgCnt - 10;
-      this.maxPage = this.pgCnt;
-    }
-    this.goToPage(this.minPage);
-  }
-
-  prev(): void {
-    if (this.minPage - 10 >= 0) {
-      this.minPage = this.minPage - 10;
-      this.maxPage = this.maxPage - 10;
-    } else {
-      this.minPage = 0;
-      this.maxPage = 10;
-    }
-    this.goToPage(this.maxPage - 1);
   }
 }

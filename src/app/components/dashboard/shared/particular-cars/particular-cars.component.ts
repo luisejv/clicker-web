@@ -8,29 +8,28 @@ import {
 import { AutoSemiNuevo } from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CommonService } from 'src/app/core/services/common.service';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
+import { Pagination } from 'src/app/core/superclasses/pagination';
 
 @Component({
   selector: 'app-particular-cars',
   templateUrl: './particular-cars.component.html',
   styleUrls: ['./particular-cars.component.css'],
 })
-export class ParticularCarsComponent implements OnInit, OnChanges {
+export class ParticularCarsComponent
+  extends Pagination
+  implements OnInit, OnChanges
+{
   @Input() particularPublishedView!: boolean;
   @Input() name!: string;
   @Input() carros!: AutoSemiNuevo[];
   filteredCarros: AutoSemiNuevo[] = [];
-
-  // * pages
-  pgCnt: number = 0;
-  pages: number[] = [0];
-  currPage: number = 0;
-  carsPerPage: number = 9;
 
   // * responsive
   list: boolean;
   len: number = 0;
 
   constructor(private commonService: CommonService) {
+    super();
     if (this.commonService.screenWidth <= 1060) {
       this.list = false;
     } else {
@@ -67,15 +66,7 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
       );
     });
     this.len = this.filteredCarros.length;
-    this.updatePagination();
-  }
-
-  private updatePagination(): void {
-    this.currPage = 0;
-    this.pgCnt = Math.ceil(this.len / 10);
-    this.pages = Array(this.pgCnt)
-      .fill(this.pgCnt)
-      .map((x: any, i: any) => i);
+    super.updatePagination(this.filteredCarros.length);
   }
 
   private _normalizeValue(value: string): string {
@@ -134,11 +125,5 @@ export class ParticularCarsComponent implements OnInit, OnChanges {
         console.warn('unknown sort type');
       }
     }
-  }
-
-  goToPage(pageId: number): void {
-    this.currPage = pageId;
-    //FIXME: este scrollTo da chongos en la vista de iPad
-    window.scrollTo(0, 0);
   }
 }

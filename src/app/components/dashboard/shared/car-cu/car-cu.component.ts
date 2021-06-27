@@ -421,6 +421,7 @@ export class CarCuComponent implements OnInit {
       (error: any) => {
         this.fetchingPlaca = false;
         this.placaTries = this.placaTries + 1;
+        console.log(error);
         Swal.fire({
           titleText: 'Oops!',
           html: `No se encontró el auto con esa placa. ${
