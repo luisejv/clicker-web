@@ -143,10 +143,13 @@ export class HomeComponent implements OnInit {
         this.filteredBrands = this.filters
           .map((elem) => NormalizePipe.prototype.transform(elem.marca))
           .filter((v, i, a) => a.indexOf(v) == i);
+        // this.carrocerias = response
+        //   .map((elem: Filter) =>
+        //     NormalizePipe.prototype.transform(elem.tipoCarroceria)
+        //   )
+        //   .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias = response
-          .map((elem: Filter) =>
-            NormalizePipe.prototype.transform(elem.tipoCarroceria)
-          )
+          .map((elem: Filter) => elem.tipoCarroceria)
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
@@ -347,25 +350,25 @@ export class HomeComponent implements OnInit {
 
   getBannerImg(carType: string) {
     switch (carType) {
-      case 'PICKUP': {
+      case 'Pick up': {
         return '/assets/media/general/banner-images/V5_Pick-Up.png';
       }
-      case 'SEDAN': {
+      case 'Sedán': {
         return '/assets/media/general/banner-images/V1_Sedan.png';
       }
-      case 'COUPE': {
+      case 'Coupé': {
         return '/assets/media/general/banner-images/V2_Coupe.png';
       }
-      case 'HATCHBACK': {
+      case 'Hatchback': {
         return '/assets/media/general/banner-images/V3_Hatchback.png';
       }
       case 'SUV': {
         return '/assets/media/general/banner-images/V4_SUV.png';
       }
-      case 'PANEL': {
+      case 'Panel': {
         return '/assets/media/general/banner-images/V7_Panel.png';
       }
-      case 'VAN': {
+      case 'Van': {
         return '/assets/media/general/banner-images/V6_Van.png';
       }
       default: {

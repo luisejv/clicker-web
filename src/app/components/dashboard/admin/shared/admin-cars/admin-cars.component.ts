@@ -1,19 +1,32 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
 import { AutoInteresado } from 'src/app/core/interfaces/auto-interesado';
 import { AutoReportado } from 'src/app/core/interfaces/auto-reportado';
-import { AutoSemiNuevo, SponsoredCar } from 'src/app/core/interfaces/auto-semi-nuevo';
+import {
+  AutoSemiNuevo,
+  SponsoredCar,
+} from 'src/app/core/interfaces/auto-semi-nuevo';
 import { CommonService } from 'src/app/core/services/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { Pagination } from 'src/app/core/superclasses/pagination';
 
 @Component({
   selector: 'app-admin-cars',
   templateUrl: './admin-cars.component.html',
-  styleUrls: ['./admin-cars.component.css']
+  styleUrls: ['./admin-cars.component.css'],
 })
-export class AdminCarsComponent implements OnInit, OnChanges {
-  // TODO: @Input() para setear el número de carros por página
-
+export class AdminCarsComponent
+  extends Pagination
+  implements OnInit, OnChanges
+{
   @Input() name!: string;
 
   @Input() validationView: boolean = false;
@@ -46,55 +59,39 @@ export class AdminCarsComponent implements OnInit, OnChanges {
 
   sponsoredFilteredCarros: SponsoredCar[] = [];
 
-  // * pages
-  pgCnt: number = 0;
-  pages: number[] = [0];
-  currPage: number = 0;
-  carsPerPage: number = 9;
-
   constructor(
     private loaderService: LoaderService,
-    private commonService: CommonService,
+    private commonService: CommonService
   ) {
-
+    super();
     if (this.commonService.screenWidth <= 1060) {
-      this.list = false
+      this.list = false;
     } else {
       this.list = true;
     }
 
-    this.commonService.changeLayoutEvent.subscribe(
-      () => {
-        this.changeGridView('grid');
-      }
-    );
+    this.commonService.changeLayoutEvent.subscribe(() => {
+      this.changeGridView('grid');
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.group('ngOnChanges');
     console.dir(changes);
     console.groupEnd();
-    
-    if (changes.notValidatedCars && this.notValidatedCars.length > 0) {
 
+    if (changes.notValidatedCars && this.notValidatedCars.length > 0) {
       this.notValidatedFilteredCarros = this.notValidatedCars;
       this.len = this.notValidatedFilteredCarros.length;
-
     } else if (changes.reportedCars && this.reportedCars.length > 0) {
-
       this.reportedFilteredCarros = this.reportedCars;
       this.len = this.reportedFilteredCarros.length;
-
     } else if (changes.interestingCars && this.interestingCars.length > 0) {
-
       this.interestingFilteredCarros = this.interestingCars;
       this.len = this.interestingFilteredCarros.length;
-
     } else if (changes.sponsoredCars && this.sponsoredCars.length > 0) {
-
       this.sponsoredFilteredCarros = this.sponsoredCars;
       this.len = this.sponsoredFilteredCarros.length;
-
     }
   }
 
@@ -166,66 +163,72 @@ export class AdminCarsComponent implements OnInit, OnChanges {
           );
         }
       );
+      this.len = this.interestingFilteredCarros.length;
     } else if (this.sponsorView) {
       this.sponsoredFilteredCarros = this.sponsoredCars.filter(
         (carro: SponsoredCar) => {
           //TODO: añadir más propiedades? (año, kilometraje, etc)
           return (
-            this._normalizeValue(carro.autoSemiNuevo.marca).includes(normalizedQuery) ||
-            this._normalizeValue(carro.autoSemiNuevo.modelo).includes(normalizedQuery)
+            this._normalizeValue(carro.autoSemiNuevo.marca).includes(
+              normalizedQuery
+            ) ||
+            this._normalizeValue(carro.autoSemiNuevo.modelo).includes(
+              normalizedQuery
+            )
           );
         }
       );
+      this.len = this.sponsoredFilteredCarros.length;
     }
-    this.updatePagination();
-  }
-
-  private updatePagination(): void {
-    this.currPage = 0;
-    this.pgCnt = Math.ceil(this.len / 10);
-    this.pages = Array(this.pgCnt)
-      .fill(this.pgCnt)
-      .map((x: any, i: any) => i);
+    super.updatePagination(this.len);
   }
 
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
-  filterSimpleCars(cars: AutoSemiNuevo[] | AutoReportado[], byPrice: boolean, ascending: boolean) {
+  filterSimpleCars(
+    cars: AutoSemiNuevo[] | AutoReportado[],
+    byPrice: boolean,
+    ascending: boolean
+  ) {
     if (byPrice) {
       if (ascending) {
         cars.sort(
-          (a: AutoSemiNuevo | AutoReportado, b: AutoSemiNuevo | AutoReportado) => {
-            return (
-              a.precioVenta - b.precioVenta
-            );
+          (
+            a: AutoSemiNuevo | AutoReportado,
+            b: AutoSemiNuevo | AutoReportado
+          ) => {
+            return a.precioVenta - b.precioVenta;
           }
         );
       } else {
         cars.sort(
-          (a: AutoSemiNuevo | AutoReportado, b: AutoSemiNuevo | AutoReportado) => {
-            return (
-              b.precioVenta - a.precioVenta
-            );
+          (
+            a: AutoSemiNuevo | AutoReportado,
+            b: AutoSemiNuevo | AutoReportado
+          ) => {
+            return b.precioVenta - a.precioVenta;
           }
         );
       }
     } else {
       if (ascending) {
         cars.sort(
-          (a: AutoSemiNuevo | AutoReportado, b: AutoSemiNuevo | AutoReportado) => {
-            return (
-              a.anoFabricacion - b.anoFabricacion
-            );
+          (
+            a: AutoSemiNuevo | AutoReportado,
+            b: AutoSemiNuevo | AutoReportado
+          ) => {
+            return a.anoFabricacion - b.anoFabricacion;
           }
         );
       } else {
         cars.sort(
-          (a: AutoSemiNuevo | AutoReportado, b: AutoSemiNuevo | AutoReportado) => {
-            return (
-              b.anoFabricacion - a.anoFabricacion
-            );
+          (
+            a: AutoSemiNuevo | AutoReportado,
+            b: AutoSemiNuevo | AutoReportado
+          ) => {
+            return b.anoFabricacion - a.anoFabricacion;
           }
         );
       }
@@ -235,31 +238,27 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   filterSponsorCars(byPrice: boolean, ascending: boolean) {
     if (byPrice) {
       if (ascending) {
-        this.sponsoredCars.sort(
-          (a: SponsoredCar, b: SponsoredCar) => {
-            return a.autoSemiNuevo.precioVenta - b.autoSemiNuevo.precioVenta;
-          }
-        );
+        this.sponsoredCars.sort((a: SponsoredCar, b: SponsoredCar) => {
+          return a.autoSemiNuevo.precioVenta - b.autoSemiNuevo.precioVenta;
+        });
       } else {
-        this.sponsoredCars.sort(
-          (a: SponsoredCar, b: SponsoredCar) => {
-            return b.autoSemiNuevo.precioVenta - a.autoSemiNuevo.precioVenta;
-          }
-        );
+        this.sponsoredCars.sort((a: SponsoredCar, b: SponsoredCar) => {
+          return b.autoSemiNuevo.precioVenta - a.autoSemiNuevo.precioVenta;
+        });
       }
     } else {
       if (ascending) {
-        this.sponsoredCars.sort(
-          (a: SponsoredCar, b: SponsoredCar) => {
-            return a.autoSemiNuevo.anoFabricacion - b.autoSemiNuevo.anoFabricacion;
-          }
-        );
+        this.sponsoredCars.sort((a: SponsoredCar, b: SponsoredCar) => {
+          return (
+            a.autoSemiNuevo.anoFabricacion - b.autoSemiNuevo.anoFabricacion
+          );
+        });
       } else {
-        this.sponsoredCars.sort(
-          (a: SponsoredCar, b: SponsoredCar) => {
-            return b.autoSemiNuevo.anoFabricacion - a.autoSemiNuevo.anoFabricacion;
-          }
-        );
+        this.sponsoredCars.sort((a: SponsoredCar, b: SponsoredCar) => {
+          return (
+            b.autoSemiNuevo.anoFabricacion - a.autoSemiNuevo.anoFabricacion
+          );
+        });
       }
     }
   }
@@ -267,36 +266,28 @@ export class AdminCarsComponent implements OnInit, OnChanges {
   filterInterestedCars(byPrice: boolean, ascending: boolean) {
     if (byPrice) {
       if (ascending) {
-        this.interestingCars.sort(
-          (a: AutoInteresado, b: AutoInteresado) => {
-            return a.auto.precioVenta - b.auto.precioVenta;
-          }
-        );
+        this.interestingCars.sort((a: AutoInteresado, b: AutoInteresado) => {
+          return a.auto.precioVenta - b.auto.precioVenta;
+        });
       } else {
-        this.interestingCars.sort(
-          (a: AutoInteresado, b: AutoInteresado) => {
-            return b.auto.precioVenta - a.auto.precioVenta;
-          }
-        );
+        this.interestingCars.sort((a: AutoInteresado, b: AutoInteresado) => {
+          return b.auto.precioVenta - a.auto.precioVenta;
+        });
       }
     } else {
       if (ascending) {
-        this.interestingCars.sort(
-          (a: AutoInteresado, b: AutoInteresado) => {
-            return a.auto.anoFabricacion - b.auto.anoFabricacion;
-          }
-        );
+        this.interestingCars.sort((a: AutoInteresado, b: AutoInteresado) => {
+          return a.auto.anoFabricacion - b.auto.anoFabricacion;
+        });
       } else {
-        this.interestingCars.sort(
-          (a: AutoInteresado, b: AutoInteresado) => {
-            return b.auto.anoFabricacion - a.auto.anoFabricacion;
-          }
-        );
+        this.interestingCars.sort((a: AutoInteresado, b: AutoInteresado) => {
+          return b.auto.anoFabricacion - a.auto.anoFabricacion;
+        });
       }
     }
   }
 
-  filterCarros(byPrice: boolean, ascending: boolean)  {
+  filterCarros(byPrice: boolean, ascending: boolean) {
     if (this.validationView) {
       this.filterSimpleCars(this.notValidatedCars, byPrice, ascending);
     } else if (this.reportedView) {
@@ -339,13 +330,5 @@ export class AdminCarsComponent implements OnInit, OnChanges {
         console.warn('unknown sort type');
       }
     }
-    this.updatePagination();
   }
-
-  goToPage(pageId: number): void {
-    this.currPage = pageId;
-    //FIXME: este scrollTo da chongos en la vista de iPad
-    window.scrollTo(0, 0);
-  }
-
 }

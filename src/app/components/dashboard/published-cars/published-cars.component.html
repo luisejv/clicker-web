@@ -301,6 +301,7 @@
                           [(value)]="minYear"
                           [(highValue)]="maxYear"
                           [options]="optionsYear"
+                          (userChange)="yearSliderChanged($event)"
                         >
                         </ngx-slider>
 
@@ -335,6 +336,7 @@
                           [(value)]="minKilometraje"
                           [(highValue)]="maxKilometraje"
                           [options]="optionsKilometraje"
+                          (userChange)="kilometrajeSliderChanged($event)"
                         >
                         </ngx-slider>
 
@@ -369,6 +371,7 @@
                           [(value)]="minPrice"
                           [(highValue)]="maxPrice"
                           [options]="options"
+                          (userChange)="priceSliderChanged($event)"
                         >
                         </ngx-slider>
 

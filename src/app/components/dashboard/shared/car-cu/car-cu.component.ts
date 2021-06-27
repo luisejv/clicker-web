@@ -104,7 +104,7 @@ export class CarCuComponent implements OnInit {
         'BBB222',
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
-      serie: [''],
+      serie: [null],
       marca: [null, [Validators.required]],
       modelo: [null, [Validators.required]],
       anoFabricacion: [
@@ -427,6 +427,7 @@ export class CarCuComponent implements OnInit {
       (error: any) => {
         this.fetchingPlaca = false;
         this.placaTries = this.placaTries + 1;
+        console.log(error);
         Swal.fire({
           titleText: 'Oops!',
           html: `No se encontró el auto con esa placa. ${

@@ -1,6 +1,6 @@
 <ng-template [ngIf]="commonService.screenWidth < 1200">
   <!-- Login -->
-  <section class="loginMobile" *ngIf="isLogin">
+  <section class="loginMobile pb-0" *ngIf="isLogin">
     <div class="container-fluid h-100">
       <div class="row h-100">
         <div class="col d-flex flex-column justify-content-around">
@@ -286,7 +286,7 @@
                     >
                   </div>
                 </div>
-                <div class="row justify-content-center mt-3">
+                <div class="row justify-content-center">
                   <div class="col-12 col-sm-4">
                     <button type="submit" class="registerButton">
                       Crear Cuenta
@@ -325,7 +325,7 @@
     <div class="container-fluid px-0 h-100">
       <div class="row no-gutters">
         <!-- Login -->
-        <div class="col-6 loginSection" *ngIf="isLogin">
+        <div class="col-6 loginSection py-5" *ngIf="isLogin">
           <div class="row">
             <div class="col text-center">
               <h2>Te damos la bienvenida</h2>
@@ -533,10 +533,10 @@
         </div>
 
         <!-- Register -->
-        <div class="col-6 registerSection">
+        <div class="col-6 registerSection py-5">
           <div class="row">
             <div class="col no-gutters">
-              <div class="row pt-5 mt-2">
+              <div class="row">
                 <div class="col text-center">
                   <h2>Crea una cuenta ahora</h2>
                   <p>Selecciona tu perfil</p>

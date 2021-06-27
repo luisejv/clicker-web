@@ -169,15 +169,15 @@ export class DataService {
 
   tiposCarroceria: string[] = [
     'SUV',
-    'VAN',
-    'SEDAN',
-    'COUPE',
-    'PICKUP',
-    'CONVERTIBLE',
-    'CITYCAR',
-    'HATCHBACK',
-    'CAMION',
-    'PANEL',
+    'Van',
+    'Sedán',
+    'Coupé',
+    'Pick up',
+    'Convertible',
+    'Citycar',
+    'Hatchback',
+    'Camión',
+    'Panel',
     'OTRO',
   ];
 
@@ -266,5 +266,5 @@ export class DataService {
     },
   ]; */
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 }
