@@ -91,9 +91,17 @@ export class CarSponsorComponent implements OnInit {
       inputValidator: (value): any => {
         if (!value) {
           return '¡Tienes que ingresar un número!';
-        } else if (+value < 1 || +value > 8) {
+        }
+        if (+value < 1 || +value > 8) {
           return '¡El nuevo ranking debe ser mínimo 1 y máximo 8!';
         }
+        let existe = false;
+        this.carros.forEach((carro) => {
+          if (carro.level == +value) {
+            existe = true;
+          }
+        });
+        if (existe) return '¡Ese ranking ya existe!';
       },
       showCancelButton: true,
       confirmButtonText: 'Cambiar',

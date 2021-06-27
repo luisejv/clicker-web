@@ -204,7 +204,10 @@
 </section>
 
 <!-- Section-5 Autos patrocinados -->
-<section class="section-goods-slider bg-dark b-services">
+<section
+  class="section-goods-slider bg-dark b-services"
+  *ngIf="sponsoredCars.length > 0"
+>
   <div class="section-goods-slider__inner">
     <!-- <div class="ui-decor ui-decor_center bg-primary"></div> -->
     <div class="container" style="padding-top: 200px">
@@ -341,7 +344,10 @@
 </section>
 
 <!-- Section-7 Cómo funciona? -->
-<section class="section-area mt-5">
+<section
+  class="section-area mt-5"
+  [ngStyle]="{ 'padding-top': sponsoredCars.length == 0 ? '120px' : '0px' }"
+>
   <div class="container">
     <div class="text-center">
       <!-- <div class="ui-title-logo">CLICKER</div> -->
