@@ -396,7 +396,10 @@ export class CarCuComponent implements OnInit {
     this.userService.getPlacaDetails(body).subscribe(
       (response: any) => {
         console.log(response);
-        if (response.success && response.encontrado) {
+        if (
+          response.success &&
+          (response.encontrado === undefined || response.encontrado)
+        ) {
           this.formGroup.controls['serie'].patchValue(response.data.serie);
           this.formGroup.controls['marca'].patchValue(response.data.marca);
           this.formGroup.controls['modelo'].patchValue(response.data.modelo);

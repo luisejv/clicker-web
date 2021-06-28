@@ -38,8 +38,58 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2B26M6JW3J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-2B26M6JW3J");
+    </script>
   </head>
   <body class="page">
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          xfbml: true,
+          version: "v11.0",
+        });
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/es_LA/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    </script>
+
+    <!-- Your Chat Plugin code -->
+    <div
+      class="fb-customerchat"
+      attribution="setup_tool"
+      page_id="1002837193258214"
+    ></div>
     <app-root> </app-root>
+    <script>
+      (function (h, e, a, t, m, p) {
+        m = e.createElement(a);
+        m.async = !0;
+        m.src = t;
+        p = e.getElementsByTagName(a)[0];
+        p.parentNode.insertBefore(m, p);
+      })(window, document, "script", "https://u.heatmap.it/log.js");
+    </script>
   </body>
 </html>

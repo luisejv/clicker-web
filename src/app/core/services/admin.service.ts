@@ -41,7 +41,7 @@ export class AdminService {
     );
   }
 
-  public registrarVenta(body: Venta): Observable<any> {
+  public registrarVenta(body: FormData): Observable<any> {
     return this.http.post(this.commonService.registerSaleUrl, body);
   }
 

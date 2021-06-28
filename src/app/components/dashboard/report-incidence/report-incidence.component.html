@@ -55,6 +55,8 @@
               class="inputClicker"
               formControlName="adjunto"
               id="adjunto"
+              accept="image/*"
+              (change)="onFileChange($event)"
             />
           </div>
         </div>
