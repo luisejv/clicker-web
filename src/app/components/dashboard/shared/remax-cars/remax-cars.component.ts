@@ -52,6 +52,7 @@ export class RemaxCarsComponent
     ) {
       this.filteredInterestedCarros = this.interestedCarros;
       this.len = this.filteredInterestedCarros.length;
+      super.updatePagination(this.len);
     }
   }
 

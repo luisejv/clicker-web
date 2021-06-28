@@ -30,6 +30,7 @@ export class ParticularCarsComponent
 
   constructor(private commonService: CommonService) {
     super();
+
     if (this.commonService.screenWidth <= 1060) {
       this.list = false;
     } else {
@@ -47,6 +48,7 @@ export class ParticularCarsComponent
     if (changes.carros && this.carros && this.carros.length > 0) {
       this.filteredCarros = this.carros;
       this.len = this.filteredCarros.length;
+      super.updatePagination(this.len);
     }
   }
 

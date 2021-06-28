@@ -56,239 +56,150 @@
                   </button>
                   <div class="b-filter__main row">
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Condition"
-                        formControlName="carSubset"
-                        (change)="changeCarSubset($event)"
-                        data-style="ui-select"
-                        id="subsets"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100 mt-xl-3">
+                        <mat-label>Condición</mat-label>
+                        <mat-select
+                          formControlName="carSubset"
+                          (selectionChange)="changeCarSubset($event)"
                         >
-                          Condición
-                        </option>
-                        <option value="NEW">Nuevo</option>
-                        <option value="USED">Usado</option>
-                        <option value="ALL">Todos</option>
-                      </select>
+                          <mat-option value="NEW">Nuevo</mat-option>
+                          <mat-option value="USED">Usado</mat-option>
+                          <mat-option value="ALL">Todos</mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Marca"
-                        data-style="ui-select"
-                        formControlName="carBrand"
-                        (change)="changeBrand($event)"
-                        id="marcas"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Marca</mat-label>
+                        <mat-select
+                          formControlName="carBrand"
+                          (selectionChange)="changeBrand($event)"
                         >
-                          Marca
-                        </option>
-                        <option
+                          <mat-option
                           *ngFor="let brand of filteredBrands"
                           [value]="brand"
                         >
-                          {{ brand }}
-                        </option>
-                      </select>
+                          {{ brand | normalize }}
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        data-style="ui-select"
-                        formControlName="carModel"
-                        (change)="changeModel($event)"
-                        id="modelos"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Modelo</mat-label>
+                        <mat-select
+                          formControlName="carModel"
+                          (selectionChange)="changeModel($event)"
                         >
-                          Modelo
-                        </option>
-                        <option value="" *ngIf="carBrand?.value == ''" disabled>
+                        <mat-option value="" *ngIf="carBrand?.value == ''" disabled>
                           Debe seleccionar una marca
-                        </option>
-                        <option
+                        </mat-option>
+                        <mat-option
                           *ngFor="let model of filteredModels"
                           [value]="model"
                         >
                           {{ model }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Carrocería"
-                        data-style="ui-select"
-                        formControlName="carType"
-                        (change)="changeCarroceria($event)"
-                        id="carrocerias"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Carrocería</mat-label>
+                        <mat-select
+                          formControlName="carType"
+                          (selectionChange)="changeCarroceria($event)"
                         >
-                          Carrocería
-                        </option>
-                        <option
+                        <mat-option
                           [value]="carroceria"
-                          *ngFor="let carroceria of tiposCarroceria"
+                          *ngFor="let carroceria of carrocerias"
                         >
                           {{ carroceria }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="col-12">
                       <div class="b-filter__row row">
                         <div class="b-filter__item col-xl-12 col-md-6">
-                          <select
-                            class="selectpicker"
-                            data-width="100%"
-                            title="Desde"
-                            data-style="ui-select"
-                            formControlName="carMinYear"
-                            (change)="changeAnoFrom($event)"
-                            id="desde"
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected
-                              style="display: none"
-                            >
-                              Desde
-                            </option>
-                            <option [value]="ano" *ngFor="let ano of anos">
+                          <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Desde</mat-label>
+                        <mat-select
+                          formControlName="carMinYear"
+                          (selectionChange)="changeAnoFrom($event)"
+                        >
+                        <mat-option [value]="ano" *ngFor="let ano of anos">
                               {{ ano }}
-                            </option>
-                          </select>
+                            </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                         </div>
                       </div>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Transmisión"
-                        data-style="ui-select"
-                        formControlName="carTransmission"
-                        (change)="changeTransmision($event)"
-                        id="transmisiones"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Transmisión</mat-label>
+                        <mat-select
+                          formControlName="carTransmission"
+                          (selectionChange)="changeTransmision($event)"
                         >
-                          Transmisión
-                        </option>
-                        <option
+                        <mat-option
                           [value]="transmision"
                           *ngFor="let transmision of tiposTransmision"
                         >
                           {{ transmision }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Combustible"
-                        data-style="ui-select"
-                        formControlName="carFuelType"
-                        (change)="changeCombustible($event)"
-                        id="combustibles"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Combustible</mat-label>
+                        <mat-select
+                          formControlName="carFuelType"
+                          (selectionChange)="changeCombustible($event)"
                         >
-                          Combustible
-                        </option>
-                        <option
+                        <mat-option
                           [value]="combustible"
                           *ngFor="let combustible of tiposCombustible"
                         >
                           {{ combustible }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        title="Tracción"
-                        data-style="ui-select"
-                        formControlName="carTraction"
-                        (change)="changeTraccion($event)"
-                        id="tracciones"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Tracción</mat-label>
+                        <mat-select
+                          formControlName="carTraction"
+                          (selectionChange)="changeTraccion($event)"
                         >
-                          Tracción
-                        </option>
-                        <option
+                        <mat-option
                           [value]="traccion"
                           *ngFor="let traccion of tiposTracciones"
                         >
                           {{ traccion }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div class="b-filter__row col-xl-12 col-md-6">
-                      <select
-                        class="selectpicker"
-                        data-width="100%"
-                        multiple
-                        title="Departamentos"
-                        data-style="ui-select"
-                        formControlName="carDepartamentos"
-                        (change)="changeDepartamentos($event)"
-                        id="departamentos"
-                      >
-                        <option
-                          value=""
-                          disabled
-                          selected
-                          style="display: none"
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Departamentos</mat-label>
+                        <mat-select
+                          formControlName="carDepartamentos"
+                          (selectionChange)="changeDepartamentos($event)"
+                          multiple
                         >
-                          Departamentos
-                        </option>
-                        <option
+                        <mat-option
                           [value]="departamento"
                           *ngFor="let departamento of departamentos"
                         >
                           {{ departamento }}
-                        </option>
-                      </select>
+                        </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                   </div>
                   <div class="sliders-container">

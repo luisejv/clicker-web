@@ -93,6 +93,7 @@ export class AdminCarsComponent
       this.sponsoredFilteredCarros = this.sponsoredCars;
       this.len = this.sponsoredFilteredCarros.length;
     }
+    super.updatePagination(this.len);
   }
 
   ngOnInit(): void {}

@@ -139,15 +139,12 @@ export class HomeComponent implements OnInit {
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
         console.log('Filtros: ', response);
-        this.filters = response;
+        this.filters = response.map((filter: Filter) => {
+          return {marca: NormalizePipe.prototype.transform(filter.marca), modelo: NormalizePipe.prototype.transform(filter.modelo), tipoCarroceria: NormalizePipe.prototype.transform(filter.tipoCarroceria), tipoCarro: filter.tipoCarro};
+        });
         this.filteredBrands = this.filters
           .map((elem) => NormalizePipe.prototype.transform(elem.marca))
           .filter((v, i, a) => a.indexOf(v) == i);
-        // this.carrocerias = response
-        //   .map((elem: Filter) =>
-        //     NormalizePipe.prototype.transform(elem.tipoCarroceria)
-        //   )
-        //   .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias = response
           .map((elem: Filter) =>
             NormalizePipe.prototype.transform(elem.tipoCarroceria)
@@ -271,7 +268,7 @@ export class HomeComponent implements OnInit {
           : elem.marca == brand &&
             (this.carSubset == 'ALL' || elem.tipoCarro == this.carSubset)
       )
-      .map((elem) => elem.modelo)
+      .map((elem) => NormalizePipe.prototype.transform(elem.modelo))
       .filter((v, i, a) => a.indexOf(v) == i);
     console.log('filtered models');
     console.log(this.filteredModels);

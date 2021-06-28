@@ -13,20 +13,7 @@ import { Ubigeo } from 'src/app/core/interfaces/ubigeo';
 import { SortType } from 'src/app/core/enums/sort-type.enum';
 import { Pagination } from 'src/app/core/superclasses/pagination';
 import { Filters } from 'src/app/core/enums/filters';
-
-declare var $: any;
-
-interface Update {
-  subset?: boolean;
-  brands?: boolean;
-  models?: boolean;
-  type?: boolean; //carroceria
-  from?: boolean;
-  transmission?: boolean;
-  combustible?: boolean;
-  traction?: boolean;
-  departments?: boolean;
-}
+import { NormalizePipe } from 'src/app/core/pipes/normalize.pipe';
 
 @Component({
   selector: 'app-published-cars',
@@ -131,39 +118,63 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.clientService.getFilters().subscribe(
       (response: Filter[]) => {
         console.log('Filtros: ', response);
-        this.carFilters = response;
-        this.filteredBrands = this.carFilters
-          .map((elem: Filter) => elem.marca)
-          .filter((v, i, a) => a.indexOf(v) == i);
-        this.carrocerias = response
+        this.carFilters = response.map((filter: Filter) => {
+          return {marca: NormalizePipe.prototype.transform(filter.marca), modelo: NormalizePipe.prototype.transform(filter.modelo), tipoCarroceria: NormalizePipe.prototype.transform(filter.tipoCarroceria), tipoCarro: filter.tipoCarro};
+        });
+
+        if (this.subset === 'ALL') {
+          this.filteredBrands = this.carFilters
+            .map((elem: Filter) => elem.marca)
+            .filter((v, i, a) => a.indexOf(v) == i);
+        } else {
+          this.filteredBrands = this.carFilters
+            .filter((f: Filter) => {
+              return f.tipoCarro.includes(this.subset);
+            })
+            .map((elem: Filter) => elem.marca)
+            .filter((v, i, a) => a.indexOf(v) == i);
+        }
+
+        this.carrocerias = this.carFilters
           .map((elem: Filter) => elem.tipoCarroceria)
           .filter((v, i, a) => a.indexOf(v) == i);
         this.carrocerias.push('OTRO');
         console.log('Marcas: ', this.filteredBrands);
         console.log('Carrocerias: ', this.carrocerias);
 
-        console.log('carType.value; ', typeof this.carType?.value);
+        // carType: carrocería
+        // carBrand: marca
 
-        this.filteredModels = this.carFilters
-          .filter((elem: Filter) =>
-            this.carType?.value !== '' ? this.carType?.value != 'OTRO'
-              ? elem.marca == this.carBrand?.value &&
-                elem.tipoCarroceria == this.carType?.value &&
-                (this.carSubset?.value == 'ALL' ||
-                  elem.tipoCarro == this.carSubset?.value)
-              : elem.marca == this.carBrand?.value &&
-                (this.carSubset?.value == 'ALL' ||
-                  elem.tipoCarro == this.carSubset?.value) : true
+        if (this.carroceria !== '') {
+          if (this.marca !== '') {
+            // carrocería y marca
+            console.log('a');
+            this.filteredModels = this.carFilters.filter((elem: Filter) => elem.tipoCarroceria === this.carroceria && elem.marca === this.marca).map((fil: Filter) => fil.modelo);
+          } else {
+            // carrocería
+            console.log('b');
+            this.filteredModels = this.carFilters.filter((elem: Filter) => elem.tipoCarroceria === this.carroceria).map((fil: Filter) => fil.modelo);
+          }
+        } else {
+          if (this.marca !== '') {
+            // marca
+            console.log('c');
+            this.filteredModels = this.carFilters.filter((elem: Filter) => elem.marca === this.marca).map((fil: Filter) => fil.modelo);
             
-          ).map((elem) => elem.modelo)
-          .filter((v, i, a) => a.indexOf(v) == i);
+          } else {
+            // ni marca ni carrocería
+            console.log('d');
+            this.filteredModels = [];
+          }
+        }
+
+        console.group('Modelos');
+        console.log(this.filteredModels);
+        console.groupEnd();
+
         console.log('filtered models');
         console.log(this.filteredModels);
 
-        setTimeout(() => {
-          $('#marcas').selectpicker('refresh');
-          $('#modelos').selectpicker('refresh');
-        }, 500);
       },
       (error) => {
         console.group('In getting filters');
@@ -200,18 +211,16 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     console.groupEnd();
 
     this.filterFormGroup = this.fb.group({
+      carSubset: this.subset,
       carBrand: this.marca,
       carModel: this.modelo,
       carType: this.carroceria,
-      carSubset: this.subset,
       carMinYear: this.desde,
       carTransmission: '',
       carFuelType: '',
       carDepartamentos: '',
       carTraction: '',
     });
-
-    this.updateSelects();
 
     switch (this.filters?.carSubset) {
       case 'ALL': {
@@ -304,7 +313,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
   }
 
   changeCarSubset(e: any): void {
-    const subset: string = e.target.value;
+    const subset: string = e.value;
     switch (subset) {
       case 'ALL': {
         this.getAllCars(false);
@@ -326,7 +335,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
           this.carSubset?.value == 'ALL' ||
           elem.tipoCarro == this.carSubset?.value
       )
-      .map((elem) => elem.marca)
+      .map((elem) => NormalizePipe.prototype.transform(elem.marca))
       .filter((v, i, a) => a.indexOf(v) == i);
     this.filterFormGroup.get('carBrand')?.setValue('');
     this.filterFormGroup.get('carModel')?.setValue('');
@@ -337,7 +346,10 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
   }
 
   changeBrand(e: any): void {
-    console.log(this.carBrand?.value);
+    let indexOfModelFilter = this.appliedFilters.indexOf(Filters.CarModel);
+    if (indexOfModelFilter !== -1) {
+      this.appliedFilters.splice(indexOfModelFilter, 1);
+    }
     this.filterCarsBy(Filters.CarBrand);
     this.filteredModels = this.carFilters
       ?.filter((elem: Filter) => {
@@ -371,10 +383,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
       })
       .map((elem) => elem.modelo)
       .filter((v, i, a) => a.indexOf(v) == i);
-      setTimeout(() => {
-        $('#modelos').selectpicker('refresh');
-        this.carModel?.setValue('');
-      }, 1000);
+      this.carModel?.setValue('');
   }
 
   changeModel(e: any): void {
@@ -423,7 +432,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
         }
         case Filters.CarType: {
           aux = aux.filter((auto: AutoSemiNuevo) =>
-            auto.tipoCarroceria.includes(this.carType?.value)
+            NormalizePipe.prototype.transform(auto.tipoCarroceria).includes(this.carType?.value)
           );
           console.log('carroceria: ', aux);
           break;
@@ -531,7 +540,7 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
 
   changeAnoFrom(e: any): void {
     this.filterCarsBy(Filters.CarYearFrom);
-    this.minYear = +e.target.value;
+    this.minYear = +e.value;
     this.updateYearSliderOptions();
   }
 
@@ -611,21 +620,6 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.updateYearSliderOptions();
 
     this.filteredModels = [];
-
-    const updateFlags: Update = {
-      subset: true,
-      brands: true,
-      models: true,
-      type: true,
-      from: true,
-      transmission: true,
-      combustible: true,
-      traction: true,
-      departments: true,
-    };
-
-    this.updateSelects(updateFlags);
-
     this.appliedFilters = [];
   }
 
@@ -633,12 +627,14 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.loadingCars = true;
     this.userService.getAutosSemiNuevosValidados().subscribe(
       (response: AutoSemiNuevo[]) => {
-        this.carros = response;
+        this.carros = response.map((auto: AutoSemiNuevo) => {
+          return {...auto, marca: NormalizePipe.prototype.transform(auto.marca), modelo: NormalizePipe.prototype.transform(auto.modelo), tipoCarroceria: NormalizePipe.prototype.transform(auto.tipoCarroceria)};
+        });
 
         if (shouldFilterCars) {
           this.filterResponse();
         } else {
-          this.filteredCarros = response;
+          this.filteredCarros = this.carros;
         }
 
         this.auxFilteredCarros = this.filteredCarros;
@@ -660,12 +656,14 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.loadingCars = true;
     this.clientService.getAllCars().subscribe(
       (response: AutoSemiNuevo[]) => {
-        this.carros = response;
+        this.carros = response.map((auto: AutoSemiNuevo) => {
+          return {...auto, marca: NormalizePipe.prototype.transform(auto.marca), modelo: NormalizePipe.prototype.transform(auto.modelo), tipoCarroceria: NormalizePipe.prototype.transform(auto.tipoCarroceria)};
+        });
 
         if (shouldFilterCars) {
           this.filterResponse();
         } else {
-          this.filteredCarros = response;
+          this.filteredCarros = this.carros;
         }
 
         this.auxFilteredCarros = this.filteredCarros;
@@ -687,12 +685,14 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     this.loadingCars = true;
     this.userService.getAutosNuevos().subscribe(
       (response: AutoSemiNuevo[]) => {
-        this.carros = response;
+        this.carros = response.map((auto: AutoSemiNuevo) => {
+          return {...auto, marca: NormalizePipe.prototype.transform(auto.marca), modelo: NormalizePipe.prototype.transform(auto.modelo), tipoCarroceria: NormalizePipe.prototype.transform(auto.tipoCarroceria)};
+        });
 
         if (shouldFilterCars) {
           this.filterResponse();
         } else {
-          this.filteredCarros = response;
+          this.filteredCarros = this.carros;
         }
 
         this.auxFilteredCarros = this.filteredCarros;
@@ -826,53 +826,4 @@ export class PublishedCarsComponent extends Pagination implements OnInit {
     };
   }
 
-  updateSelects(update?: Update): void {
-    console.group('updateSelects');
-    console.dir(update);
-    console.groupEnd();
-
-    if (update?.departments) {
-      setTimeout(() => {
-        $('#departamentos').selectpicker('refresh');
-      }, 1000);
-    }
-
-    if (update?.brands) {
-      setTimeout(() => {
-        $('#marcas').selectpicker('refresh');
-      }, 500);
-    }
-
-    setTimeout(() => {
-      if (update?.subset) {
-        $('#subsets').selectpicker('refresh');
-      }
-      if (update?.models) {
-        $('#modelos').selectpicker('refresh');
-      }
-      if (this.marca !== '') {
-        this.changeBrand(this.marca);
-      }
-      if (update?.type) {
-        this.carType?.setValue('');
-        $('#carrocerias').selectpicker('refresh');
-      }
-      if (update?.type) {
-        this.carMinYear?.setValue('');
-        $('#desde').selectpicker('refresh');
-      }
-      if (update?.transmission) {
-        this.carTransmission?.setValue('');
-        $('#transmisiones').selectpicker('refresh');
-      }
-      if (update?.combustible) {
-        this.carFuelType?.setValue('');
-        $('#combustibles').selectpicker('refresh');
-      }
-      if (update?.traction) {
-        this.carTraction?.setValue('');
-        $('#tracciones').selectpicker('refresh');
-      }
-    }, 500);
-  }
 }

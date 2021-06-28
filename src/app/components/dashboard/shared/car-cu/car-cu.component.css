@@ -4,6 +4,15 @@ li {
   list-style: none;
 }
 
+.continuar {
+    background-color: var(--primary) !important;
+    color: white !important;
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: var(--primary) !important;
+}
+
 .example-list {
   /* width: 1002px; */
   max-width: 100%;
@@ -150,3 +159,7 @@ li {
 /* ::ng-deep .mat-primary {
   color: var(--primary) !important;
 } */
+
+::ng-deep .mat-step-icon-state-edit {
+  background-color: var(--primary) !important;
+}

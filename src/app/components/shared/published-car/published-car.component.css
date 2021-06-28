@@ -21,3 +21,7 @@
 .eliminado {
   background-color: red;
 }
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}

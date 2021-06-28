@@ -164,6 +164,9 @@
             #stepper
             class="formMobile"
           >
+            <ng-template matStepperIcon="edit">
+              <mat-icon class="icono-editar">edit</mat-icon>
+            </ng-template>
             <form [formGroup]="formGroup">
               <mat-step>
                 <h2>Datos del propietario del vehículo</h2>
@@ -234,7 +237,7 @@
                   </mat-error>
                 </mat-form-field>
                 <div class="row justify-content-around mt-3">
-                  <button mat-raised-button color="primary" matStepperNext>
+                  <button mat-raised-button matStepperNext class="continuar">
                     Continuar
                   </button>
                 </div>
@@ -354,7 +357,7 @@
                   <button mat-raised-button color="none" matStepperPrevious>
                     Anterior
                   </button>
-                  <button mat-raised-button color="primary" matStepperNext>
+                  <button mat-raised-button color="primary" class="continuar" matStepperNext>
                     Continuar
                   </button>
                 </div>
@@ -501,7 +504,7 @@
                   <button mat-raised-button color="none" matStepperPrevious>
                     Anterior
                   </button>
-                  <button mat-raised-button color="primary" matStepperNext>
+                  <button mat-raised-button color="primary" class="continuar" matStepperNext>
                     Continuar
                   </button>
                 </div>
@@ -546,7 +549,7 @@
                   <button mat-raised-button color="none" matStepperPrevious>
                     Anterior
                   </button>
-                  <button mat-raised-button color="primary" matStepperNext>
+                  <button mat-raised-button color="primary" class="continuar" matStepperNext>
                     Continuar
                   </button>
                 </div>
@@ -627,7 +630,7 @@
                   <button mat-raised-button color="none" matStepperPrevious>
                     Anterior
                   </button>
-                  <button mat-raised-button color="primary" matStepperNext>
+                  <button mat-raised-button color="primary" class="continuar" matStepperNext>
                     Continuar
                   </button>
                 </div>
@@ -778,6 +781,7 @@
                   <button
                     mat-raised-button
                     color="primary"
+                    class="continuar"
                     type="button"
                     (click)="changeStep(2)"
                   >
@@ -909,6 +913,7 @@
                     mat-raised-button
                     color="primary"
                     type="button"
+                    class="continuar"
                     (click)="changeStep(3)"
                   >
                     Continuar
@@ -1064,6 +1069,7 @@
                     mat-raised-button
                     color="primary"
                     type="button"
+                    class="continuar"
                     (click)="changeStep(4)"
                   >
                     Continuar
@@ -1119,6 +1125,7 @@
                     mat-raised-button
                     color="primary"
                     type="button"
+                    class="continuar"
                     (click)="changeStep(5)"
                   >
                     Continuar
@@ -1208,6 +1215,7 @@
                     mat-raised-button
                     color="primary"
                     type="button"
+                    class="continuar"
                     (click)="changeStep(6)"
                   >
                     Continuar
@@ -1265,7 +1273,7 @@
                           target="_blank"
                           class="text-blue"
                           >políticas de privacidad</a
-                        ></mat-checkbox
+                        >.</mat-checkbox
                       >
                     </div>
                   </div>
@@ -1277,6 +1285,7 @@
                   <button
                     mat-raised-button
                     color="primary"
+                    class="continuar mt-2"
                     type="button"
                     (click)="submitActionWrapper()"
                   >
