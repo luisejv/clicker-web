@@ -125,7 +125,7 @@ export class CarCuComponent implements OnInit {
       ],
       kilometraje: ['120000', Validators.required],
       numeroPuertas: ['5', Validators.required],
-      tipoTraccion: ['Trasera', Validators.required],
+      tipoTraccion: [null, Validators.required],
       color: ['Azul', Validators.required],
       numeroCilindros: [
         '4',

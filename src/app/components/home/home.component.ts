@@ -205,8 +205,9 @@ export class HomeComponent implements OnInit {
 
   // Cambiar Carroceria
   changeCarType(type: string): void {
+    console.warn(type);
     this.changedCarType = true;
-    this.filterFormGroup.controls['carType'].setValue(type.toUpperCase());
+    this.filterFormGroup.controls['carType'].setValue(type);
     console.log(this.filterFormGroup.get('carType')?.value);
     this.filteredBrands = this.filters
       .filter((elem: Filter) => {
@@ -244,7 +245,6 @@ export class HomeComponent implements OnInit {
       .map((elem) => elem.marca)
       .filter((v, i, a) => a.indexOf(v) == i);
     this.filteredModels = [];
-    console.log('AAAA: ', this.filteredBrands);
     this.filterFormGroup.get('carBrand')?.setValue('');
     this.filterFormGroup.get('carModel')?.setValue('');
     setTimeout(() => {
@@ -297,11 +297,11 @@ export class HomeComponent implements OnInit {
   }
 
   goToListings(): void {
-    //TODO: caso cuando deja un (o todos los) field(s) vació
     let body: CarSearchFilter = {
       carSubset: this.filterFormGroup.value.carSubset,
     };
-    if (this.changedCarType) body.carType = this.filterFormGroup.value.carType;
+    if (this.changedCarType) 
+      body.carType = this.filterFormGroup.value.carType;
     if (this.carBrand != '')
       body.carBrand = this.filterFormGroup.value.carBrand;
     if (this.carModel != '')

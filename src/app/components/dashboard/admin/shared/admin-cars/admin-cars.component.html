@@ -182,15 +182,27 @@
           Oops. No se encontró ningún auto con esas especificaciones.
         </div>
         <nav class="mt-3" aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center flex-wrap">
+            <li class="page-item">
+              <a class="page-link" (click)="rewind()"> &lt;&lt; </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="prev()"> &lt; </a>
+            </li>
             <li
-              *ngFor="let pageId of pages"
+              *ngFor="let pageId of pages | slice: minPage:maxPage"
               class="page-item"
               [ngClass]="{ active: currPage == pageId }"
             >
               <a class="page-link" (click)="goToPage(pageId)">{{
                 pageId + 1
               }}</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="next()"> &gt; </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="forward()"> &gt;&gt; </a>
             </li>
           </ul>
         </nav>
