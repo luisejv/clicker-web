@@ -210,8 +210,8 @@ export class VentaDetailsComponent implements OnInit {
 
   showSuccess(): void {
     Swal.fire({
-      title: 'Auto registrado',
-      html: 'El auto se registró con éxito',
+      title: 'Venta registrada',
+      html: 'La venta se registró con éxito',
       icon: 'success',
     });
   }
@@ -229,65 +229,62 @@ export class VentaDetailsComponent implements OnInit {
   }
 
   registrarVenta(): void {
-    this.loaderService.setIsLoadingSWAL(
-      true,
-      'Registrando la venta',
-      'Espere unos momentos'
-    );
-    const form = this.formGroup.value;
-    // TODO: Cambiar al request del back
-    this.uploadService.uploadFile(this.constancia);
+    if (this.constancia) {
+      this.loaderService.setIsLoadingSWAL(
+        true,
+        'Registrando la venta',
+        'Espere unos momentos'
+      );
+      const form = this.formGroup.value;
+      const body: Venta = {
+        autoSemiNuevo: this.data.auto,
+        comprador: !form.vendidoPorRevendedor
+          ? {
+              correo: form.comprador.correo,
+              nombre: form.comprador.nombre,
+              telefono: form.comprador.numTelefono,
+            }
+          : null,
+        vendedor: form.vendidoPorRevendedor
+          ? { correo: form.vendedor.usuario.correo }
+          : null,
+        ciudadCompra: this.data.auto.locacion!,
+        comisionGeneral: form.comisionGeneral,
+        precioFinalVenta: form.precioFinalVenta,
+      };
 
-    this.uploadService.uploadedData.subscribe(
-      (response: any) => {
-        this.constanciaUrl = response.url;
+      const bodyForm = new FormData();
+      bodyForm.set('file', this.constancia);
+      bodyForm.set('ventaSemiNuevo', JSON.stringify(body));
 
-        const body: Venta = {
-          autoSemiNuevo: this.data.auto,
-          comprador: !form.vendidoPorRevendedor
-            ? {
-                correo: form.comprador.correo,
-                nombre: form.comprador.nombre,
-                telefono: form.comprador.numTelefono,
-              }
-            : null,
-          vendedor: form.vendidoPorRevendedor
-            ? { correo: form.vendedor.usuario.correo }
-            : null,
-          ciudadCompra: this.data.auto.locacion!,
-          foto: this.constanciaUrl,
-          comisionGeneral: form.comisionGeneral,
-          precioFinalVenta: form.precioFinalVenta,
-        };
+      console.group('Sale Registrarion JSON');
+      console.dir(body);
+      console.groupEnd();
 
-        console.group('Sale Registrarion JSON');
-        console.dir(body);
-        console.groupEnd();
-
-        this.adminService.registrarVenta(body).subscribe(
-          (res: any) => {
-            console.group('Car Registration Response');
-            console.dir(res);
-            console.groupEnd();
-            this.loaderService.setIsLoadingSWAL(false);
-            this.showSuccess();
-            this.closeDialog();
-          },
-          (err: any) => {
-            console.error('registering car sale: ', err);
-            this.loaderService.setIsLoadingSWAL(false);
-            this.showFailure();
-            this.closeDialog();
-          }
-        );
-      },
-      (error: any) => {
-        console.error('Error uploading constancia de pago', error);
-        this.loaderService.setIsLoadingSWAL(false);
-        this.showFailure();
-        this.closeDialog();
-      }
-    );
+      this.adminService.registrarVenta(bodyForm).subscribe(
+        (res: any) => {
+          console.group('Car Registration Response');
+          console.dir(res);
+          console.groupEnd();
+          this.loaderService.setIsLoadingSWAL(false);
+          this.showSuccess();
+          this.closeDialog();
+        },
+        (err: any) => {
+          console.error('registering car sale: ', err);
+          this.loaderService.setIsLoadingSWAL(false);
+          this.showFailure();
+          this.closeDialog();
+        }
+      );
+    } else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Oops!',
+        text: 'Debe subir una foto constancia de la venta.',
+        showConfirmButton: true,
+      });
+    }
   }
 
   closeDialog(): void {

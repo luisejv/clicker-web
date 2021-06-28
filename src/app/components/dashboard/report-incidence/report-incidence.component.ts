@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class ReportIncidenceComponent implements OnInit {
   incidenceFormGroup: FormGroup;
+  file!: FileList;
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +31,6 @@ export class ReportIncidenceComponent implements OnInit {
   }
 
   uploadIncidence(): void {
-    // TODO: Upload file
     const body: Incidence = {
       usuario: {
         id: this.localStorage.getIdLocalStorage()!,
@@ -41,8 +41,11 @@ export class ReportIncidenceComponent implements OnInit {
       foto: this.incidenceFormGroup.value.adjunto,
       date: new Date(),
     };
-    console.log(body);
-    this.userService.postIncidence(body).subscribe(
+    const bodyForm = new FormData();
+    bodyForm.set('file', this.file && this.file.length > 0 ? this.file[0] : '');
+    bodyForm.set('incidencias', JSON.stringify(body));
+    console.log(bodyForm.get('file'));
+    this.userService.postIncidence(bodyForm).subscribe(
       (response) => {
         Swal.fire({
           icon: 'success',
@@ -69,6 +72,7 @@ export class ReportIncidenceComponent implements OnInit {
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      this.file = event.target.files;
       reader.readAsDataURL(file);
 
       reader.onload = () => {

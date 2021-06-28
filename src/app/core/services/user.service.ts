@@ -136,7 +136,7 @@ export class UserService {
     return this.http.post(this.commonService.denunciaUrl, body);
   }
 
-  public postIncidence(body: Incidence): Observable<any> {
+  public postIncidence(body: FormData): Observable<any> {
     return this.http.post(this.commonService.postIncidenceUrl, body);
   }
 

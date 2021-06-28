@@ -8,7 +8,8 @@ import { StorageService } from './storage.service';
 })
 export class CommonService {
   private baseUrl: string = environment.baseUrl;
-  private consultaPlacaUrl: string = 'https://ws-consultas.herokuapp.com/api';
+  private consultaDNIUrl: string = 'https://ws-consultas.herokuapp.com/api';
+  private consultaPlacaUrl: string = 'https://api.ws-consultas.xyz/api';
   changeLayoutEvent = new EventEmitter<void>();
 
   screenHeight: number = 0;
@@ -77,7 +78,7 @@ export class CommonService {
 
   // * Servicios Externos
   getPlacaDetailsUrl: string = this.consultaPlacaUrl + '/placa';
-  getDNIDetailsUrl: string = this.consultaPlacaUrl + '/dni';
+  getDNIDetailsUrl: string = this.consultaDNIUrl + '/dni';
 
   // * Balance & Retiros
   getRegistroBalanceUrl: string = this.userUrl + '/registroBalance';
