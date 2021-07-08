@@ -15,11 +15,12 @@
           >¿Vendido por un revendedor o por Clicker?</mat-label
         >
         <div class="row my-2 justify-content-lg-center">
+          <!-- [disabled]="interesadosReventa.length === 0" -->
           <mat-radio-button
             class="mr-3"
             (change)="resetForm($event)"
             [value]="true"
-            [disabled]="interesadosReventa.length === 0"
+            disabled
             >Revendedor</mat-radio-button
           >
           <mat-radio-button
