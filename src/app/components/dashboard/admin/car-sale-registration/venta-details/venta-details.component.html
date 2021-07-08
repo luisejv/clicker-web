@@ -19,6 +19,7 @@
             class="mr-3"
             (change)="resetForm($event)"
             [value]="true"
+            [disabled]="interesadosReventa.length === 0"
             >Revendedor</mat-radio-button
           >
           <mat-radio-button
@@ -91,7 +92,11 @@
             [value]="option"
           >
             <span>
-              {{ option.nombres + " " + option.apellidos + " - " + option.dni }}
+              {{
+                (option.nombres ? option.nombres : option.correo) +
+                  " - " +
+                  option.dni
+              }}
             </span>
           </mat-option>
         </mat-autocomplete>
@@ -107,7 +112,6 @@
       >
         <!-- NOTE: Interesado Reventa -->
         <mat-label>Nombre del revendedor</mat-label>
-        <!-- [disabled]="interesadosReventa.length === 0" -->
         <input
           matInput
           type="text"
@@ -139,8 +143,8 @@
           >
             <span class="pl-2">
               {{
-                option.usuario.nombre !== null
-                  ? option.usuario.nombre
+                option.usuario.nombre && option.usuario.apellidos
+                  ? option.usuario.nombre + " " + option.usuario.apellidos
                   : option.usuario.correo
               }}
             </span>
